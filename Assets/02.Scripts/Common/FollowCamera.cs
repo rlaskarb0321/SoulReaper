@@ -4,40 +4,35 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-    //public Transform _target;
-
-    //private Vector3 _targetOriginPos;
-    //private Vector3 _camOriginPos;
-    //private Quaternion _camOriginRot;
-
     public Transform _target;
-    private Vector3 _camOriginPos;
+    public float _range; // 카메라가 너무 멀리가지않도록 지정할 범위
+    public float _speed;
 
-    void Start()
+    Vector3 _destination;
+    RaycastHit _hit;
+    Camera _cam;
+
+    private void Awake()
     {
-        //_camOriginPos = transform.position;
-        //_camOriginRot = transform.rotation;
-        //_targetOriginPos = _target.position;
+        _cam = Camera.main;
     }
 
-    // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
-        //if (_target == null)
-        //    return;
-
-        //transform.position 
-        //    = new Vector3(_target.position.x + _camOriginPos.x, _camOriginPos.y,
-        //    _target.position.z + _camOriginPos.z);
-        //transform.rotation = _camOriginRot;
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            transform.position += new Vector3(0.5f, 0.0f, 0.0f);
+            if (Physics.Raycast(_cam.ScreenPointToRay(Input.mousePosition), out _hit))
+            {
+                _destination = new Vector3(_hit.point.x, transform.position.y, _hit.point.z);
+            }
+        }
+        else if (Input.GetKey(KeyCode.LeftShift))
+        {
+            transform.position = Vector3.Lerp(transform.position, _destination, _speed * 1.5f);
         }
         else
         {
-            transform.position = _target.position;
+            transform.position = Vector3.Lerp(transform.position, _target.position, _speed);
         }
     }
 }

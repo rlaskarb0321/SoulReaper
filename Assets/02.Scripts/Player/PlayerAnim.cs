@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAnim : MonoBehaviour
 {
-    private PlayerControlloer _playerController;
+    private PlayerMove _playerController;
     private Animator _animator;
     private Rigidbody _rbody;
     private readonly int _hashMove = Animator.StringToHash("isMove");
@@ -14,7 +14,7 @@ public class PlayerAnim : MonoBehaviour
     {
         _animator = GetComponentInChildren<Animator>();
         _rbody = GetComponent<Rigidbody>();
-        _playerController = GetComponent<PlayerControlloer>();
+        _playerController = GetComponent<PlayerMove>();
     }
 
     // Update is called once per frame

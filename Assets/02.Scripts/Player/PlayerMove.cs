@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControlloer : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
     public float _movSpeed;
     public float _rotSpeed;
@@ -20,16 +20,20 @@ public class PlayerControlloer : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.anyKey)
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
             MovePlayer();
             RotatePlayer();
         }
-        else
+
+        if (!Input.anyKey)
         {
-            _h = Vector3.zero;
-            _v = Vector3.zero;
-            _dir = Vector3.zero;
+            if (_h != Vector3.zero)
+                _h = Vector3.zero;
+            if (_v != Vector3.zero)
+                _v = Vector3.zero;
+            if (_dir != Vector3.zero)
+                _dir = Vector3.zero;
         }
 
         if (Input.GetKey(KeyCode.Space))
