@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public enum eState { Idle, Falling, Moving, Attack, Hit, }
+
+    [SerializeField] private eState _state;
+    public eState State { get { return _state; } set { _state = value; } }
+
+    private void Awake()
     {
-        
+        _state = eState.Idle;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetStateIdle()
     {
-        
+        _state = eState.Idle;
     }
 }

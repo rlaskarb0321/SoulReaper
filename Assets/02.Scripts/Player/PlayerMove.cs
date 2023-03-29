@@ -4,52 +4,60 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    [Header("Move & Rotate")]
     public float _movSpeed;
     public float _rotSpeed;
-    public float _dodgeSpeed;
 
+    [Header("Dodge")]
+    public float _dodgeDist;
+    public float _dodgeMotionSpeed;
+    public float _dodgeCoolDown;
+
+    private bool _isDodge;
+    private Animator _animator;
     private Rigidbody _rbody;
     private Vector3 _dir;
-    [HideInInspector] public Vector3 _h;
-    [HideInInspector] public Vector3 _v;
+    private float _h;
+    private float _v;
 
-    private void Start()
+    readonly int _hashMove = Animator.StringToHash("isMove");
+    readonly int _hashYVelocity = Animator.StringToHash("yVelocity");
+    readonly int _hashRoll = Animator.StringToHash("isRoll");
+
+    private void Awake()
     {
         _rbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        _h = Input.GetAxisRaw("Horizontal");
+        _v = Input.GetAxisRaw("Vertical");
+        _animator.SetBool(_hashMove, Input.anyKey && (_h != 0.0f || _v != 0.0f));
+
+        if (_h != 0.0f || _v != 0.0f)
         {
             MovePlayer();
             RotatePlayer();
         }
 
-        if (!Input.anyKey)
-        {
-            if (_h != Vector3.zero)
-                _h = Vector3.zero;
-            if (_v != Vector3.zero)
-                _v = Vector3.zero;
-            if (_dir != Vector3.zero)
-                _dir = Vector3.zero;
-        }
+        _animator.SetFloat(_hashYVelocity, _rbody.velocity.y);
+    }
 
-        if (Input.GetKey(KeyCode.Space))
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !_isDodge)
         {
-            // Dodge();
+            _isDodge = true;
+            StartCoroutine(Dodge());
         }
     }
 
-
     void MovePlayer()
     {
-        _h = Input.GetAxisRaw("Horizontal") * Vector3.right * Time.deltaTime;
-        _v = Input.GetAxisRaw("Vertical") * Vector3.forward * Time.deltaTime;
-        _dir = (_v + _h).normalized;
-
-        transform.position += _dir * _movSpeed * Time.deltaTime;
+        _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
+        transform.position += _dir * _movSpeed * 0.065f;
     }
 
     void RotatePlayer()
@@ -58,11 +66,20 @@ public class PlayerMove : MonoBehaviour
             return;
 
         Quaternion newRot = Quaternion.LookRotation(_dir);
-        _rbody.rotation = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * Time.deltaTime);
+        _rbody.rotation = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * 0.065f);
     }
 
-    void Dodge()
+    IEnumerator Dodge()
     {
-        transform.position += transform.forward * _dodgeSpeed;
+        Vector3 destination = transform.position + (transform.forward * _dodgeDist);
+        _animator.SetBool(_hashRoll, _isDodge);
+        while (Mathf.Abs((transform.position - destination).magnitude) >= 0.1f)
+        {
+            transform.position = Vector3.Lerp(transform.position, destination, _dodgeMotionSpeed);
+            yield return null;
+        }
+
+        _isDodge = false;
+        _animator.SetBool(_hashRoll, _isDodge);
     }
 }
