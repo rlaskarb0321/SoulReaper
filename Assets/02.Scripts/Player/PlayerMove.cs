@@ -47,7 +47,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_isDodge)
+        if (Input.GetKeyDown(KeyCode.Space) && !_isDodge) // 떨어지는 중이 아닐때 조건추가해야함
         {
             _isDodge = true;
             StartCoroutine(Dodge());
