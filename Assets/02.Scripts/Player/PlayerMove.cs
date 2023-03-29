@@ -13,10 +13,10 @@ public class PlayerMove : MonoBehaviour
     public float _dodgeMotionSpeed;
     public float _dodgeCoolDown;
 
-    private bool _isDodge;
+    private Vector3 _dir;
     private Animator _animator;
     private Rigidbody _rbody;
-    private Vector3 _dir;
+    private bool _isDodge;
     private float _h;
     private float _v;
 
@@ -71,15 +71,39 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator Dodge()
     {
-        Vector3 destination = transform.position + (transform.forward * _dodgeDist);
+        RaycastHit hit; // 레이캐스트발사 정보를 저장
+        Vector3 destination; // 구르기로 도착할 목적지
+
+        // 목적지가 물체와 겹쳐져있다면 레이를쏴서 충돌한곳을 목적지로지정
+        if (Physics.Raycast(
+            transform.position, transform.forward, out hit,
+            (transform.position + (transform.forward * _dodgeDist)).magnitude))
+            destination = hit.point;
+        else
+            destination = transform.position + (transform.forward * _dodgeDist);
+        _rbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
+        // 구르기모션을 동작시켜주고 구르는것처럼 위치를 옮겨줌
         _animator.SetBool(_hashRoll, _isDodge);
-        while (Mathf.Abs((transform.position - destination).magnitude) >= 0.1f)
+        while (_isDodge)
         {
             transform.position = Vector3.Lerp(transform.position, destination, _dodgeMotionSpeed);
             yield return null;
         }
+    }
 
+    // RollForward 애니메이션 마지막프레임에 Delegate로 달아놓는 메소드
+    public void OutDodge()
+    {
+        // 구르기가 끝난 후 처리
+        _rbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
         _isDodge = false;
         _animator.SetBool(_hashRoll, _isDodge);
+    }
+
+    // 떨어짐 관련 애니메이션 Delegate 메소드
+    public void Fall()
+    {
+        _isDodge = false;
     }
 }

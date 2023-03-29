@@ -244,8 +244,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movSpeed: 2.5
   _rotSpeed: 4
-  _dodgeDist: 5
-  _dodgeMotionSpeed: 0.01
+  _dodgeDist: 8
+  _dodgeMotionSpeed: 0.008
   _dodgeCoolDown: 1.5
 --- !u!136 &616485954
 CapsuleCollider:
@@ -577,6 +577,10 @@ PrefabInstance:
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 9000000, guid: 82a2914d8f86c62488456950c8330e38, type: 3}
+    - target: {fileID: -6057140222963153312, guid: 82a2914d8f86c62488456950c8330e38, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 82a2914d8f86c62488456950c8330e38, type: 3}
       propertyPath: m_Controller
       value: 
