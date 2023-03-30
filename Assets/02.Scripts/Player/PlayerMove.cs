@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -96,14 +95,8 @@ public class PlayerMove : MonoBehaviour
     public void OutDodge()
     {
         // 구르기가 끝난 후 처리
-        _rbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
         _isDodge = false;
         _animator.SetBool(_hashRoll, _isDodge);
-    }
-
-    // 떨어짐 관련 애니메이션 Delegate 메소드
-    public void Fall()
-    {
-        _isDodge = false;
+        _rbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
     }
 }
