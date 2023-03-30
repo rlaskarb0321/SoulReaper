@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [Header("Attack")]
     public float _attackAdvancedDist;
+    public GameObject _weapon;
+    public Transform _weaponCombatPos; // 공격할때 무기의 위치값
+    public Transform _weaponNonCombatPos; // 공격상태가 아닐때 무기의 위치값
 
     private Transform _player;
     private Camera _cam;
@@ -54,6 +58,8 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    // Attack 애니메이션 마지막에 달아놓는 Delegate
+    // 콤보를 더 이어나갈지, 공격을 끝낼지 결정한다.
     public void SetComboInteger()
     {
         if (_atkBehaviour._isComboAtk)
