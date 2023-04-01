@@ -75,8 +75,8 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.56877327
-        functionName: OutDodge
+      - time: 0.8215613
+        functionName: 
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 3612089379fb8e34990a2647182ce91d, type: 3}
         floatParameter: 0

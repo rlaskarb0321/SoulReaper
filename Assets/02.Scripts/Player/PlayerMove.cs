@@ -8,14 +8,14 @@ public class PlayerMove : MonoBehaviour
     public float _rotSpeed;
 
     [Header("Dodge")]
-    public float _dodgeDist;
-    public float _dodgeMotionSpeed;
+    public float _dodgeSpeed;
+    public float _dodgeDur; // 구르기상태가 지속될 시간
     public float _dodgeCoolDown;
 
-    private Vector3 _dir;
+    private Vector3 _dir; // 플레이어의 wasd조작으로 가게될 방향벡터값을 저장
     private Animator _animator;
     private Rigidbody _rbody;
-    private bool _isDodge;
+    private PlayerState _state;
     private float _h;
     private float _v;
 
@@ -27,38 +27,61 @@ public class PlayerMove : MonoBehaviour
     {
         _rbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+        _state = GetComponent<PlayerState>();
     }
 
     void FixedUpdate()
     {
-        _h = Input.GetAxisRaw("Horizontal");
-        _v = Input.GetAxisRaw("Vertical");
-        _animator.SetBool(_hashMove, Input.anyKey && (_h != 0.0f || _v != 0.0f));
+        // 주기적으로 중력값을계산해 떨어질때 모션의 재생여부결정
+        _animator.SetFloat(_hashYVelocity, _rbody.velocity.y);
 
-        if (_h != 0.0f || _v != 0.0f)
+        // idle, fall, move상태가 아니라면 움직이게 조작할 수 없음
+        if (_state.State != PlayerState.eState.Idle && _state.State != PlayerState.eState.Fall && _state.State != PlayerState.eState.Move)
         {
-            MovePlayer();
-            RotatePlayer();
+            _animator.SetBool(_hashMove, false);
+            return;
         }
 
-        _animator.SetFloat(_hashYVelocity, _rbody.velocity.y);
+        // idle, fall, move상태일때 플레이어의 위치이동입력키를 받고, state를 idle 혹은 move로 전이시키는 분기점
+        _h = Input.GetAxisRaw("Horizontal");
+        _v = Input.GetAxisRaw("Vertical");
+
+        if ((_h != 0.0f || _v != 0.0f))
+        {
+            MovePlayer(); // 플레이어의 상태를 idle로 바꾸고 움직이는모션재생, 실제 움직임 구현
+            RotatePlayer(); // 플레이어가 이동시키려는 방향으로 캐릭터를 스무스하게 회전시켜줌
+        }
+        else if (_state.State != PlayerState.eState.Fall)
+        {
+            _state.State = PlayerState.eState.Idle;
+            _animator.SetBool(_hashMove, false);
+        }
+
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_isDodge) // 떨어지는 중이 아닐때 조건추가해야함
-        {
-            _isDodge = true;
+        // 회피키 입력관련
+        if (Input.GetKeyDown(KeyCode.Space) && 
+            (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move))
             StartCoroutine(Dodge());
-        }
     }
 
+    // 플레이어의 상태를 idle로 바꾸고 움직이는모션재생, 실제 움직임 구현
     void MovePlayer()
     {
+        // 떨어질때 속력이 일정값 이하이면 fall상태로 전환
+        if (_animator.GetFloat(_hashYVelocity) <= -2.0f)
+            _state.State = PlayerState.eState.Fall;
+        else
+            _state.State = PlayerState.eState.Move;
+
+        _animator.SetBool(_hashMove, true);
         _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
         transform.position += _dir * _movSpeed * 0.065f;
     }
 
+    // 플레이어가 이동시키려는 방향으로 캐릭터를 스무스하게 회전시켜줌
     void RotatePlayer()
     {
         if (_dir == Vector3.zero)
@@ -70,33 +93,22 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator Dodge()
     {
-        RaycastHit hit; // 레이캐스트발사 정보를 저장
-        Vector3 destination; // 구르기로 도착할 목적지
+        Vector3 dodgeDir = transform.forward; // 회피키 누를때 캐릭터가 보고있던 방향
+        float currDur = 0.0f; // 지수함수의 x축
+        float dodgeSpeed = (Mathf.Pow(0.055f, currDur) + _dodgeSpeed) * Time.deltaTime; // 속도를 x축이 높아질수록 크게줄어드는 지수함수값으로 설정
 
-        // 목적지가 물체와 겹쳐져있다면 레이를쏴서 충돌한곳을 목적지로지정
-        if (Physics.Raycast(
-            transform.position, transform.forward, out hit,
-            (transform.position + (transform.forward * _dodgeDist)).magnitude))
-            destination = hit.point;
-        else
-            destination = transform.position + (transform.forward * _dodgeDist);
-        _rbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
-
-        // 구르기모션을 동작시켜주고 구르는것처럼 위치를 옮겨줌
-        _animator.SetBool(_hashRoll, _isDodge);
-        while (_isDodge)
+        // 구르기동작
+        _state.State = PlayerState.eState.Dodge;
+        _animator.SetBool(_hashRoll, true);
+        while (currDur < _dodgeDur)
         {
-            transform.position = Vector3.Lerp(transform.position, destination, _dodgeMotionSpeed);
+            currDur += Time.deltaTime * 3.75f;
+            transform.position += dodgeDir * dodgeSpeed;
             yield return null;
         }
-    }
 
-    // RollForward 애니메이션 마지막프레임에 Delegate로 달아놓는 메소드
-    public void OutDodge()
-    {
-        // 구르기가 끝난 후 처리
-        _isDodge = false;
-        _animator.SetBool(_hashRoll, _isDodge);
-        _rbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        // 구르기끝난후 처리
+        _state.State = PlayerState.eState.Idle;
+        _animator.SetBool(_hashRoll, false);
     }
 }
