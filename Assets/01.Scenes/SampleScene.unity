@@ -242,10 +242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3612089379fb8e34990a2647182ce91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movSpeed: 2.5
+  _movSpeed: 7.2
   _rotSpeed: 12
-  _dodgeSpeed: 17
-  _dodgeDur: 1.5
+  _dodgeSpeed: 2.6
+  _dodgeDur: 0.23
   _dodgeCoolDown: 1.5
 --- !u!136 &616485954
 CapsuleCollider:

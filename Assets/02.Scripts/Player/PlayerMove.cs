@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour
     public float _rotSpeed;
 
     [Header("Dodge")]
-    public float _dodgeSpeed;
+    [Tooltip("dodgeSpeed = _dodgeSpeed * _movSpeed")]public float _dodgeSpeed;
     public float _dodgeDur; // 구르기상태가 지속될 시간
     public float _dodgeCoolDown;
 
@@ -56,7 +56,6 @@ public class PlayerMove : MonoBehaviour
             _state.State = PlayerState.eState.Idle;
             _animator.SetBool(_hashMove, false);
         }
-
     }
 
     private void Update()
@@ -76,9 +75,11 @@ public class PlayerMove : MonoBehaviour
         else
             _state.State = PlayerState.eState.Move;
 
-        _animator.SetBool(_hashMove, true);
+        // 떨어지는중인지아닌지 여부로 move애니메이션 결정
+        bool isFall = _state.State == PlayerState.eState.Fall ? true : false;
+        _animator.SetBool(_hashMove, !isFall);
         _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
-        transform.position += _dir * _movSpeed * 0.065f;
+        transform.position += _dir * _movSpeed * Time.deltaTime;
     }
 
     // 플레이어가 이동시키려는 방향으로 캐릭터를 스무스하게 회전시켜줌
@@ -88,21 +89,22 @@ public class PlayerMove : MonoBehaviour
             return;
 
         Quaternion newRot = Quaternion.LookRotation(_dir);
-        _rbody.rotation = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * 0.065f);
+        _rbody.rotation = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * Time.deltaTime);
     }
 
     IEnumerator Dodge()
     {
         Vector3 dodgeDir = transform.forward; // 회피키 누를때 캐릭터가 보고있던 방향
         float currDur = 0.0f; // 지수함수의 x축
-        float dodgeSpeed = (Mathf.Pow(0.055f, currDur) + _dodgeSpeed) * Time.deltaTime; // 속도를 x축이 높아질수록 크게줄어드는 지수함수값으로 설정
+        // float dodgeSpeed = (Mathf.Pow(0.055f, currDur) + _dodgeSpeed) * Time.deltaTime; // 속도를 x축이 높아질수록 크게줄어드는 지수함수값으로 설정
+        float dodgeSpeed = _movSpeed * _dodgeSpeed * Time.deltaTime;
 
         // 구르기동작
         _state.State = PlayerState.eState.Dodge;
         _animator.SetBool(_hashRoll, true);
         while (currDur < _dodgeDur)
         {
-            currDur += Time.deltaTime * 3.75f;
+            currDur += Time.deltaTime;
             transform.position += dodgeDir * dodgeSpeed;
             yield return null;
         }
