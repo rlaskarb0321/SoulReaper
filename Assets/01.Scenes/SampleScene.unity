@@ -305,7 +305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb633652b0e2bc6419feb09e53072a04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _followCamObj: {fileID: 1470871270}
   _attackAdvancedDist: 0
+  _needChargingTime: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 616485951}
-  _range: 20
+  _range: 11
   _speed: 0.075
 --- !u!1 &1491308581 stripped
 GameObject:
