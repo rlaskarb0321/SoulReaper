@@ -6,26 +6,29 @@ public class FollowCamera : MonoBehaviour
 {
     public enum eCameraState { Follow, Patrol, Charging }
     public Transform _target;
-    public float _range; // 카메라가 너무 멀리가지않도록 지정할 범위
-    public float _speed; // 카메라가 따라갈 때 속도
+    public float _range; 
+    public float _speed; 
 
     public eCameraState CamState { get { return _camState; } set { _camState = value; } }
     eCameraState _camState;
     Camera _cam;
 
-    private void Start()
+    void Start()
     {
         _cam = Camera.main;
         _camState = eCameraState.Follow;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetKey(KeyCode.LeftShift))
             CamState = eCameraState.Patrol;
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
             CamState = eCameraState.Follow;
+    }
 
+    void FixedUpdate()
+    {
         switch (_camState)
         {
             case eCameraState.Follow:
@@ -35,32 +38,50 @@ public class FollowCamera : MonoBehaviour
                 PatrolCamera(_cam, _target, _range, _speed);
                 break;
             case eCameraState.Charging:
-                PatrolCamera(_cam, _target, _range * 0.5f, _speed);
+                PatrolCamera(_cam, _target, _range * 0.5f, _speed * 1.2f);
                 break;
         }
     }
 
-    // 범위밖을 마우스가 조준하면 범위내에서 방향만 바뀌도록 수정해야함
-    public void PatrolCamera(Camera cam, Transform target, float range, float speed)
+    /// <summary>
+    /// 카메라를 마우스위치로 옮겨주는 함수
+    /// </summary>
+    /// <param name="cam">옮길 카메라(main Camera)</param>
+    /// <param name="player">카메라가 따라다닐 캐릭터</param>
+    /// <param name="range">카메라가 마우스위치를 따라갈 수 있는 길이</param>
+    /// <param name="speed">카메라가 옮겨지는 속도</param>
+    public void PatrolCamera(Camera cam, Transform player, float range, float speed)
     {
-        Vector3 destination;
+        Vector3 mousePos; // 마우스의 위치값 저장
+        Vector3 dir; // player의 pos에서 mousePos로 향하는 벡터
+        float dirLength;
         RaycastHit hit;
 
-        // 마우스가 있는곳에 물체가있고, 지정된 범위안에있으면 카메라가 정찰할 목적지로 설정
         if (Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit))
         {
-            // 플레이어와 마우스찍은지점의 거리와 range의 관계에따라 destination이 달라진다.
-            if (Mathf.Abs((target.position - new Vector3(hit.point.x, target.position.y, hit.point.z)).magnitude) <= range)
-                destination = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+            mousePos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+            dir = mousePos - new Vector3(player.position.x, transform.position.y, player.position.z);
+            dirLength = dir.magnitude;
+
+            if (dirLength < range)
+            {
+                // 허용범위안에 있다면 특별한거 없이 카메라를 마우스위치로 이동시킴
+
+                Vector3 destination = player.position + mousePos;
+                destination.y = transform.position.y;
+                transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
+            }
             else
             {
-                Vector3 direction = (new Vector3(hit.point.x, transform.position.y, hit.point.z) - target.position).normalized;
-                destination = direction * range;
-                destination.y = transform.position.y;
-            }
+                // 허용범위밖에 있다면 플레이어~마우스위치로의 방향만받고 카메라를 범위내에서 움직이게 함
 
-            // 정찰지로 카메라를 이동시킴
-            transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
+                dir = dir.normalized;
+                Vector3 destination = new Vector3(player.position.x + (dir.x * range)
+                    , transform.position.y
+                    , player.position.z + (dir.z * range));
+
+                transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
+            }
         }
     }
 

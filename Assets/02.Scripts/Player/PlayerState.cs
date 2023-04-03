@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    public enum eState { Idle, Fall, Move, Dodge, Attack, Hit, }
+    public enum eState { Idle, Fall, Move, Dodge, Attack, Charging, Hit, Dead }
     [SerializeField] private eState _state;
     public eState State { get { return _state; } set { _state = value; } }
 
@@ -25,7 +25,7 @@ public class PlayerState : MonoBehaviour
     public Transform _weaponNonCombatPos; // 공격상태가 아닐때 무기의 위치값
     public GameObject _weapon; // 무기이미지
 
-    private void Awake()
+    void Awake()
     {
         _state = eState.Idle;
 
@@ -34,13 +34,13 @@ public class PlayerState : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    private void Start()
+    void Start()
     {
         _isRoll = _animator.GetBool(_hashRoll);
         _atkCombo = _animator.GetInteger(_hashCombo);
     }
 
-    private void Update()
+    void Update()
     {
         if (_state == eState.Fall)
         {

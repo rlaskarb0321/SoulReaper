@@ -247,6 +247,7 @@ MonoBehaviour:
   _dodgeSpeed: 2.6
   _dodgeDur: 0.23
   _dodgeCoolDown: 1.5
+  _followCamObj: {fileID: 1470871270}
 --- !u!136 &616485954
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -307,7 +308,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _followCamObj: {fileID: 1470871270}
   _attackAdvancedDist: 0
-  _needChargingTime: 0
+  _needChargingTime: 1
+  _curLongRangeChargingTime: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

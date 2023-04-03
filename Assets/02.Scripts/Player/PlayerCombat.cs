@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [Header("Cam")]
+    [Header("Follow Cam")]
     public GameObject _followCamObj;
 
     [Header("Attack")]
-    public float _attackAdvancedDist; // 공격시 전진거리
+    [Tooltip("공격시 전진거리")]public float _attackAdvancedDist;
     [Tooltip("원거리공격 사용하는데 필요한 차징 시간")]public float _needChargingTime;
+    [Tooltip("현재 원거리 공격충전시간")]public float _curLongRangeChargingTime;
 
     private Transform _player;
     private Camera _cam;
     private Animator _animator;
     private int _combo;
-    private float _curLongRangeChargingTime; // 현재 원거리 공격충전시간
 
     [Header("Component")]
     private PlayerAttackBehaviour _atkBehaviour;
@@ -23,8 +23,10 @@ public class PlayerCombat : MonoBehaviour
     private FollowCamera _followCam;
 
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
+    readonly int _hashChargingValue = Animator.StringToHash("ChargingValue");
+    readonly int _hashChargingBurst = Animator.StringToHash("ChargingBurst");
 
-    private void Awake()
+    void Awake()
     {
         _animator = GetComponent<Animator>();
         _state = GetComponent<PlayerState>();
@@ -32,16 +34,18 @@ public class PlayerCombat : MonoBehaviour
         _followCam = _followCamObj.GetComponent<FollowCamera>();
     }
 
-    private void Start()
+    void Start()
     {
         _cam = Camera.main;
         _player = this.transform;
         _combo = 0;
-        _curLongRangeChargingTime = 0.0f;
+
+        InitChargingGauge();
     }
 
     void Update()
     {
+        // 근or원거리공격으로 모션전환관련
         if (Input.GetMouseButtonDown(0) && 
             (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move))
         {
@@ -50,25 +54,43 @@ public class PlayerCombat : MonoBehaviour
             RotateToClickDir();
             _animator.SetInteger(_hashCombo, ++_combo);
         }
-        else if (Input.GetMouseButton(1))
-        {
-            if (_curLongRangeChargingTime < _needChargingTime)
-                _curLongRangeChargingTime += Time.deltaTime;
 
-            // 원거리마법
+        // 차징모션으로 전환 관련
+        else if (Input.GetMouseButton(1) && 
+            (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move
+            || _state.State == PlayerState.eState.Charging))
+        {
+            // 원거리공격
+            if (_curLongRangeChargingTime < _needChargingTime)
+            {
+                _curLongRangeChargingTime += Time.deltaTime;
+                _animator.SetFloat(_hashChargingValue, _curLongRangeChargingTime);
+            }
+
+            _state.State = PlayerState.eState.Charging;
             RotateToClickDir();
             _followCam.CamState = FollowCamera.eCameraState.Charging;
         }
+
+        // 차징타임에따라 원거리공격을 하거나 취소를 결정
         else if (Input.GetMouseButtonUp(1))
         {
+            // 원거리공격 발사or취소
             if (_curLongRangeChargingTime > _needChargingTime)
+            {
                 Debug.Log("발사");
+                _animator.SetTrigger(_hashChargingBurst);
+            }
 
-            _curLongRangeChargingTime = 0.0f;
+            InitChargingGauge();
             _followCam.CamState = FollowCamera.eCameraState.Follow;
+            _state.State = PlayerState.eState.Idle;
         }
     }
 
+    /// <summary>
+    /// 클릭한 마우스 방향으로 캐릭터를 회전시킴
+    /// </summary>
     void RotateToClickDir()
     {
         RaycastHit hit;
@@ -81,6 +103,12 @@ public class PlayerCombat : MonoBehaviour
             dir = clickVector - _player.position;
             transform.forward = dir;
         }
+    }
+
+    public void InitChargingGauge()
+    {
+        _curLongRangeChargingTime = 0.0f;
+        _animator.SetFloat(_hashChargingValue, _curLongRangeChargingTime);
     }
 
     // Attack 애니메이션 마지막에 달아놓는 Delegate, 콤보를 더 이어나갈지 공격을 끝낼지 결정한다.

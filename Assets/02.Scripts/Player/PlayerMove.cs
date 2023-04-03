@@ -12,22 +12,31 @@ public class PlayerMove : MonoBehaviour
     public float _dodgeDur; // 구르기상태가 지속될 시간
     public float _dodgeCoolDown;
 
+    [Header("Follow Cam")]
+    public GameObject _followCamObj;
+
     private Vector3 _dir; // 플레이어의 wasd조작으로 가게될 방향벡터값을 저장
     private Animator _animator;
     private Rigidbody _rbody;
-    private PlayerState _state;
     private float _h;
     private float _v;
+
+    [Header("Component")]
+    private PlayerCombat _combat;
+    private PlayerState _state;
+    private FollowCamera _followCam;
 
     readonly int _hashMove = Animator.StringToHash("isMove");
     readonly int _hashYVelocity = Animator.StringToHash("yVelocity");
     readonly int _hashRoll = Animator.StringToHash("isRoll");
 
-    private void Awake()
+    void Awake()
     {
         _rbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _state = GetComponent<PlayerState>();
+        _combat = GetComponent<PlayerCombat>();
+        _followCam = _followCamObj.GetComponent<FollowCamera>();
     }
 
     void FixedUpdate()
@@ -42,10 +51,6 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        // idle, fall, move상태일때 플레이어의 위치이동입력키를 받고, state를 idle 혹은 move로 전이시키는 분기점
-        _h = Input.GetAxisRaw("Horizontal");
-        _v = Input.GetAxisRaw("Vertical");
-
         if ((_h != 0.0f || _v != 0.0f))
         {
             MovePlayer(); // 플레이어의 상태를 idle로 바꾸고 움직이는모션재생, 실제 움직임 구현
@@ -58,11 +63,15 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
+        _h = Input.GetAxisRaw("Horizontal");
+        _v = Input.GetAxisRaw("Vertical");
+
         // 회피키 입력관련
         if (Input.GetKeyDown(KeyCode.Space) && 
-            (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move))
+            (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move ||
+            _state.State == PlayerState.eState.Charging))
             StartCoroutine(Dodge());
     }
 
@@ -94,6 +103,14 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator Dodge()
     {
+        if (_combat._curLongRangeChargingTime >= 0.0f)
+            _combat.InitChargingGauge();
+        if (_followCam.CamState != FollowCamera.eCameraState.Follow)
+        {
+            _followCam.CamState = FollowCamera.eCameraState.Follow;
+            Input.ResetInputAxes();
+        }
+
         Vector3 dodgeDir = transform.forward; // 회피키 누를때 캐릭터가 보고있던 방향
         float currDur = 0.0f; // 지수함수의 x축
         // float dodgeSpeed = (Mathf.Pow(0.055f, currDur) + _dodgeSpeed) * Time.deltaTime; // 속도를 x축이 높아질수록 크게줄어드는 지수함수값으로 설정
