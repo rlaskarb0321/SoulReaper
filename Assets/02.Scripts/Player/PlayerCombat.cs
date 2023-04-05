@@ -15,7 +15,9 @@ public class PlayerCombat : MonoBehaviour
     private Transform _player;
     private Camera _cam;
     private Animator _animator;
+    private Rigidbody _rbody;
     private int _combo;
+    private bool _unFreeze;
 
     [Header("Component")]
     private AttackComboBehaviour _atkBehaviour;
@@ -34,6 +36,7 @@ public class PlayerCombat : MonoBehaviour
         _state = GetComponent<PlayerState>();
         _atkBehaviour = _animator.GetBehaviour<AttackComboBehaviour>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
+        _rbody = GetComponent<Rigidbody>();
     }
 
     void Start()
@@ -141,13 +144,33 @@ public class PlayerCombat : MonoBehaviour
         _state.State = PlayerState.eState.Idle;
     }
 
-    public void ActFallAttack()
+    public IEnumerator ActFallAttack(Rigidbody rbody, Animator animator)
     {
-        
+        RaycastHit hit;
+        Vector3 landingPoint;
+        float originAnimSpeed;
+
+        _state.State = PlayerState.eState.Attack; // 공격상태로 전환
+        animator.SetBool(_hashFallAttack, true);
+        rbody.isKinematic = true;
+        originAnimSpeed = animator.speed;
+        yield return new WaitUntil(() => _unFreeze);
+
+        animator.speed = 0.0f;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
+        {
+            landingPoint = hit.point;
+            rbody.isKinematic = false;
+        }
     }
 
     public void ActDodgeAttack()
     {
         _animator.SetTrigger(_hashDodgeAttack);
+    }
+
+    public void UnFreeze()
+    {
+        _unFreeze = true;
     }
 }

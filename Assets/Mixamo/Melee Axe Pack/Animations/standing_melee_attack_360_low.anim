@@ -142583,4 +142583,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.73333335
+    functionName: UnFreeze
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: cb633652b0e2bc6419feb09e53072a04, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

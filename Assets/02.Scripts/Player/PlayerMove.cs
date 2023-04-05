@@ -21,6 +21,7 @@ public class PlayerMove : MonoBehaviour
     private float _h;
     private float _v;
     private bool _dodgeAttackEnd;
+    private float _originDodgeCoolDown;
 
     [Header("Component")]
     private PlayerCombat _combat;
@@ -38,6 +39,11 @@ public class PlayerMove : MonoBehaviour
         _state = GetComponent<PlayerState>();
         _combat = GetComponent<PlayerCombat>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
+    }
+
+    void Start()
+    {
+        _originDodgeCoolDown = _dodgeCoolDown;
     }
 
     void FixedUpdate()
@@ -72,7 +78,7 @@ public class PlayerMove : MonoBehaviour
         // 회피키 입력관련
         if (Input.GetKeyDown(KeyCode.Space) && 
             (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move ||
-            _state.State == PlayerState.eState.Charging))
+            _state.State == PlayerState.eState.Charging) && _dodgeCoolDown == _originDodgeCoolDown)
             StartCoroutine(Dodge());
     }
 
@@ -113,11 +119,12 @@ public class PlayerMove : MonoBehaviour
         }
 
         bool isDodgeAttackInput = false;
-        Vector3 dodgeDir = transform.forward; // 회피키 누를때 캐릭터가 보고있던 방향
+        Vector3 dodgeDir = transform.forward.normalized; // 회피키 누를때 캐릭터가 보고있던 방향
         float currDur = 0.0f;
-        float dodgeSpeed = _movSpeed * _dodgeSpeed * Time.deltaTime;
+        float dodgeSpeed = _movSpeed * _dodgeSpeed;
 
         // 구르기동작
+        StartCoroutine(CoolDownDodge());
         _state.State = PlayerState.eState.Dodge;
         _animator.SetBool(_hashRoll, true);
         while (currDur < _dodgeDur)
@@ -127,7 +134,7 @@ public class PlayerMove : MonoBehaviour
                 isDodgeAttackInput = true;
 
             currDur += Time.deltaTime;
-            transform.position += dodgeDir * dodgeSpeed;
+            transform.position += dodgeDir * dodgeSpeed * Time.deltaTime;
             yield return null;
         }
 
@@ -147,6 +154,18 @@ public class PlayerMove : MonoBehaviour
             _state.State = PlayerState.eState.Idle;
             _animator.SetBool(_hashRoll, false);
         }
+    }
+
+    IEnumerator CoolDownDodge()
+    {
+        _dodgeCoolDown = 0.0f;
+        while (_dodgeCoolDown <= _originDodgeCoolDown)
+        {
+            _dodgeCoolDown += Time.deltaTime;
+            yield return null;
+        }
+
+        _dodgeCoolDown = _originDodgeCoolDown;
     }
 
     // 구르기 추가타 애니메이션 마지막에 달아놓는 delegate

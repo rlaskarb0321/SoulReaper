@@ -53,7 +53,7 @@ public class PlayerState : MonoBehaviour
             
             if (Input.GetMouseButtonDown(0))
             {
-                _combat.ActFallAttack();
+                StartCoroutine(_combat.ActFallAttack(_rbody, _animator));
             }
         }
 
