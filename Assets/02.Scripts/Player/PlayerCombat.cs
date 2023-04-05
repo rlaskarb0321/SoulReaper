@@ -18,19 +18,21 @@ public class PlayerCombat : MonoBehaviour
     private int _combo;
 
     [Header("Component")]
-    private PlayerAttackBehaviour _atkBehaviour;
+    private AttackComboBehaviour _atkBehaviour;
     private PlayerState _state;
     private FollowCamera _followCam;
 
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
     readonly int _hashChargingValue = Animator.StringToHash("ChargingValue");
     readonly int _hashChargingBurst = Animator.StringToHash("ChargingBurst");
+    readonly int _hashFallAttack = Animator.StringToHash("FallAttack");
+    readonly int _hashDodgeAttack = Animator.StringToHash("DodgeAttack");
 
     void Awake()
     {
         _animator = GetComponent<Animator>();
         _state = GetComponent<PlayerState>();
-        _atkBehaviour = _animator.GetBehaviour<PlayerAttackBehaviour>();
+        _atkBehaviour = _animator.GetBehaviour<AttackComboBehaviour>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
     }
 
@@ -137,5 +139,15 @@ public class PlayerCombat : MonoBehaviour
         _combo = 0;
         _animator.SetInteger(_hashCombo, _combo);
         _state.State = PlayerState.eState.Idle;
+    }
+
+    public void ActFallAttack()
+    {
+        
+    }
+
+    public void ActDodgeAttack()
+    {
+        _animator.SetTrigger(_hashDodgeAttack);
     }
 }

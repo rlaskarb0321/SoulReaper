@@ -20,6 +20,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody _rbody;
     private float _h;
     private float _v;
+    private bool _dodgeAttackEnd;
 
     [Header("Component")]
     private PlayerCombat _combat;
@@ -79,7 +80,7 @@ public class PlayerMove : MonoBehaviour
     void MovePlayer()
     {
         // 떨어질때 속력이 일정값 이하이면 fall상태로 전환
-        if (_animator.GetFloat(_hashYVelocity) <= -2.0f)
+        if (_animator.GetFloat(_hashYVelocity) <= -1.1f)
             _state.State = PlayerState.eState.Fall;
         else
             _state.State = PlayerState.eState.Move;
@@ -111,9 +112,9 @@ public class PlayerMove : MonoBehaviour
             Input.ResetInputAxes();
         }
 
+        bool isDodgeAttackInput = false;
         Vector3 dodgeDir = transform.forward; // 회피키 누를때 캐릭터가 보고있던 방향
-        float currDur = 0.0f; // 지수함수의 x축
-        // float dodgeSpeed = (Mathf.Pow(0.055f, currDur) + _dodgeSpeed) * Time.deltaTime; // 속도를 x축이 높아질수록 크게줄어드는 지수함수값으로 설정
+        float currDur = 0.0f;
         float dodgeSpeed = _movSpeed * _dodgeSpeed * Time.deltaTime;
 
         // 구르기동작
@@ -121,13 +122,36 @@ public class PlayerMove : MonoBehaviour
         _animator.SetBool(_hashRoll, true);
         while (currDur < _dodgeDur)
         {
+            // 구르기추가타 입력값 저장
+            if (Input.GetMouseButtonDown(0))
+                isDodgeAttackInput = true;
+
             currDur += Time.deltaTime;
             transform.position += dodgeDir * dodgeSpeed;
             yield return null;
         }
 
-        // 구르기끝난후 처리
-        _state.State = PlayerState.eState.Idle;
-        _animator.SetBool(_hashRoll, false);
+        // 구르기추가타 입력여부에 따른처리
+        if (isDodgeAttackInput)
+        {
+            _animator.SetBool(_hashRoll, false);
+            _combat.ActDodgeAttack();
+            _state.State = PlayerState.eState.Attack;
+
+            yield return new WaitUntil(() => _dodgeAttackEnd);
+            _state.State = PlayerState.eState.Idle;
+            _dodgeAttackEnd = false;
+        }
+        else
+        {
+            _state.State = PlayerState.eState.Idle;
+            _animator.SetBool(_hashRoll, false);
+        }
+    }
+
+    // 구르기 추가타 애니메이션 마지막에 달아놓는 delegate
+    public void OutDodgeAttack()
+    {
+        _dodgeAttackEnd = true;
     }
 }

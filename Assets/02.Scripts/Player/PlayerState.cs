@@ -10,6 +10,7 @@ public class PlayerState : MonoBehaviour
 
     // Component
     Animator _animator;
+    Rigidbody _rbody;
     PlayerCombat _combat;
     PlayerMove _mov;
 
@@ -29,6 +30,7 @@ public class PlayerState : MonoBehaviour
     {
         _state = eState.Idle;
 
+        _rbody = GetComponent<Rigidbody>();
         _combat = GetComponent<PlayerCombat>();
         _mov = GetComponent<PlayerMove>();
         _animator = GetComponent<Animator>();
@@ -48,12 +50,18 @@ public class PlayerState : MonoBehaviour
                 _animator.SetBool(_hashRoll, false);
             if (_atkCombo >= 1)
                 _animator.SetInteger(_hashCombo, 0);
+            
+            if (Input.GetMouseButtonDown(0))
+            {
+                _combat.ActFallAttack();
+            }
         }
+
 
         // 뭔 버그인지 모르겠는데 계속 위치가 이상하게된다.
         if (_state == eState.Attack)
         {
-            _weapon.transform.SetParent(null);
+            //_weapon.transform.SetParent(null);
             _weapon.transform.SetParent(_weaponCombatPos);
             _weapon.transform.localPosition = Vector3.zero;
         }
