@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    public enum eState { Idle, Fall, Move, Dodge, Attack, Charging, Hit, Dead }
+    public enum eState { Idle, Fall, Move, Dodge, Attack, Charging, Dead }
     [SerializeField] private eState _state;
     public eState State { get { return _state; } set { _state = value; } }
 
@@ -13,10 +13,12 @@ public class PlayerState : MonoBehaviour
     Rigidbody _rbody;
     PlayerCombat _combat;
     PlayerMove _mov;
+    FallBehaviour _fallBehaviour;
 
     // Field
     readonly int _hashRoll = Animator.StringToHash("isRoll");
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
+    readonly int _hashDodgeAttack = Animator.StringToHash("DodgeAttack");
     bool _isRoll;
     int _atkCombo;
 
@@ -34,6 +36,7 @@ public class PlayerState : MonoBehaviour
         _combat = GetComponent<PlayerCombat>();
         _mov = GetComponent<PlayerMove>();
         _animator = GetComponent<Animator>();
+        _fallBehaviour = _animator.GetBehaviour<FallBehaviour>();
     }
 
     void Start()
@@ -44,13 +47,15 @@ public class PlayerState : MonoBehaviour
 
     void Update()
     {
-        if (_state == eState.Fall)
+        if (_fallBehaviour._isFall)
         {
             if (_isRoll)
                 _animator.SetBool(_hashRoll, false);
             if (_atkCombo >= 1)
                 _animator.SetInteger(_hashCombo, 0);
-            
+
+            _animator.ResetTrigger(_hashDodgeAttack);
+            _state = eState.Fall;
             if (Input.GetMouseButtonDown(0))
             {
                 StartCoroutine(_combat.ActFallAttack(_rbody, _animator));

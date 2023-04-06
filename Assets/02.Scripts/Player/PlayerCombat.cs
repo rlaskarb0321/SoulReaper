@@ -11,6 +11,7 @@ public class PlayerCombat : MonoBehaviour
     [Tooltip("공격시 전진거리")]public float _attackAdvancedDist;
     [Tooltip("원거리공격 사용하는데 필요한 차징 시간")]public float _needChargingTime;
     [Tooltip("현재 원거리 공격충전시간")]public float _curLongRangeChargingTime;
+    [Tooltip("낙하공격시 떨어지는 속도")] public float _fallAttackSpeed;
 
     private Transform _player;
     private Camera _cam;
@@ -150,7 +151,6 @@ public class PlayerCombat : MonoBehaviour
         Vector3 landingPoint;
         float originAnimSpeed;
 
-        _state.State = PlayerState.eState.Attack; // 공격상태로 전환
         animator.SetBool(_hashFallAttack, true);
         rbody.isKinematic = true;
         originAnimSpeed = animator.speed;
@@ -161,6 +161,19 @@ public class PlayerCombat : MonoBehaviour
         {
             landingPoint = hit.point;
             rbody.isKinematic = false;
+
+            while (true)
+            {
+                if (Vector3.Distance(transform.position, landingPoint) <= 1.0f)
+                {
+                    animator.speed = originAnimSpeed;
+                    break;
+                }
+
+                _state.State = PlayerState.eState.Attack; // 공격상태로 전환
+                transform.position = Vector3.MoveTowards(transform.position, landingPoint, _fallAttackSpeed);
+                yield return null;
+            }
         }
     }
 
@@ -171,6 +184,14 @@ public class PlayerCombat : MonoBehaviour
 
     public void UnFreeze()
     {
+        if (_unFreeze)
+        {
+            _animator.SetBool(_hashFallAttack, false);
+            _state.State = PlayerState.eState.Idle;
+            _unFreeze = false;
+            return;
+        }
+
         _unFreeze = true;
     }
 }
