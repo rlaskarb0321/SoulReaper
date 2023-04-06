@@ -24,10 +24,10 @@ public class PlayerMove : MonoBehaviour
     private float _originDodgeCoolDown;
 
     [Header("Component")]
-    private PlayerCombat _combat;
-    private PlayerState _state;
-    private FollowCamera _followCam;
-    private FallBehaviour _fallBehaviour;
+    PlayerCombat _combat;
+    PlayerState _state;
+    FollowCamera _followCam;
+    FallBehaviour _fallBehaviour;
 
     readonly int _hashMove = Animator.StringToHash("isMove");
     readonly int _hashYVelocity = Animator.StringToHash("yVelocity");
@@ -63,10 +63,11 @@ public class PlayerMove : MonoBehaviour
         // h나 v중 적어도 하나가 입력이된다면
         if ((_h != 0.0f || _v != 0.0f))
         {
-            MovePlayer(); // 플레이어의 상태를 idle로 바꾸고 움직이는모션재생, 실제 움직임 구현
-            RotatePlayer(); // 플레이어가 이동시키려는 방향으로 캐릭터를 스무스하게 회전시켜줌
+            MovePlayer(); 
+            RotatePlayer();
         }
-        else if (_state.State != PlayerState.eState.Fall && _state.State != PlayerState.eState.Attack)
+        // h나 v중 하나도 입력되지않고, 떨어지는상태와 공격상태가 아니라면 = idle상태
+        else if (!_fallBehaviour._isFall && _state.State != PlayerState.eState.Attack)
         {
             _state.State = PlayerState.eState.Idle;
             _animator.SetBool(_hashMove, false);
@@ -92,7 +93,7 @@ public class PlayerMove : MonoBehaviour
     void MovePlayer()
     {
         // 떨어질때 속력이 일정값 이하이면 fall상태로 전환
-        if (_animator.GetFloat(_hashYVelocity) <= -0.3f)
+        if (_animator.GetFloat(_hashYVelocity) <= -0.4f)
             _state.State = PlayerState.eState.Fall;
         else
             _state.State = PlayerState.eState.Move;
