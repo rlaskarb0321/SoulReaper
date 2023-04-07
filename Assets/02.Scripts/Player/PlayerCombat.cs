@@ -171,8 +171,9 @@ public class PlayerCombat : MonoBehaviour
                 }
 
                 _state.State = PlayerState.eState.Attack; // 공격상태로 전환
-                transform.position = Vector3.MoveTowards(transform.position, landingPoint, _fallAttackSpeed);
-                yield return null;
+                //transform.position = Vector3.MoveTowards(transform.position, landingPoint, _fallAttackSpeed);
+                _rbody.MovePosition(_rbody.position + Vector3.down * _fallAttackSpeed * Time.deltaTime);
+                yield return new WaitForFixedUpdate();
             }
         }
     }

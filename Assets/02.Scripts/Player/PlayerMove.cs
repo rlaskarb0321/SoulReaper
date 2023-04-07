@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour
     public float _rotSpeed;
 
     [Header("Dodge")]
-    [Tooltip("dodgeSpeed = _dodgeSpeed * _movSpeed")]public float _dodgeSpeed;
+    [Tooltip("dodgeSpeed = _dodgeSpeed * _movSpeed")] public float _dodgeSpeed;
     public float _dodgeDur; // 구르기상태가 지속될 시간
     public float _dodgeCoolDown;
 
@@ -102,7 +102,7 @@ public class PlayerMove : MonoBehaviour
         bool isFall = _state.State == PlayerState.eState.Fall ? true : false;
         _animator.SetBool(_hashMove, !isFall);
         _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
-        transform.position += _dir * _movSpeed * Time.deltaTime;
+        _rbody.MovePosition(_rbody.position + _dir * _movSpeed * Time.deltaTime);
     }
 
     // 플레이어가 이동시키려는 방향으로 캐릭터를 스무스하게 회전시켜줌
@@ -140,9 +140,14 @@ public class PlayerMove : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
                 isDodgeAttackInput = true;
 
+            RaycastHit hit;
             currDur += Time.deltaTime;
-            transform.position += dodgeDir * dodgeSpeed * Time.deltaTime;
-            yield return null;
+            if (!Physics.Raycast(_rbody.position, transform.forward, out hit, 0.25f))
+            {
+                _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
+            }
+
+            yield return new WaitForFixedUpdate();
         }
 
         // 구르기추가타 입력여부에 따른처리

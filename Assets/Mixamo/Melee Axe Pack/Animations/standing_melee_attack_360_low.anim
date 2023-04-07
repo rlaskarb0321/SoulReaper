@@ -142594,7 +142594,7 @@ AnimationClip:
   - time: 2.3
     functionName: UnFreeze
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: cb633652b0e2bc6419feb09e53072a04, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
