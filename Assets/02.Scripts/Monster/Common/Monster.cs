@@ -16,26 +16,19 @@ public struct MonsterBasicStat
 /// </summary>
 public class Monster : MonoBehaviour
 {
-    public enum eMonsterState { Patrol, Trace, Attack, Dead, }
-    public enum eMonsterLevel { Normal, Elite, MiddleBoss, Boss, }
+    [Header("Basic Stat")]
 
     [Tooltip("몬스터의 현재 상태를 나타냄")]
-    public eMonsterState _monsterState;
+    public eMonsterState _state;
     
     [Tooltip("몬스터의 단계, 계급")]
     public eMonsterLevel _level;
     
     [Tooltip("몬스터들 기본적 스텟 요소")]
-    public MonsterBasicStat _monsterBasicStat;
+    public MonsterBasicStat _basicStat;
 
-    [Tooltip("몬스터들 다음 행동까지 걸리게 할 시간")]
-    public float _nextActDelay;
-
-    [Header("Target")]
-    [Tooltip("몬스터들의 추적할 적(= 플레이어)")]
-    public Transform _target;
-
-    protected string _playerName;
+    public enum eMonsterState { Patrol, Trace, Attack, Acting, Dead, }
+    public enum eMonsterLevel { Normal, Elite, MiddleBoss, Boss, }
 
     public virtual void DecreaseHp(float amount)
     {
@@ -48,6 +41,11 @@ public class Monster : MonoBehaviour
     }
 
     public virtual IEnumerator DoAttack()
+    {
+        yield return null;
+    }
+
+    public virtual IEnumerator LookTarget()
     {
         yield return null;
     }
