@@ -49,4 +49,9 @@ public class Monster : MonoBehaviour
     {
         yield return null;
     }
+
+    public virtual void ExecuteAttack(int attackNum)
+    {
+
+    }
 }

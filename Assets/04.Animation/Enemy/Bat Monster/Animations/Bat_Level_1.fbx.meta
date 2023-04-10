@@ -586,7 +586,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.5408008
+        functionName: ExecuteAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: dec0866b14b6ca1408e034257b721a84, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -981,7 +988,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.19
+    globalScale: 19
     rootMotionBoneName: Bat1Control
     hasTranslationDoF: 0
     hasExtraRoot: 0

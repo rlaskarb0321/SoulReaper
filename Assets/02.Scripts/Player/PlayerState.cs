@@ -62,20 +62,21 @@ public class PlayerState : MonoBehaviour
             }
         }
 
-
-        // 뭔 버그인지 모르겠는데 계속 위치가 이상하게된다.
         if (_state == eState.Attack)
         {
-            //_weapon.transform.SetParent(null);
             _weapon.transform.SetParent(_weaponCombatPos);
             _weapon.transform.localPosition = Vector3.zero;
+            _weapon.transform.localEulerAngles = Vector3.zero;
         }
         else
         {
-            // 무기의 위치가 등이아니라면 등으로 조정
-            _weapon.transform.SetParent(_weaponNonCombatPos);
-            _weapon.transform.localPosition = Vector3.zero;
-
+            if (_weapon.transform.parent != _weaponNonCombatPos)
+            {
+                // 무기의 위치가 등이아니라면 등으로 조정
+                _weapon.transform.SetParent(_weaponNonCombatPos);
+                _weapon.transform.localPosition = Vector3.zero;
+                _weapon.transform.localEulerAngles = Vector3.zero;
+            }
         }
     }
 }

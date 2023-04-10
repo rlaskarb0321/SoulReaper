@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Pool;
 
 public class NormalMonster : Monster
 {
+    public enum eNormalType { Melee, Range, Charge, MeleeAndRange, }
+
     [Header("Normal Level Monster")]
     public int _numOfAttacks;
     public GameObject _hitBoxCollObj;
+    public GameObject _projectile;
+    public Transform _projectileSpawnPos;
+    public eNormalType _monsterType;
 
-    float _rotSpeed;
     Animator _animator;
     MonsterAI _monsterAI;
     WaitForSeconds _ws;
+    IObjectPool<EnemyProjectile> _pool;
 
     readonly int _hashDoAttack = Animator.StringToHash("DoAttack");
 
@@ -20,12 +26,15 @@ public class NormalMonster : Monster
     {
         _monsterAI = GetComponent<MonsterAI>();
         _animator = GetComponent<Animator>();
+        _pool = new ObjectPool<EnemyProjectile>(CreateProjectile, OnGetProjectile, OnReleaseProjectile, DestroyProjectile, maxSize : 5);
     }
 
     void Start()
     {
+        if (_hitBoxCollObj != null)
+            _hitBoxCollObj.SetActive(false);
+
         _ws = new WaitForSeconds(_monsterAI._nextActDelay);
-        _rotSpeed = _monsterAI._navAgent.angularSpeed;
     }
 
     void Update()
@@ -77,5 +86,49 @@ public class NormalMonster : Monster
                 Mathf.Lerp(transform.eulerAngles.y, transform.eulerAngles.y + angle, 2.0f * Time.deltaTime), 0.0f);
             yield return null;
         }
+    }
+
+    // 몬스터의 애니메이션 델리게이트로 공격을 실행할 시점 등을 설정한다.
+    public override void ExecuteAttack(int attackNum)
+    {
+        switch (_monsterType)
+        {
+            case eNormalType.Melee:
+                break;
+            case eNormalType.Range:
+                var projectile = _pool.Get();
+                break;
+            case eNormalType.Charge:
+                break;
+            case eNormalType.MeleeAndRange:
+                break;
+        }
+    }
+
+    EnemyProjectile CreateProjectile()
+    {
+        EnemyProjectile projectile = Instantiate(_projectile, _projectileSpawnPos.position, transform.rotation).GetComponent<EnemyProjectile>();
+        projectile.SetManagedPool(_pool);
+
+        return projectile;
+    }
+
+    void OnGetProjectile(EnemyProjectile projectile)
+    {
+        projectile.gameObject.SetActive(true);
+
+        projectile._isReleased = false;
+        projectile.transform.position = _projectileSpawnPos.position;
+        projectile.transform.rotation = transform.rotation;
+    }
+
+    void OnReleaseProjectile(EnemyProjectile projectile)
+    {
+        projectile.gameObject.SetActive(false);
+    }
+
+    void DestroyProjectile(EnemyProjectile projectile)
+    {
+        Destroy(projectile.gameObject);
     }
 }
