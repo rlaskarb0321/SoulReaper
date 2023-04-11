@@ -504,6 +504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
   _traceCollObj: {fileID: 8312964976109171841}
+  _idleTime: 13
   _navAgent: {fileID: 0}
   _rbody: {fileID: 0}
   _monster: {fileID: 0}
@@ -531,7 +532,6 @@ MonoBehaviour:
   _monsterAI: {fileID: 0}
   _playerCombat: {fileID: 0}
   _numOfAttacks: 1
-  _isPlayerHit: 0
 --- !u!1 &8312964977247040741
 GameObject:
   m_ObjectHideFlags: 0

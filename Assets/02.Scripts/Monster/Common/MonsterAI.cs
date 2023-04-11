@@ -9,12 +9,14 @@ public class MonsterAI : MonoBehaviour
     [Tooltip("몬스터들의 추적할 적(= 플레이어)")]
     public Transform _target;
     public GameObject _traceCollObj;
+    public float _idleTime;
     
     [HideInInspector] public NavMeshAgent _navAgent;
     [HideInInspector] public Rigidbody _rbody;
     [HideInInspector] public Monster _monster;
     Animator _animator;
     SphereCollider _traceColl;
+    Vector3 _patrollDestination;
     bool _isTargetSet;
     string _playerTag;
 
@@ -44,10 +46,9 @@ public class MonsterAI : MonoBehaviour
         // 선공형 몬스터
         if (_monster._basicStat._isAttackFirst)
         {
-            // 타겟을 식별하기전
             if (!_isTargetSet)
             {
-                StartPatrol();
+
             }
 
             // 타겟을 식별했고 공격행동중이 아닌경우
@@ -72,9 +73,62 @@ public class MonsterAI : MonoBehaviour
         }
     }
 
+    // 타겟이 식별되기 전이고, 정찰지가 정해진게 아니면 정찰지를 정해준다
+    // 정찰지가 정해지면 해당지역으로 이동을 마치기전까지 정찰지를 정하지않는다.
+    // 정찰지까지 이동을 마치면 잠시 유휴시간을 갖는다.
+    void StartPatrolling()
+    {
+        if (_monster._state == Monster.eMonsterState.Patrol)
+        {
+            if (_navAgent.remainingDistance > _navAgent.stoppingDistance)
+            {
+                _navAgent.SetDestination(_patrollDestination);
+                return;
+            }
+            else
+            {
+                // 잠시 유휴시간을 가져야함
+                _monster._state = Monster.eMonsterState.Idle;
+                return;
+            }
+        }
+
+        NavMeshHit navHit;
+        Vector3 randomDir = Random.insideUnitSphere * 10.0f;
+
+        randomDir += transform.position;
+        NavMesh.SamplePosition(randomDir, out navHit, 10.0f, NavMesh.AllAreas);
+        _patrollDestination = navHit.position;
+
+        if (!_navAgent.pathPending)
+        {
+            _navAgent.SetDestination(_patrollDestination);
+            _monster._state = Monster.eMonsterState.Patrol;
+        }
+    }
+
+    IEnumerator IdleMonster()
+    {
+        if (_monster._state != Monster.eMonsterState.Idle)
+            yield break;
+
+        float randomValue = Random.Range(-0.5f, 1.1f);
+        yield return new WaitForSeconds(_idleTime + randomValue);
+    }
+
     void StartPatrol()
     {
+        NavMeshHit navHit;
+        Vector3 destination;
 
+        NavMesh.SamplePosition(transform.position, out navHit, 50.0f, NavMesh.AllAreas);
+        destination = navHit.position;
+        Debug.Log(destination);
+
+        if (!_navAgent.pathPending)
+        {
+            _navAgent.SetDestination(destination); 
+        }
     }
 
     void TraceTarget()

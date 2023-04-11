@@ -29,7 +29,7 @@ public class Monster : MonoBehaviour
 
     public eMonsterType _monsterType;
 
-    public enum eMonsterState { Patrol, Trace, Attack, Acting, Dead, }
+    public enum eMonsterState { Patrol, Idle, Trace, Attack, Acting, Dead, }
     public enum eMonsterType { Melee, Range, Charge, MeleeAndRange, }
     public enum eMonsterLevel { Normal, Elite, MiddleBoss, Boss, }
 
