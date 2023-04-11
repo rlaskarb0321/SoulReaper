@@ -8,8 +8,9 @@ public class EnemyProjectile : MonoBehaviour
     public GameObject _explodeEffect;
     public float _movSpeed;
     public float _lifeTime;
+    public int _maxPoolCount;
+    [HideInInspector] public bool _isReleased = false;
 
-    public bool _isReleased;
     IObjectPool<EnemyProjectile> _managedPool;
     Rigidbody _rbody;
 
@@ -53,7 +54,7 @@ public class EnemyProjectile : MonoBehaviour
     IEnumerator DestroySelf(float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
-
+        
         if (!_isReleased)
         {
             _managedPool.Release(this);

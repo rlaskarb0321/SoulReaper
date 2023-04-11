@@ -14523,6 +14523,8 @@ MonoBehaviour:
     type: 3}
   _movSpeed: 4
   _lifeTime: 15
+  _maxPoolCount: 5
+  _isReleased: 0
 --- !u!1 &1490689270972087398
 GameObject:
   m_ObjectHideFlags: 0

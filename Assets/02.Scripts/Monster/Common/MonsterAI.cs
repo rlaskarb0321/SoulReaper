@@ -9,15 +9,12 @@ public class MonsterAI : MonoBehaviour
     [Tooltip("몬스터들의 추적할 적(= 플레이어)")]
     public Transform _target;
     public GameObject _traceCollObj;
-
-    [Tooltip("몬스터들 다음 행동까지 걸리게 할 시간")]
-    public float _nextActDelay;
-
-    SphereCollider _traceColl;
+    
     [HideInInspector] public NavMeshAgent _navAgent;
-    Animator _animator;
     [HideInInspector] public Rigidbody _rbody;
-    Monster _monster;
+    [HideInInspector] public Monster _monster;
+    Animator _animator;
+    SphereCollider _traceColl;
     bool _isTargetSet;
     string _playerTag;
 

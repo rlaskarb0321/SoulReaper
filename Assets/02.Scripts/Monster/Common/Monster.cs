@@ -27,6 +27,9 @@ public class Monster : MonoBehaviour
     [Tooltip("몬스터들 기본적 스텟 요소")]
     public MonsterBasicStat _basicStat;
 
+    public Transform _projectileSpawnPos;
+    public GameObject _projectile;
+
     public enum eMonsterState { Patrol, Trace, Attack, Acting, Dead, }
     public enum eMonsterLevel { Normal, Elite, MiddleBoss, Boss, }
 

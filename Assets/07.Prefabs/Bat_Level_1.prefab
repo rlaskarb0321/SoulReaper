@@ -1302,6 +1302,7 @@ GameObject:
   - component: {fileID: 5257809215201469510}
   - component: {fileID: 5257809215201469504}
   - component: {fileID: 5257809215201469506}
+  - component: {fileID: 7983990759367610500}
   m_Layer: 12
   m_Name: Bat_Level_1
   m_TagString: Untagged
@@ -1400,9 +1401,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
   _traceCollObj: {fileID: 5257809214871342768}
-  _nextActDelay: 3
   _navAgent: {fileID: 0}
   _rbody: {fileID: 0}
+  _monster: {fileID: 0}
 --- !u!114 &5257809215201469506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,15 +1421,27 @@ MonoBehaviour:
   _basicStat:
     _health: 0
     _isAttackFirst: 1
-    _attackDelay: 1.8
+    _attackDelay: 3.2
     _traceRadius: 10
     _attakableRadius: 9.2
-  _numOfAttacks: 1
-  _hitBoxCollObj: {fileID: 0}
+  _projectileSpawnPos: {fileID: 5257809215316306469}
   _projectile: {fileID: 1490659678486382040, guid: d615199ea05b1554fa8ccaa571d65d98,
     type: 3}
-  _projectileSpawnPos: {fileID: 5257809215316306469}
+  _numOfAttacks: 1
+  _hitBoxCollObj: {fileID: 0}
   _monsterType: 1
+--- !u!114 &7983990759367610500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5257809214769901429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d23965f3bcb34324796c32dc7dbf6288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5257809214769901431
 GameObject:
   m_ObjectHideFlags: 0

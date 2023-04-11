@@ -137,7 +137,7 @@ public class PlayerMove : MonoBehaviour
         while (currDur < _dodgeDur)
         {
             // 구르기추가타 입력값 저장
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0) && !isDodgeAttackInput)
                 isDodgeAttackInput = true;
 
             RaycastHit hit;
