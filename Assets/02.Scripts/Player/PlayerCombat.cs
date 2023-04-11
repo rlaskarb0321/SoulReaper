@@ -195,4 +195,17 @@ public class PlayerCombat : MonoBehaviour
 
         _unFreeze = true;
     }
+
+    public IEnumerator GetHit(Vector3 hitDir)
+    {
+        //float setDelta = 1.5f;
+        //float accDelta = 0.0f;
+        //while (accDelta < setDelta)
+        //{
+        //    accDelta += Time.deltaTime;
+        //    _rbody.AddForce(hitDir * 100.0f);
+        //    yield return null;
+        //}
+        yield return null;
+    }
 }

@@ -25,6 +25,8 @@ public class MonsterAI : MonoBehaviour
         _rbody = GetComponent<Rigidbody>();
         _monster = GetComponent<Monster>();
         _animator = GetComponent<Animator>();
+
+        _target = GameObject.Find("PlayerCharacter").transform;
     }
 
     void Start()
@@ -94,7 +96,7 @@ public class MonsterAI : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag != _playerTag)
             return;
@@ -103,5 +105,19 @@ public class MonsterAI : MonoBehaviour
 
         _isTargetSet = true;
         _monster._state = Monster.eMonsterState.Trace;
+    }
+
+    public void ManageMonsterNavigation(bool isOn, RigidbodyConstraints originConstValue)
+    {
+        _navAgent.enabled = isOn;
+
+        if (isOn == false)
+        {
+            _rbody.constraints = RigidbodyConstraints.FreezePositionY | originConstValue;
+        }
+        else
+        {
+            _rbody.constraints = originConstValue;
+        }
     }
 }

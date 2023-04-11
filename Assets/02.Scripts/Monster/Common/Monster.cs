@@ -27,11 +27,16 @@ public class Monster : MonoBehaviour
     [Tooltip("몬스터들 기본적 스텟 요소")]
     public MonsterBasicStat _basicStat;
 
-    public Transform _projectileSpawnPos;
-    public GameObject _projectile;
+    public eMonsterType _monsterType;
 
     public enum eMonsterState { Patrol, Trace, Attack, Acting, Dead, }
+    public enum eMonsterType { Melee, Range, Charge, MeleeAndRange, }
     public enum eMonsterLevel { Normal, Elite, MiddleBoss, Boss, }
+
+    [HideInInspector]
+    public MonsterAI _monsterAI;
+    [HideInInspector]
+    public PlayerCombat _playerCombat;
 
     public virtual void DecreaseHp(float amount)
     {
@@ -48,13 +53,31 @@ public class Monster : MonoBehaviour
         yield return null;
     }
 
-    public virtual IEnumerator LookTarget()
+    public virtual void ExecuteAttack()
     {
-        yield return null;
+
     }
 
-    public virtual void ExecuteAttack(int attackNum)
+    // 몬스터가 플레이어를 바라보게 해줌
+    public IEnumerator LookTarget()
     {
+        Vector3 myPos = transform.position;
+        Vector3 targetPos = _monsterAI._target.position;
+        float angle;
 
+        targetPos.y = 0.0f;
+        myPos.y = 0.0f;
+        angle = Quaternion.FromToRotation(transform.forward, targetPos - myPos).eulerAngles.y;
+
+        // 몬스터의 transform.forward 기준으로 플레이어가 왼쪽각도에있으면 왼쪽으로 돌게하기 위함
+        if (angle - 180.0f > 0.0f)
+            angle = -(360 - angle);
+
+        while (Mathf.Abs(Quaternion.FromToRotation(transform.forward, targetPos - myPos).eulerAngles.y) >= 1.0f)
+        {
+            transform.eulerAngles = new Vector3(0.0f,
+                Mathf.Lerp(transform.eulerAngles.y, transform.eulerAngles.y + angle, 2.0f * Time.deltaTime), 0.0f);
+            yield return null;
+        }
     }
 }

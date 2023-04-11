@@ -1172,9 +1172,8 @@ GameObject:
   - component: {fileID: 344745177812665053}
   - component: {fileID: 344745177812665054}
   - component: {fileID: 344745177812665051}
-  - component: {fileID: 344745177812665050}
   m_Layer: 12
-  m_Name: C02
+  m_Name: Stage_1 Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1279,31 +1278,6 @@ MonoBehaviour:
   _navAgent: {fileID: 0}
   _rbody: {fileID: 0}
   _monster: {fileID: 0}
---- !u!114 &344745177812665050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4690700100732583528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec0866b14b6ca1408e034257b721a84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _state: 0
-  _level: 0
-  _basicStat:
-    _health: 0
-    _isAttackFirst: 1
-    _attackDelay: 2.5
-    _traceRadius: 10
-    _attakableRadius: 2.2
-  _projectileSpawnPos: {fileID: 0}
-  _projectile: {fileID: 0}
-  _numOfAttacks: 1
-  _hitBoxCollObj: {fileID: 0}
-  _monsterType: 0
 --- !u!1 &4690700100732583532
 GameObject:
   m_ObjectHideFlags: 0

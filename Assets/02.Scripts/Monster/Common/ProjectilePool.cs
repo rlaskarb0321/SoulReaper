@@ -7,11 +7,11 @@ public class ProjectilePool : MonoBehaviour
 {
     public IObjectPool<EnemyProjectile> _pool;
 
-    Monster _rangerMonster;
+    LongRangeMonster _rangerMonster;
 
     void Awake()
     {
-        _rangerMonster = GetComponent<Monster>();
+        _rangerMonster = GetComponent<LongRangeMonster>();
         _pool = new ObjectPool<EnemyProjectile>(CreateProjectile, OnGetProjectile, OnReleaseProjectile, DestroyProjectile, maxSize: 3);
     }
 
