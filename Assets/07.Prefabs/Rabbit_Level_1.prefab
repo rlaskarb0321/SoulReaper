@@ -528,6 +528,7 @@ MonoBehaviour:
     _attackDelay: 2.5
     _traceRadius: 11
     _attakableRadius: 2
+    _thinkDelay: 0.3
   _monsterType: 0
   _monsterAI: {fileID: 0}
   _playerCombat: {fileID: 0}

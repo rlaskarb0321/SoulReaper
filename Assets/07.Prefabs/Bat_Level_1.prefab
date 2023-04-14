@@ -1300,9 +1300,9 @@ GameObject:
   - component: {fileID: 5257809214779415735}
   - component: {fileID: 5257809215201469511}
   - component: {fileID: 5257809215201469510}
-  - component: {fileID: 5257809215201469504}
-  - component: {fileID: 6599300630768920960}
   - component: {fileID: 7983990759367610500}
+  - component: {fileID: 9191253057732922050}
+  - component: {fileID: 3019617391875398012}
   m_Layer: 12
   m_Name: Bat_Level_1
   m_TagString: Untagged
@@ -1387,51 +1387,6 @@ NavMeshAgent:
   m_BaseOffset: 0.47
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5257809215201469504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5257809214769901429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c6a3dba101152f40afbd4ff75aa47dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  _traceCollObj: {fileID: 5257809214871342768}
-  _idleTime: 12
-  _navAgent: {fileID: 0}
-  _rbody: {fileID: 0}
-  _monster: {fileID: 0}
---- !u!114 &6599300630768920960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5257809214769901429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e17b407a9afe144f86602bc21b04aad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _state: 0
-  _level: 0
-  _basicStat:
-    _health: 0
-    _isAttackFirst: 1
-    _attackDelay: 3.2
-    _traceRadius: 15
-    _attakableRadius: 13
-  _monsterType: 1
-  _monsterAI: {fileID: 0}
-  _playerCombat: {fileID: 0}
-  _numOfAttacks: 1
-  _projectileSpawnPos: {fileID: 5257809215316306469}
-  _projectile: {fileID: 1490659678486382040, guid: d615199ea05b1554fa8ccaa571d65d98,
-    type: 3}
 --- !u!114 &7983990759367610500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1444,6 +1399,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23965f3bcb34324796c32dc7dbf6288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9191253057732922050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5257809214769901429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e2a73474e7a4e4db4ed11cbfdf58a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _state: 0
+  _level: 0
+  _basicStat:
+    _health: 0
+    _isAttackFirst: 0
+    _traceRadius: 15
+    _attakableRadius: 13
+    _thinkDelay: 0.6
+    _kitingMovSpeed: 5
+    _patrolMovSpeed: 6
+    _traceMovSpeed: 7
+    _retreatMovSpeed: 8
+  _monsterType: 1
+  _monsterAI: {fileID: 0}
+  _playerCombat: {fileID: 0}
+  _nav: {fileID: 0}
+  _brain: {fileID: 0}
+  _animator: {fileID: 0}
+  _isAttack: 0
+  _movSpeed: 0
+  _firePos: {fileID: 5257809215316306469}
+  _projectile: {fileID: 1490659678486382040, guid: d615199ea05b1554fa8ccaa571d65d98,
+    type: 3}
+  _numOfAttacks: 1
+  _kitingDist: 0
+--- !u!114 &3019617391875398012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5257809214769901429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db8317b0690dfe47a8611c3e4eeeaa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isTargetSet: 0
+  _target: {fileID: 0}
 --- !u!1 &5257809214769901431
 GameObject:
   m_ObjectHideFlags: 0
@@ -1661,7 +1667,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5257809215316306469}
   m_Layer: 6
-  m_Name: Spawn Pos
+  m_Name: Fire Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

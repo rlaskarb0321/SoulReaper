@@ -46,7 +46,8 @@ public class MeleeRangeMonster : Monster
         yield return StartCoroutine(LookTarget());
 
         _animator.SetTrigger(_hashAttack1);
-        randWaitSeconds = _basicStat._attackDelay + Random.Range(-0.8f, 0.2f);
+        // randWaitSeconds = _basicStat._attackDelay + Random.Range(-0.8f, 0.2f);
+        randWaitSeconds = Random.Range(-0.8f, 0.2f);
         yield return new WaitForSeconds(randWaitSeconds);
 
         _state = eMonsterState.Trace;
