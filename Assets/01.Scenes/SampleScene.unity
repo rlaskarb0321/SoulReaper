@@ -395,7 +395,7 @@ PrefabInstance:
     - target: {fileID: 5030645071562137816, guid: 379cfb6848589a948b84691a4df3bed9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5030645071562137816, guid: 379cfb6848589a948b84691a4df3bed9,
         type: 3}
@@ -569,10 +569,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bat_Level_1
       objectReference: {fileID: 0}
+    - target: {fileID: 5257809214769901429, guid: 0532a099d060a7946aed9a86c5b54386,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
         type: 3}
@@ -1445,7 +1450,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}

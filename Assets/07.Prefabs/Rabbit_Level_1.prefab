@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8312964977247201475}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6347244888392554632
 BoxCollider:
@@ -58,51 +58,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b1b25721aa63b469f60108d23fba7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &8312964976109171841
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8312964976109171840}
-  - component: {fileID: 8312964976109171843}
-  m_Layer: 0
-  m_Name: Trace Coll Obj
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8312964976109171840
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8312964976109171841}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8312964977247201475}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &8312964976109171843
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8312964976109171841}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8312964977247040657
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,8 +359,8 @@ GameObject:
   - component: {fileID: 8312964977254451003}
   - component: {fileID: 8312964977247072860}
   - component: {fileID: 8312964977247072861}
-  - component: {fileID: 8312964977247072862}
-  - component: {fileID: 8312964977247072849}
+  - component: {fileID: 5152115680856112261}
+  - component: {fileID: 4451395563012008798}
   m_Layer: 0
   m_Name: Rabbit_Level_1
   m_TagString: Untagged
@@ -427,7 +382,6 @@ Transform:
   m_Children:
   - {fileID: 8312964977247201485}
   - {fileID: 8312964977247201521}
-  - {fileID: 8312964976109171840}
   - {fileID: 7611870380094219480}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -482,15 +436,15 @@ NavMeshAgent:
   m_Acceleration: 350
   avoidancePriority: 50
   m_AngularSpeed: 360
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1.24
   m_BaseOffset: 0.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8312964977247072862
+--- !u!114 &5152115680856112261
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -499,16 +453,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8312964977247040739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c6a3dba101152f40afbd4ff75aa47dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 8db8317b0690dfe47a8611c3e4eeeaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _monsterBrain: 0
+  _isTargetSet: 0
   _target: {fileID: 0}
-  _traceCollObj: {fileID: 8312964976109171841}
-  _idleTime: 13
-  _navAgent: {fileID: 0}
-  _rbody: {fileID: 0}
-  _monster: {fileID: 0}
---- !u!114 &8312964977247072849
+--- !u!114 &4451395563012008798
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -517,21 +468,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 8312964977247040739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: add022c5aa60d4146a54c43eedd08214, type: 3}
+  m_Script: {fileID: 11500000, guid: cf64a62e9a1d2aa4197bfe64ccc2cccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _state: 0
   _level: 0
   _basicStat:
     _health: 0
     _isAttackFirst: 1
-    _attackDelay: 2.5
-    _traceRadius: 11
+    _traceRadius: 10
     _attakableRadius: 2
-    _thinkDelay: 0.3
+    _actDelay: 2
+    _kitingMovSpeed: 3
+    _patrolMovSpeed: 4
+    _traceMovSpeed: 5
+    _retreatMovSpeed: 6
   _monsterType: 0
-  _monsterAI: {fileID: 0}
   _playerCombat: {fileID: 0}
+  _nav: {fileID: 0}
+  _brain: {fileID: 0}
+  _animator: {fileID: 0}
+  _currHp: 0
+  _isActing: 0
+  _movSpeed: 0
   _numOfAttacks: 1
 --- !u!1 &8312964977247040741
 GameObject:

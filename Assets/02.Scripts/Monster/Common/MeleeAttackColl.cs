@@ -8,7 +8,7 @@ public class MeleeAttackColl : MonoBehaviour
 
     void Start()
     {
-        _playerCombat = GetComponentInParent<MonsterAI>()._target.GetComponent<PlayerCombat>();
+        // _playerCombat = GetComponentInParent<MonsterAI>()._target.GetComponent<PlayerCombat>();
     }
 
     void OnTriggerEnter(Collider other)
