@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // 몬스터들의 다음 행동 실행을 위해 몬스터 뇌의 욕구를 설정하는 클래스
 public class MonsterThink : MonoBehaviour
 {
-    public enum eMonsterDesires { Patrol, Trace, Attack, Defense, Recover, Retreat, Dead } // 몬스터가 하고자하는 욕구들의 종류
+
+    // 몬스터가 하고자하는 욕구들의 종류
+    public enum eMonsterDesires { Patrol, Idle, Trace, Attack, Defense, Recover, Retreat, Dead } 
     [SerializeField] private eMonsterDesires _monsterBrain;
     public eMonsterDesires MonsterBrain 
     {
@@ -19,33 +22,40 @@ public class MonsterThink : MonoBehaviour
             switch (value)
             {
                 case eMonsterDesires.Patrol:
-                    _monsterBase._movSpeed = _monsterBase._basicStat._patrolMovSpeed;
+                    _monsterBase._nav.speed = _monsterBase._basicStat._patrolMovSpeed;
                     break;
                 case eMonsterDesires.Trace:
-                    _monsterBase._movSpeed = _monsterBase._basicStat._traceMovSpeed;
+                    _monsterBase._nav.speed = _monsterBase._basicStat._traceMovSpeed;
                     break;
                 case eMonsterDesires.Attack:
                     break;
                 case eMonsterDesires.Defense:
-                    _monsterBase._movSpeed = _monsterBase._basicStat._kitingMovSpeed;
+                    _monsterBase._nav.speed = _monsterBase._basicStat._kitingMovSpeed;
                     break;
                 case eMonsterDesires.Recover:
                     break;
                 case eMonsterDesires.Retreat:
-                    _monsterBase._movSpeed = _monsterBase._basicStat._retreatMovSpeed;
+                    _monsterBase._nav.speed = _monsterBase._basicStat._retreatMovSpeed;
                     break;
             }
         }
     }
     public bool _isTargetSet;
     [HideInInspector] public Transform _target;
+    public Vector3 _patrolPos;
+    public float _idleTime;
 
+
+    // Field
     Monster _monsterBase;
+    NavMeshAgent _nav;
     int _playerTeamLayer;
+    bool _isFindPatrolPos;
 
     void Awake()
     {
         _monsterBase = GetComponent<Monster>();
+        _nav = GetComponent<NavMeshAgent>();
     }
 
     void Start()
@@ -110,6 +120,7 @@ public class MonsterThink : MonoBehaviour
 
         switch (MonsterBrain)
         {
+            case eMonsterDesires.Idle:
             case eMonsterDesires.Patrol:
                 Collider[] detectColls = Physics.OverlapSphere(transform.position, _monsterBase._basicStat._traceRadius,
                     _playerTeamLayer);
@@ -118,6 +129,34 @@ public class MonsterThink : MonoBehaviour
                 {
                     MonsterBrain = eMonsterDesires.Trace;
                     _target = detectColls[0].transform;
+                }
+                else
+                {
+                    if (!_isFindPatrolPos)
+                    {
+                        if (SetRandomPoint(transform.position, out _patrolPos, _monsterBase._basicStat._traceRadius))
+                        {
+                            _isFindPatrolPos = true;
+                            MonsterBrain = eMonsterDesires.Patrol;
+                        }
+                    }
+                    else
+                    {
+                        if (!_nav.pathPending)
+                        {
+                            if (_nav.remainingDistance <= _nav.stoppingDistance)
+                            {
+                                if (!_nav.hasPath || _nav.velocity.sqrMagnitude == 0f)
+                                {
+                                    StartCoroutine(IdlePatrol());
+                                }
+                            }
+                            else
+                            {
+                                MonsterBrain = eMonsterDesires.Patrol;
+                            }
+                        }
+                    }
                 }
                 break;
 
@@ -145,5 +184,34 @@ public class MonsterThink : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    bool SetRandomPoint(Vector3 center, out Vector3 destination, float radius)
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            Vector3 randomPos = center + Random.insideUnitSphere * radius;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPos, out hit, 2.0f, NavMesh.AllAreas))
+            {
+                destination = hit.position;
+                return true;
+            }
+        }
+        destination = Vector3.zero;
+        return false;
+    }
+
+    IEnumerator IdlePatrol()
+    {
+        if (MonsterBrain == eMonsterDesires.Idle)
+            yield break;
+
+        float randomValue = Random.Range(-1.0f, 0.5f);
+        WaitForSeconds waitSeconds = new WaitForSeconds(_idleTime + randomValue);
+        MonsterBrain = eMonsterDesires.Idle;
+
+        yield return waitSeconds;
+        _isFindPatrolPos = false;
     }
 }

@@ -12,6 +12,8 @@ public class MeleeRangeBehav : Monster
     AttackEndBehaviour _attackBehaviour;
     BoxCollider _attackBoxColl;
     readonly int _hashAttack1 = Animator.StringToHash("Attack1");
+    readonly int _hashIdle = Animator.StringToHash("Idle");
+    readonly int _hashMove = Animator.StringToHash("Move");
 
     private void Awake()
     {
@@ -24,7 +26,7 @@ public class MeleeRangeBehav : Monster
 
     void Start()
     {
-        _ws = new WaitForSeconds(_basicStat._actDelay);
+        _actWaitSeconds = new WaitForSeconds(_basicStat._actDelay);
     }
 
     void Update()
@@ -39,9 +41,18 @@ public class MeleeRangeBehav : Monster
     {
         switch (_brain.MonsterBrain)
         {
+            case MonsterThink.eMonsterDesires.Idle:
+                _animator.SetBool(_hashMove, false);
+                _animator.SetTrigger(_hashIdle);
+                break;
             case MonsterThink.eMonsterDesires.Patrol:
+                if (!_nav.pathPending)
+                    _nav.SetDestination(_brain._patrolPos);
+
+                _animator.SetBool(_hashMove, true);
                 break;
             case MonsterThink.eMonsterDesires.Trace:
+                _animator.SetBool(_hashMove, true);
                 TraceTarget();
                 break;
             case MonsterThink.eMonsterDesires.Attack:
@@ -65,12 +76,13 @@ public class MeleeRangeBehav : Monster
     public override IEnumerator DoAttack()
     {
         yield return StartCoroutine(LookTarget());
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
 
+        _animator.SetBool(_hashMove, false);
         _animator.SetTrigger(_hashAttack1);
 
         yield return new WaitUntil(() => _attackBehaviour._isEnd);
-        yield return _ws;
+        yield return _actWaitSeconds;
 
         _brain.MonsterBrain = MonsterThink.eMonsterDesires.Trace;
         _isActing = false;

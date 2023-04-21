@@ -47,8 +47,10 @@ public class Monster : MonoBehaviour
 
     public float _currHp;
     public bool _isActing;
+    [HideInInspector] public bool _isFindPatrolPos;
+    public Vector3 _patrolPos;
     public float _movSpeed;
-    public WaitForSeconds _ws;
+    public WaitForSeconds _actWaitSeconds;
 
     public virtual void DecreaseHp(float amount)
     {

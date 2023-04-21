@@ -431,7 +431,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8312964977247040739}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.7
+  m_Radius: 0.82
   m_Speed: 4.2
   m_Acceleration: 350
   avoidancePriority: 50
@@ -459,6 +459,8 @@ MonoBehaviour:
   _monsterBrain: 0
   _isTargetSet: 0
   _target: {fileID: 0}
+  _patrolPos: {x: 0, y: 0, z: 0}
+  _idleTime: 4
 --- !u!114 &4451395563012008798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,8 +481,8 @@ MonoBehaviour:
     _attakableRadius: 2
     _actDelay: 2
     _kitingMovSpeed: 3
-    _patrolMovSpeed: 4
-    _traceMovSpeed: 5
+    _patrolMovSpeed: 1.3
+    _traceMovSpeed: 4
     _retreatMovSpeed: 6
   _monsterType: 0
   _playerCombat: {fileID: 0}
@@ -489,6 +491,8 @@ MonoBehaviour:
   _animator: {fileID: 0}
   _currHp: 0
   _isActing: 0
+  _isFindPatrolPos: 0
+  _patrolPos: {x: 0, y: 0, z: 0}
   _movSpeed: 0
   _numOfAttacks: 1
 --- !u!1 &8312964977247040741
