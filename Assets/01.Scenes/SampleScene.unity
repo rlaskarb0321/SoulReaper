@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3612089379fb8e34990a2647182ce91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movSpeed: 7.2
+  _movSpeed: 6.8
   _rotSpeed: 12
   _dodgeSpeed: 2.4
   _dodgeDur: 0.32
@@ -521,6 +521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _state: 0
+  _hitDelay: 0.9
   _weaponCombatPos: {fileID: 946142715}
   _weaponNonCombatPos: {fileID: 1708851356}
   _weapon: {fileID: 1491308581}
@@ -581,13 +582,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.357132
+      value: 9.357128
       objectReference: {fileID: 0}
     - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.50000006
       objectReference: {fileID: 0}
     - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
         type: 3}
@@ -602,7 +618,7 @@ PrefabInstance:
     - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5257809214770066261, guid: 0532a099d060a7946aed9a86c5b54386,
         type: 3}
@@ -2792,6 +2808,8 @@ MonoBehaviour:
   _target: {fileID: 616485951}
   _range: 11
   _speed: 0.075
+  _shakeAmount: 0.32
+  _shakeDur: 0.08
 --- !u!1 &1491308581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6013990982369288243, guid: 0029002b2fada3d4497680a36b12ae3e,

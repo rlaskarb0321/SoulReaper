@@ -7,16 +7,22 @@ public class FollowCamera : MonoBehaviour
     public enum eCameraState { Follow, Patrol, Charging }
     public Transform _target;
     public float _range; 
-    public float _speed; 
+    public float _speed;
+
+    [Header("Shake")]
+    public float _shakeAmount;
+    public float _shakeDur;
 
     public eCameraState CamState { get { return _camState; } set { _camState = value; } }
     eCameraState _camState;
     Camera _cam;
+    float _originShakeDur;
 
     void Start()
     {
         _cam = Camera.main;
         _camState = eCameraState.Follow;
+        _originShakeDur = _shakeDur;
     }
 
     void Update()
@@ -43,6 +49,20 @@ public class FollowCamera : MonoBehaviour
         }
     }
 
+    public IEnumerator ShakingCamera()
+    {
+        Vector3 originCamPos = transform.localPosition;
+        while (_shakeDur > 0.0f)
+        {
+            Vector3 randomPos = originCamPos + Random.insideUnitSphere * _shakeAmount;
+            transform.localPosition = randomPos;
+            _shakeDur -= Time.deltaTime;
+            yield return null;
+        }
+
+        _shakeDur = _originShakeDur;
+    }
+
     /// <summary>
     /// 카메라를 마우스위치로 옮겨주는 함수
     /// </summary>
@@ -50,7 +70,7 @@ public class FollowCamera : MonoBehaviour
     /// <param name="player">카메라가 따라다닐 캐릭터</param>
     /// <param name="range">카메라가 마우스위치를 따라갈 수 있는 길이</param>
     /// <param name="speed">카메라가 옮겨지는 속도</param>
-    public void PatrolCamera(Camera cam, Transform player, float range, float speed)
+    void PatrolCamera(Camera cam, Transform player, float range, float speed)
     {
         Vector3 mousePos; // 마우스의 위치값 저장
         Vector3 dir; // player의 pos에서 mousePos로 향하는 벡터
