@@ -19,10 +19,10 @@ public class MeleeWeaponColl : MonoBehaviour
     {
         if (other.gameObject.layer != _enemyLayer && other.gameObject.layer != _enemyProjectile)
             return;
-        if (_combat._hitEnemiesList.Contains(other.gameObject))
-            return;
+        //if (_combat._hitEnemiesList.Contains(other.gameObject))
+        //    return;
 
         // 04.25 몬스터팀들 공격관련
-        // _combat._hitEnemiesList.Add(other.gameObject);
+        _combat._hitEnemiesList.Add(other.gameObject);
     }
 }

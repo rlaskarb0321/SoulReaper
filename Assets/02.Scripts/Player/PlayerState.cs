@@ -68,6 +68,7 @@ public class PlayerState : MonoBehaviour
         if (_state == eState.Hit)
         {
             KnockBack();
+            return;
         }
     }
 
@@ -77,12 +78,12 @@ public class PlayerState : MonoBehaviour
         if (_state == eState.Hit)
             return;
 
+        _state = eState.Hit;
         StartCoroutine(_followCam.ShakingCamera());
         attackDir = attackDir.normalized;
         transform.forward = -attackDir;
         _animator.SetTrigger(_hashHit);
         _combat.EndComboAtk();
-        _state = eState.Hit;
         _atkDir = attackDir;
     }
 
@@ -96,9 +97,9 @@ public class PlayerState : MonoBehaviour
             return;
         }
 
-        _state = eState.Idle;
-        _hitDelay = _originHitDelayValue;
         _animator.SetTrigger(_hashGetUP);
+        _hitDelay = _originHitDelayValue;
+        _state = eState.Idle;
     }
 
     void Fall()

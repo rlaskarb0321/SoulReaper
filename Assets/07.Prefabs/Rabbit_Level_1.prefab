@@ -492,7 +492,7 @@ MonoBehaviour:
     _health: 0
     _isAttackFirst: 1
     _traceRadius: 10
-    _attakableRadius: 2
+    _attakableRadius: 1.5
     _actDelay: 2
     _kitingMovSpeed: 3
     _patrolMovSpeed: 1.3

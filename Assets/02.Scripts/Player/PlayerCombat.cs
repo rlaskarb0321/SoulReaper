@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -19,8 +20,9 @@ public class PlayerCombat : MonoBehaviour
     Camera _cam;
     Animator _animator;
     Rigidbody _rbody;
-    int _combo;
     BoxCollider _coll;
+    TrailRenderer _trailRender;
+    int _combo;
     bool _unFreeze;
 
     [Header("Component")]
@@ -43,7 +45,9 @@ public class PlayerCombat : MonoBehaviour
         _atkBehaviour = _animator.GetBehaviour<AttackComboBehaviour>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
         _rbody = GetComponent<Rigidbody>();
-        _coll = _state._weapon.GetComponent<BoxCollider>();
+        // _coll = _state._weapon.GetComponent<BoxCollider>();
+        _coll = _state._weapon.GetComponentInChildren<BoxCollider>();
+        _trailRender = _state._weapon.GetComponentInChildren<TrailRenderer>();
         _hitEnemiesList = new List<GameObject>();
         _mov = GetComponent<PlayerMove>();
         _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
@@ -60,6 +64,9 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (_state.State == PlayerState.eState.Hit)
+            return;
+
         // 근or원거리공격으로 모션전환관련
         if (Input.GetMouseButtonDown(0) && 
             (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move))
@@ -103,22 +110,24 @@ public class PlayerCombat : MonoBehaviour
         }
 
         // 04.25 공격에 적중한 적과 관련된 요소들에대한 작업
-        //if (_hitEnemiesList.Count > 0)
-        //{
-        //    foreach (var item in _hitEnemiesList)
-        //    {
-        //        if (item.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        //        {
-        //            Debug.Log(item.name + "체력 깎");
-        //            _hitEnemiesList.Remove(item);
-        //        }
-        //        else if (item.gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
-        //        {
-        //            Debug.Log(item.name + "반사");
-        //            _hitEnemiesList.Remove(item);
-        //        }
-        //    }
-        //}
+        if (_hitEnemiesList.Count > 0)
+        {
+            _hitEnemiesList = _hitEnemiesList.Distinct().ToList();
+
+            for (int i = _hitEnemiesList.Count - 1; i >= 0; i--)
+            {
+                if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                {
+                    Debug.Log(_hitEnemiesList[i].name + "체력 깎");
+                    _hitEnemiesList.Remove(_hitEnemiesList[i]);   
+                }
+                else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
+                {
+                    Debug.Log(_hitEnemiesList[i].name + "반사");
+                    _hitEnemiesList.Remove(_hitEnemiesList[i]);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -167,17 +176,23 @@ public class PlayerCombat : MonoBehaviour
     {
         _combo = 0;
 
+        if (_state.State == PlayerState.eState.Hit)
+        {
+            _animator.SetInteger(_hashCombo, _combo);
+            return;
+        }
+
         // 공격1, 2, 차징발사 애니메이션 실행도중에 space가 입력되면 마지막프레임에서 회피로 이동
         if (_smoothDodgeBehaviour._isDodgeInput)
         {
             StartCoroutine(_mov.Dodge(_mov._h, _mov._v));
             _animator.SetInteger(_hashCombo, _combo);
+            return;
         }
-        else
-        {
-            _state.State = PlayerState.eState.Idle;
-            _animator.SetInteger(_hashCombo, _combo);
-        }
+
+        _state.State = PlayerState.eState.Idle;
+        _animator.SetInteger(_hashCombo, _combo);
+
     }
 
     public IEnumerator ActFallAttack(Rigidbody rbody, Animator animator)
@@ -236,6 +251,9 @@ public class PlayerCombat : MonoBehaviour
     {
         // 현재 boxcollider컴포넌트의 활성화값을 저장하고 반전시킨값을 대입시킴
         bool collEnable = _coll.enabled;
+        bool trailEnable = _trailRender.emitting;
+
+        _trailRender.emitting = !trailEnable;
         _coll.enabled = !collEnable;
     }
 }   

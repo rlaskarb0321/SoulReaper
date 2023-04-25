@@ -52,6 +52,9 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_state.State == PlayerState.eState.Hit)
+            return;
+
         // 주기적으로 중력값을계산해 떨어질때 모션의 재생여부결정
         _animator.SetFloat(_hashYVelocity, _rbody.velocity.y);
 
@@ -78,6 +81,9 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        if (_state.State == PlayerState.eState.Hit)
+            return;
+
         if (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move || _state.State == PlayerState.eState.Fall)
         {
             _h = Input.GetAxisRaw("Horizontal");
