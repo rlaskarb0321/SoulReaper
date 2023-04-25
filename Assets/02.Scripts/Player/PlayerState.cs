@@ -81,6 +81,7 @@ public class PlayerState : MonoBehaviour
         attackDir = attackDir.normalized;
         transform.forward = -attackDir;
         _animator.SetTrigger(_hashHit);
+        _combat.EndComboAtk();
         _state = eState.Hit;
         _atkDir = attackDir;
     }

@@ -12,18 +12,23 @@ public class PlayerCombat : MonoBehaviour
     [Tooltip("원거리공격 사용하는데 필요한 차징 시간")]public float _needChargingTime;
     [Tooltip("현재 원거리 공격충전시간")]public float _curLongRangeChargingTime;
     [Tooltip("낙하공격시 떨어지는 속도")] public float _fallAttackSpeed;
+    public List<GameObject> _hitEnemiesList; // 플레이어의 공격에 맞은 적과 관련된 게임Obj들을 관리해주는 리스트
 
-    private Transform _player;
-    private Camera _cam;
-    private Animator _animator;
-    private Rigidbody _rbody;
-    private int _combo;
-    private bool _unFreeze;
+    [Header("Field")]
+    Transform _player;
+    Camera _cam;
+    Animator _animator;
+    Rigidbody _rbody;
+    int _combo;
+    BoxCollider _coll;
+    bool _unFreeze;
 
     [Header("Component")]
-    private AttackComboBehaviour _atkBehaviour;
-    private PlayerState _state;
-    private FollowCamera _followCam;
+    AttackComboBehaviour _atkBehaviour;
+    SmoothDodgeBehaviour _smoothDodgeBehaviour;
+    PlayerMove _mov;
+    PlayerState _state;
+    FollowCamera _followCam;
 
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
     readonly int _hashChargingValue = Animator.StringToHash("ChargingValue");
@@ -38,6 +43,10 @@ public class PlayerCombat : MonoBehaviour
         _atkBehaviour = _animator.GetBehaviour<AttackComboBehaviour>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
         _rbody = GetComponent<Rigidbody>();
+        _coll = _state._weapon.GetComponent<BoxCollider>();
+        _hitEnemiesList = new List<GameObject>();
+        _mov = GetComponent<PlayerMove>();
+        _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
     }
 
     void Start()
@@ -92,12 +101,30 @@ public class PlayerCombat : MonoBehaviour
             _followCam.CamState = FollowCamera.eCameraState.Follow;
             _state.State = PlayerState.eState.Idle;
         }
+
+        // 04.25 공격에 적중한 적과 관련된 요소들에대한 작업
+        //if (_hitEnemiesList.Count > 0)
+        //{
+        //    foreach (var item in _hitEnemiesList)
+        //    {
+        //        if (item.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        //        {
+        //            Debug.Log(item.name + "체력 깎");
+        //            _hitEnemiesList.Remove(item);
+        //        }
+        //        else if (item.gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
+        //        {
+        //            Debug.Log(item.name + "반사");
+        //            _hitEnemiesList.Remove(item);
+        //        }
+        //    }
+        //}
     }
 
     /// <summary>
     /// 클릭한 마우스 방향으로 캐릭터를 회전시킴
     /// </summary>
-    void RotateToClickDir()
+    public void RotateToClickDir()
     {
         RaycastHit hit;
         Vector3 clickVector;
@@ -132,17 +159,25 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-        _combo = 0;
-        _animator.SetInteger(_hashCombo, _combo);
-        _state.State = PlayerState.eState.Idle;
+        EndComboAtk();
     }
 
     // 콤보공격단계중 마지막콤보의 마지막 프레임에 달아놓는 Delegate, 어택콤보를 초기화시킨다.
     public void EndComboAtk()
     {
         _combo = 0;
-        _animator.SetInteger(_hashCombo, _combo);
-        _state.State = PlayerState.eState.Idle;
+
+        // 공격1, 2, 차징발사 애니메이션 실행도중에 space가 입력되면 마지막프레임에서 회피로 이동
+        if (_smoothDodgeBehaviour._isDodgeInput)
+        {
+            StartCoroutine(_mov.Dodge(_mov._h, _mov._v));
+            _animator.SetInteger(_hashCombo, _combo);
+        }
+        else
+        {
+            _state.State = PlayerState.eState.Idle;
+            _animator.SetInteger(_hashCombo, _combo);
+        }
     }
 
     public IEnumerator ActFallAttack(Rigidbody rbody, Animator animator)
@@ -171,7 +206,6 @@ public class PlayerCombat : MonoBehaviour
                 }
 
                 _state.State = PlayerState.eState.Attack; // 공격상태로 전환
-                //transform.position = Vector3.MoveTowards(transform.position, landingPoint, _fallAttackSpeed);
                 _rbody.MovePosition(_rbody.position + Vector3.down * _fallAttackSpeed * Time.deltaTime);
                 yield return new WaitForFixedUpdate();
             }
@@ -196,4 +230,12 @@ public class PlayerCombat : MonoBehaviour
 
         _unFreeze = true;
     }
-}
+
+    // 공격애니메이션의 시작과 끝에 달아서 collider를 키고끄는용
+    public void SetActiveWeaponColl()
+    {
+        // 현재 boxcollider컴포넌트의 활성화값을 저장하고 반전시킨값을 대입시킴
+        bool collEnable = _coll.enabled;
+        _coll.enabled = !collEnable;
+    }
+}   

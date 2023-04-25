@@ -4,30 +4,31 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     [Header("Move & Rotate")]
+    public float _h;
+    public float _v;
     public float _movSpeed;
     public float _rotSpeed;
 
     [Header("Dodge")]
-    [Tooltip("dodgeSpeed = _dodgeSpeed * _movSpeed")] public float _dodgeSpeed;
+    public float _dodgeSpeed; // 구를때 가속시킬 값 (dodgeSpeed = _dodgeSpeed * _movSpeed)
     public float _dodgeDur; // 구르기상태가 지속될 시간
     public float _dodgeCoolDown;
 
     [Header("Follow Cam")]
     public GameObject _followCamObj;
 
-    private Vector3 _dir; // 플레이어의 wasd조작으로 가게될 방향벡터값을 저장
-    private Animator _animator;
-    private Rigidbody _rbody;
-    private float _h;
-    private float _v;
-    private bool _dodgeAttackEnd;
-    private float _originDodgeCoolDown;
+    Vector3 _dir; // 플레이어의 wasd조작으로 가게될 방향벡터값을 저장
+    Animator _animator;
+    Rigidbody _rbody;
+    bool _dodgeAttackEnd;
+    float _originDodgeCoolDown;
 
     [Header("Component")]
     PlayerCombat _combat;
     PlayerState _state;
     FollowCamera _followCam;
     FallBehaviour _fallBehaviour;
+    SmoothDodgeBehaviour _smoothDodgeBehaviour;
 
     readonly int _hashMove = Animator.StringToHash("isMove");
     readonly int _hashYVelocity = Animator.StringToHash("yVelocity");
@@ -41,6 +42,7 @@ public class PlayerMove : MonoBehaviour
         _combat = GetComponent<PlayerCombat>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
         _fallBehaviour = _animator.GetBehaviour<FallBehaviour>();
+        _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
     }
 
     void Start()
@@ -86,7 +88,7 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && 
             (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move ||
             _state.State == PlayerState.eState.Charging) && _dodgeCoolDown == _originDodgeCoolDown)
-            StartCoroutine(Dodge());
+            StartCoroutine(Dodge(_h, _v));
     }
 
     // 플레이어의 상태를 idle로 바꾸고 움직이는모션재생, 실제 움직임 구현
@@ -115,7 +117,7 @@ public class PlayerMove : MonoBehaviour
         _rbody.rotation = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * Time.deltaTime);
     }
 
-    IEnumerator Dodge()
+    public IEnumerator Dodge(float h, float v)
     {
         if (_combat._curLongRangeChargingTime >= 0.0f)
             _combat.InitChargingGauge();
@@ -126,7 +128,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         bool isDodgeAttackInput = false;
-        Vector3 dodgeDir = transform.forward.normalized; // 회피키 누를때 캐릭터가 보고있던 방향
+        Vector3 dodgeDir; 
         float currDur = 0.0f;
         float dodgeSpeed = _movSpeed * _dodgeSpeed;
 
@@ -134,12 +136,21 @@ public class PlayerMove : MonoBehaviour
         StartCoroutine(CoolDownDodge());
         _state.State = PlayerState.eState.Dodge;
         _animator.SetBool(_hashRoll, true);
+
+        // 키입력이 된 상태이면 구르기방향을 입력한방향으로, 아니라면 캐릭터기준 정면으로
+        if (_h != 0.0f || _v != 0.0f)
+            dodgeDir = ((h * Vector3.right) + (v * Vector3.forward)).normalized;
+        else
+            dodgeDir = transform.forward;
+        transform.forward = dodgeDir;
+
         while (currDur < _dodgeDur)
         {
             // 구르기추가타 입력값 저장
             if (Input.GetMouseButton(0) && !isDodgeAttackInput)
                 isDodgeAttackInput = true;
 
+            // 구르는 방향에 벽이 너무가까이있으면 벽을 뚫지않도록하기위해 짧은 ray발사 후, 충돌지역까지만 구르기로 이동
             RaycastHit hit;
             currDur += Time.deltaTime;
             if (!Physics.Raycast(_rbody.position, transform.forward, out hit, 0.25f))
@@ -154,8 +165,10 @@ public class PlayerMove : MonoBehaviour
         if (isDodgeAttackInput)
         {
             _animator.SetBool(_hashRoll, false);
+            _smoothDodgeBehaviour._isDodgeInput = false;
             _combat.ActDodgeAttack(); // 회피추가타 트리거 발동
             _state.State = PlayerState.eState.Attack;
+            _combat.RotateToClickDir();
 
             yield return new WaitUntil(() => _dodgeAttackEnd);
             _state.State = PlayerState.eState.Idle;
@@ -165,6 +178,7 @@ public class PlayerMove : MonoBehaviour
         {
             _state.State = PlayerState.eState.Idle;
             _animator.SetBool(_hashRoll, false);
+            _smoothDodgeBehaviour._isDodgeInput = false;
         }
     }
 

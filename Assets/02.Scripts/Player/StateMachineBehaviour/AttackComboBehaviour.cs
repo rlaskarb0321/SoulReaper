@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttackComboBehaviour : StateMachineBehaviour
 {
-    [HideInInspector] public bool _isComboAtk;
+    public bool _isComboAtk;
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

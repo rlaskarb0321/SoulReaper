@@ -8,6 +8,7 @@ public class MeleeRangeBehav : Monster
     [Header("Melee Range Monster")]
     [Range(1, 3)]
     public int _numOfAttacks;
+    public GameObject _attackCollObj;
 
     AttackEndBehaviour _attackBehaviour;
     BoxCollider _attackBoxColl;
@@ -20,7 +21,7 @@ public class MeleeRangeBehav : Monster
         _nav = GetComponent<NavMeshAgent>();
         _brain = GetComponent<MonsterThink>();
         _animator = GetComponent<Animator>();
-        _attackBoxColl = GetComponentInChildren<BoxCollider>();
+        _attackBoxColl = _attackCollObj.GetComponent<BoxCollider>();
         _attackBehaviour = _animator.GetBehaviour<AttackEndBehaviour>();
     }
 

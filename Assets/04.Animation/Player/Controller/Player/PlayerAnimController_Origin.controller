@@ -14,34 +14,34 @@ AnimatorStateMachine:
     m_Position: {x: -70, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1830833079312058323}
-    m_Position: {x: 300, y: 180, z: 0}
+    m_Position: {x: 360, y: 90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5853185381352977715}
-    m_Position: {x: -70, y: 670, z: 0}
+    m_Position: {x: -80, y: 710, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7835727464496344056}
-    m_Position: {x: -400, y: 180, z: 0}
+    m_Position: {x: -460, y: 90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2351804733435676860}
-    m_Position: {x: -400, y: 520, z: 0}
+    m_Position: {x: -460, y: 580, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3570749542013191696}
     m_Position: {x: 30, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2259493138022197271}
-    m_Position: {x: 300, y: 290, z: 0}
+    m_Position: {x: 350, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7045931947789403050}
-    m_Position: {x: 300, y: 510, z: 0}
+    m_Position: {x: 360, y: 570, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8055556627969224792}
-    m_Position: {x: -190, y: 290, z: 0}
+    m_Position: {x: -180, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8507535653558142615}
-    m_Position: {x: 200, y: 670, z: 0}
+    m_Position: {x: 200, y: 710, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2924826686358295989}
-    m_Position: {x: -300, y: 670, z: 0}
+    m_Position: {x: -300, y: 710, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 8353172694498219450}
@@ -49,9 +49,9 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -50, y: 800, z: 0}
+  m_AnyStatePosition: {x: -60, y: 860, z: 0}
   m_EntryPosition: {x: -50, y: -70, z: 0}
-  m_ExitPosition: {x: -50, y: 520, z: 0}
+  m_ExitPosition: {x: -60, y: 580, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -2428462652472409813}
 --- !u!1101 &-8899341400535305864
@@ -609,7 +609,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerAnimController
+  m_Name: PlayerAnimController_Origin
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isMove
@@ -617,61 +617,61 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: yVelocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: AttackCombo
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: ChargingValue
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: ChargingBurst
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: DodgeAttack
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: FallAttack
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: Hit
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: GetUP
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isRoll
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
+  - m_Name: ChargingValue
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: ChargingBurst
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: DodgeAttack
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: FallAttack
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: Hit
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: GetUP
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1091,7 +1091,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Attack1
-  m_Speed: 1.2
+  m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6213382953886435523}
