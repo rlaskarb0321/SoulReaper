@@ -16,8 +16,10 @@ public class MeleeRangeBehav : Monster
     readonly int _hashIdle = Animator.StringToHash("Idle");
     readonly int _hashMove = Animator.StringToHash("Move");
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _nav = GetComponent<NavMeshAgent>();
         _brain = GetComponent<MonsterAI>();
         _animator = GetComponent<Animator>();

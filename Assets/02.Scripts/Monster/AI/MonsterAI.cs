@@ -40,9 +40,9 @@ public class MonsterAI : MonoBehaviour
             }
         }
     }
-    public bool _isTargetSet;
+    [HideInInspector] public bool _isTargetSet;
     [HideInInspector] public Transform _target;
-    public Vector3 _patrolPos;
+    [HideInInspector] public Vector3 _patrolPos;
     public float _idleTime;
 
 

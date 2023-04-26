@@ -1292,6 +1292,9 @@ MonoBehaviour:
   _weaponCombatPos: {fileID: 946142715}
   _weaponNonCombatPos: {fileID: 1708851356}
   _weapon: {fileID: 1491308581}
+  _materials:
+  - {fileID: 2100000, guid: 60c2f0e0aaa8f8d4e9d23d7e3768653b, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!54 &616485959
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2098,11 +2101,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.42434505
-      objectReference: {fileID: 0}
-    - target: {fileID: 9191253057732922050, guid: 0532a099d060a7946aed9a86c5b54386,
-        type: 3}
-      propertyPath: _basicStat._health
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0532a099d060a7946aed9a86c5b54386, type: 3}
@@ -4344,7 +4342,7 @@ PrefabInstance:
     - target: {fileID: 4451395563012008798, guid: f75dfb99366188340ad3eb86ede6bb25,
         type: 3}
       propertyPath: _basicStat._health
-      value: 20
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 8312964977247040739, guid: f75dfb99366188340ad3eb86ede6bb25,
         type: 3}
@@ -4756,6 +4754,16 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8312964977258543611, guid: f75dfb99366188340ad3eb86ede6bb25,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312964977258543611, guid: f75dfb99366188340ad3eb86ede6bb25,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f75dfb99366188340ad3eb86ede6bb25, type: 3}
 --- !u!1 &1810199710

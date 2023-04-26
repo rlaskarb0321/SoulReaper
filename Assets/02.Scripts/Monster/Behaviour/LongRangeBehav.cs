@@ -22,8 +22,10 @@ public class LongRangeBehav : Monster
     readonly int _hashIdle = Animator.StringToHash("Idle");
     readonly int _hashMove = Animator.StringToHash("Move");
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _brain = GetComponent<MonsterAI>();
         _animator = GetComponent<Animator>();
         _nav = GetComponent<NavMeshAgent>();

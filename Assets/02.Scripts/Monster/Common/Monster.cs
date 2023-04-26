@@ -5,12 +5,14 @@ using UnityEngine.AI;
 [System.Serializable]
 public struct MonsterBasicStat
 {
+    [Header("Combat")]
     public int _health; // 체력
     public bool _isAttackFirst; // 선공or비선공여부
     public float _traceRadius; // 추격을 인지하는 범위
     public float _attakableRadius; // 공격사정거리
     public float _actDelay; // 몬스터의 다음행동까지 걸리게할 시간값
 
+    [Header("Mov Speed Variable")]
     public float _kitingMovSpeed;
     public float _patrolMovSpeed;
     public float _traceMovSpeed;
@@ -35,29 +37,41 @@ public class Monster : MonoBehaviour
     [Tooltip("몬스터의 공격 타입")]
     public eMonsterType _monsterType;
 
-    // public enum eMonsterState { Patrol, Idle, Trace, Attack, Acting, Dead, }
     public enum eMonsterType { Melee, Range, Charge, MeleeAndRange, }
     public enum eMonsterLevel { Normal, Elite, MiddleBoss, Boss, }
 
-    // [HideInInspector] public MonsterAI _monsterAI;
     [HideInInspector] public PlayerCombat _playerCombat;
     [HideInInspector] public NavMeshAgent _nav;
     [HideInInspector] public MonsterAI _brain;
     [HideInInspector] public Animator _animator;
 
-    public float _currHp;
-    public bool _isActing;
+    [HideInInspector] public bool _isActing;
     [HideInInspector] public bool _isFindPatrolPos;
-    public Vector3 _patrolPos;
+    [HideInInspector] public Vector3 _patrolPos;
+    public float _currHp;
     public float _movSpeed;
     public WaitForSeconds _actWaitSeconds;
+    [Tooltip("0번째 인덱스는 기본 mat, 1번째 인덱스는 피격시 잠깐바뀔 mat")]
+    public Material[] _materials;
+    
+    SkinnedMeshRenderer _mesh;
+    BoxCollider _mainColl;
+    Rigidbody _rbody;
 
     readonly int _hashDead = Animator.StringToHash("Dead");
+
+    protected virtual void Awake()
+    {
+        _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
+        _mainColl = GetComponent<BoxCollider>();
+        _rbody = GetComponent<Rigidbody>();
+    }
 
     public virtual void DecreaseHp(float amount)
     {
         // 몬스터의 피격관련 이펙트작업들
         _currHp -= amount;
+        StartCoroutine(OnHitEffect());
 
         if (_currHp == 0.0f)
         {
@@ -110,7 +124,7 @@ public class Monster : MonoBehaviour
     void Dead()
     {
         StartCoroutine(BuryBody());
-        this.GetComponent<BoxCollider>().enabled = false;
+        _mainColl.enabled = false;
         _brain.MonsterBrain = MonsterAI.eMonsterDesires.Dead;
         _nav.isStopped = true;
         _nav.enabled = false;
@@ -121,9 +135,18 @@ public class Monster : MonoBehaviour
     IEnumerator BuryBody()
     {
         yield return new WaitForSeconds(4.5f);
-        this.GetComponent<Rigidbody>().isKinematic = false;
+        _rbody.isKinematic = false;
 
         yield return new WaitForSeconds(1.2f);
         this.gameObject.SetActive(false);
+    }
+
+    IEnumerator OnHitEffect()
+    {
+        _mesh.material = _materials[1];
+
+        yield return new WaitForSeconds(Time.deltaTime * 3.0f);
+        
+        _mesh.material = _materials[0];
     }
 }

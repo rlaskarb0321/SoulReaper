@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
+    // 인스턴스화 고려중
+
     public enum eCameraState { Follow, Patrol, Charging }
     public Transform _target;
     public float _range; 

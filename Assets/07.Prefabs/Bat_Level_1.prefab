@@ -1398,8 +1398,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.91, y: 1.16, z: 0.79}
-  m_Center: {x: 0, y: 1.39, z: 0}
+  m_Size: {x: 0.91, y: 1.84, z: 0.79}
+  m_Center: {x: 0, y: 0.66, z: 0}
 --- !u!114 &7983990759367610500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1443,7 +1443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _level: 0
   _basicStat:
-    _health: 0
+    _health: 10
     _isAttackFirst: 1
     _traceRadius: 15
     _attakableRadius: 9
@@ -1457,11 +1457,14 @@ MonoBehaviour:
   _nav: {fileID: 0}
   _brain: {fileID: 0}
   _animator: {fileID: 0}
-  _currHp: 0
   _isActing: 0
   _isFindPatrolPos: 0
   _patrolPos: {x: 0, y: 0, z: 0}
+  _currHp: 0
   _movSpeed: 0
+  _materials:
+  - {fileID: 2100000, guid: 66bfedde0e774294cafa3d62f8d6d75d, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   _firePos: {fileID: 5257809215316306469}
   _projectile: {fileID: 1490659678486382040, guid: d615199ea05b1554fa8ccaa571d65d98,
     type: 3}
