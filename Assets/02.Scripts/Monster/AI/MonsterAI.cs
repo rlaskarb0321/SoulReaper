@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 // 몬스터들의 다음 행동 실행을 위해 몬스터 뇌의 욕구를 설정하는 클래스
-public class MonsterThink : MonoBehaviour
+public class MonsterAI : MonoBehaviour
 {
 
     // 몬스터가 하고자하는 욕구들의 종류
@@ -181,8 +181,8 @@ public class MonsterThink : MonoBehaviour
                 break;
             case eMonsterDesires.Retreat:
                 break;
-            default:
-                break;
+            case eMonsterDesires.Dead:
+                return;
         }
     }
 

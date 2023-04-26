@@ -42,7 +42,7 @@ public class Monster : MonoBehaviour
     // [HideInInspector] public MonsterAI _monsterAI;
     [HideInInspector] public PlayerCombat _playerCombat;
     [HideInInspector] public NavMeshAgent _nav;
-    [HideInInspector] public MonsterThink _brain;
+    [HideInInspector] public MonsterAI _brain;
     [HideInInspector] public Animator _animator;
 
     public float _currHp;
@@ -52,14 +52,17 @@ public class Monster : MonoBehaviour
     public float _movSpeed;
     public WaitForSeconds _actWaitSeconds;
 
+    readonly int _hashDead = Animator.StringToHash("Dead");
+
     public virtual void DecreaseHp(float amount)
     {
+        // 몬스터의 피격관련 이펙트작업들
+        _currHp -= amount;
 
-    }
-
-    public virtual void Dead()
-    {
-
+        if (_currHp == 0.0f)
+        {
+            Dead();
+        }
     }
 
     public virtual IEnumerator DoAttack()
@@ -102,5 +105,25 @@ public class Monster : MonoBehaviour
 
         if (!_nav.pathPending)
             _nav.SetDestination(_brain._target.position);
+    }
+
+    void Dead()
+    {
+        StartCoroutine(BuryBody());
+        this.GetComponent<BoxCollider>().enabled = false;
+        _brain.MonsterBrain = MonsterAI.eMonsterDesires.Dead;
+        _nav.isStopped = true;
+        _nav.enabled = false;
+
+        _animator.SetTrigger(_hashDead);
+    }
+
+    IEnumerator BuryBody()
+    {
+        yield return new WaitForSeconds(4.5f);
+        this.GetComponent<Rigidbody>().isKinematic = false;
+
+        yield return new WaitForSeconds(1.2f);
+        this.gameObject.SetActive(false);
     }
 }

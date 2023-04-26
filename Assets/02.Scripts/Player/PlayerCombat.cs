@@ -9,19 +9,28 @@ public class PlayerCombat : MonoBehaviour
     public GameObject _followCamObj;
 
     [Header("Attack")]
-    [Tooltip("공격시 전진거리")]public float _attackAdvancedDist;
-    [Tooltip("원거리공격 사용하는데 필요한 차징 시간")]public float _needChargingTime;
-    [Tooltip("현재 원거리 공격충전시간")]public float _curLongRangeChargingTime;
-    [Tooltip("낙하공격시 떨어지는 속도")] public float _fallAttackSpeed;
-    public List<GameObject> _hitEnemiesList; // 플레이어의 공격에 맞은 적과 관련된 게임Obj들을 관리해주는 리스트
+    public float _attackAdvancedDist; // 공격시 전진거리
+    public float _needChargingTime; // 원거리 공격 사용하는데 필요한 차징 시간
+    public float _curLongRangeChargingTime; // 현재 원거리 공격 충전시간
+    public float _fallAttackSpeed; // 낙하공격시 떨어지는 속도
+    // public List<GameObject> _hitEnemiesList; // 플레이어의 공격에 맞은 적과 관련된 게임Obj들을 관리해주는 리스트
+
+    [Header("Weapon")]
+    public GameObject _weaponObj;
+    enum eAttackStyle { NonCombat, Normal, DodgeAttack, FallAttack, Charging }
+    [SerializeField] eAttackStyle _attackStyle;
 
     [Header("Field")]
     Transform _player;
     Camera _cam;
     Animator _animator;
     Rigidbody _rbody;
-    BoxCollider _coll;
-    TrailRenderer _trailRender;
+
+    // Weapon
+    BoxCollider _weaponColl;
+    TrailRenderer _weaponTrail;
+    MeleeWeaponMgr _weapon;
+
     int _combo;
     bool _unFreeze;
 
@@ -45,12 +54,14 @@ public class PlayerCombat : MonoBehaviour
         _atkBehaviour = _animator.GetBehaviour<AttackComboBehaviour>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
         _rbody = GetComponent<Rigidbody>();
-        // _coll = _state._weapon.GetComponent<BoxCollider>();
-        _coll = _state._weapon.GetComponentInChildren<BoxCollider>();
-        _trailRender = _state._weapon.GetComponentInChildren<TrailRenderer>();
-        _hitEnemiesList = new List<GameObject>();
+        // _hitEnemiesList = new List<GameObject>();
         _mov = GetComponent<PlayerMove>();
         _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
+
+        // Weapon
+        _weaponColl = _weaponObj.GetComponentInChildren<BoxCollider>();
+        _weaponTrail = _weaponObj.GetComponentInChildren<TrailRenderer>();
+        _weapon = _weaponObj.GetComponentInChildren<MeleeWeaponMgr>();
     }
 
     void Start()
@@ -58,6 +69,7 @@ public class PlayerCombat : MonoBehaviour
         _cam = Camera.main;
         _player = this.transform;
         _combo = 0;
+        _attackStyle = eAttackStyle.NonCombat;
 
         InitChargingGauge();
     }
@@ -75,6 +87,9 @@ public class PlayerCombat : MonoBehaviour
             _state.State = PlayerState.eState.Attack;
             RotateToClickDir();
             _animator.SetInteger(_hashCombo, ++_combo);
+
+            // 근거리 일반공격 관련
+            _attackStyle = eAttackStyle.Normal;
         }
 
         // 차징모션으로 전환 관련
@@ -109,25 +124,31 @@ public class PlayerCombat : MonoBehaviour
             _state.State = PlayerState.eState.Idle;
         }
 
-        // 04.25 공격에 적중한 적과 관련된 요소들에대한 작업
-        if (_hitEnemiesList.Count > 0)
-        {
-            _hitEnemiesList = _hitEnemiesList.Distinct().ToList();
+        #region 04.26 공격에 적중한 적과 관련된 요소들에대한 작업
+        //if (_hitEnemiesList.Count > 0)
+        //{
+        //    _hitEnemiesList = _hitEnemiesList.Distinct().ToList();
 
-            for (int i = _hitEnemiesList.Count - 1; i >= 0; i--)
-            {
-                if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("Enemy"))
-                {
-                    Debug.Log(_hitEnemiesList[i].name + "체력 깎");
-                    _hitEnemiesList.Remove(_hitEnemiesList[i]);   
-                }
-                else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
-                {
-                    Debug.Log(_hitEnemiesList[i].name + "반사");
-                    _hitEnemiesList.Remove(_hitEnemiesList[i]);
-                }
-            }
-        }
+        //    for (int i = _hitEnemiesList.Count - 1; i >= 0; i--)
+        //    {
+        //        if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        //        {
+        //            Debug.Log(_hitEnemiesList[i].name + "체력 깎");
+        //            _hitEnemiesList.Remove(_hitEnemiesList[i]);
+
+        //            //Monster monster = _hitEnemiesList[i].GetComponent<Monster>();
+        //            //monster.DecreaseHp(CalcDamage());
+        //            //_hitEnemiesList.Remove(monster.gameObject);
+        //        }
+        //        else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
+        //        {
+        //            Debug.Log(_hitEnemiesList[i].name + "반사");
+        //            _hitEnemiesList.Remove(_hitEnemiesList[i]);
+        //        }
+        //    }
+        //    _hitEnemiesList.Clear();
+        //}
+        #endregion
     }
 
     /// <summary>
@@ -192,7 +213,7 @@ public class PlayerCombat : MonoBehaviour
 
         _state.State = PlayerState.eState.Idle;
         _animator.SetInteger(_hashCombo, _combo);
-
+        _attackStyle = eAttackStyle.NonCombat;
     }
 
     public IEnumerator ActFallAttack(Rigidbody rbody, Animator animator)
@@ -202,6 +223,7 @@ public class PlayerCombat : MonoBehaviour
         float originAnimSpeed;
 
         animator.SetBool(_hashFallAttack, true);
+        _attackStyle = eAttackStyle.FallAttack;
         rbody.isKinematic = true;
         originAnimSpeed = animator.speed;
         yield return new WaitUntil(() => _unFreeze);
@@ -240,6 +262,7 @@ public class PlayerCombat : MonoBehaviour
             _animator.SetBool(_hashFallAttack, false);
             _state.State = PlayerState.eState.Idle;
             _unFreeze = false;
+            _attackStyle = eAttackStyle.NonCombat;
             return;
         }
 
@@ -250,10 +273,29 @@ public class PlayerCombat : MonoBehaviour
     public void SetActiveWeaponColl()
     {
         // 현재 boxcollider컴포넌트의 활성화값을 저장하고 반전시킨값을 대입시킴
-        bool collEnable = _coll.enabled;
-        bool trailEnable = _trailRender.emitting;
+        bool collEnable = _weaponColl.enabled;
+        bool trailEnable = _weaponTrail.emitting;
 
-        _trailRender.emitting = !trailEnable;
-        _coll.enabled = !collEnable;
+        _weaponTrail.emitting = !trailEnable;
+        _weaponColl.enabled = !collEnable;
+    }
+
+    public float CalcDamage()
+    {
+        float damage = 0.0f;
+        switch (_attackStyle)
+        {
+            case eAttackStyle.Normal:
+                damage = _weapon._atkPower * 1.0f;
+                break;
+            case eAttackStyle.FallAttack:
+                damage = _weapon._atkPower * 2.5f;
+                break;
+            case eAttackStyle.Charging:
+                damage = _weapon._atkPower * 2.0f;
+                break;
+        }
+
+        return damage;
     }
 }   

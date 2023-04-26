@@ -45,7 +45,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.018, y: 0.013, z: 0.015}
+  m_Size: {x: 0.018, y: 0.013, z: 0.017}
   m_Center: {x: 0, y: -0.007, z: 0}
 --- !u!96 &269420137950791832
 TrailRenderer:
@@ -68,7 +68,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3632881d102df0f47864d899fa15a49d, type: 2}
+  - {fileID: 2100000, guid: 228fc1317f61ac4408d84a68ea9822d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,7 +89,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.18
+  m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 4
@@ -97,8 +97,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.89320374
+        time: 0.016262054
+        value: 0.2718506
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -106,22 +106,13 @@ TrailRenderer:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.09638783
-        value: 0.48434561
-        inSlope: -1.7206463
-        outSlope: -1.7206463
+        time: 0.98779297
+        value: 0.4951458
+        inSlope: 0.055538904
+        outSlope: 0.055538904
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.41862765
-        outWeight: 0.24772596
-      - serializedVersion: 3
-        time: 0.69514465
-        value: 0.09708819
-        inSlope: -0.25098363
-        outSlope: -0.25098363
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.3942612
+        inWeight: 0.874435
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -176,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f846490d17ee7eb47869dfc4f1921607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _atkPower: 10
 --- !u!1 &6013990982369288243
 GameObject:
   m_ObjectHideFlags: 0

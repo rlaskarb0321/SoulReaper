@@ -24,7 +24,7 @@ public class LongRangeBehav : Monster
 
     void Awake()
     {
-        _brain = GetComponent<MonsterThink>();
+        _brain = GetComponent<MonsterAI>();
         _animator = GetComponent<Animator>();
         _nav = GetComponent<NavMeshAgent>();
         _projectilePool = GetComponent<ProjectilePool>();
@@ -34,11 +34,12 @@ public class LongRangeBehav : Monster
     void Start()
     {
         _actWaitSeconds = new WaitForSeconds(_basicStat._actDelay);
+        _currHp = _basicStat._health;
     }
 
     void Update()
     {
-        if (_brain.MonsterBrain == MonsterThink.eMonsterDesires.Dead)
+        if (_brain.MonsterBrain == MonsterAI.eMonsterDesires.Dead)
             return;
 
         ActMonster();
@@ -48,21 +49,21 @@ public class LongRangeBehav : Monster
     {
         switch (_brain.MonsterBrain)
         {
-            case MonsterThink.eMonsterDesires.Idle:
+            case MonsterAI.eMonsterDesires.Idle:
                 _animator.SetBool(_hashMove, false);
                 _animator.SetTrigger(_hashIdle);
                 break;
-            case MonsterThink.eMonsterDesires.Patrol:
+            case MonsterAI.eMonsterDesires.Patrol:
                 if (!_nav.pathPending)
                     _nav.SetDestination(_brain._patrolPos);
 
                 _animator.SetBool(_hashMove, true);
                 break;
-            case MonsterThink.eMonsterDesires.Trace:
+            case MonsterAI.eMonsterDesires.Trace:
                 _animator.SetBool(_hashMove, true);
                 TraceTarget();
                 break;
-            case MonsterThink.eMonsterDesires.Attack:
+            case MonsterAI.eMonsterDesires.Attack:
                 if (_isActing)
                     return;
 
@@ -71,12 +72,14 @@ public class LongRangeBehav : Monster
                 _nav.velocity = Vector3.zero;
                 StartCoroutine(DoAttack());
                 break;
-            case MonsterThink.eMonsterDesires.Defense:
+            case MonsterAI.eMonsterDesires.Defense:
                 break;
-            case MonsterThink.eMonsterDesires.Recover:
+            case MonsterAI.eMonsterDesires.Recover:
                 break;
-            case MonsterThink.eMonsterDesires.Retreat:
+            case MonsterAI.eMonsterDesires.Retreat:
                 break;
+            case MonsterAI.eMonsterDesires.Dead:
+                return;
         }
     }
 
@@ -95,7 +98,10 @@ public class LongRangeBehav : Monster
         yield return new WaitUntil(() => _attackBehaviour._isEnd);
         yield return _actWaitSeconds;
 
-        _brain.MonsterBrain = MonsterThink.eMonsterDesires.Trace;
+        if (_brain.MonsterBrain == MonsterAI.eMonsterDesires.Dead)
+            yield break;
+
+        _brain.MonsterBrain = MonsterAI.eMonsterDesires.Trace;
         _isActing = false;
         _isRunAtkCor = false;
     }
