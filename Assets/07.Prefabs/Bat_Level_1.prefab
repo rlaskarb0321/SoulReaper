@@ -1320,7 +1320,7 @@ Transform:
   m_GameObject: {fileID: 5257809214769901429}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.689, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5257809214770066275}
@@ -1429,6 +1429,8 @@ MonoBehaviour:
   _target: {fileID: 0}
   _patrolPos: {x: 0, y: 0, z: 0}
   _idleTime: 4
+  _needDefenseHpPercentage: 0.9
+  _needDefense: 0
 --- !u!114 &9191253057732922050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1443,7 +1445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _level: 0
   _basicStat:
-    _health: 10
+    _health: 100
     _isAttackFirst: 1
     _traceRadius: 15
     _attakableRadius: 9

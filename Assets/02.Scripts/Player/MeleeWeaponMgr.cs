@@ -29,6 +29,7 @@ public class MeleeWeaponMgr : MonoBehaviour
             return;
 
         var collisionPoint = other.ClosestPoint(transform.position);
+        Instantiate(_slashEffect[0], collisionPoint, Quaternion.identity);
     }
 
     // 공격에 적중된 적들을 저장해 둘 리스트관련 작업
@@ -56,7 +57,8 @@ public class MeleeWeaponMgr : MonoBehaviour
             }
             else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
             {
-                Debug.Log(_hitEnemiesList[i].name + "반사");
+                EnemyProjectile projectile = _hitEnemiesList[i].GetComponent<EnemyProjectile>();
+                projectile.AllowBaseballHit(_combat.transform.forward);
                 _hitEnemiesList.Remove(_hitEnemiesList[i]);
             }
         }

@@ -75,6 +75,7 @@ public class LongRangeBehav : Monster
                 StartCoroutine(DoAttack());
                 break;
             case MonsterAI.eMonsterDesires.Defense:
+                Debug.Log("카이팅을 해야합니다.");
                 break;
             case MonsterAI.eMonsterDesires.Recover:
                 break;

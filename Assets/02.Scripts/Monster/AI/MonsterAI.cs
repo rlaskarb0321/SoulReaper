@@ -43,7 +43,8 @@ public class MonsterAI : MonoBehaviour
     [HideInInspector] public bool _isTargetSet;
     [HideInInspector] public Transform _target;
     [HideInInspector] public Vector3 _patrolPos;
-    public float _idleTime;
+    [Range(2.0f, 10.0f)] public float _idleTime; // 행동후 다음행동까지 기다리는 시간값
+    [Range(0.0f, 1.0f)]public float _needDefenseHpPercentage; // 해당값 이하일때 방어(카이팅, 가드)가 필요하다고 생각하게되는 hp 퍼센티지
 
 
     // Field
@@ -51,6 +52,7 @@ public class MonsterAI : MonoBehaviour
     NavMeshAgent _nav;
     int _playerTeamLayer;
     bool _isFindPatrolPos;
+    [SerializeField] bool _needDefense;
 
     void Awake()
     {
@@ -62,6 +64,7 @@ public class MonsterAI : MonoBehaviour
     {
         _playerTeamLayer = 1 << LayerMask.NameToLayer("PlayerTeam");
         MonsterBrain = eMonsterDesires.Patrol;
+        
     }
 
     void Update()
@@ -166,8 +169,19 @@ public class MonsterAI : MonoBehaviour
                     return;
                 if (_monsterBase._isActing)
                     return;
+                if (_needDefense)
+                {
+                    MonsterBrain = eMonsterDesires.Defense;
+                    break;
+                }
 
                 float targetDist = Vector3.Distance(transform.position, _target.position);
+                
+                if (DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType))
+                {
+                    MonsterBrain = eMonsterDesires.Defense;
+                    break;
+                }
 
                 if (targetDist <= _monsterBase._basicStat._attakableRadius)
                     MonsterBrain = eMonsterDesires.Attack;
@@ -213,5 +227,31 @@ public class MonsterAI : MonoBehaviour
 
         yield return waitSeconds;
         _isFindPatrolPos = false;
+    }
+
+    bool DetermineWhethereNeedDefense(float targetDist, int monsterType)
+    {
+        bool needDefense = false;
+
+        switch ((Monster.eMonsterType)monsterType)
+        {
+            case Monster.eMonsterType.Melee:
+                needDefense = _monsterBase._currHp / _monsterBase._basicStat._health < _needDefenseHpPercentage ? true : false;
+                return needDefense;
+
+            case Monster.eMonsterType.Range:
+                needDefense = targetDist <= _monsterBase._basicStat._kitingMovSpeed ? true : false;
+                return needDefense;
+
+            case Monster.eMonsterType.Charge:
+                return needDefense;
+
+            case Monster.eMonsterType.MeleeAndRange:
+                return needDefense;
+            
+            default:
+                return needDefense;
+        }
+
     }
 }

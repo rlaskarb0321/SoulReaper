@@ -10,17 +10,24 @@ public class EnemyProjectile : MonoBehaviour
     public float _lifeTime;
     public int _maxPoolCount;
     [HideInInspector] public bool _isReleased = false;
+    public float _dmg;
 
     IObjectPool<EnemyProjectile> _managedPool;
     Rigidbody _rbody;
+    bool _isBaseballHit;
+    float _originMovSpeed;
 
-    void Start()
+    void Awake()
     {
         _rbody = GetComponent<Rigidbody>();
+        _originMovSpeed = _movSpeed;
     }
 
     void OnEnable()
     {
+        _movSpeed = _originMovSpeed;
+        _isBaseballHit = false;
+
         StartCoroutine(DestroySelf(_lifeTime));
     }
 
@@ -31,6 +38,19 @@ public class EnemyProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (_isBaseballHit)
+        {
+            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                Monster monster = other.GetComponent<Monster>();
+                monster.DecreaseHp(_dmg);
+                GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
+                Destroy(effect, 0.5f);
+
+                StartCoroutine(DestroySelf(0.1f));
+            }
+        }
+
         if (other.gameObject.tag == "Player")
         {
             GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
@@ -51,6 +71,15 @@ public class EnemyProjectile : MonoBehaviour
     public void SetManagedPool(IObjectPool<EnemyProjectile> pool)
     {
         _managedPool = pool;
+    }
+
+    public void AllowBaseballHit(Vector3 hitDir)
+    {
+        float hitMovSpeed = _movSpeed * 2.3f;
+
+        _isBaseballHit = true;
+        transform.forward = hitDir;
+        _movSpeed = hitMovSpeed;
     }
 
     IEnumerator DestroySelf(float lifeTime)

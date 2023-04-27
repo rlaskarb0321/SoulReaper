@@ -475,6 +475,7 @@ MonoBehaviour:
   _target: {fileID: 0}
   _patrolPos: {x: 0, y: 0, z: 0}
   _idleTime: 4
+  _needDefenseHpPercentage: 0.2
 --- !u!114 &4451395563012008798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,10 +504,10 @@ MonoBehaviour:
   _nav: {fileID: 0}
   _brain: {fileID: 0}
   _animator: {fileID: 0}
-  _currHp: 0
   _isActing: 0
   _isFindPatrolPos: 0
   _patrolPos: {x: 0, y: 0, z: 0}
+  _currHp: 0
   _movSpeed: 0
   _materials:
   - {fileID: 2100000, guid: 90408e15610415d439be9d498e36cd4d, type: 2}

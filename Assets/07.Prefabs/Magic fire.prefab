@@ -14525,6 +14525,7 @@ MonoBehaviour:
   _lifeTime: 15
   _maxPoolCount: 5
   _isReleased: 0
+  _dmg: 10
 --- !u!1 &1490689270972087398
 GameObject:
   m_ObjectHideFlags: 0
