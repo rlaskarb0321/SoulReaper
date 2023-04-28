@@ -10,7 +10,6 @@ public class LongRangeBehav : Monster
     public GameObject _projectile;
     [Range(1, 3)] public int _numOfAttacks; // 몬스터가 행하는 공격의 가짓수
     public float _kitingDist; // 플레이어를 카이팅하기위해 멀어지고자하는 거리값
-    public float _idleTime;
 
     [Header("Component")]
     AttackEndBehaviour _attackBehaviour;
@@ -18,6 +17,7 @@ public class LongRangeBehav : Monster
 
     [Header("Field")]
     bool _isRunAtkCor;
+    bool _isRunDefCor;
     readonly int _hashAttack1 = Animator.StringToHash("Attack1");
     readonly int _hashIdle = Animator.StringToHash("Idle");
     readonly int _hashMove = Animator.StringToHash("Move");
@@ -70,16 +70,22 @@ public class LongRangeBehav : Monster
                     return;
 
                 _isActing = true;
-                _nav.isStopped = true;
                 _nav.velocity = Vector3.zero;
-                StartCoroutine(DoAttack());
+                _nav.isStopped = true;
+                if (!_isRunAtkCor)
+                {
+                    _isRunAtkCor = true;
+                    StartCoroutine(DoAttack()); 
+                }
                 break;
             case MonsterAI.eMonsterDesires.Defense:
-                Debug.Log("카이팅을 해야합니다.");
-                break;
-            case MonsterAI.eMonsterDesires.Recover:
-                break;
-            case MonsterAI.eMonsterDesires.Retreat:
+                StopNav(true);
+                // 플레이어를 바라본 뒤, 몇프레임만큼 뒤로이동, 코루틴에서 brain상태가 defense일때까지 반복시키자
+                if (!_isRunDefCor)
+                {
+                    _isRunDefCor = true;
+                    StartCoroutine(DefenseSelf());
+                }
                 break;
             case MonsterAI.eMonsterDesires.Dead:
                 return;
@@ -88,10 +94,6 @@ public class LongRangeBehav : Monster
 
     public override IEnumerator DoAttack()
     {
-        if (_isRunAtkCor)
-            yield break;
-
-        _isRunAtkCor = true;
         yield return StartCoroutine(LookTarget());
         yield return new WaitForSeconds(0.1f);
 
@@ -120,4 +122,22 @@ public class LongRangeBehav : Monster
     {
         _isActing = false;
     }
+
+    IEnumerator DefenseSelf()
+    {
+        Vector3 dir = -(_brain._target.position - transform.position).normalized;
+        float kitingDist = _kitingDist;
+
+        while (_brain.MonsterBrain == MonsterAI.eMonsterDesires.Defense && kitingDist > 0.0f)
+        {
+            kitingDist -= Time.deltaTime;
+            print(kitingDist);
+            _rbody.MovePosition(_rbody.position + dir * _basicStat._kitingMovSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        _brain.MonsterBrain = MonsterAI.eMonsterDesires.Trace;
+        _isRunDefCor = false;
+    }
+
 }

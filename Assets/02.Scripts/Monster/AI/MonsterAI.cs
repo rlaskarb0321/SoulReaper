@@ -8,7 +8,7 @@ public class MonsterAI : MonoBehaviour
 {
 
     // 몬스터가 하고자하는 욕구들의 종류
-    public enum eMonsterDesires { Patrol, Idle, Trace, Attack, Defense, Recover, Retreat, Dead } 
+    public enum eMonsterDesires { Patrol, Idle, Trace, Attack, Defense, Dead } 
     [SerializeField] private eMonsterDesires _monsterBrain;
     public eMonsterDesires MonsterBrain 
     {
@@ -32,11 +32,6 @@ public class MonsterAI : MonoBehaviour
                 case eMonsterDesires.Defense:
                     _monsterBase._nav.speed = _monsterBase._basicStat._kitingMovSpeed;
                     break;
-                case eMonsterDesires.Recover:
-                    break;
-                case eMonsterDesires.Retreat:
-                    _monsterBase._nav.speed = _monsterBase._basicStat._retreatMovSpeed;
-                    break;
             }
         }
     }
@@ -50,7 +45,8 @@ public class MonsterAI : MonoBehaviour
     // Field
     Monster _monsterBase;
     NavMeshAgent _nav;
-    int _playerTeamLayer;
+    int _playerSearchLayer;
+    int _soulOrbSearchLayer;
     bool _isFindPatrolPos;
     [SerializeField] bool _needDefense;
 
@@ -62,7 +58,8 @@ public class MonsterAI : MonoBehaviour
 
     void Start()
     {
-        _playerTeamLayer = 1 << LayerMask.NameToLayer("PlayerTeam");
+        _playerSearchLayer = 1 << LayerMask.NameToLayer("PlayerTeam");
+        _soulOrbSearchLayer = 1 << LayerMask.NameToLayer("SoulOrb");
         MonsterBrain = eMonsterDesires.Patrol;
         
     }
@@ -120,13 +117,14 @@ public class MonsterAI : MonoBehaviour
         //    //    //MonsterBrain = eMonsterDesires.Attack;
         //}
         #endregion 23/04/17 몬스터 Brain 작동방식 전환
+        float targetDist;
 
         switch (MonsterBrain)
         {
             case eMonsterDesires.Idle:
             case eMonsterDesires.Patrol:
                 Collider[] detectColls = Physics.OverlapSphere(transform.position, _monsterBase._basicStat._traceRadius,
-                    _playerTeamLayer);
+                    _playerSearchLayer);
 
                 if (detectColls.Length >= 1)
                 {
@@ -165,24 +163,18 @@ public class MonsterAI : MonoBehaviour
 
             case eMonsterDesires.Attack:
             case eMonsterDesires.Trace:
+                targetDist = Vector3.Distance(transform.position, _target.position);
+
                 if (!_monsterBase._basicStat._isAttackFirst)
                     return;
                 if (_monsterBase._isActing)
                     return;
-                if (_needDefense)
-                {
-                    MonsterBrain = eMonsterDesires.Defense;
-                    break;
-                }
-
-                float targetDist = Vector3.Distance(transform.position, _target.position);
-                
                 if (DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType))
                 {
                     MonsterBrain = eMonsterDesires.Defense;
                     break;
                 }
-
+                
                 if (targetDist <= _monsterBase._basicStat._attakableRadius)
                     MonsterBrain = eMonsterDesires.Attack;
                 else
@@ -190,10 +182,12 @@ public class MonsterAI : MonoBehaviour
                 break;
 
             case eMonsterDesires.Defense:
-                break;
-            case eMonsterDesires.Recover:
-                break;
-            case eMonsterDesires.Retreat:
+                //targetDist = Vector3.Distance(transform.position, _target.position);
+                //if (!DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType))
+                //{
+                //    MonsterBrain = eMonsterDesires.Trace;
+                //    break;
+                //}
                 break;
             case eMonsterDesires.Dead:
                 return;
@@ -229,6 +223,7 @@ public class MonsterAI : MonoBehaviour
         _isFindPatrolPos = false;
     }
 
+    // 몬스터타입별로 상이한 방어모드돌입 조건
     bool DetermineWhethereNeedDefense(float targetDist, int monsterType)
     {
         bool needDefense = false;
@@ -240,7 +235,7 @@ public class MonsterAI : MonoBehaviour
                 return needDefense;
 
             case Monster.eMonsterType.Range:
-                needDefense = targetDist <= _monsterBase._basicStat._kitingMovSpeed ? true : false;
+                needDefense = targetDist <= _monsterBase._basicStat._attakableRadius * 0.5f ? true : false;
                 return needDefense;
 
             case Monster.eMonsterType.Charge:

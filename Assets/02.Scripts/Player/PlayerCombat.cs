@@ -11,9 +11,8 @@ public class PlayerCombat : MonoBehaviour
     [Header("Attack")]
     public float _attackAdvancedDist; // 공격시 전진거리
     public float _needChargingTime; // 원거리 공격 사용하는데 필요한 차징 시간
-    public float _curLongRangeChargingTime; // 현재 원거리 공격 충전시간
+    [HideInInspector] public float _curLongRangeChargingTime; // 현재 원거리 공격 충전시간
     public float _fallAttackSpeed; // 낙하공격시 떨어지는 속도
-    // public List<GameObject> _hitEnemiesList; // 플레이어의 공격에 맞은 적과 관련된 게임Obj들을 관리해주는 리스트
 
     [Header("Weapon")]
     public GameObject _weaponObj;
@@ -38,7 +37,7 @@ public class PlayerCombat : MonoBehaviour
     AttackComboBehaviour _atkBehaviour;
     SmoothDodgeBehaviour _smoothDodgeBehaviour;
     PlayerMove _mov;
-    PlayerState _state;
+    PlayerFSM _state;
     FollowCamera _followCam;
 
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
@@ -50,11 +49,10 @@ public class PlayerCombat : MonoBehaviour
     void Awake()
     {
         _animator = GetComponent<Animator>();
-        _state = GetComponent<PlayerState>();
+        _state = GetComponent<PlayerFSM>();
         _atkBehaviour = _animator.GetBehaviour<AttackComboBehaviour>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
         _rbody = GetComponent<Rigidbody>();
-        // _hitEnemiesList = new List<GameObject>();
         _mov = GetComponent<PlayerMove>();
         _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
 
@@ -76,15 +74,17 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        if (_state.State == PlayerState.eState.Hit)
+        if (_state.State == PlayerFSM.eState.Hit)
+            return;
+        if (_state.State == PlayerFSM.eState.Dead)
             return;
 
         // 근or원거리공격으로 모션전환관련
         if (Input.GetMouseButtonDown(0) && 
-            (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move))
+            (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move))
         {
             // 근거리 공격
-            _state.State = PlayerState.eState.Attack;
+            _state.State = PlayerFSM.eState.Attack;
             RotateToClickDir();
             _animator.SetInteger(_hashCombo, ++_combo);
 
@@ -94,8 +94,8 @@ public class PlayerCombat : MonoBehaviour
 
         // 차징모션으로 전환 관련
         else if (Input.GetMouseButton(1) && 
-            (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move
-            || _state.State == PlayerState.eState.Charging))
+            (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move
+            || _state.State == PlayerFSM.eState.Charging))
         {
             // 원거리공격
             if (_curLongRangeChargingTime < _needChargingTime)
@@ -104,7 +104,7 @@ public class PlayerCombat : MonoBehaviour
                 _animator.SetFloat(_hashChargingValue, _curLongRangeChargingTime);
             }
 
-            _state.State = PlayerState.eState.Charging;
+            _state.State = PlayerFSM.eState.Charging;
             RotateToClickDir();
             _followCam.CamState = FollowCamera.eCameraState.Charging;
         }
@@ -121,7 +121,7 @@ public class PlayerCombat : MonoBehaviour
 
             InitChargingGauge();
             _followCam.CamState = FollowCamera.eCameraState.Follow;
-            _state.State = PlayerState.eState.Idle;
+            _state.State = PlayerFSM.eState.Idle;
         }
 
         #region 04.26 공격에 적중한 적과 관련된 요소들에대한 작업
@@ -197,7 +197,7 @@ public class PlayerCombat : MonoBehaviour
     {
         _combo = 0;
 
-        if (_state.State == PlayerState.eState.Hit)
+        if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead)
         {
             _animator.SetInteger(_hashCombo, _combo);
             return;
@@ -211,7 +211,7 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-        _state.State = PlayerState.eState.Idle;
+        _state.State = PlayerFSM.eState.Idle;
         _animator.SetInteger(_hashCombo, _combo);
         _attackStyle = eAttackStyle.NonCombat;
     }
@@ -242,7 +242,7 @@ public class PlayerCombat : MonoBehaviour
                     break;
                 }
 
-                _state.State = PlayerState.eState.Attack; // 공격상태로 전환
+                _state.State = PlayerFSM.eState.Attack; // 공격상태로 전환
                 _rbody.MovePosition(_rbody.position + Vector3.down * _fallAttackSpeed * Time.deltaTime);
                 yield return new WaitForFixedUpdate();
             }
@@ -260,12 +260,11 @@ public class PlayerCombat : MonoBehaviour
         if (_unFreeze)
         {
             _animator.SetBool(_hashFallAttack, false);
-            _state.State = PlayerState.eState.Idle;
+            _state.State = PlayerFSM.eState.Idle;
             _unFreeze = false;
             _attackStyle = eAttackStyle.NonCombat;
             return;
         }
-
         _unFreeze = true;
     }
 
@@ -289,7 +288,7 @@ public class PlayerCombat : MonoBehaviour
                 damage = _weapon._atkPower * 1.0f;
                 break;
             case eAttackStyle.FallAttack:
-                damage = _weapon._atkPower * 2.5f;
+                damage = _weapon._atkPower * 3.0f;
                 break;
             case eAttackStyle.Charging:
                 damage = _weapon._atkPower * 2.0f;

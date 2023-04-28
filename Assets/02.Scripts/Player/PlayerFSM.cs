@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour
+public class PlayerFSM : MonoBehaviour
 {
     public enum eState { Idle, Fall, Move, Dodge, Attack, Charging, Hit, Dead }
     [SerializeField] private eState _state;
@@ -19,14 +19,12 @@ public class PlayerState : MonoBehaviour
     readonly int _hashRoll = Animator.StringToHash("isRoll");
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
     readonly int _hashDodgeAttack = Animator.StringToHash("DodgeAttack");
-    readonly int _hashHit = Animator.StringToHash("Hit");
     readonly int _hashGetUP = Animator.StringToHash("GetUP");
     bool _isRoll;
     int _atkCombo;
     Vector3 _atkDir;
+    public Vector3 AtkDir { set { _atkDir = value; } }
     float _originHitDelayValue;
-    GameObject _followCamObj;
-    FollowCamera _followCam;
 
     // public
     [Header("Combat")]
@@ -44,8 +42,6 @@ public class PlayerState : MonoBehaviour
         _mov = GetComponent<PlayerMove>();
         _animator = GetComponent<Animator>();
         _fallBehaviour = _animator.GetBehaviour<FallBehaviour>();
-        _followCamObj = _combat._followCamObj;
-        _followCam = _followCamObj.GetComponent<FollowCamera>();
     }
 
     void Start()
@@ -57,6 +53,9 @@ public class PlayerState : MonoBehaviour
 
     void Update()
     {
+        if (_state == eState.Dead)
+            return;
+
         if (_fallBehaviour._isFall)
             Fall();
 
@@ -70,21 +69,6 @@ public class PlayerState : MonoBehaviour
             KnockBack();
             return;
         }
-    }
-
-    // 플레이어가 데미지를받음과 어느쪽방향이었는지 알려주는 함수
-    public void GetHit(Vector3 attackDir)
-    {
-        if (_state == eState.Hit)
-            return;
-
-        _state = eState.Hit;
-        StartCoroutine(_followCam.ShakingCamera());
-        attackDir = attackDir.normalized;
-        transform.forward = -attackDir;
-        _animator.SetTrigger(_hashHit);
-        _combat.EndComboAtk();
-        _atkDir = attackDir;
     }
 
     // 맞은방향으로 일정시간동안 넉백시키는 함수

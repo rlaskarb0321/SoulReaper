@@ -54,8 +54,8 @@ public class EnemyProjectile : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
-            PlayerState player = other.GetComponent<PlayerState>();
-            player.GetHit(transform.forward);
+            PlayerStat player = other.GetComponent<PlayerStat>();
+            player.DecreaseHP(transform.forward, _dmg);
             Destroy(effect, 0.5f);
             StartCoroutine(DestroySelf(0.1f));
         }

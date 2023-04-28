@@ -9,6 +9,7 @@ public class MeleeRangeBehav : Monster
     [Range(1, 3)]
     public int _numOfAttacks;
     public GameObject _attackCollObj;
+    public float _damage;
 
     AttackEndBehaviour _attackBehaviour;
     BoxCollider _attackBoxColl;
@@ -69,10 +70,6 @@ public class MeleeRangeBehav : Monster
                 StartCoroutine(DoAttack());
                 break;
             case MonsterAI.eMonsterDesires.Defense:
-                break;
-            case MonsterAI.eMonsterDesires.Recover:
-                break;
-            case MonsterAI.eMonsterDesires.Retreat:
                 break;
             case MonsterAI.eMonsterDesires.Dead:
                 StopCoroutine(DoAttack());

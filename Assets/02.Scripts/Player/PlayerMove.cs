@@ -4,16 +4,16 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     [Header("Move & Rotate")]
-    public float _h;
-    public float _v;
     public float _movSpeed;
     public float _rotSpeed;
+    [HideInInspector] public float _v;
+    [HideInInspector] public float _h;
 
     [Header("Dodge")]
     public float _dodgeSpeed; // 구를때 가속시킬 값 (dodgeSpeed = _dodgeSpeed * _movSpeed)
     public float _dodgeDur; // 구르기상태가 지속될 시간
     public float _dodgeCoolDown;
-
+    
     [Header("Follow Cam")]
     public GameObject _followCamObj;
 
@@ -25,7 +25,7 @@ public class PlayerMove : MonoBehaviour
 
     [Header("Component")]
     PlayerCombat _combat;
-    PlayerState _state;
+    PlayerFSM _state;
     FollowCamera _followCam;
     FallBehaviour _fallBehaviour;
     SmoothDodgeBehaviour _smoothDodgeBehaviour;
@@ -38,7 +38,7 @@ public class PlayerMove : MonoBehaviour
     {
         _rbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-        _state = GetComponent<PlayerState>();
+        _state = GetComponent<PlayerFSM>();
         _combat = GetComponent<PlayerCombat>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
         _fallBehaviour = _animator.GetBehaviour<FallBehaviour>();
@@ -52,14 +52,16 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_state.State == PlayerState.eState.Hit)
+        if (_state.State == PlayerFSM.eState.Hit)
+            return;
+        if (_state.State == PlayerFSM.eState.Dead)
             return;
 
         // 주기적으로 중력값을계산해 떨어질때 모션의 재생여부결정
         _animator.SetFloat(_hashYVelocity, _rbody.velocity.y);
 
         // idle, fall, move상태가 아니라면 움직이게 조작할 수 없음
-        if (_state.State != PlayerState.eState.Idle && _state.State != PlayerState.eState.Fall && _state.State != PlayerState.eState.Move)
+        if (_state.State != PlayerFSM.eState.Idle && _state.State != PlayerFSM.eState.Fall && _state.State != PlayerFSM.eState.Move)
         {
             _animator.SetBool(_hashMove, false);
             return;
@@ -71,20 +73,22 @@ public class PlayerMove : MonoBehaviour
             MovePlayer(); 
             RotatePlayer();
         }
-        // h나 v중 하나도 입력되지않고, 떨어지는상태와 공격상태가 아니라면 = idle상태
-        else if (!_fallBehaviour._isFall && _state.State != PlayerState.eState.Attack)
+        // h나 v중 하나도 입력되지않고, 떨어지는상태와 공격상태와 사망상태가 아니라면 = idle상태
+        else if (!_fallBehaviour._isFall && _state.State != PlayerFSM.eState.Attack && _state.State != PlayerFSM.eState.Dead)
         {
-            _state.State = PlayerState.eState.Idle;
+            _state.State = PlayerFSM.eState.Idle;
             _animator.SetBool(_hashMove, false);
         }
     }
 
     void Update()
     {
-        if (_state.State == PlayerState.eState.Hit)
+        if (_state.State == PlayerFSM.eState.Hit)
+            return;
+        if (_state.State == PlayerFSM.eState.Dead)
             return;
 
-        if (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move || _state.State == PlayerState.eState.Fall)
+        if (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move || _state.State == PlayerFSM.eState.Fall)
         {
             _h = Input.GetAxisRaw("Horizontal");
             _v = Input.GetAxisRaw("Vertical");
@@ -92,8 +96,8 @@ public class PlayerMove : MonoBehaviour
 
         // 회피키 입력관련
         if (Input.GetKeyDown(KeyCode.Space) && 
-            (_state.State == PlayerState.eState.Idle || _state.State == PlayerState.eState.Move ||
-            _state.State == PlayerState.eState.Charging) && _dodgeCoolDown == _originDodgeCoolDown)
+            (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move ||
+            _state.State == PlayerFSM.eState.Charging) && _dodgeCoolDown == _originDodgeCoolDown)
             StartCoroutine(Dodge(_h, _v));
     }
 
@@ -102,12 +106,12 @@ public class PlayerMove : MonoBehaviour
     {
         // 떨어질때 속력이 일정값 이하이면 fall상태로 전환
         if (_animator.GetFloat(_hashYVelocity) <= -0.4f)
-            _state.State = PlayerState.eState.Fall;
+            _state.State = PlayerFSM.eState.Fall;
         else
-            _state.State = PlayerState.eState.Move;
+            _state.State = PlayerFSM.eState.Move;
 
         // 떨어지는중인지아닌지 여부로 move애니메이션 결정
-        bool isFall = _state.State == PlayerState.eState.Fall ? true : false;
+        bool isFall = _state.State == PlayerFSM.eState.Fall ? true : false;
         _animator.SetBool(_hashMove, !isFall);
         _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
         _rbody.MovePosition(_rbody.position + _dir * _movSpeed * Time.deltaTime);
@@ -140,7 +144,7 @@ public class PlayerMove : MonoBehaviour
 
         // 구르기동작
         StartCoroutine(CoolDownDodge());
-        _state.State = PlayerState.eState.Dodge;
+        _state.State = PlayerFSM.eState.Dodge;
         _animator.SetBool(_hashRoll, true);
 
         // 키입력이 된 상태이면 구르기방향을 입력한방향으로, 아니라면 캐릭터기준 정면으로
@@ -173,16 +177,16 @@ public class PlayerMove : MonoBehaviour
             _animator.SetBool(_hashRoll, false);
             _smoothDodgeBehaviour._isDodgeInput = false;
             _combat.ActDodgeAttack(); // 회피추가타 트리거 발동
-            _state.State = PlayerState.eState.Attack;
+            _state.State = PlayerFSM.eState.Attack;
             _combat.RotateToClickDir();
 
             yield return new WaitUntil(() => _dodgeAttackEnd);
-            _state.State = PlayerState.eState.Idle;
+            _state.State = PlayerFSM.eState.Idle;
             _dodgeAttackEnd = false;
         }
         else
         {
-            _state.State = PlayerState.eState.Idle;
+            _state.State = PlayerFSM.eState.Idle;
             _animator.SetBool(_hashRoll, false);
             _smoothDodgeBehaviour._isDodgeInput = false;
         }

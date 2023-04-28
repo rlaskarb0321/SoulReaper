@@ -16,7 +16,6 @@ public struct MonsterBasicStat
     public float _kitingMovSpeed;
     public float _patrolMovSpeed;
     public float _traceMovSpeed;
-    public float _retreatMovSpeed;
 }
 
 /// <summary>
@@ -48,15 +47,21 @@ public class Monster : MonoBehaviour
     [HideInInspector] public bool _isActing;
     [HideInInspector] public bool _isFindPatrolPos;
     [HideInInspector] public Vector3 _patrolPos;
+
     public float _currHp;
     public float _movSpeed;
     public WaitForSeconds _actWaitSeconds;
     [Tooltip("0번째 인덱스는 기본 mat, 1번째 인덱스는 피격시 잠깐바뀔 mat")]
     public Material[] _materials;
+
+    [Header("Soul Orb")]
+    public GameObject _soulOrb;
+    [Range(0.0f, 1.0f)] public float _orbSpawnPercentage; // 몬스터가 죽었을때 오브를 소환시킬 확률
+
+    protected Rigidbody _rbody;
     
     SkinnedMeshRenderer _mesh;
     BoxCollider _mainColl;
-    Rigidbody _rbody;
 
     readonly int _hashDead = Animator.StringToHash("Dead");
 
@@ -115,7 +120,7 @@ public class Monster : MonoBehaviour
     // 몬스터가 타겟을 쫓아가게 함
     public void TraceTarget()
     {
-        _nav.isStopped = false;
+        StopNav(false);
 
         if (!_nav.pathPending)
             _nav.SetDestination(_brain._target.position);
@@ -123,22 +128,34 @@ public class Monster : MonoBehaviour
 
     void Dead()
     {
+        float randomValue = Random.Range(0.0f, 1.0f);
+
+        _animator.SetTrigger(_hashDead);
+        if (randomValue < _orbSpawnPercentage)
+            Instantiate(_soulOrb, transform.position, Quaternion.identity);
+
         StartCoroutine(BuryBody());
         _mainColl.enabled = false;
         _brain.MonsterBrain = MonsterAI.eMonsterDesires.Dead;
         _nav.isStopped = true;
         _nav.enabled = false;
-
-        _animator.SetTrigger(_hashDead);
     }
 
     IEnumerator BuryBody()
     {
-        yield return new WaitForSeconds(4.5f);
-        _rbody.isKinematic = false;
+        yield return new WaitForSeconds(3.5f);
 
-        yield return new WaitForSeconds(1.2f);
+        Color color = _materials[0].color;
+        while (_materials[0].color.a >= 0.05f)
+        {
+            color.a -= Time.deltaTime * 1.5f;
+            _materials[0].color = color;
+            yield return null;
+        }
+
         this.gameObject.SetActive(false);
+        color = Color.white;
+        _materials[0].color = color;
     }
 
     IEnumerator OnHitEffect()
@@ -148,5 +165,21 @@ public class Monster : MonoBehaviour
         yield return new WaitForSeconds(Time.deltaTime * 3.0f);
         
         _mesh.material = _materials[0];
+    }
+
+    // 네비게이션 컴포넌트를 키고끄는작업
+    protected void StopNav(bool isStopNav)
+    {
+        if (isStopNav)
+        {
+            _nav.velocity = Vector3.zero;
+            _rbody.isKinematic = false;
+        }    
+        else
+        {
+            _rbody.isKinematic = true;
+        }
+
+        _nav.isStopped = isStopNav;
     }
 }
