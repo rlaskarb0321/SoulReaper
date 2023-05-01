@@ -1425,7 +1425,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _monsterBrain: 0
-  _isTargetSet: 0
   _target: {fileID: 0}
   _patrolPos: {x: 0, y: 0, z: 0}
   _idleTime: 4
@@ -1450,10 +1449,10 @@ MonoBehaviour:
     _traceRadius: 15
     _attakableRadius: 9
     _actDelay: 3.2
+    _defenseCoolTime: 6
     _kitingMovSpeed: 5
     _patrolMovSpeed: 1.7
     _traceMovSpeed: 4.5
-    _retreatMovSpeed: 8
   _monsterType: 1
   _playerCombat: {fileID: 0}
   _nav: {fileID: 0}
@@ -1464,17 +1463,18 @@ MonoBehaviour:
   _patrolPos: {x: 0, y: 0, z: 0}
   _currHp: 0
   _movSpeed: 0
+  _currDefenseCool: 0
   _materials:
   - {fileID: 2100000, guid: 66bfedde0e774294cafa3d62f8d6d75d, type: 2}
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   _soulOrb: {fileID: 2589942448960371264, guid: a80fa15fe81581c41b6083b20dc8e0fe,
     type: 3}
-  _orbSpawnPercentage: 0
+  _orbSpawnPercentage: 1
   _firePos: {fileID: 5257809215316306469}
   _projectile: {fileID: 1490659678486382040, guid: d615199ea05b1554fa8ccaa571d65d98,
     type: 3}
   _numOfAttacks: 1
-  _kitingDist: 3
+  _kiteEndure: 3
 --- !u!1 &5257809214769901431
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class MeleeRangeBehav : Monster
         _attackBehaviour = _animator.GetBehaviour<AttackEndBehaviour>();
     }
 
-    void Start()
+    protected override void Start()
     {
         _actWaitSeconds = new WaitForSeconds(_basicStat._actDelay);
         _currHp = _basicStat._health;

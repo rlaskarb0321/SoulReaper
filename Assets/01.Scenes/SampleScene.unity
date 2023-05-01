@@ -168,6 +168,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &374411337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 374411338}
+  m_Layer: 0
+  m_Name: Magic FirePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &374411338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374411337}
+  m_LocalRotation: {x: -0.7071068, y: -7.375698e-10, z: -0.0000000028449127, w: 0.7071067}
+  m_LocalPosition: {x: 0, y: 0.90160084, z: 0.49559984}
+  m_LocalScale: {x: 28, y: 28, z: 28}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 616485951}
+  m_RootOrder: 26
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &409212673
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,10 +1353,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _followCamObj: {fileID: 1470871270}
   _attackAdvancedDist: 0
-  _needChargingTime: 1
+  _needChargingTime: 0.6
   _curLongRangeChargingTime: 0
   _fallAttackSpeed: 25
-  _weaponObj: {fileID: 1491308581}
+  _meleeWeaponObj: {fileID: 1491308581}
+  _longRangeProjectile: {fileID: 366180972887607762, guid: b37a138f9be433648b4330e33102a0c0,
+    type: 3}
+  _firePos: {fileID: 374411338}
   _attackStyle: 0
 --- !u!114 &616485964
 MonoBehaviour:
@@ -1339,7 +1373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0190d3179854b4bb0a950e9246b203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHP: 20
+  _maxHP: 200
   _currHP: 0
   _maxMP: 50
   _currMP: 0
@@ -2102,8 +2136,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9191253057732922050, guid: 0532a099d060a7946aed9a86c5b54386,
         type: 3}
-      propertyPath: _orbSpawnPercentage
-      value: 1
+      propertyPath: _basicStat._health
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191253057732922050, guid: 0532a099d060a7946aed9a86c5b54386,
+        type: 3}
+      propertyPath: _basicStat._actDelay
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191253057732922050, guid: 0532a099d060a7946aed9a86c5b54386,
+        type: 3}
+      propertyPath: _basicStat._defenseCoolTime
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0532a099d060a7946aed9a86c5b54386, type: 3}
@@ -2969,17 +3013,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.95
+      value: 3.42
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.87
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.4
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}

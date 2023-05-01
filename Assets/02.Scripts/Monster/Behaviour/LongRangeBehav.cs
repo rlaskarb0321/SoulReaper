@@ -33,8 +33,10 @@ public class LongRangeBehav : Monster
         _attackBehaviour = _animator.GetBehaviour<AttackEndBehaviour>();
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         _actWaitSeconds = new WaitForSeconds(_basicStat._actDelay);
         _currHp = _basicStat._health;
     }
@@ -75,16 +77,15 @@ public class LongRangeBehav : Monster
                 if (!_isRunAtkCor)
                 {
                     _isRunAtkCor = true;
-                    StartCoroutine(DoAttack()); 
+                    StartCoroutine(DoAttack());
                 }
                 break;
             case MonsterAI.eMonsterDesires.Defense:
-                StopNav(true);
-                // 플레이어를 바라본 뒤, 몇프레임만큼 뒤로이동, 코루틴에서 brain상태가 defense일때까지 반복시키자
                 if (!_isRunDefCor)
                 {
                     _isRunDefCor = true;
-                    StartCoroutine(DefenseSelf());
+                    StopNav(true);
+                    StartCoroutine(KiteFromPlayer());
                 }
                 break;
             case MonsterAI.eMonsterDesires.Dead:
@@ -106,7 +107,11 @@ public class LongRangeBehav : Monster
         if (_brain.MonsterBrain == MonsterAI.eMonsterDesires.Dead)
             yield break;
 
-        _brain.MonsterBrain = MonsterAI.eMonsterDesires.Trace;
+        if (_brain.DetermineWhethereNeedDefense(Vector3.Distance(transform.position, _brain._target.position), (int)_monsterType))
+            _brain.MonsterBrain = MonsterAI.eMonsterDesires.Defense;
+        else
+            _brain.MonsterBrain = MonsterAI.eMonsterDesires.Trace;
+
         _isActing = false;
         _isRunAtkCor = false;
     }
@@ -123,21 +128,20 @@ public class LongRangeBehav : Monster
         _isActing = false;
     }
 
-    IEnumerator DefenseSelf()
+    IEnumerator KiteFromPlayer()
     {
-        Vector3 dir = -(_brain._target.position - transform.position).normalized;
-        float kitingDist = _kitingDist;
-
-        while (_brain.MonsterBrain == MonsterAI.eMonsterDesires.Defense && kitingDist > 0.0f)
+        while (true)
         {
-            kitingDist -= Time.deltaTime;
-            print(kitingDist);
-            _rbody.MovePosition(_rbody.position + dir * _basicStat._kitingMovSpeed * Time.deltaTime);
-            yield return null;
+            if (_brain.MonsterBrain != MonsterAI.eMonsterDesires.Defense)
+            {
+                yield return _actWaitSeconds;
+                _isRunDefCor = false;
+                yield break;
+            }
+
+            Vector3 runDir = (transform.position - _brain._target.position).normalized;
+            _rbody.MovePosition(_rbody.position + runDir * _nav.speed * 2.7f * Time.deltaTime);
+            yield return new WaitForSeconds(Time.deltaTime * 3.0f);
         }
-
-        _brain.MonsterBrain = MonsterAI.eMonsterDesires.Trace;
-        _isRunDefCor = false;
     }
-
 }

@@ -11,6 +11,7 @@ public struct MonsterBasicStat
     public float _traceRadius; // 추격을 인지하는 범위
     public float _attakableRadius; // 공격사정거리
     public float _actDelay; // 몬스터의 다음행동까지 걸리게할 시간값
+    public float _defenseCoolTime; // 몬스터의 방어자세 취하기 관련 쿨타임
 
     [Header("Mov Speed Variable")]
     public float _kitingMovSpeed;
@@ -44,12 +45,13 @@ public class Monster : MonoBehaviour
     [HideInInspector] public MonsterAI _brain;
     [HideInInspector] public Animator _animator;
 
-    [HideInInspector] public bool _isActing;
+    public bool _isActing;
     [HideInInspector] public bool _isFindPatrolPos;
     [HideInInspector] public Vector3 _patrolPos;
 
     public float _currHp;
     public float _movSpeed;
+    public float _currDefenseCool;
     public WaitForSeconds _actWaitSeconds;
     [Tooltip("0번째 인덱스는 기본 mat, 1번째 인덱스는 피격시 잠깐바뀔 mat")]
     public Material[] _materials;
@@ -70,6 +72,12 @@ public class Monster : MonoBehaviour
         _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         _mainColl = GetComponent<BoxCollider>();
         _rbody = GetComponent<Rigidbody>();
+    }
+
+    protected virtual void Start()
+    {
+        _currDefenseCool = _basicStat._defenseCoolTime;
+        _currHp = _basicStat._health;
     }
 
     public virtual void DecreaseHp(float amount)

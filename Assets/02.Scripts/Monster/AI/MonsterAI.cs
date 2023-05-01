@@ -6,11 +6,10 @@ using UnityEngine.AI;
 // 몬스터들의 다음 행동 실행을 위해 몬스터 뇌의 욕구를 설정하는 클래스
 public class MonsterAI : MonoBehaviour
 {
-
     // 몬스터가 하고자하는 욕구들의 종류
-    public enum eMonsterDesires { Patrol, Idle, Trace, Attack, Defense, Dead } 
+    public enum eMonsterDesires { Patrol, Idle, Trace, Attack, Defense, Dead }
     [SerializeField] private eMonsterDesires _monsterBrain;
-    public eMonsterDesires MonsterBrain 
+    public eMonsterDesires MonsterBrain
     {
         get { return _monsterBrain; }
         set // MonsterBrain값을 변경하면서 각 상태의맞는 이동속도값으로 수정
@@ -39,7 +38,7 @@ public class MonsterAI : MonoBehaviour
     [HideInInspector] public Transform _target;
     [HideInInspector] public Vector3 _patrolPos;
     [Range(2.0f, 10.0f)] public float _idleTime; // 행동후 다음행동까지 기다리는 시간값
-    [Range(0.0f, 1.0f)]public float _needDefenseHpPercentage; // 해당값 이하일때 방어(카이팅, 가드)가 필요하다고 생각하게되는 hp 퍼센티지
+    [Range(0.0f, 1.0f)] public float _needDefenseHpPercentage; // 해당값 이하일때 방어(카이팅, 가드)가 필요하다고 생각하게되는 hp 퍼센티지
 
 
     // Field
@@ -61,7 +60,6 @@ public class MonsterAI : MonoBehaviour
         _playerSearchLayer = 1 << LayerMask.NameToLayer("PlayerTeam");
         _soulOrbSearchLayer = 1 << LayerMask.NameToLayer("SoulOrb");
         MonsterBrain = eMonsterDesires.Patrol;
-        
     }
 
     void Update()
@@ -163,18 +161,12 @@ public class MonsterAI : MonoBehaviour
 
             case eMonsterDesires.Attack:
             case eMonsterDesires.Trace:
-                targetDist = Vector3.Distance(transform.position, _target.position);
-
                 if (!_monsterBase._basicStat._isAttackFirst)
                     return;
                 if (_monsterBase._isActing)
                     return;
-                if (DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType))
-                {
-                    MonsterBrain = eMonsterDesires.Defense;
-                    break;
-                }
-                
+
+                targetDist = Vector3.Distance(transform.position, _target.position);
                 if (targetDist <= _monsterBase._basicStat._attakableRadius)
                     MonsterBrain = eMonsterDesires.Attack;
                 else
@@ -182,12 +174,12 @@ public class MonsterAI : MonoBehaviour
                 break;
 
             case eMonsterDesires.Defense:
-                //targetDist = Vector3.Distance(transform.position, _target.position);
-                //if (!DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType))
-                //{
-                //    MonsterBrain = eMonsterDesires.Trace;
-                //    break;
-                //}
+                targetDist = Vector3.Distance(transform.position, _target.position);
+                if (!DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType))
+                {
+                    MonsterBrain = eMonsterDesires.Trace;
+                }
+                
                 break;
             case eMonsterDesires.Dead:
                 return;
@@ -224,7 +216,7 @@ public class MonsterAI : MonoBehaviour
     }
 
     // 몬스터타입별로 상이한 방어모드돌입 조건
-    bool DetermineWhethereNeedDefense(float targetDist, int monsterType)
+    public bool DetermineWhethereNeedDefense(float targetDist, int monsterType)
     {
         bool needDefense = false;
 
@@ -243,10 +235,9 @@ public class MonsterAI : MonoBehaviour
 
             case Monster.eMonsterType.MeleeAndRange:
                 return needDefense;
-            
+
             default:
                 return needDefense;
         }
-
     }
 }

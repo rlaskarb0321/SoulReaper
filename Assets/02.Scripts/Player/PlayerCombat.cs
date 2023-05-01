@@ -15,8 +15,10 @@ public class PlayerCombat : MonoBehaviour
     public float _fallAttackSpeed; // 낙하공격시 떨어지는 속도
 
     [Header("Weapon")]
-    public GameObject _weaponObj;
-    enum eAttackStyle { NonCombat, Normal, DodgeAttack, FallAttack, Charging }
+    public GameObject _meleeWeaponObj;
+    public GameObject _longRangeProjectile;
+    public Transform _firePos;
+    enum eAttackStyle { NonCombat, Normal, DodgeAttack, FallAttack }
     [SerializeField] eAttackStyle _attackStyle;
 
     [Header("Field")]
@@ -57,9 +59,9 @@ public class PlayerCombat : MonoBehaviour
         _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
 
         // Weapon
-        _weaponColl = _weaponObj.GetComponentInChildren<BoxCollider>();
-        _weaponTrail = _weaponObj.GetComponentInChildren<TrailRenderer>();
-        _weapon = _weaponObj.GetComponentInChildren<MeleeWeaponMgr>();
+        _weaponColl = _meleeWeaponObj.GetComponentInChildren<BoxCollider>();
+        _weaponTrail = _meleeWeaponObj.GetComponentInChildren<TrailRenderer>();
+        _weapon = _meleeWeaponObj.GetComponentInChildren<MeleeWeaponMgr>();
     }
 
     void Start()
@@ -115,7 +117,6 @@ public class PlayerCombat : MonoBehaviour
             // 원거리공격 발사or취소
             if (_curLongRangeChargingTime > _needChargingTime)
             {
-                Debug.Log("발사");
                 _animator.SetTrigger(_hashChargingBurst);
             }
 
@@ -279,6 +280,7 @@ public class PlayerCombat : MonoBehaviour
         _weaponColl.enabled = !collEnable;
     }
 
+    // 낙하, 대쉬공격에 따른 데미지배율계산
     public float CalcDamage()
     {
         float damage = 0.0f;
@@ -290,11 +292,14 @@ public class PlayerCombat : MonoBehaviour
             case eAttackStyle.FallAttack:
                 damage = _weapon._atkPower * 3.0f;
                 break;
-            case eAttackStyle.Charging:
-                damage = _weapon._atkPower * 2.0f;
-                break;
         }
 
         return damage;
+    }
+
+    // 애니메이션 delegate로 원거리공격
+    public void LaunchProjectile()
+    {
+        Instantiate(_longRangeProjectile, _firePos.position, transform.rotation);
     }
 }   
