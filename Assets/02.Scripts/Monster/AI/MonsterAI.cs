@@ -174,15 +174,20 @@ public class MonsterAI : MonoBehaviour
                     // 딜레이값을 다 지낸후에 방어를할지 다시 추격or공격을 할 지 결정
                     targetDist = Vector3.Distance(transform.position, _target.position);
 
-                    if (DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType))
+                    if (DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType) &&
+                        _monsterBase._currDefenseCool == _monsterBase._basicStat.defenseCoolTime)
+                    {
                         MonsterBrain = eMonsterDesires.Defense;
+                        StartCoroutine(CoolDownDefense());
+                    }
                     else
+                    {
                         MonsterBrain = DetermineAttackOrTrace(targetDist);
+                    }
 
                     _monsterBase._currActDelay = _originDelay;
                     return;
                 }
-
                 _monsterBase._currActDelay -= Time.deltaTime;
                 break;
             case eMonsterDesires.Defense:
@@ -254,5 +259,16 @@ public class MonsterAI : MonoBehaviour
             return eMonsterDesires.Attack;
         else
             return eMonsterDesires.Trace;
+    }
+
+    IEnumerator CoolDownDefense()
+    {
+        while (_monsterBase._currDefenseCool >= 0.0f)
+        {
+            _monsterBase._currDefenseCool -= Time.deltaTime;
+            yield return null;
+        }
+
+        _monsterBase._currDefenseCool = _monsterBase._basicStat.defenseCoolTime;
     }
 }

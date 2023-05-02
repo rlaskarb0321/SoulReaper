@@ -56,16 +56,19 @@ public class LongRangeBehav : Monster
                 _animator.SetBool(_hashMove, false);
                 _animator.SetTrigger(_hashIdle);
                 break;
+
             case MonsterAI.eMonsterDesires.Patrol:
                 if (!_nav.pathPending)
                     _nav.SetDestination(_brain._patrolPos);
 
                 _animator.SetBool(_hashMove, true);
                 break;
+
             case MonsterAI.eMonsterDesires.Trace:
                 _animator.SetBool(_hashMove, true);
                 TraceTarget();
                 break;
+
             case MonsterAI.eMonsterDesires.Attack:
                 if (_isActing)
                     return;
@@ -79,22 +82,17 @@ public class LongRangeBehav : Monster
                     StartCoroutine(DoAttack());
                 }
                 break;
+
             case MonsterAI.eMonsterDesires.Defense:
-                #region 23.05.02 공격과 방어시스템 대대적인 수정작업 시작
-                //if (!_isRunDefCor)
-                //{
-                //    _isRunDefCor = true;
-                //    StopNav(true);
-                //    StartCoroutine(KiteFromPlayer());
-                //}
-                #endregion
                 DefenseSelf();
                 break;
+
             case MonsterAI.eMonsterDesires.Delay:
                 // Delay상태일때 바보같아 보이지않도록 적을 바라만보게 시킴
                 Vector3 dir = _brain._target.transform.position - transform.position;
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime);
                 break;
+
             case MonsterAI.eMonsterDesires.Dead:
                 return;
         }
@@ -143,22 +141,4 @@ public class LongRangeBehav : Monster
             _brain.MonsterBrain = MonsterAI.eMonsterDesires.Delay;
         }
     }
-    #region 23.05.02 공격과 방어시스템 대대적인 수정작업 시작
-    //IEnumerator KiteFromPlayer()
-    //{
-    //    while (true)
-    //    {
-    //        if (!_brain.DetermineWhethereNeedDefense(Vector3.Distance(_brain._target.position, transform.position), (int)_monsterType))
-    //        {
-    //            yield return _actWaitSeconds;
-    //            _isRunDefCor = false;
-    //            yield break;
-    //        }
-
-    //        Vector3 runDir = (transform.position - _brain._target.position).normalized;
-    //        _rbody.MovePosition(_rbody.position + runDir * _nav.speed * 2.7f * Time.deltaTime);
-    //        yield return new WaitForSeconds(Time.deltaTime * 3.0f);
-    //    }
-    //}
-    #endregion
 }
