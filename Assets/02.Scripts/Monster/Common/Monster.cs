@@ -174,7 +174,7 @@ public class Monster : MonoBehaviour
     }
 
     // 네비게이션 컴포넌트를 키고끄는작업
-    protected void StopNav(bool isStopNav)
+    public void StopNav(bool isStopNav)
     {
         if (isStopNav)
         {

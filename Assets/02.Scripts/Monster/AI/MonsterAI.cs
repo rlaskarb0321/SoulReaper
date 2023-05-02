@@ -40,6 +40,7 @@ public class MonsterAI : MonoBehaviour
     [HideInInspector] public Vector3 _patrolPos;
     [Range(2.0f, 10.0f)] public float _idleTime; // 행동후 다음행동까지 기다리는 시간값
     [Range(0.0f, 1.0f)] public float _needDefenseHpPercentage; // 해당값 이하일때 방어(카이팅, 가드)가 필요하다고 생각하게되는 hp 퍼센티지
+    [Range(5.0f, 10.0f)] public float _defenseEndure; // defense 무한지속을 방지하는 일정시간후에 자동으로 defense를 벗어나게해줄 값
 
 
     // Field
@@ -47,6 +48,7 @@ public class MonsterAI : MonoBehaviour
     NavMeshAgent _nav;
     float _originDelay;
     int _playerSearchLayer;
+    float _currEndure;
     int _soulOrbSearchLayer;
     bool _isFindPatrolPos;
     [SerializeField] bool _needDefense;
@@ -63,6 +65,7 @@ public class MonsterAI : MonoBehaviour
         _soulOrbSearchLayer = 1 << LayerMask.NameToLayer("SoulOrb");
         MonsterBrain = eMonsterDesires.Patrol;
         _originDelay = _monsterBase._basicStat.actDelay;
+        _currEndure = _defenseEndure;
     }
 
     void Update()
@@ -183,6 +186,7 @@ public class MonsterAI : MonoBehaviour
                     else
                     {
                         MonsterBrain = DetermineAttackOrTrace(targetDist);
+                        _monsterBase.StopNav(false);
                     }
 
                     _monsterBase._currActDelay = _originDelay;
@@ -190,7 +194,18 @@ public class MonsterAI : MonoBehaviour
                 }
                 _monsterBase._currActDelay -= Time.deltaTime;
                 break;
+
             case eMonsterDesires.Defense:
+                if (_currEndure <= 0.0f)
+                {
+                    float newDelayValue = _monsterBase._currActDelay * 0.5f;
+                    _monsterBase._currActDelay = newDelayValue;
+                    MonsterBrain = eMonsterDesires.Delay;
+                    _currEndure = _defenseEndure;
+                    return;
+                }
+
+                _currEndure -= Time.deltaTime;
                 break;
         }
     }
