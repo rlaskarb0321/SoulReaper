@@ -2141,11 +2141,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9191253057732922050, guid: 0532a099d060a7946aed9a86c5b54386,
         type: 3}
-      propertyPath: _orbSpawnPercentage
-      value: 0.035
-      objectReference: {fileID: 0}
-    - target: {fileID: 9191253057732922050, guid: 0532a099d060a7946aed9a86c5b54386,
-        type: 3}
       propertyPath: _basicStat._actDelay
       value: 5
       objectReference: {fileID: 0}
@@ -3018,7 +3013,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.35
+      value: 3.85
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}
@@ -3028,7 +3023,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.4
+      value: -1.09
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 82a2914d8f86c62488456950c8330e38,
         type: 3}

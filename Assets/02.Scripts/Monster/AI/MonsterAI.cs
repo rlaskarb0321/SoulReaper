@@ -222,7 +222,7 @@ public class MonsterAI : MonoBehaviour
     }
 
     // 몬스터타입별로 상이한 방어모드돌입 조건
-    bool DetermineWhethereNeedDefense(float targetDist, int monsterType)
+    public bool DetermineWhethereNeedDefense(float targetDist, int monsterType)
     {
         bool needDefense = false;
 

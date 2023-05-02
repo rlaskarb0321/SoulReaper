@@ -1449,7 +1449,7 @@ MonoBehaviour:
     isAttackFirst: 1
     traceRadius: 12
     attakableRadius: 8
-    actDelay: 6
+    actDelay: 3
     defenseCoolTime: 0
     kitingMovSpeed: 4.2
     patrolMovSpeed: 2

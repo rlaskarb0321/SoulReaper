@@ -88,6 +88,7 @@ public class LongRangeBehav : Monster
                 //    StartCoroutine(KiteFromPlayer());
                 //}
                 #endregion
+                DefenseSelf();
                 break;
             case MonsterAI.eMonsterDesires.Delay:
                 // Delay상태일때 바보같아 보이지않도록 적을 바라만보게 시킴
@@ -129,6 +130,19 @@ public class LongRangeBehav : Monster
         _isActing = false;
     }
 
+    void DefenseSelf()
+    {
+        StopNav(true);
+        if (_brain.DetermineWhethereNeedDefense(Vector3.Distance(_brain._target.position, transform.position), (int)_monsterType))
+        {
+            _rbody.MovePosition(_rbody.position +
+            (transform.position - _brain._target.position).normalized * _basicStat.kitingMovSpeed * Time.deltaTime);
+        }
+        else
+        {
+            _brain.MonsterBrain = MonsterAI.eMonsterDesires.Delay;
+        }
+    }
     #region 23.05.02 공격과 방어시스템 대대적인 수정작업 시작
     //IEnumerator KiteFromPlayer()
     //{
