@@ -30,8 +30,10 @@ public class MeleeRangeBehav : Monster
 
     protected override void Start()
     {
-        _actWaitSeconds = new WaitForSeconds(_basicStat._actDelay);
-        _currHp = _basicStat._health;
+        base.Start();
+
+        _currActDelay = _basicStat.actDelay;
+        _currHp = _basicStat.health;
     }
 
     void Update()
@@ -86,12 +88,10 @@ public class MeleeRangeBehav : Monster
         _animator.SetTrigger(_hashAttack1);
 
         yield return new WaitUntil(() => _attackBehaviour._isEnd);
-        yield return _actWaitSeconds;
-
         if (_brain.MonsterBrain == MonsterAI.eMonsterDesires.Dead)
             yield break;
 
-        _brain.MonsterBrain = MonsterAI.eMonsterDesires.Trace;
+        _brain.MonsterBrain = MonsterAI.eMonsterDesires.Delay;
         _isActing = false;
     }
 

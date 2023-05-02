@@ -16,11 +16,10 @@ public class LongRangeBehav : Monster
     ProjectilePool _projectilePool;
 
     [Header("Field")]
-    bool _isRunAtkCor;
-    bool _isRunDefCor;
     readonly int _hashAttack1 = Animator.StringToHash("Attack1");
     readonly int _hashIdle = Animator.StringToHash("Idle");
     readonly int _hashMove = Animator.StringToHash("Move");
+    bool _isRunAtkCor;
 
     protected override void Awake()
     {
@@ -37,8 +36,8 @@ public class LongRangeBehav : Monster
     {
         base.Start();
 
-        _actWaitSeconds = new WaitForSeconds(_basicStat._actDelay);
-        _currHp = _basicStat._health;
+        _currActDelay = _basicStat.actDelay;
+        _currHp = _basicStat.health;
     }
 
     void Update()
@@ -81,12 +80,19 @@ public class LongRangeBehav : Monster
                 }
                 break;
             case MonsterAI.eMonsterDesires.Defense:
-                if (!_isRunDefCor)
-                {
-                    _isRunDefCor = true;
-                    StopNav(true);
-                    StartCoroutine(KiteFromPlayer());
-                }
+                #region 23.05.02 공격과 방어시스템 대대적인 수정작업 시작
+                //if (!_isRunDefCor)
+                //{
+                //    _isRunDefCor = true;
+                //    StopNav(true);
+                //    StartCoroutine(KiteFromPlayer());
+                //}
+                #endregion
+                break;
+            case MonsterAI.eMonsterDesires.Delay:
+                // Delay상태일때 바보같아 보이지않도록 적을 바라만보게 시킴
+                Vector3 dir = _brain._target.transform.position - transform.position;
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime);
                 break;
             case MonsterAI.eMonsterDesires.Dead:
                 return;
@@ -96,23 +102,18 @@ public class LongRangeBehav : Monster
     public override IEnumerator DoAttack()
     {
         yield return StartCoroutine(LookTarget());
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.15f);
 
         _animator.SetBool(_hashMove, false);
         _animator.SetTrigger(_hashAttack1);
 
         yield return new WaitUntil(() => _attackBehaviour._isEnd);
-        yield return _actWaitSeconds;
-
         if (_brain.MonsterBrain == MonsterAI.eMonsterDesires.Dead)
             yield break;
 
-        if (_brain.DetermineWhethereNeedDefense(Vector3.Distance(transform.position, _brain._target.position), (int)_monsterType))
-            _brain.MonsterBrain = MonsterAI.eMonsterDesires.Defense;
-        else
-            _brain.MonsterBrain = MonsterAI.eMonsterDesires.Trace;
-
+        _brain.MonsterBrain = MonsterAI.eMonsterDesires.Delay;
         _isActing = false;
+        _attackBehaviour._isEnd = false;
         _isRunAtkCor = false;
     }
 
@@ -128,20 +129,22 @@ public class LongRangeBehav : Monster
         _isActing = false;
     }
 
-    IEnumerator KiteFromPlayer()
-    {
-        while (true)
-        {
-            if (_brain.MonsterBrain != MonsterAI.eMonsterDesires.Defense)
-            {
-                yield return _actWaitSeconds;
-                _isRunDefCor = false;
-                yield break;
-            }
+    #region 23.05.02 공격과 방어시스템 대대적인 수정작업 시작
+    //IEnumerator KiteFromPlayer()
+    //{
+    //    while (true)
+    //    {
+    //        if (!_brain.DetermineWhethereNeedDefense(Vector3.Distance(_brain._target.position, transform.position), (int)_monsterType))
+    //        {
+    //            yield return _actWaitSeconds;
+    //            _isRunDefCor = false;
+    //            yield break;
+    //        }
 
-            Vector3 runDir = (transform.position - _brain._target.position).normalized;
-            _rbody.MovePosition(_rbody.position + runDir * _nav.speed * 2.7f * Time.deltaTime);
-            yield return new WaitForSeconds(Time.deltaTime * 3.0f);
-        }
-    }
+    //        Vector3 runDir = (transform.position - _brain._target.position).normalized;
+    //        _rbody.MovePosition(_rbody.position + runDir * _nav.speed * 2.7f * Time.deltaTime);
+    //        yield return new WaitForSeconds(Time.deltaTime * 3.0f);
+    //    }
+    //}
+    #endregion
 }

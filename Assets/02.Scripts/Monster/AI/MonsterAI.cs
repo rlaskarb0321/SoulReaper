@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class MonsterAI : MonoBehaviour
 {
     // 몬스터가 하고자하는 욕구들의 종류
-    public enum eMonsterDesires { Patrol, Idle, Trace, Attack, Defense, Dead }
+    public enum eMonsterDesires { Patrol, Idle, Trace, Attack, Defense, Delay, Dead }
     [SerializeField] private eMonsterDesires _monsterBrain;
     public eMonsterDesires MonsterBrain
     {
@@ -21,15 +21,16 @@ public class MonsterAI : MonoBehaviour
             switch (value)
             {
                 case eMonsterDesires.Patrol:
-                    _monsterBase._nav.speed = _monsterBase._basicStat._patrolMovSpeed;
+                    _monsterBase._nav.speed = _monsterBase._basicStat.patrolMovSpeed;
+                    _monsterBase._movSpeed = _monsterBase._nav.speed;
                     break;
                 case eMonsterDesires.Trace:
-                    _monsterBase._nav.speed = _monsterBase._basicStat._traceMovSpeed;
-                    break;
-                case eMonsterDesires.Attack:
+                    _monsterBase._nav.speed = _monsterBase._basicStat.traceMovSpeed;
+                    _monsterBase._movSpeed = _monsterBase._nav.speed;
                     break;
                 case eMonsterDesires.Defense:
-                    _monsterBase._nav.speed = _monsterBase._basicStat._kitingMovSpeed;
+                    _monsterBase._nav.speed = _monsterBase._basicStat.kitingMovSpeed;
+                    _monsterBase._movSpeed = _monsterBase._nav.speed;
                     break;
             }
         }
@@ -44,6 +45,7 @@ public class MonsterAI : MonoBehaviour
     // Field
     Monster _monsterBase;
     NavMeshAgent _nav;
+    float _originDelay;
     int _playerSearchLayer;
     int _soulOrbSearchLayer;
     bool _isFindPatrolPos;
@@ -60,6 +62,7 @@ public class MonsterAI : MonoBehaviour
         _playerSearchLayer = 1 << LayerMask.NameToLayer("PlayerTeam");
         _soulOrbSearchLayer = 1 << LayerMask.NameToLayer("SoulOrb");
         MonsterBrain = eMonsterDesires.Patrol;
+        _originDelay = _monsterBase._basicStat.actDelay;
     }
 
     void Update()
@@ -71,7 +74,6 @@ public class MonsterAI : MonoBehaviour
     }
 
     // 몬스터가 다음에 행동하고자 할 행동을 실행하기위해 몬스터의 욕구를 결정
-    // 욕구결정에 구현해야하는것 : 몹의 선공여부, 몹의 현재체력값, 타 몬스터의 영혼이 필드에있는지
     void DetermineDesires()
     {
         #region 23/04/17 몬스터 Brain 작동방식 전환
@@ -119,74 +121,76 @@ public class MonsterAI : MonoBehaviour
 
         switch (MonsterBrain)
         {
+            // 적을 발견하기전에는 정찰~휴식 반복
             case eMonsterDesires.Idle:
             case eMonsterDesires.Patrol:
-                Collider[] detectColls = Physics.OverlapSphere(transform.position, _monsterBase._basicStat._traceRadius,
+                Collider[] detectColls = Physics.OverlapSphere(transform.position, _monsterBase._basicStat.traceRadius,
                     _playerSearchLayer);
 
                 if (detectColls.Length >= 1)
                 {
-                    MonsterBrain = eMonsterDesires.Trace;
                     _target = detectColls[0].transform;
+                    MonsterBrain = eMonsterDesires.Trace;
+                    break;
+                }
+
+                if (!_isFindPatrolPos)
+                {
+                    _patrolPos = SetRandomPoint(transform.position, _patrolPos, _monsterBase._basicStat.traceRadius);
                 }
                 else
                 {
-                    if (!_isFindPatrolPos)
+                    if (!_nav.pathPending)
                     {
-                        if (SetRandomPoint(transform.position, out _patrolPos, _monsterBase._basicStat._traceRadius))
+                        if (_nav.remainingDistance <= _nav.stoppingDistance)
                         {
-                            _isFindPatrolPos = true;
+                            if (!_nav.hasPath || _nav.velocity.sqrMagnitude == 0f)
+                            {
+                                StartCoroutine(IdlePatrol());
+                            }
+                        }
+                        else
+                        {
                             MonsterBrain = eMonsterDesires.Patrol;
                         }
                     }
-                    else
-                    {
-                        if (!_nav.pathPending)
-                        {
-                            if (_nav.remainingDistance <= _nav.stoppingDistance)
-                            {
-                                if (!_nav.hasPath || _nav.velocity.sqrMagnitude == 0f)
-                                {
-                                    StartCoroutine(IdlePatrol());
-                                }
-                            }
-                            else
-                            {
-                                MonsterBrain = eMonsterDesires.Patrol;
-                            }
-                        }
-                    }
                 }
                 break;
 
+            // 적을발견했을때 내 공격사거리 안에 플레이어가 들어와있는지 여부에따라 추격~공격
             case eMonsterDesires.Attack:
             case eMonsterDesires.Trace:
-                if (!_monsterBase._basicStat._isAttackFirst)
-                    return;
-                if (_monsterBase._isActing)
+                if (!_monsterBase._basicStat.isAttackFirst || _monsterBase._isActing)
                     return;
 
                 targetDist = Vector3.Distance(transform.position, _target.position);
-                if (targetDist <= _monsterBase._basicStat._attakableRadius)
-                    MonsterBrain = eMonsterDesires.Attack;
-                else
-                    MonsterBrain = eMonsterDesires.Trace;
+                MonsterBrain = DetermineAttackOrTrace(targetDist);
                 break;
 
-            case eMonsterDesires.Defense:
-                targetDist = Vector3.Distance(transform.position, _target.position);
-                if (!DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType))
+            // 공격 or 방어자세를 취한후 일정시간동안 Delay주기위한상태
+            case eMonsterDesires.Delay:
+                if (_monsterBase._currActDelay < 0.0f)
                 {
-                    MonsterBrain = eMonsterDesires.Trace;
+                    // 딜레이값을 다 지낸후에 방어를할지 다시 추격or공격을 할 지 결정
+                    targetDist = Vector3.Distance(transform.position, _target.position);
+
+                    if (DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType))
+                        MonsterBrain = eMonsterDesires.Defense;
+                    else
+                        MonsterBrain = DetermineAttackOrTrace(targetDist);
+
+                    _monsterBase._currActDelay = _originDelay;
+                    return;
                 }
-                
+
+                _monsterBase._currActDelay -= Time.deltaTime;
                 break;
-            case eMonsterDesires.Dead:
-                return;
+            case eMonsterDesires.Defense:
+                break;
         }
     }
 
-    bool SetRandomPoint(Vector3 center, out Vector3 destination, float radius)
+    Vector3 SetRandomPoint(Vector3 center, Vector3 destination, float radius)
     {
         for (int i = 0; i < 30; i++)
         {
@@ -195,11 +199,13 @@ public class MonsterAI : MonoBehaviour
             if (NavMesh.SamplePosition(randomPos, out hit, 2.0f, NavMesh.AllAreas))
             {
                 destination = hit.position;
-                return true;
+                _isFindPatrolPos = true;
+                MonsterBrain = eMonsterDesires.Patrol;
+                return destination;
             }
         }
-        destination = Vector3.zero;
-        return false;
+
+        return Vector3.zero;
     }
 
     IEnumerator IdlePatrol()
@@ -216,18 +222,18 @@ public class MonsterAI : MonoBehaviour
     }
 
     // 몬스터타입별로 상이한 방어모드돌입 조건
-    public bool DetermineWhethereNeedDefense(float targetDist, int monsterType)
+    bool DetermineWhethereNeedDefense(float targetDist, int monsterType)
     {
         bool needDefense = false;
 
         switch ((Monster.eMonsterType)monsterType)
         {
             case Monster.eMonsterType.Melee:
-                needDefense = _monsterBase._currHp / _monsterBase._basicStat._health < _needDefenseHpPercentage ? true : false;
+                needDefense = _monsterBase._currHp / _monsterBase._basicStat.health < _needDefenseHpPercentage ? true : false;
                 return needDefense;
 
             case Monster.eMonsterType.Range:
-                needDefense = targetDist <= _monsterBase._basicStat._attakableRadius * 0.5f ? true : false;
+                needDefense = targetDist <= _monsterBase._basicStat.attakableRadius * 0.5f ? true : false;
                 return needDefense;
 
             case Monster.eMonsterType.Charge:
@@ -239,5 +245,14 @@ public class MonsterAI : MonoBehaviour
             default:
                 return needDefense;
         }
+    }
+
+    // 공격or추격 결정
+    eMonsterDesires DetermineAttackOrTrace(float targetDist)
+    {
+        if (targetDist <= _monsterBase._basicStat.attakableRadius)
+            return eMonsterDesires.Attack;
+        else
+            return eMonsterDesires.Trace;
     }
 }

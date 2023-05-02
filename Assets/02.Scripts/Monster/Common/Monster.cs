@@ -6,17 +6,17 @@ using UnityEngine.AI;
 public struct MonsterBasicStat
 {
     [Header("Combat")]
-    public int _health; // 체력
-    public bool _isAttackFirst; // 선공or비선공여부
-    public float _traceRadius; // 추격을 인지하는 범위
-    public float _attakableRadius; // 공격사정거리
-    public float _actDelay; // 몬스터의 다음행동까지 걸리게할 시간값
-    public float _defenseCoolTime; // 몬스터의 방어자세 취하기 관련 쿨타임
+    public int health; // 체력
+    public bool isAttackFirst; // 선공or비선공여부
+    public float traceRadius; // 추격을 인지하는 범위
+    public float attakableRadius; // 공격사정거리
+    public float actDelay; // 몬스터의 다음행동까지 걸리게할 시간값
+    public float defenseCoolTime; // 몬스터의 방어자세 취하기 관련 쿨타임
 
     [Header("Mov Speed Variable")]
-    public float _kitingMovSpeed;
-    public float _patrolMovSpeed;
-    public float _traceMovSpeed;
+    public float kitingMovSpeed;
+    public float patrolMovSpeed;
+    public float traceMovSpeed;
 }
 
 /// <summary>
@@ -24,10 +24,6 @@ public struct MonsterBasicStat
 /// </summary>
 public class Monster : MonoBehaviour
 {
-    [Header("Basic Stat")]
-    //[Tooltip("몬스터의 현재 상태를 나타냄")]
-    // [HideInInspector] public eMonsterState _state;
-    
     [Tooltip("몬스터의 단계, 계급")]
     public eMonsterLevel _level;
     
@@ -51,20 +47,22 @@ public class Monster : MonoBehaviour
 
     public float _currHp;
     public float _movSpeed;
+    [Header("Defense State")]
     public float _currDefenseCool;
-    public WaitForSeconds _actWaitSeconds;
+    public float _currActDelay;
+
     [Tooltip("0번째 인덱스는 기본 mat, 1번째 인덱스는 피격시 잠깐바뀔 mat")]
     public Material[] _materials;
 
     [Header("Soul Orb")]
     public GameObject _soulOrb;
-    [Range(0.0f, 1.0f)] public float _orbSpawnPercentage; // 몬스터가 죽었을때 오브를 소환시킬 확률
+    [Range(0.0f, 1.0f)]
+    public float _orbSpawnPercentage; // 몬스터가 죽었을때 오브를 소환시킬 확률
 
     protected Rigidbody _rbody;
     
     SkinnedMeshRenderer _mesh;
     BoxCollider _mainColl;
-
     readonly int _hashDead = Animator.StringToHash("Dead");
 
     protected virtual void Awake()
@@ -76,8 +74,8 @@ public class Monster : MonoBehaviour
 
     protected virtual void Start()
     {
-        _currDefenseCool = _basicStat._defenseCoolTime;
-        _currHp = _basicStat._health;
+        _currDefenseCool = _basicStat.defenseCoolTime;
+        _currHp = _basicStat.health;
     }
 
     public virtual void DecreaseHp(float amount)
