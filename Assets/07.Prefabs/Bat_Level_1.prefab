@@ -1430,6 +1430,7 @@ MonoBehaviour:
   _patrolPos: {x: 0, y: 0, z: 0}
   _idleTime: 4
   _needDefenseHpPercentage: 0.9
+  _defenseEndure: 6.94
   _needDefense: 0
 --- !u!114 &9191253057732922050
 MonoBehaviour:

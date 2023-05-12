@@ -378,7 +378,7 @@ Transform:
   m_GameObject: {fileID: 8312964977247040739}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 8.859747, y: 0.1, z: 5.6536837}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8312964977247201485}
@@ -476,6 +476,7 @@ MonoBehaviour:
   _patrolPos: {x: 0, y: 0, z: 0}
   _idleTime: 4
   _needDefenseHpPercentage: 0.2
+  _defenseEndure: 0
   _needDefense: 0
 --- !u!114 &4451395563012008798
 MonoBehaviour:
