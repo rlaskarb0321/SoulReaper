@@ -12,7 +12,6 @@ public class EnemyProjectile : MonoBehaviour
     [HideInInspector] public bool _isReleased = false;
     public float _dmg;
 
-    IObjectPool<EnemyProjectile> _managedPool;
     Rigidbody _rbody;
     bool _isBaseballHit;
     float _originMovSpeed;
@@ -42,7 +41,8 @@ public class EnemyProjectile : MonoBehaviour
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                Monster monster = other.GetComponent<Monster>();
+                MonsterBase_2 monster = other.GetComponent<MonsterBase_2>();
+                // Vector3 hitDir = (other.transform.forward - _rbody.position).normalized;
                 monster.DecreaseHp(_dmg);
                 GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
                 Destroy(effect, 0.5f);
@@ -68,11 +68,6 @@ public class EnemyProjectile : MonoBehaviour
         }
     }
 
-    public void SetManagedPool(IObjectPool<EnemyProjectile> pool)
-    {
-        _managedPool = pool;
-    }
-
     public void AllowBaseballHit(Vector3 hitDir)
     {
         float hitMovSpeed = _movSpeed * 2.3f;
@@ -85,12 +80,6 @@ public class EnemyProjectile : MonoBehaviour
     IEnumerator DestroySelf(float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
-        
-        if (!_isReleased)
-        {
-            _managedPool.Release(this);
-            this._isReleased = true;
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive(false);
     }
 }

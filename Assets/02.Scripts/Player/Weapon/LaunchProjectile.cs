@@ -27,7 +27,7 @@ public class LaunchProjectile : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            Monster monster = other.GetComponent<Monster>();
+            MonsterBase_2 monster = other.GetComponent<MonsterBase_2>();
             monster.DecreaseHp(_dmg);
             GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
             Destroy(effect, 0.5f);

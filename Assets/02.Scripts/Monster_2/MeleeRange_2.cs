@@ -2,23 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LongRange_2 : MonsterBase_2
+public class MeleeRange_2 : MonsterBase_2
 {
     [Space(15.0f)]
-    public GameObject _projectile;
-    public Transform _firePos;
+    public GameObject _atkCollObj;
+    public float _atkDmg;
 
+    private BoxCollider _atkColl;
     private readonly int _hashAtk1 = Animator.StringToHash("Attack1");
 
     protected override void Awake()
     {
         base.Awake();
+
+        _atkColl = _atkCollObj.GetComponent<BoxCollider>();
     }
 
     protected override void Start()
     {
         base.Start();
     }
+
+    public override void Attack()
+    {
+        _isAtk = true;
+        _nav.isStopped = true;
+        _nav.velocity = Vector3.zero;
+        _animator.SetTrigger(_hashAtk1);
+    }
+
+    #region 공격애니메이션 델리게이트 함수
+    public void ExecuteAtk() => _atkColl.enabled = !_atkColl.enabled;
+    #endregion 공격애니메이션 델리게이트 함수
 
     public override void DecreaseHp(float amount)
     {
@@ -30,26 +45,16 @@ public class LongRange_2 : MonsterBase_2
         }
     }
 
-    public override IEnumerator OnHitEffect()
+    public override void Idle()
     {
-        Material newMat;
-
-        newMat = _hitMats[1];
-        _mesh.material = newMat;
-        yield return new WaitForSeconds(Time.deltaTime * 4.0f);
-
-        newMat = _hitMats[0];
-        _mesh.material = newMat;
+        _animator.SetBool(_hashMove, false);
+        _animator.SetTrigger(_hashIdle);
     }
 
-    public override void Attack()
+    public override void LookTarget(Vector3 target)
     {
-        _isAtk = true;
-        _nav.isStopped = true;
-        _nav.velocity = Vector3.zero;
-
-        _animator.SetBool(_hashMove, false);
-        _animator.SetTrigger(_hashAtk1);
+        Vector3 dir = target - transform.position;
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * Time.deltaTime);
     }
 
     public override void Move(Vector3 pos, float movSpeed)
@@ -65,25 +70,16 @@ public class LongRange_2 : MonsterBase_2
         _nav.SetDestination(pos);
     }
 
-    public override void Idle()
+    public override IEnumerator OnHitEffect()
     {
-        _animator.SetBool(_hashMove, false);
-        _animator.SetTrigger(_hashIdle);
-    }
+        Material newMat;
 
-    #region 공격 애니메이션 델리게이트 함수
-    public void LaunchMissile() => Instantiate(_projectile, _firePos.position, transform.rotation);
-    public void EndAttack()
-    {
-        _isAtk = !_isAtk;
-        _brain._fsm = MonsterAI_2.eMonsterFSM.Idle;
-    }
-    #endregion 공격 애니메이션 델리게이트 함수
+        newMat = _hitMats[1];
+        _mesh.material = newMat;
+        yield return new WaitForSeconds(Time.deltaTime * 4.0f);
 
-    public override void LookTarget(Vector3 target)
-    {
-        Vector3 dir = target - transform.position;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * Time.deltaTime);
+        newMat = _hitMats[0];
+        _mesh.material = newMat;
     }
 
     protected override void Dead()

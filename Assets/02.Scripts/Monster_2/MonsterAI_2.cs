@@ -97,6 +97,11 @@ public class MonsterAI_2 : MonoBehaviour
                     return;
                 }
 
+                if (!_monster._isIdle)
+                {
+                    _monster.Idle();
+                }
+
                 _currScoutIdle -= Time.deltaTime;
                 break;
 
@@ -124,20 +129,28 @@ public class MonsterAI_2 : MonoBehaviour
                     return;
                 }
 
+                if (!_monster._isIdle)
+                {
+                    _monster.Idle();
+                }
+
                 _combatIdleTime -= Time.deltaTime;
                 _monster.LookTarget(_targetTr.position);
                 break;
+
             case eMonsterFSM.Trace:
                 _monster.Move(_targetTr.position, _stat.movSpeed);
                 _fsm = Vector3.Distance(transform.position, _targetTr.position) <= _stat.attakDist ?
                     eMonsterFSM.Attack : eMonsterFSM.Trace;
                 break;
+
             case eMonsterFSM.Attack:
                 if (_monster._isAtk)
                     return;
 
                 _monster.Attack();
                 break;
+
             case eMonsterFSM.Defense:
                 break;
         }
