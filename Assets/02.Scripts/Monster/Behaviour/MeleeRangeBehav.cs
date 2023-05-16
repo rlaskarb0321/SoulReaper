@@ -11,7 +11,7 @@ public class MeleeRangeBehav : Monster
     public GameObject _attackCollObj;
     public float _damage;
 
-    AttackEndBehaviour _attackBehaviour;
+    LongRangeAttackBehav _attackBehaviour;
     BoxCollider _attackBoxColl;
     readonly int _hashAttack1 = Animator.StringToHash("Attack1");
     readonly int _hashIdle = Animator.StringToHash("Idle");
@@ -25,7 +25,7 @@ public class MeleeRangeBehav : Monster
         _brain = GetComponent<MonsterAI>();
         _animator = GetComponent<Animator>();
         _attackBoxColl = _attackCollObj.GetComponent<BoxCollider>();
-        _attackBehaviour = _animator.GetBehaviour<AttackEndBehaviour>();
+        _attackBehaviour = _animator.GetBehaviour<LongRangeAttackBehav>();
     }
 
     protected override void Start()

@@ -9663,7 +9663,7 @@ GameObject:
   - component: {fileID: 1489166981133030325}
   - component: {fileID: 4837076795534465114}
   m_Layer: 13
-  m_Name: Magic fire
+  m_Name: Enemy Magic fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

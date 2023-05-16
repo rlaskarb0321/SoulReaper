@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackEndBehaviour : StateMachineBehaviour
+public class LongRangeAttackBehav : StateMachineBehaviour
 {
     public bool _isEnd;
 

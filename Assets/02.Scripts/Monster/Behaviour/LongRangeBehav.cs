@@ -12,7 +12,7 @@ public class LongRangeBehav : Monster
     public float _kitingDist; // 플레이어를 카이팅하기위해 멀어지고자하는 거리값
 
     [Header("Component")]
-    AttackEndBehaviour _attackBehaviour;
+    LongRangeAttackBehav _attackBehaviour;
     ProjectilePool _projectilePool;
 
     [Header("Field")]
@@ -29,7 +29,7 @@ public class LongRangeBehav : Monster
         _animator = GetComponent<Animator>();
         _nav = GetComponent<NavMeshAgent>();
         _projectilePool = GetComponent<ProjectilePool>();
-        _attackBehaviour = _animator.GetBehaviour<AttackEndBehaviour>();
+        _attackBehaviour = _animator.GetBehaviour<LongRangeAttackBehav>();
     }
 
     protected override void Start()
