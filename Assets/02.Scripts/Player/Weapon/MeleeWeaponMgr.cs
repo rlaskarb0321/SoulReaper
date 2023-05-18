@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class MeleeWeaponMgr : MonoBehaviour
 {
+    [Space(10.0f)]
     public float _atkPower;
     public GameObject[] _slashEffect;
-    public GameObject _fallAttackShockWave;
+    public GameObject _shockWave;
 
     List<GameObject> _hitEnemiesList;
     PlayerCombat _combat;

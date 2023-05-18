@@ -246,7 +246,7 @@ public class PlayerCombat : MonoBehaviour
                 if (Vector3.Distance(transform.position, landingPoint) <= 0.5f)
                 {
                     animator.speed = originAnimSpeed;
-                    GenShockWave();
+                    GenShockWave(_attackStyle);
                     // StartCoroutine(_followCam.ShakingCamera(_fallAttackCamShakeDur, _fallAttackCamShakeAmount));
                     break;
                 }
@@ -292,9 +292,19 @@ public class PlayerCombat : MonoBehaviour
     }
     #endregion 애니메이션 Delegate용 함수들
 
-    private void GenShockWave()
+    private void GenShockWave(eAttackStyle attackStyle)
     {
-        print("쾅");
+        RaycastHit hit;
+        switch (attackStyle)
+        {
+            case eAttackStyle.FallAttack:
+                Ray ray = new Ray(transform.position, -transform.up);
+                if (Physics.Raycast(ray, out hit, 2.0f, 1 << LayerMask.NameToLayer("Ground")))
+                {
+                    Instantiate(_weapon._shockWave, new Vector3(transform.position.x, hit.transform.position.y, transform.position.z), transform.rotation);
+                }
+                break;
+        }
     }
 
     public void ActDodgeAttack()

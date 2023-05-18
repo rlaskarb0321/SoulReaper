@@ -233,8 +233,4 @@ public class PlayerMove : MonoBehaviour
         _dodgeAttackEnd = true;
         _combat._attackStyle = PlayerCombat.eAttackStyle.NonCombat;
     }
-
-    #region 플레이어 중력관련
-
-    #endregion 플레이어 중력관련
 }
