@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LongRange_2 : MonsterBase_2
+public class LongRange : MonsterBase
 {
     [Space(15.0f)]
     public GameObject _projectile;
     public Transform _firePos;
 
     private readonly int _hashAtk1 = Animator.StringToHash("Attack1");
-
+    
     protected override void Awake()
     {
         base.Awake();
@@ -26,6 +26,7 @@ public class LongRange_2 : MonsterBase_2
         StartCoroutine(OnHitEffect());
         if (_currHp <= 0.0f)
         {
+            _currHp = 0.0f;
             Dead();
         }
     }
@@ -76,7 +77,7 @@ public class LongRange_2 : MonsterBase_2
     public void EndAttack()
     {
         _isAtk = !_isAtk;
-        _brain._fsm = MonsterAI_2.eMonsterFSM.Idle;
+        _brain._fsm = MonsterAI.eMonsterFSM.Idle;
     }
     #endregion 공격 애니메이션 델리게이트 함수
 
@@ -90,7 +91,7 @@ public class LongRange_2 : MonsterBase_2
     {
         BoxCollider boxColl = this.GetComponent<BoxCollider>();
 
-        _brain._fsm = MonsterAI_2.eMonsterFSM.Dead;
+        _brain._fsm = MonsterAI.eMonsterFSM.Dead;
         _animator.SetTrigger(_hashDead);
         _nav.velocity = Vector3.zero;
         _nav.isStopped = true;

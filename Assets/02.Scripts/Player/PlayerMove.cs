@@ -110,10 +110,30 @@ public class PlayerMove : MonoBehaviour
         else
             _state.State = PlayerFSM.eState.Move;
 
+        RaycastHit groundHit;
+        Ray ray = new Ray(transform.position, -transform.up);
+
         // 떨어지는중인지아닌지 여부로 move애니메이션 결정
-        bool isFall = _state.State == PlayerFSM.eState.Fall ? true : false;
-        _animator.SetBool(_hashMove, !isFall);
-        _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
+        //bool isFall = _state.State == PlayerFSM.eState.Fall ? true : false;
+        //_animator.SetBool(_hashMove, !isFall);  
+
+        if (Physics.Raycast(ray, out groundHit, 1.35f, 1 << LayerMask.NameToLayer("Ground")))
+        {
+            _animator.SetBool(_hashMove, true);
+            _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
+        
+            if (Vector3.Angle(transform.up, groundHit.normal) != 0)
+            {
+                Vector3 slopeMoveDir = Vector3.ProjectOnPlane(_dir, groundHit.normal);
+                _dir = slopeMoveDir.normalized;
+            }
+        }
+        else
+        {
+            _animator.SetBool(_hashMove, false);
+            _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
+        }
+
         _rbody.MovePosition(_rbody.position + _dir * _movSpeed * Time.deltaTime);
     }
 
@@ -124,7 +144,10 @@ public class PlayerMove : MonoBehaviour
             return;
 
         Quaternion newRot = Quaternion.LookRotation(_dir);
-        _rbody.rotation = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * Time.deltaTime);
+        //print(newRot.eulerAngles);
+        newRot = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * Time.deltaTime);
+        newRot = Quaternion.Euler(transform.rotation.eulerAngles.x, newRot.eulerAngles.y, newRot.eulerAngles.z);
+        _rbody.rotation = newRot;
     }
 
     public IEnumerator Dodge(float h, float v)
@@ -208,5 +231,10 @@ public class PlayerMove : MonoBehaviour
     public void OutDodgeAttack()
     {
         _dodgeAttackEnd = true;
+        _combat._attackStyle = PlayerCombat.eAttackStyle.NonCombat;
     }
+
+    #region 플레이어 중력관련
+
+    #endregion 플레이어 중력관련
 }

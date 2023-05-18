@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [System.Serializable]
-public struct MonsterStat_2
+public struct MonsterStat
 {
     public int health; // 체력
     public float rotSpeed; 
@@ -17,15 +17,15 @@ public struct MonsterStat_2
     public float actDelay; // 멍 때리는 시간
 }
 
-public abstract class MonsterBase_2 : MonoBehaviour
+public abstract class MonsterBase : MonoBehaviour
 {
     [HideInInspector] public Rigidbody _rbody;
     [HideInInspector] public Animator _animator;
     [HideInInspector] public NavMeshAgent _nav;
-    [HideInInspector] public MonsterAI_2 _brain;
+    [HideInInspector] public MonsterAI _brain;
     [HideInInspector] public SkinnedMeshRenderer _mesh;
 
-    public MonsterStat_2 _stat;
+    public MonsterStat _stat;
     public float _currHp;
     public bool _isAtk;
     public bool _isIdle;
@@ -43,7 +43,7 @@ public abstract class MonsterBase_2 : MonoBehaviour
         _rbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _nav = GetComponent<NavMeshAgent>();
-        _brain = GetComponent<MonsterAI_2>();
+        _brain = GetComponent<MonsterAI>();
         _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
     }
 

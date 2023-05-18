@@ -1302,7 +1302,7 @@ GameObject:
   - component: {fileID: 5257809215201469510}
   - component: {fileID: -935708973031503424}
   - component: {fileID: 4596764427631698717}
-  - component: {fileID: 8628408653339713630}
+  - component: {fileID: 4536693116096592920}
   m_Layer: 12
   m_Name: Bat_Level_1
   m_TagString: Untagged
@@ -1424,8 +1424,9 @@ MonoBehaviour:
     traceDist: 12
     attakDist: 9
     actDelay: 3.2
-  _isAtk: 0
   _currHp: 0
+  _isAtk: 0
+  _isIdle: 0
   _hitMats:
   - {fileID: 2100000, guid: 66bfedde0e774294cafa3d62f8d6d75d, type: 2}
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
@@ -1436,7 +1437,7 @@ MonoBehaviour:
   _projectile: {fileID: 1490659678486382040, guid: d615199ea05b1554fa8ccaa571d65d98,
     type: 3}
   _firePos: {fileID: 5257809215316306469}
---- !u!114 &8628408653339713630
+--- !u!114 &4536693116096592920
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1445,12 +1446,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5257809214769901429}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 304795825b4077e4ebe29f2771210779, type: 3}
+  m_Script: {fileID: 11500000, guid: eadbfec748da55c4bb338cc197595550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _isDef: 0
-  _randomMinScoutIdle: -1.5
-  _randomMaxScoutIdle: 2.2
+  _randomMinScoutIdle: -1.2
+  _randomMaxScoutIdle: 1.2
   _isTargetConfirm: 0
   _fsm: 0
 --- !u!1 &5257809214769901431

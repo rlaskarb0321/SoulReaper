@@ -14,12 +14,18 @@ public class PlayerCombat : MonoBehaviour
     [HideInInspector] public float _curLongRangeChargingTime; // 현재 원거리 공격 충전시간
     public float _fallAttackSpeed; // 낙하공격시 떨어지는 속도
 
+    [Header("Cam Shake")]
+    public float _hitCamShakeAmount;
+    public float _hitCamShakeDur;
+    public float _fallAttackCamShakeAmount;
+    public float _fallAttackCamShakeDur;
+
     [Header("Weapon")]
     public GameObject _meleeWeaponObj;
     public GameObject _longRangeProjectile;
     public Transform _firePos;
-    enum eAttackStyle { NonCombat, Normal, DodgeAttack, FallAttack }
-    [SerializeField] eAttackStyle _attackStyle;
+    public enum eAttackStyle { NonCombat, Normal, DodgeAttack, FallAttack }
+    public eAttackStyle _attackStyle;
 
     [Header("Field")]
     Transform _player;
@@ -237,9 +243,11 @@ public class PlayerCombat : MonoBehaviour
 
             while (true)
             {
-                if (Vector3.Distance(transform.position, landingPoint) <= 1.0f)
+                if (Vector3.Distance(transform.position, landingPoint) <= 0.5f)
                 {
                     animator.speed = originAnimSpeed;
+                    GenShockWave();
+                    // StartCoroutine(_followCam.ShakingCamera(_fallAttackCamShakeDur, _fallAttackCamShakeAmount));
                     break;
                 }
 
@@ -250,10 +258,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    public void ActDodgeAttack()
-    {
-        _animator.SetTrigger(_hashDodgeAttack);
-    }
+    #region 애니메이션 Delegate용 함수들
 
     // 낙하공격관련 애니메이션 델리게이트
     public void UnFreeze()
@@ -272,12 +277,30 @@ public class PlayerCombat : MonoBehaviour
     // 공격애니메이션의 시작과 끝에 달아서 collider를 키고끄는용
     public void SetActiveWeaponColl()
     {
-        // 현재 boxcollider컴포넌트의 활성화값을 저장하고 반전시킨값을 대입시킴
+        // 현재 boxcollider컴포넌트의 활성화값, TrailRenderer의 emitting값을 저장하고 반전시킨값을 대입시킴
         bool collEnable = _weaponColl.enabled;
         bool trailEnable = _weaponTrail.emitting;
 
         _weaponTrail.emitting = !trailEnable;
         _weaponColl.enabled = !collEnable;
+    }
+
+    // 애니메이션 delegate로 원거리공격
+    public void LaunchProjectile()
+    {
+        Instantiate(_longRangeProjectile, _firePos.position, transform.rotation);
+    }
+    #endregion 애니메이션 Delegate용 함수들
+
+    private void GenShockWave()
+    {
+        print("쾅");
+    }
+
+    public void ActDodgeAttack()
+    {
+        _animator.SetTrigger(_hashDodgeAttack);
+        _attackStyle = eAttackStyle.DodgeAttack;
     }
 
     // 낙하, 대쉬공격에 따른 데미지배율계산
@@ -289,17 +312,14 @@ public class PlayerCombat : MonoBehaviour
             case eAttackStyle.Normal:
                 damage = _weapon._atkPower * 1.0f;
                 break;
-            case eAttackStyle.FallAttack:
+            case eAttackStyle.DodgeAttack:
                 damage = _weapon._atkPower * 3.0f;
+                break;
+            case eAttackStyle.FallAttack:
+                damage = _weapon._atkPower * 4.0f;
                 break;
         }
 
         return damage;
-    }
-
-    // 애니메이션 delegate로 원거리공격
-    public void LaunchProjectile()
-    {
-        Instantiate(_longRangeProjectile, _firePos.position, transform.rotation);
     }
 }   

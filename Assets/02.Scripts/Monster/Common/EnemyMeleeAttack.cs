@@ -8,7 +8,7 @@ public class EnemyMeleeAttack : MonoBehaviour
 
     void Start()
     {
-        _damage = GetComponentInParent<MeleeRange_2>()._atkDmg;
+        _damage = GetComponentInParent<MeleeRange>()._atkDmg;
     }
 
     void OnTriggerEnter(Collider other)

@@ -18,13 +18,11 @@ public class FollowCamera : MonoBehaviour
     public eCameraState CamState { get { return _camState; } set { _camState = value; } }
     eCameraState _camState;
     Camera _cam;
-    float _originShakeDur;
 
     void Start()
     {
         _cam = Camera.main;
         _camState = eCameraState.Follow;
-        _originShakeDur = _shakeDur;
     }
 
     void Update()
@@ -51,18 +49,16 @@ public class FollowCamera : MonoBehaviour
         }
     }
 
-    public IEnumerator ShakingCamera()
+    public IEnumerator ShakingCamera(float shakeDur, float shakeAmount)
     {
         Vector3 originCamPos = transform.localPosition;
-        while (_shakeDur > 0.0f)
+        while (shakeDur > 0.0f)
         {
-            Vector3 randomPos = originCamPos + Random.insideUnitSphere * _shakeAmount;
+            Vector3 randomPos = originCamPos + Random.insideUnitSphere * shakeAmount;
             transform.localPosition = randomPos;
-            _shakeDur -= Time.deltaTime;
+            shakeDur -= Time.deltaTime;
             yield return null;
         }
-
-        _shakeDur = _originShakeDur;
     }
 
     /// <summary>

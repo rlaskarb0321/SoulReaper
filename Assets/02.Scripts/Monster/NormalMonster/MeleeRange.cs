@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeRange_2 : MonsterBase_2
+public class MeleeRange : MonsterBase
 {
     [Space(15.0f)]
     public GameObject _atkCollObj;
@@ -41,6 +41,7 @@ public class MeleeRange_2 : MonsterBase_2
         StartCoroutine(OnHitEffect());
         if (_currHp <= 0.0f)
         {
+            _currHp = 0.0f;
             Dead();
         }
     }
@@ -86,7 +87,7 @@ public class MeleeRange_2 : MonsterBase_2
     {
         BoxCollider boxColl = this.GetComponent<BoxCollider>();
 
-        _brain._fsm = MonsterAI_2.eMonsterFSM.Dead;
+        _brain._fsm = MonsterAI.eMonsterFSM.Dead;
         _animator.SetTrigger(_hashDead);
         _nav.velocity = Vector3.zero;
         _nav.isStopped = true;

@@ -41,7 +41,7 @@ public class EnemyProjectile : MonoBehaviour
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                MonsterBase_2 monster = other.GetComponent<MonsterBase_2>();
+                MonsterBase monster = other.GetComponent<MonsterBase>();
                 // Vector3 hitDir = (other.transform.forward - _rbody.position).normalized;
                 monster.DecreaseHp(_dmg);
                 GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;

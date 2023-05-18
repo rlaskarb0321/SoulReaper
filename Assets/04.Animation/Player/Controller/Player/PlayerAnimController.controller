@@ -194,7 +194,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Falling Add Attack
-  m_Speed: 2.5
+  m_Speed: 2.7
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8837177152012354005}
@@ -247,7 +247,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Roll Add Attack
-  m_Speed: 4
+  m_Speed: 2.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7823848736962420806}
@@ -1323,7 +1323,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: yVelocity
-    m_EventTreshold: -2
+    m_EventTreshold: -1
   - m_ConditionMode: 2
     m_ConditionEvent: FallAttack
     m_EventTreshold: 0

@@ -360,8 +360,8 @@ GameObject:
   - component: {fileID: 8312964977247072860}
   - component: {fileID: 157836366128375959}
   - component: {fileID: 8312964977247072861}
-  - component: {fileID: -6071818898445774815}
-  - component: {fileID: 959151091989168445}
+  - component: {fileID: 6616108947912997508}
+  - component: {fileID: 5732425218775670567}
   m_Layer: 12
   m_Name: Rabbit_Level_1_2
   m_TagString: Untagged
@@ -458,7 +458,7 @@ NavMeshAgent:
   m_BaseOffset: 0.03
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &-6071818898445774815
+--- !u!114 &6616108947912997508
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8312964977247040739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c281c88458a2aa4daec1fe155cbe163, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a4038943cc32504c8e097e5608bb2b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rbody: {fileID: 0}
@@ -476,11 +476,11 @@ MonoBehaviour:
   _brain: {fileID: 0}
   _mesh: {fileID: 0}
   _stat:
-    health: 30
-    rotSpeed: 5
-    movSpeed: 3
-    isInitiator: 1
-    traceDist: 12
+    health: 200
+    rotSpeed: 3.6
+    movSpeed: 2.7
+    isInitiator: 0
+    traceDist: 13
     attakDist: 2
     actDelay: 2.8
   _currHp: 0
@@ -495,7 +495,7 @@ MonoBehaviour:
   _bodyBuryTime: 2.5
   _atkCollObj: {fileID: 7615946478086124151}
   _atkDmg: 10
---- !u!114 &959151091989168445
+--- !u!114 &5732425218775670567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -504,12 +504,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8312964977247040739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 304795825b4077e4ebe29f2771210779, type: 3}
+  m_Script: {fileID: 11500000, guid: eadbfec748da55c4bb338cc197595550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _isDef: 0
-  _randomMinScoutIdle: -1.5
-  _randomMaxScoutIdle: 2.2
+  _randomMinScoutIdle: -1.2
+  _randomMaxScoutIdle: 1.2
   _isTargetConfirm: 0
   _fsm: 0
 --- !u!1 &8312964977247040741

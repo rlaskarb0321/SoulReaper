@@ -3,209 +3,155 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// 몬스터들의 다음 행동 실행을 위해 몬스터 뇌의 욕구를 설정하는 클래스
 public class MonsterAI : MonoBehaviour
 {
-    // 몬스터가 하고자하는 욕구들의 종류
-    public enum eMonsterDesires { Patrol, Idle, Trace, Attack, Defense, Delay, Dead }
-    [SerializeField] private eMonsterDesires _monsterBrain;
-    public eMonsterDesires MonsterBrain
+    public bool _isDef;
+    [Header("Idle Delay")]
+    [Tooltip("반드시 <= 0")]
+    public float _randomMinScoutIdle;
+    [Tooltip("반드시 > 0")]
+    public float _randomMaxScoutIdle;
+    [Space(10.0f)]
+    public bool _isTargetConfirm; // 적 발견 여부값을 저장
+
+    public enum eMonsterFSM { Idle, Patrol, Trace, Attack, Defense, Dead }
+    public eMonsterFSM _fsm;
+
+    private Transform _targetTr;
+    private Vector3 _patrolPos;
+    private int _playerSearchLayer;
+    private bool _isSetPatrolPos;
+    private float _combatIdleTime; // 전투 관련 대기할 시간값
+    private float _scoutIdleTime; // 정찰 완료 후 대기할 시간값
+    private float _currScoutIdle; // 현재 남아있는 정찰 대기시간값
+    private MonsterStat _stat;
+    private MonsterBase _monster;
+
+    private void Awake()
     {
-        get { return _monsterBrain; }
-        set // MonsterBrain값을 변경하면서 각 상태의맞는 이동속도값으로 수정
-        {
-            if (value != eMonsterDesires.Attack && _monsterBase._isActing)
-                _monsterBase._isActing = false;
-
-            _monsterBrain = value;
-            switch (value)
-            {
-                case eMonsterDesires.Patrol:
-                    _monsterBase._nav.speed = _monsterBase._basicStat.patrolMovSpeed;
-                    _monsterBase._movSpeed = _monsterBase._nav.speed;
-                    break;
-                case eMonsterDesires.Trace:
-                    _monsterBase._nav.speed = _monsterBase._basicStat.traceMovSpeed;
-                    _monsterBase._movSpeed = _monsterBase._nav.speed;
-                    break;
-                case eMonsterDesires.Defense:
-                    _monsterBase._nav.speed = _monsterBase._basicStat.kitingMovSpeed;
-                    _monsterBase._movSpeed = _monsterBase._nav.speed;
-                    break;
-            }
-        }
-    }
-    [HideInInspector] public bool _isTargetSet;
-    [HideInInspector] public Transform _target;
-    [HideInInspector] public Vector3 _patrolPos;
-    [Range(2.0f, 10.0f)] public float _idleTime; // 행동후 다음행동까지 기다리는 시간값
-    [Range(0.0f, 1.0f)] public float _needDefenseHpPercentage; // 해당값 이하일때 방어(카이팅, 가드)가 필요하다고 생각하게되는 hp 퍼센티지
-    [Range(5.0f, 10.0f)] public float _defenseEndure; // defense 무한지속을 방지하는 일정시간후에 자동으로 defense를 벗어나게해줄 값
-
-
-    // Field
-    Monster _monsterBase;
-    NavMeshAgent _nav;
-    float _originDelay;
-    int _playerSearchLayer;
-    float _currEndure;
-    int _soulOrbSearchLayer;
-    bool _isFindPatrolPos;
-    [SerializeField] bool _needDefense;
-
-    void Awake()
-    {
-        _monsterBase = GetComponent<Monster>();
-        _nav = GetComponent<NavMeshAgent>();
+        _stat = this.GetComponent<MonsterBase>()._stat;
+        _monster = GetComponent<MonsterBase>();
     }
 
-    void Start()
+    private void Start()
     {
         _playerSearchLayer = 1 << LayerMask.NameToLayer("PlayerTeam");
-        _soulOrbSearchLayer = 1 << LayerMask.NameToLayer("SoulOrb");
-        MonsterBrain = eMonsterDesires.Patrol;
-        _originDelay = _monsterBase._basicStat.actDelay;
-        _currEndure = _defenseEndure;
+        _combatIdleTime = _stat.actDelay;
+        _scoutIdleTime = _stat.actDelay;
+        _currScoutIdle = _scoutIdleTime;
     }
 
-    void Update()
+    private void Update()
     {
-        if (MonsterBrain == eMonsterDesires.Dead)
-            return;
-
-        DetermineDesires();
-    }
-
-    // 몬스터가 다음에 행동하고자 할 행동을 실행하기위해 몬스터의 욕구를 결정
-    void DetermineDesires()
-    {
-        #region 23/04/17 몬스터 Brain 작동방식 전환
-        //Collider[] detectedColls;
-        //float targetDist;
-
-        //// 타겟을 감지하지 못했을경우에는 Patrol
-        //if (!_isTargetSet)
-        //{
-        //    // 구체형 콜리더와 닿는것들중에 PlayerTeam이라는 레이어값을 가진 요소들만 배열에 추가
-        //    detectedColls = Physics.OverlapSphere(transform.position, _monsterBase._basicStat._traceRadius, _playerTeamLayer);
-
-        //    if (detectedColls.Length >= 1)
-        //    {
-        //        MonsterBrain = eMonsterDesires.Trace;
-        //        _isTargetSet = true;
-        //        _target = detectedColls[0].transform;
-        //    }
-        //    else
-        //    {
-        //        MonsterBrain = eMonsterDesires.Patrol;
-        //    }
-        //}
-
-        //// 타겟을 감지한경우
-        //else
-        //{
-        //    targetDist = Vector3.Distance(transform.position, _target.position);
-
-        //    // 타겟과의 거리에따라 Attack || Trace
-        //    if (targetDist <= _monsterBase._basicStat._attakableRadius)
-        //        MonsterBrain = eMonsterDesires.Attack;
-        //    else
-        //        MonsterBrain = eMonsterDesires.Trace;
-
-        //    // 타겟과의 거리에따라 Attack || Trace
-        //    //if (_monsterBase._nav.remainingDistance > _monsterBase._basicStat._attakableRadius)
-        //    //    MonsterBrain = eMonsterDesires.Trace;
-        //    //else
-        //    //    print("공격가능");
-        //    //    //MonsterBrain = eMonsterDesires.Attack;
-        //}
-        #endregion 23/04/17 몬스터 Brain 작동방식 전환
-        float targetDist;
-
-        switch (MonsterBrain)
+        if (_fsm == eMonsterFSM.Dead)
         {
-            // 적을 발견하기전에는 정찰~휴식 반복
-            case eMonsterDesires.Idle:
-            case eMonsterDesires.Patrol:
-                Collider[] detectColls = Physics.OverlapSphere(transform.position, _monsterBase._basicStat.traceRadius,
-                    _playerSearchLayer);
+            return;
+        }
 
-                if (detectColls.Length >= 1)
+        // 선공옵션이 켜지기 전에는 정찰만
+        if (!_stat.isInitiator)
+        {
+            Scout();
+            return;
+        }
+
+        if (_isTargetConfirm)
+        {
+            Combat();
+        }
+        else
+        {
+            Scout();
+        }
+    }
+
+    void Scout()
+    {
+        // 정찰하면서 목표(플레이어)를 발견하면 정찰취소
+        Collider[] detectColls = Physics.OverlapSphere(transform.position, _stat.traceDist, _playerSearchLayer);
+        if (detectColls.Length >= 1)
+        {
+            _isTargetConfirm = true;
+            _targetTr = detectColls[0].transform;
+            _fsm = eMonsterFSM.Trace;
+            return;
+        }
+
+        // 정찰할 곳을 고름
+        if (!_isSetPatrolPos)
+            _patrolPos = SetRandomPoint(transform.position, _patrolPos, _stat.traceDist);
+        
+        switch (_fsm)
+        {
+            case eMonsterFSM.Idle:
+                if (_scoutIdleTime == _currScoutIdle)
                 {
-                    _target = detectColls[0].transform;
-                    MonsterBrain = eMonsterDesires.Trace;
-                    break;
+                    _scoutIdleTime = _stat.actDelay + Random.Range(_randomMinScoutIdle, _randomMaxScoutIdle);
+                    _currScoutIdle = _scoutIdleTime;
                 }
 
-                if (!_isFindPatrolPos)
+                if (_currScoutIdle <= 0.0f)
                 {
-                    _patrolPos = SetRandomPoint(transform.position, _patrolPos, _monsterBase._basicStat.traceRadius);
-                }
-                else
-                {
-                    if (!_nav.pathPending)
-                    {
-                        if (_nav.remainingDistance <= _nav.stoppingDistance)
-                        {
-                            if (!_nav.hasPath || _nav.velocity.sqrMagnitude == 0f)
-                            {
-                                StartCoroutine(IdlePatrol());
-                            }
-                        }
-                        else
-                        {
-                            MonsterBrain = eMonsterDesires.Patrol;
-                        }
-                    }
-                }
-                break;
-
-            // 적을발견했을때 내 공격사거리 안에 플레이어가 들어와있는지 여부에따라 추격~공격
-            case eMonsterDesires.Attack:
-            case eMonsterDesires.Trace:
-                if (!_monsterBase._basicStat.isAttackFirst || _monsterBase._isActing)
-                    return;
-
-                targetDist = Vector3.Distance(transform.position, _target.position);
-                MonsterBrain = DetermineAttackOrTrace(targetDist);
-                break;
-
-            // 공격 or 방어자세를 취한후 일정시간동안 Delay주기위한상태
-            case eMonsterDesires.Delay:
-                if (_monsterBase._currActDelay < 0.0f)
-                {
-                    // 딜레이값을 다 지낸후에 방어를할지 다시 추격or공격을 할 지 결정
-                    targetDist = Vector3.Distance(transform.position, _target.position);
-
-                    if (DetermineWhethereNeedDefense(targetDist, (int)_monsterBase._monsterType) &&
-                        _monsterBase._currDefenseCool == _monsterBase._basicStat.defenseCoolTime)
-                    {
-                        MonsterBrain = eMonsterDesires.Defense;
-                        StartCoroutine(CoolDownDefense());
-                    }
-                    else
-                    {
-                        MonsterBrain = DetermineAttackOrTrace(targetDist);
-                        _monsterBase.StopNav(false);
-                    }
-
-                    _monsterBase._currActDelay = _originDelay;
-                    return;
-                }
-                _monsterBase._currActDelay -= Time.deltaTime;
-                break;
-
-            case eMonsterDesires.Defense:
-                if (_currEndure <= 0.0f)
-                {
-                    float newDelayValue = _monsterBase._currActDelay * 0.5f;
-                    _monsterBase._currActDelay = newDelayValue;
-                    MonsterBrain = eMonsterDesires.Delay;
-                    _currEndure = _defenseEndure;
+                    _isSetPatrolPos = false;
+                    _currScoutIdle = _scoutIdleTime;
                     return;
                 }
 
-                _currEndure -= Time.deltaTime;
+                if (!_monster._isIdle)
+                {
+                    _monster.Idle();
+                }
+
+                _currScoutIdle -= Time.deltaTime;
+                break;
+
+            case eMonsterFSM.Patrol:
+                _patrolPos.y = transform.position.y;
+                _monster.Move(_patrolPos, _stat.movSpeed);
+
+                // 도착지점과의 거리에따라 idle 혹은 patrol 전환
+                _fsm = Vector3.Distance(transform.position, _patrolPos) <= _monster._nav.stoppingDistance ?
+                    eMonsterFSM.Idle : eMonsterFSM.Patrol;
+                break;
+        }
+    }
+
+    void Combat()
+    {
+        switch (_fsm)
+        {
+            case eMonsterFSM.Idle:
+                if (_combatIdleTime <= 0.0f)
+                {
+                    _fsm = Vector3.Distance(transform.position, _targetTr.position) <= _stat.attakDist ?
+                    eMonsterFSM.Attack : eMonsterFSM.Trace;
+                    _combatIdleTime = _stat.actDelay;
+                    return;
+                }
+
+                if (!_monster._isIdle)
+                {
+                    _monster.Idle();
+                }
+
+                _combatIdleTime -= Time.deltaTime;
+                _monster.LookTarget(_targetTr.position);
+                break;
+
+            case eMonsterFSM.Trace:
+                _monster.Move(_targetTr.position, _stat.movSpeed);
+                _fsm = Vector3.Distance(transform.position, _targetTr.position) <= _stat.attakDist ?
+                    eMonsterFSM.Attack : eMonsterFSM.Trace;
+                break;
+
+            case eMonsterFSM.Attack:
+                if (_monster._isAtk)
+                    return;
+
+                _monster.Attack();
+                break;
+
+            case eMonsterFSM.Defense:
                 break;
         }
     }
@@ -219,71 +165,12 @@ public class MonsterAI : MonoBehaviour
             if (NavMesh.SamplePosition(randomPos, out hit, 2.0f, NavMesh.AllAreas))
             {
                 destination = hit.position;
-                _isFindPatrolPos = true;
-                MonsterBrain = eMonsterDesires.Patrol;
+                _isSetPatrolPos = true;
+                _fsm = eMonsterFSM.Patrol;
                 return destination;
             }
         }
 
         return Vector3.zero;
-    }
-
-    IEnumerator IdlePatrol()
-    {
-        if (MonsterBrain == eMonsterDesires.Idle)
-            yield break;
-
-        float randomValue = Random.Range(-1.0f, 0.5f);
-        WaitForSeconds waitSeconds = new WaitForSeconds(_idleTime + randomValue);
-        MonsterBrain = eMonsterDesires.Idle;
-
-        yield return waitSeconds;
-        _isFindPatrolPos = false;
-    }
-
-    // 몬스터타입별로 상이한 방어모드돌입 조건
-    public bool DetermineWhethereNeedDefense(float targetDist, int monsterType)
-    {
-        bool needDefense = false;
-
-        switch ((Monster.eMonsterType)monsterType)
-        {
-            case Monster.eMonsterType.Melee:
-                needDefense = _monsterBase._currHp / _monsterBase._basicStat.health < _needDefenseHpPercentage ? true : false;
-                return needDefense;
-
-            case Monster.eMonsterType.Range:
-                needDefense = targetDist <= _monsterBase._basicStat.attakableRadius * 0.5f ? true : false;
-                return needDefense;
-
-            case Monster.eMonsterType.Charge:
-                return needDefense;
-
-            case Monster.eMonsterType.MeleeAndRange:
-                return needDefense;
-
-            default:
-                return needDefense;
-        }
-    }
-
-    // 공격or추격 결정
-    eMonsterDesires DetermineAttackOrTrace(float targetDist)
-    {
-        if (targetDist <= _monsterBase._basicStat.attakableRadius)
-            return eMonsterDesires.Attack;
-        else
-            return eMonsterDesires.Trace;
-    }
-
-    IEnumerator CoolDownDefense()
-    {
-        while (_monsterBase._currDefenseCool >= 0.0f)
-        {
-            _monsterBase._currDefenseCool -= Time.deltaTime;
-            yield return null;
-        }
-
-        _monsterBase._currDefenseCool = _monsterBase._basicStat.defenseCoolTime;
     }
 }

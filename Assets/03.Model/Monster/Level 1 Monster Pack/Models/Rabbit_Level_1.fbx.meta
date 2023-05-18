@@ -303,16 +303,18 @@ ModelImporter:
       curves: []
       events:
       - time: 0.23513953
-        functionName: 
+        functionName: MovingBehaviour
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: f468e3f2f51b18a4db3cf442c986ea65,
+          type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.9632982
-        functionName: 
+        functionName: MovingBehaviour
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: f468e3f2f51b18a4db3cf442c986ea65,
+          type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -396,14 +398,16 @@ ModelImporter:
       - time: 0.6332963
         functionName: ExecuteAtk
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: 6c281c88458a2aa4daec1fe155cbe163,
+          type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.8104815
         functionName: ExecuteAtk
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: 6c281c88458a2aa4daec1fe155cbe163,
+          type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
