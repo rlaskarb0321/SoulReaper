@@ -23,7 +23,7 @@ public class LongRange : MonsterBase
     public override void DecreaseHp(float amount)
     {
         _currHp -= amount;
-        StartCoroutine(OnHitEffect());
+        StartCoroutine(OnHitEvent());
         if (_currHp <= 0.0f)
         {
             _currHp = 0.0f;
@@ -31,7 +31,7 @@ public class LongRange : MonsterBase
         }
     }
 
-    public override IEnumerator OnHitEffect()
+    public override IEnumerator OnHitEvent()
     {
         Material newMat;
 
@@ -41,6 +41,13 @@ public class LongRange : MonsterBase
 
         newMat = _hitMats[0];
         _mesh.material = newMat;
+
+        // 적 발견하기전에 맞았을 때
+        //if (!_brain._isTargetConfirm)
+        //{
+        //    print("어디서 맞은거지?");
+        //    _brain._patrolPos = GameObject.Find("PlayerCharacter").transform.position;
+        //}
     }
 
     public override void Attack()

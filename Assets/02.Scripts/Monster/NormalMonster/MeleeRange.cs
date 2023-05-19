@@ -38,7 +38,7 @@ public class MeleeRange : MonsterBase
     public override void DecreaseHp(float amount)
     {
         _currHp -= amount;
-        StartCoroutine(OnHitEffect());
+        StartCoroutine(OnHitEvent());
         if (_currHp <= 0.0f)
         {
             _currHp = 0.0f;
@@ -71,7 +71,7 @@ public class MeleeRange : MonsterBase
         _nav.SetDestination(pos);
     }
 
-    public override IEnumerator OnHitEffect()
+    public override IEnumerator OnHitEvent()
     {
         Material newMat;
 

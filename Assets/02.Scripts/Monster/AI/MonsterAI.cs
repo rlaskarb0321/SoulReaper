@@ -13,12 +13,12 @@ public class MonsterAI : MonoBehaviour
     public float _randomMaxScoutIdle;
     [Space(10.0f)]
     public bool _isTargetConfirm; // 적 발견 여부값을 저장
-
+    public Transform _targetTr;
+    
     public enum eMonsterFSM { Idle, Patrol, Trace, Attack, Defense, Dead }
     public eMonsterFSM _fsm;
+    public Vector3 _patrolPos;
 
-    private Transform _targetTr;
-    private Vector3 _patrolPos;
     private int _playerSearchLayer;
     private bool _isSetPatrolPos;
     private float _combatIdleTime; // 전투 관련 대기할 시간값
@@ -48,10 +48,17 @@ public class MonsterAI : MonoBehaviour
             return;
         }
 
+        // 정찰지를 고름
+        if (!_isSetPatrolPos)
+        {
+            _patrolPos = SetRandomPoint(transform.position, _patrolPos, _stat.traceDist);
+            return;
+        }
+
         // 선공옵션이 켜지기 전에는 정찰만
         if (!_stat.isInitiator)
         {
-            Scout();
+            Scout(_patrolPos);
             return;
         }
 
@@ -61,11 +68,11 @@ public class MonsterAI : MonoBehaviour
         }
         else
         {
-            Scout();
+            Scout(_patrolPos);
         }
     }
 
-    void Scout()
+    void Scout(Vector3 destination)
     {
         // 정찰하면서 목표(플레이어)를 발견하면 정찰취소
         Collider[] detectColls = Physics.OverlapSphere(transform.position, _stat.traceDist, _playerSearchLayer);
@@ -77,10 +84,6 @@ public class MonsterAI : MonoBehaviour
             return;
         }
 
-        // 정찰할 곳을 고름
-        if (!_isSetPatrolPos)
-            _patrolPos = SetRandomPoint(transform.position, _patrolPos, _stat.traceDist);
-        
         switch (_fsm)
         {
             case eMonsterFSM.Idle:
@@ -114,6 +117,7 @@ public class MonsterAI : MonoBehaviour
                     eMonsterFSM.Idle : eMonsterFSM.Patrol;
                 break;
         }
+
     }
 
     void Combat()

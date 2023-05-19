@@ -84,7 +84,7 @@ public abstract class MonsterBase : MonoBehaviour
     /// <summary>
     /// 공격을 맞았을 때 이펙트관련 함수
     /// </summary>
-    public abstract IEnumerator OnHitEffect();
+    public abstract IEnumerator OnHitEvent();
 
     /// <summary>
     /// 몬스터를 죽게 해주고 관련변수 초기화해주는 함수
@@ -101,4 +101,6 @@ public abstract class MonsterBase : MonoBehaviour
     /// </summary>
     public abstract void Attack();
     #endregion Control Method
+
+    
 }

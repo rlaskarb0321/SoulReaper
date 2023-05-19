@@ -163,64 +163,32 @@ public class PlayerCombat : MonoBehaviour
     /// </summary>
     public void RotateToClickDir()
     {
+        RaycastHit[] hits;
         RaycastHit hit;
+        Ray ray;
         Vector3 clickVector;
         Vector3 dir;
 
-        if (Physics.Raycast(_cam.ScreenPointToRay(Input.mousePosition), out hit))
-        {
-            clickVector = new Vector3(hit.point.x, _player.position.y, hit.point.z);
-            dir = clickVector - _player.position;
-            transform.forward = dir;
-        }
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        hits = Physics.RaycastAll(ray, float.MaxValue, 1 << LayerMask.NameToLayer("Ground"));
+        hit = hits.Where(obj => obj.transform.tag != "Wall").FirstOrDefault();
+
+        clickVector = new Vector3(hit.point.x, _player.position.y, hit.point.z);
+        dir = clickVector - _player.position;
+        transform.forward = dir;
+
+        //if (Physics.Raycast(_cam.ScreenPointToRay(Input.mousePosition), out hit))
+        //{
+        //    clickVector = new Vector3(hit.point.x, _player.position.y, hit.point.z);
+        //    dir = clickVector - _player.position;
+        //    transform.forward = dir;
+        //}
     }
 
     public void InitChargingGauge()
     {
         _curLongRangeChargingTime = 0.0f;
         _animator.SetFloat(_hashChargingValue, _curLongRangeChargingTime);
-    }
-
-    // Attack 애니메이션 마지막에 달아놓는 Delegate, 콤보를 더 이어나갈지 공격을 끝낼지 결정한다.
-    public void SetComboInteger()
-    {
-        if (_atkBehaviour._isComboAtk)
-        {
-            _combo++;
-            if (_combo > 2)
-                _combo = 0;
-
-            RotateToClickDir();
-            _animator.SetInteger(_hashCombo, _combo);
-            _atkBehaviour._isComboAtk = false;
-            return;
-        }
-
-        EndComboAtk();
-    }
-
-    // 콤보공격단계중 마지막콤보의 마지막 프레임에 달아놓는 Delegate, 어택콤보를 초기화시킨다.
-    public void EndComboAtk()
-    {
-        _combo = 0;
-
-        if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead)
-        {
-            _animator.SetInteger(_hashCombo, _combo);
-            return;
-        }
-
-        // 공격1, 2, 차징발사 애니메이션 실행도중에 space가 입력되면 마지막프레임에서 회피로 이동
-        if (_smoothDodgeBehaviour._isDodgeInput)
-        {
-            StartCoroutine(_mov.Dodge(_mov._h, _mov._v));
-            _animator.SetInteger(_hashCombo, _combo);
-            return;
-        }
-
-        _state.State = PlayerFSM.eState.Idle;
-        _animator.SetInteger(_hashCombo, _combo);
-        _attackStyle = eAttackStyle.NonCombat;
     }
 
     public IEnumerator ActFallAttack(Rigidbody rbody, Animator animator)
@@ -259,6 +227,48 @@ public class PlayerCombat : MonoBehaviour
     }
 
     #region 애니메이션 Delegate용 함수들
+    // Attack 애니메이션 마지막에 달아놓는 Delegate, 콤보를 더 이어나갈지 공격을 끝낼지 결정한다.
+    public void SetComboInteger()
+    {
+        if (_atkBehaviour._isComboAtk)
+        {
+            _combo++;
+            if (_combo > 2)
+                _combo = 0;
+
+            RotateToClickDir();
+            _animator.SetInteger(_hashCombo, _combo);
+            _atkBehaviour._isComboAtk = false;
+            return;
+        }
+
+        EndComboAtk();
+    }
+
+    // 콤보공격단계중 마지막콤보의 마지막 프레임에 달아놓는 Delegate, 어택콤보를 초기화시킨다.
+    public void EndComboAtk()
+    {
+        _combo = 0;
+        _atkBehaviour._isComboAtk = false;
+
+        if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead)
+        {
+            _animator.SetInteger(_hashCombo, _combo);
+            return;
+        }
+
+        // 공격1, 2, 차징발사 애니메이션 실행도중에 space가 입력되면 마지막프레임에서 회피로 이동
+        if (_smoothDodgeBehaviour._isDodgeInput)
+        {
+            StartCoroutine(_mov.Dodge(_mov._h, _mov._v));
+            _animator.SetInteger(_hashCombo, _combo);
+            return;
+        }
+
+        _state.State = PlayerFSM.eState.Idle;
+        _animator.SetInteger(_hashCombo, _combo);
+        _attackStyle = eAttackStyle.NonCombat;
+    }
 
     // 낙하공격관련 애니메이션 델리게이트
     public void UnFreeze()
