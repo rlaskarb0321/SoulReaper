@@ -11,7 +11,7 @@ public class FollowCamera : MonoBehaviour
     public Transform _target;
     public float _range; 
     public float _speed;
-
+    public GameObject _raySearchTarget;
     public eCameraState CamState { get { return _camState; } set { _camState = value; } }
     eCameraState _camState;
     Camera _cam;
@@ -136,28 +136,20 @@ public class FollowCamera : MonoBehaviour
         RaycastHit[] silRayHits;
         RaycastHit hitObj;
 
-        silhouetteRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 100.0f, Color.red);
-        silRayHits = Physics.SphereCastAll(silhouetteRay, 0.8f, byte.MaxValue);
+        // silhouetteRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        silhouetteRay = new Ray(Camera.main.transform.position, (_raySearchTarget.transform.position - Camera.main.transform.position).normalized);
+        silRayHits = Physics.SphereCastAll(silhouetteRay, 1.8f, byte.MaxValue);
 
-        //hitObj = silRayHits.Last();
+        hitObj = silRayHits.Last();
         hitObj = silRayHits.OrderBy(distance => (Camera.main.transform.position - distance.transform.position).magnitude).First();
 
-        if (hitObj.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (hitObj.transform.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
         {
-            print(hitObj.transform.name + " Ground");
-            if (!_playerOutline.enabled)
-            {
-                _playerOutline.enabled = true;
-            }
+            _playerOutline.enabled = false;
         }
         else
         {
-            print(hitObj.transform.name + " Non Ground");
-            if (_playerOutline.enabled)
-            {
-                _playerOutline.enabled = false;
-            }
+            _playerOutline.enabled = true;
         }
     }
 }
