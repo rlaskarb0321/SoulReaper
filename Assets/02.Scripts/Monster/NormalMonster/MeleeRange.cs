@@ -28,11 +28,18 @@ public class MeleeRange : MonsterBase
         _isAtk = true;
         _nav.isStopped = true;
         _nav.velocity = Vector3.zero;
+
+        _animator.SetBool(_hashMove, false);
         _animator.SetTrigger(_hashAtk1);
     }
 
     #region 공격애니메이션 델리게이트 함수
     public void ExecuteAtk() => _atkColl.enabled = !_atkColl.enabled;
+    public void EndAttack()
+    {
+        _isAtk = !_isAtk;
+        _brain._fsm = MonsterAI.eMonsterFSM.Idle;
+    }
     #endregion 공격애니메이션 델리게이트 함수
 
     public override void DecreaseHp(float amount)

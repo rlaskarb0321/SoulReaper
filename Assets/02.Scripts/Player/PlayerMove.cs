@@ -146,7 +146,8 @@ public class PlayerMove : MonoBehaviour
         Quaternion newRot = Quaternion.LookRotation(_dir);
         //print(newRot.eulerAngles);
         newRot = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * Time.deltaTime);
-        newRot = Quaternion.Euler(transform.rotation.eulerAngles.x, newRot.eulerAngles.y, newRot.eulerAngles.z);
+        //newRot = Quaternion.Euler(transform.rotation.eulerAngles.x, newRot.eulerAngles.y, newRot.eulerAngles.z);
+        newRot = Quaternion.Euler(transform.rotation.eulerAngles.x, newRot.eulerAngles.y, transform.rotation.eulerAngles.z);
         _rbody.rotation = newRot;
     }
 

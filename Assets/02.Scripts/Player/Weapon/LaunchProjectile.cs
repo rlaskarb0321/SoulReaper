@@ -25,21 +25,28 @@ public class LaunchProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
+        {
+            return;
+        }
+
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             MonsterBase monster = other.GetComponent<MonsterBase>();
             monster.DecreaseHp(_dmg);
-            GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
-            Destroy(effect, 0.5f);
-
-            Destroy(gameObject, 0.1f);
         }
 
-        else if (other.gameObject.tag == "Wall")
-        {
-            GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
-            Destroy(effect, 0.5f);
-            Destroy(gameObject, 0.1f);
-        }
+        print(other.gameObject.name);
+        GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
+        Destroy(effect, 0.5f);
+
+        Destroy(gameObject, 0.1f);
+
+        //else if (other.gameObject.tag == "Wall")
+        //{
+        //    GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
+        //    Destroy(effect, 0.5f);
+        //    Destroy(gameObject, 0.1f);
+        //}
     }
 }

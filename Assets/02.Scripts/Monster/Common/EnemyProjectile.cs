@@ -51,7 +51,7 @@ public class EnemyProjectile : MonoBehaviour
             }
         }
 
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
         {
             GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
             PlayerStat player = other.GetComponent<PlayerStat>();
@@ -60,7 +60,7 @@ public class EnemyProjectile : MonoBehaviour
             StartCoroutine(DestroySelf(0.1f));
         }
 
-        else if (other.gameObject.tag == "Wall")
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
             Destroy(effect, 0.5f);

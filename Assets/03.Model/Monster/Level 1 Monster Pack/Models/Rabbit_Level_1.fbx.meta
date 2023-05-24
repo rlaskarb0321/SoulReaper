@@ -398,16 +398,21 @@ ModelImporter:
       - time: 0.6332963
         functionName: ExecuteAtk
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 6c281c88458a2aa4daec1fe155cbe163,
-          type: 3}
+        objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.8104815
+      - time: 0.8030465
+        functionName: EndAttack
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.81040895
         functionName: ExecuteAtk
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 6c281c88458a2aa4daec1fe155cbe163,
-          type: 3}
+        objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

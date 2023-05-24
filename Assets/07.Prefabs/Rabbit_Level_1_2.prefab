@@ -479,7 +479,7 @@ MonoBehaviour:
     health: 200
     rotSpeed: 3.6
     movSpeed: 2.7
-    isInitiator: 0
+    isInitiator: 1
     traceDist: 13
     attakDist: 2
     actDelay: 2.8
@@ -511,7 +511,9 @@ MonoBehaviour:
   _randomMinScoutIdle: -1.2
   _randomMaxScoutIdle: 1.2
   _isTargetConfirm: 0
+  _targetTr: {fileID: 0}
   _fsm: 0
+  _patrolPos: {x: 0, y: 0, z: 0}
 --- !u!1 &8312964977247040741
 GameObject:
   m_ObjectHideFlags: 0

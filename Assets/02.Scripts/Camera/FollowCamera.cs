@@ -136,12 +136,11 @@ public class FollowCamera : MonoBehaviour
         RaycastHit[] silRayHits;
         RaycastHit hitObj;
 
-        // silhouetteRay = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         silhouetteRay = new Ray(Camera.main.transform.position, (_raySearchTarget.transform.position - Camera.main.transform.position).normalized);
-        silRayHits = Physics.SphereCastAll(silhouetteRay, 1.8f, byte.MaxValue);
-
-        hitObj = silRayHits.Last();
-        hitObj = silRayHits.OrderBy(distance => (Camera.main.transform.position - distance.transform.position).magnitude).First();
+        //silRayHits = Physics.SphereCastAll(silhouetteRay, 0.26f, byte.MaxValue);
+        //Debug.DrawRay(Camera.main.transform.position, (_raySearchTarget.transform.position - Camera.main.transform.position), Color.red);
+        silRayHits = Physics.RaycastAll(silhouetteRay, (_raySearchTarget.transform.position - Camera.main.transform.position).magnitude);
+        hitObj = silRayHits.OrderBy(hit => (Camera.main.transform.position - hit.transform.position).magnitude).First();
 
         if (hitObj.transform.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
         {
