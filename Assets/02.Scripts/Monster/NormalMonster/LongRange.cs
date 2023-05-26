@@ -96,15 +96,14 @@ public class LongRange : MonsterBase
 
     protected override void Dead()
     {
-        BoxCollider boxColl = this.GetComponent<BoxCollider>();
+        Collider coll = this.GetComponent<Collider>();
 
         _brain._fsm = MonsterAI.eMonsterFSM.Dead;
         _animator.SetTrigger(_hashDead);
         _nav.velocity = Vector3.zero;
         _nav.isStopped = true;
         _nav.baseOffset = 0.0f;
-        boxColl.size = Vector3.one;
-        boxColl.enabled = false;
+        coll.enabled = false;
 
         StartCoroutine(OnMonsterDie());
     }

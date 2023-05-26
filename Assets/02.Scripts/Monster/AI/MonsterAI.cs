@@ -56,7 +56,7 @@ public class MonsterAI : MonoBehaviour
         // 정찰지를 고름
         if (!_isSetPatrolPos)
         {
-            _patrolPos = (_patrolPos == Vector3.zero) ? SetRandomPoint(transform.position, _patrolPos, _stat.traceDist * 0.5f) : _patrolPos;
+            _patrolPos = SetRandomPoint(transform.position, _patrolPos, _stat.traceDist * 0.5f);
             //_patrolPos = SetRandomPoint(transform.position, _patrolPos, _stat.traceDist * 0.5f);
             return;
         }
@@ -130,39 +130,39 @@ public class MonsterAI : MonoBehaviour
         //    return;
         //}
 
-        //switch (_fsm)
-        //{
-        //    case eMonsterFSM.Idle:
-        //        if (_scoutIdleTime == _currScoutIdle)
-        //        {
-        //            _scoutIdleTime = _stat.actDelay + Random.Range(_randomMinScoutIdle, _randomMaxScoutIdle);
-        //            _currScoutIdle = _scoutIdleTime;
-        //        }
+        switch (_fsm)
+        {
+            case eMonsterFSM.Idle:
+                if (_scoutIdleTime == _currScoutIdle)
+                {
+                    _scoutIdleTime = _stat.actDelay + Random.Range(_randomMinScoutIdle, _randomMaxScoutIdle);
+                    _currScoutIdle = _scoutIdleTime;
+                }
 
-        //        if (_currScoutIdle <= 0.0f)
-        //        {
-        //            _isSetPatrolPos = false;
-        //            _currScoutIdle = _scoutIdleTime;
-        //            return;
-        //        }
+                if (_currScoutIdle <= 0.0f)
+                {
+                    _isSetPatrolPos = false;
+                    _currScoutIdle = _scoutIdleTime;
+                    return;
+                }
 
-        //        if (!_monster._isIdle)
-        //        {
-        //            _monster.Idle();
-        //        }
+                if (!_monster._isIdle)
+                {
+                    _monster.Idle();
+                }
 
-        //        _currScoutIdle -= Time.deltaTime;
-        //        break;
+                _currScoutIdle -= Time.deltaTime;
+                break;
 
-        //    case eMonsterFSM.Patrol:
-        //        _patrolPos.y = transform.position.y;
-        //        _monster.Move(_patrolPos, _stat.movSpeed);
+            case eMonsterFSM.Patrol:
+                _patrolPos.y = transform.position.y;
+                _monster.Move(_patrolPos, _stat.movSpeed);
 
-        //        // 도착지점과의 거리에따라 idle 혹은 patrol 전환
-        //        _fsm = Vector3.Distance(transform.position, _patrolPos) <= _monster._nav.stoppingDistance ?
-        //            eMonsterFSM.Idle : eMonsterFSM.Patrol;
-        //        break;
-        //}
+                // 도착지점과의 거리에따라 idle 혹은 patrol 전환
+                _fsm = Vector3.Distance(transform.position, _patrolPos) <= _monster._nav.stoppingDistance ?
+                    eMonsterFSM.Idle : eMonsterFSM.Patrol;
+                break;
+        }
 
     }
 
@@ -253,11 +253,6 @@ public class MonsterAI : MonoBehaviour
             if (NavMesh.SamplePosition(randomPos, out hit, radius, NavMesh.AllAreas))
             {
                 destination = hit.position;
-                _nav.CalculatePath(destination, _path);
-                if (_nav.pathStatus == NavMeshPathStatus.PathInvalid)
-                {
-                    continue;
-                }
                 _isSetPatrolPos = true;
                 _fsm = eMonsterFSM.Patrol;
                 return destination;

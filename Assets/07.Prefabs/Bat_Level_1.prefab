@@ -1457,6 +1457,7 @@ MonoBehaviour:
   _targetTr: {fileID: 0}
   _fsm: 0
   _patrolPos: {x: 0, y: 0, z: 0}
+  _isSetPatrolPos: 0
 --- !u!1 &5257809214769901431
 GameObject:
   m_ObjectHideFlags: 0

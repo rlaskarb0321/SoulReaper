@@ -257,7 +257,7 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-        // 공격1, 2, 차징발사 애니메이션 실행도중에 space가 입력되면 마지막프레임에서 회피로 이동
+        // 공격1, 2, 차징발사 애니메이션 실행도중에 space가 입력되면 해당 애니메이션의 마지막프레임에서 회피로 이동
         if (_smoothDodgeBehaviour._isDodgeInput)
         {
             StartCoroutine(_mov.Dodge(_mov._h, _mov._v));
