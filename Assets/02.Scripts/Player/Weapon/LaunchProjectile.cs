@@ -36,10 +36,8 @@ public class LaunchProjectile : MonoBehaviour
             monster.DecreaseHp(_dmg);
         }
 
-        print(other.gameObject.name);
         GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
         Destroy(effect, 0.5f);
-
         Destroy(gameObject, 0.1f);
 
         //else if (other.gameObject.tag == "Wall")

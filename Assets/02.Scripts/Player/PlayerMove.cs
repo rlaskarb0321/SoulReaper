@@ -187,7 +187,7 @@ public class PlayerMove : MonoBehaviour
             // 구르는 방향에 벽이 너무가까이있으면 벽을 뚫지않도록하기위해 짧은 ray발사 후, 충돌지역까지만 구르기로 이동
             RaycastHit hit;
             currDur += Time.deltaTime;
-            if (!Physics.Raycast(_rbody.position, transform.forward, out hit, 0.25f))
+            if (!Physics.Raycast(_rbody.position, transform.forward, out hit, 0.6f))
             {
                 _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
             }

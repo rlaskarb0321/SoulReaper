@@ -20,17 +20,22 @@ public class MonsterAI : MonoBehaviour
     public Vector3 _patrolPos;
 
     private int _playerSearchLayer;
-    private bool _isSetPatrolPos;
+    public bool _isSetPatrolPos;
     private float _combatIdleTime; // 전투 관련 대기할 시간값
     private float _scoutIdleTime; // 정찰 완료 후 대기할 시간값
     private float _currScoutIdle; // 현재 남아있는 정찰 대기시간값
     private MonsterStat _stat;
     private MonsterBase _monster;
+    private NavMeshAgent _nav;
+    private NavMeshPath _path;
+
 
     private void Awake()
     {
         _stat = this.GetComponent<MonsterBase>()._stat;
         _monster = GetComponent<MonsterBase>();
+        _nav = GetComponent<NavMeshAgent>();
+        _path = new NavMeshPath();
     }
 
     private void Start()
@@ -51,7 +56,8 @@ public class MonsterAI : MonoBehaviour
         // 정찰지를 고름
         if (!_isSetPatrolPos)
         {
-            _patrolPos = SetRandomPoint(transform.position, _patrolPos, _stat.traceDist);
+            _patrolPos = (_patrolPos == Vector3.zero) ? SetRandomPoint(transform.position, _patrolPos, _stat.traceDist * 0.5f) : _patrolPos;
+            //_patrolPos = SetRandomPoint(transform.position, _patrolPos, _stat.traceDist * 0.5f);
             return;
         }
 
@@ -74,8 +80,11 @@ public class MonsterAI : MonoBehaviour
 
     void Scout(Vector3 destination)
     {
-        // 정찰하면서 목표(플레이어)를 발견하면 정찰취소
+        // 정찰하면서 목표(플레이어)가 도달할 수 있는 지역에있으면 추격시작
         Collider[] detectColls = Physics.OverlapSphere(transform.position, _stat.traceDist, _playerSearchLayer);
+        // Collider[] detectColls = Physics.OverlapCapsule(, , _stat.traceDist, _playerSearchLayer);
+        
+        // 원본
         if (detectColls.Length >= 1)
         {
             _isTargetConfirm = true;
@@ -84,39 +93,76 @@ public class MonsterAI : MonoBehaviour
             return;
         }
 
-        switch (_fsm)
-        {
-            case eMonsterFSM.Idle:
-                if (_scoutIdleTime == _currScoutIdle)
-                {
-                    _scoutIdleTime = _stat.actDelay + Random.Range(_randomMinScoutIdle, _randomMaxScoutIdle);
-                    _currScoutIdle = _scoutIdleTime;
-                }
+        //// 2차수정
+        //for (int i = 0; i < detectColls.Length; i++)
+        //{
+        //    _nav.destination = detectColls[0].gameObject.transform.position;
+        //    if (_nav.pathStatus == NavMeshPathStatus.PathPartial)
+        //    {
+        //        print("x");
+        //    }
+        //    else
+        //    {
+        //        print("o");
+        //    }
+        //}
 
-                if (_currScoutIdle <= 0.0f)
-                {
-                    _isSetPatrolPos = false;
-                    _currScoutIdle = _scoutIdleTime;
-                    return;
-                }
+        // // 1차수정
+        //for (int i = 0; i < detectColls.Length; i++)
+        //{
+        //    _nav.CalculatePath(detectColls[i].gameObject.transform.position, _path);
+        //    _nav.SetPath(_path);
+        //    if (_path.status == NavMeshPathStatus.PathPartial)
+        //    {
+        //    }
+        //    else
+        //    {
+        //        print("o");
+        //    }
+        //}
 
-                if (!_monster._isIdle)
-                {
-                    _monster.Idle();
-                }
+        // 원본
+        //if (detectColls.Length >= 1)
+        //{
+        //    _isTargetConfirm = true;
+        //    _targetTr = detectColls[0].transform;
+        //    _fsm = eMonsterFSM.Trace;
+        //    return;
+        //}
 
-                _currScoutIdle -= Time.deltaTime;
-                break;
+        //switch (_fsm)
+        //{
+        //    case eMonsterFSM.Idle:
+        //        if (_scoutIdleTime == _currScoutIdle)
+        //        {
+        //            _scoutIdleTime = _stat.actDelay + Random.Range(_randomMinScoutIdle, _randomMaxScoutIdle);
+        //            _currScoutIdle = _scoutIdleTime;
+        //        }
 
-            case eMonsterFSM.Patrol:
-                _patrolPos.y = transform.position.y;
-                _monster.Move(_patrolPos, _stat.movSpeed);
+        //        if (_currScoutIdle <= 0.0f)
+        //        {
+        //            _isSetPatrolPos = false;
+        //            _currScoutIdle = _scoutIdleTime;
+        //            return;
+        //        }
 
-                // 도착지점과의 거리에따라 idle 혹은 patrol 전환
-                _fsm = Vector3.Distance(transform.position, _patrolPos) <= _monster._nav.stoppingDistance ?
-                    eMonsterFSM.Idle : eMonsterFSM.Patrol;
-                break;
-        }
+        //        if (!_monster._isIdle)
+        //        {
+        //            _monster.Idle();
+        //        }
+
+        //        _currScoutIdle -= Time.deltaTime;
+        //        break;
+
+        //    case eMonsterFSM.Patrol:
+        //        _patrolPos.y = transform.position.y;
+        //        _monster.Move(_patrolPos, _stat.movSpeed);
+
+        //        // 도착지점과의 거리에따라 idle 혹은 patrol 전환
+        //        _fsm = Vector3.Distance(transform.position, _patrolPos) <= _monster._nav.stoppingDistance ?
+        //            eMonsterFSM.Idle : eMonsterFSM.Patrol;
+        //        break;
+        //}
 
     }
 
@@ -164,11 +210,54 @@ public class MonsterAI : MonoBehaviour
     {
         for (int i = 0; i < 30; i++)
         {
+            // 2차수정 코드
+            //Vector3 randomPos = center + Random.insideUnitSphere * radius;
+            //NavMeshHit hit;
+
+            //_nav.destination = randomPos;
+            //print(_path.corners.Length);
+
+            //if (_path.status == NavMeshPathStatus.PathInvalid)
+            //{
+            //    continue;
+            //}
+
+            //if (NavMesh.SamplePosition(randomPos, out hit, 4.0f, NavMesh.AllAreas))
+            //{
+            //    destination = hit.position;
+            //    _isSetPatrolPos = true;
+            //    _fsm = eMonsterFSM.Patrol;
+            //    return destination;
+            //}
+
+            // 1차수정 코드
+            //Vector3 randomPos = center + Random.insideUnitSphere * radius;
+            //NavMeshHit hit;
+
+            //if (NavMesh.SamplePosition(randomPos, out hit, 4.0f, NavMesh.AllAreas))
+            //{
+            //    _nav.CalculatePath(hit.position, _path);
+            //    if (_path.status == NavMeshPathStatus.PathInvalid)
+            //    {
+            //        destination = hit.position;
+            //        _isSetPatrolPos = true;
+            //        _fsm = eMonsterFSM.Patrol;
+            //        return destination;
+            //    }
+            //}
+
             Vector3 randomPos = center + Random.insideUnitSphere * radius;
             NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPos, out hit, 2.0f, NavMesh.AllAreas))
+
+            // 원래코드
+            if (NavMesh.SamplePosition(randomPos, out hit, radius, NavMesh.AllAreas))
             {
                 destination = hit.position;
+                _nav.CalculatePath(destination, _path);
+                if (_nav.pathStatus == NavMeshPathStatus.PathInvalid)
+                {
+                    continue;
+                }
                 _isSetPatrolPos = true;
                 _fsm = eMonsterFSM.Patrol;
                 return destination;
