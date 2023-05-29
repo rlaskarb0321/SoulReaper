@@ -6,6 +6,6 @@ public class RabbitMonster : MeleeRange
 {
     public override void MovingBehaviour()
     {
-        print("Åä³¢ Á¡ÇÁ");
+        // print("Åä³¢ Á¡ÇÁ");
     }
 }

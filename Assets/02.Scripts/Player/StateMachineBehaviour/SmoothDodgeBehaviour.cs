@@ -5,6 +5,8 @@ using UnityEngine;
 public class SmoothDodgeBehaviour : StateMachineBehaviour
 {
     public bool _isDodgeInput;
+    public float _h;
+    public float _v;
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -14,6 +16,8 @@ public class SmoothDodgeBehaviour : StateMachineBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             _isDodgeInput = true;
+            _h = Input.GetAxisRaw("Horizontal");
+            _v = Input.GetAxisRaw("Vertical");
         }
         else
         {

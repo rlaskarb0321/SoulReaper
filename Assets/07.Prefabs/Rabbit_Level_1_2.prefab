@@ -476,7 +476,7 @@ MonoBehaviour:
   _brain: {fileID: 0}
   _mesh: {fileID: 0}
   _stat:
-    health: 200
+    health: 100
     rotSpeed: 3.6
     movSpeed: 2.7
     isInitiator: 1

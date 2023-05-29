@@ -9,15 +9,22 @@ public class MeleeWeaponMgr : MonoBehaviour
     public float _atkPower;
     public GameObject[] _slashEffect;
     public GameObject _shockWave;
+    [HideInInspector]
+    public SoundEffects _sfx;
 
-    List<GameObject> _hitEnemiesList;
-    PlayerCombat _combat;
-    int _enemyLayer;
-    int _enemyProjectile;
+    private List<GameObject> _hitEnemiesList;
+    private PlayerCombat _combat;
+    private int _enemyLayer;
+    private int _enemyProjectile;
 
-    void Start()
+    private void Awake()
     {
         _combat = GetComponentInParent<PlayerCombat>();
+        _sfx = GetComponent<SoundEffects>();
+    }
+
+    private void Start()
+    {
         _enemyLayer = LayerMask.NameToLayer("Enemy");
         _enemyProjectile = LayerMask.NameToLayer("EnemyProjectile");
         _hitEnemiesList = new List<GameObject>();

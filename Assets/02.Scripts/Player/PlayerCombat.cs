@@ -260,8 +260,8 @@ public class PlayerCombat : MonoBehaviour
         // 공격1, 2, 차징발사 애니메이션 실행도중에 space가 입력되면 해당 애니메이션의 마지막프레임에서 회피로 이동
         if (_smoothDodgeBehaviour._isDodgeInput)
         {
-            StartCoroutine(_mov.Dodge(_mov._h, _mov._v));
             _animator.SetInteger(_hashCombo, _combo);
+            StartCoroutine(_mov.Dodge(_smoothDodgeBehaviour._h, _smoothDodgeBehaviour._v));
             return;
         }
 
@@ -288,17 +288,23 @@ public class PlayerCombat : MonoBehaviour
     public void SetActiveWeaponColl()
     {
         // 현재 boxcollider컴포넌트의 활성화값, TrailRenderer의 emitting값을 저장하고 반전시킨값을 대입시킴
-        bool collEnable = _weaponColl.enabled;
-        bool trailEnable = _weaponTrail.emitting;
+        bool isCollEnable = _weaponColl.enabled;
+        bool isTrailEnable = _weaponTrail.emitting;
 
-        _weaponTrail.emitting = !trailEnable;
-        _weaponColl.enabled = !collEnable;
+        _weaponTrail.emitting = !isTrailEnable;
+        _weaponColl.enabled = !isCollEnable;
     }
 
     // 애니메이션 delegate로 원거리공격
     public void LaunchProjectile()
     {
         Instantiate(_longRangeProjectile, _firePos.position, transform.rotation);
+    }
+
+    // 무기 SFX관련 delegate 함수
+    public void PlaySFXs()
+    {
+        _weapon._sfx.PlaySFXs();
     }
     #endregion 애니메이션 Delegate용 함수들
 

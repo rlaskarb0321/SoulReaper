@@ -1418,7 +1418,7 @@ MonoBehaviour:
   _brain: {fileID: 0}
   _mesh: {fileID: 0}
   _stat:
-    health: 50
+    health: 60
     rotSpeed: 3.5
     movSpeed: 2.5
     isInitiator: 1

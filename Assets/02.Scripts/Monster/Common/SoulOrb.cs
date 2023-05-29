@@ -13,7 +13,6 @@ public class SoulOrb : MonoBehaviour
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            print("¿˚¿Ã Ω¿µÊ");
             Destroy(gameObject, 1.0f);
         }
     }
