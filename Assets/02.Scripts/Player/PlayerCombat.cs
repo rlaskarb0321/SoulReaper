@@ -29,14 +29,13 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Field")]
     Transform _player;
-    Camera _cam;
     Animator _animator;
     Rigidbody _rbody;
 
     // Weapon
-    BoxCollider _weaponColl;
-    TrailRenderer _weaponTrail;
-    MeleeWeaponMgr _weapon;
+    private BoxCollider _weaponColl;
+    private TrailRenderer _weaponTrail;
+    private MeleeWeaponMgr _weapon;
 
     int _combo;
     bool _unFreeze;
@@ -72,7 +71,6 @@ public class PlayerCombat : MonoBehaviour
 
     void Start()
     {
-        _cam = Camera.main;
         _player = this.transform;
         _combo = 0;
         _attackStyle = eAttackStyle.NonCombat;
@@ -94,6 +92,7 @@ public class PlayerCombat : MonoBehaviour
             // 근거리 공격
             _state.State = PlayerFSM.eState.Attack;
             RotateToClickDir();
+            _weapon._sfx.PlaySFXs("Slash Air");
             _animator.SetInteger(_hashCombo, ++_combo);
 
             // 근거리 일반공격 관련
@@ -238,6 +237,7 @@ public class PlayerCombat : MonoBehaviour
 
             RotateToClickDir();
             _animator.SetInteger(_hashCombo, _combo);
+            _weapon._sfx.PlaySFXs("Slash Air");
             _atkBehaviour._isComboAtk = false;
             return;
         }
@@ -301,11 +301,6 @@ public class PlayerCombat : MonoBehaviour
         Instantiate(_longRangeProjectile, _firePos.position, transform.rotation);
     }
 
-    // 무기 SFX관련 delegate 함수
-    public void PlaySFXs()
-    {
-        _weapon._sfx.PlaySFXs();
-    }
     #endregion 애니메이션 Delegate용 함수들
 
     private void GenShockWave(eAttackStyle attackStyle)
@@ -326,6 +321,8 @@ public class PlayerCombat : MonoBehaviour
     public void ActDodgeAttack()
     {
         _animator.SetTrigger(_hashDodgeAttack);
+        // _weapon._sfx.PlaySFXs("Slash Air");
+        StartCoroutine(_weapon._sfx.PlaySFXsDelay("Slash Air", 0.2f));
         _attackStyle = eAttackStyle.DodgeAttack;
     }
 
