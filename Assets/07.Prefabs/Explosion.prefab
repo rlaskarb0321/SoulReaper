@@ -4896,7 +4896,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.187
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4995,6 +4995,8 @@ MonoBehaviour:
   _sfxs:
   - name: Explosion
     sfx: {fileID: 8300000, guid: 1f69baede79b02548befe900c18221c7, type: 3}
+    isLoop: 0
+    isPlayOnAwake: 1
 --- !u!1 &5084589283769131857
 GameObject:
   m_ObjectHideFlags: 0

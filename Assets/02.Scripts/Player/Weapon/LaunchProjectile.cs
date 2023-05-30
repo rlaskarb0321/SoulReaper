@@ -37,7 +37,7 @@ public class LaunchProjectile : MonoBehaviour
         }
 
         GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
-        Destroy(effect, 0.5f);
+        Destroy(effect, 1.5f);
         Destroy(gameObject, 0.05f);
 
         //else if (other.gameObject.tag == "Wall")

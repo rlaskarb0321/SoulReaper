@@ -169,7 +169,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.825
+  m_Volume: 0.304
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -283,8 +283,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sfxs:
-  - name: 
+  - name: Slash Air
     sfx: {fileID: 8300000, guid: 7a01af942b1be0a438d8bc507d26d7b0, type: 3}
+    isLoop: 0
+    isPlayOnAwake: 0
+  - name: Attack Hit
+    sfx: {fileID: 8300000, guid: f066f3ebedc79dc429b921d5076e5491, type: 3}
     isLoop: 0
     isPlayOnAwake: 0
 --- !u!1 &6013990982369288243

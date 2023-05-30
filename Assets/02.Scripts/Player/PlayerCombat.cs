@@ -46,6 +46,7 @@ public class PlayerCombat : MonoBehaviour
     PlayerMove _mov;
     PlayerFSM _state;
     FollowCamera _followCam;
+    SoundEffects _sfx;
 
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
     readonly int _hashChargingValue = Animator.StringToHash("ChargingValue");
@@ -62,6 +63,7 @@ public class PlayerCombat : MonoBehaviour
         _rbody = GetComponent<Rigidbody>();
         _mov = GetComponent<PlayerMove>();
         _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
+        _sfx = GetComponent<SoundEffects>();
 
         // Weapon
         _weaponColl = _meleeWeaponObj.GetComponentInChildren<BoxCollider>();
@@ -92,7 +94,7 @@ public class PlayerCombat : MonoBehaviour
             // 근거리 공격
             _state.State = PlayerFSM.eState.Attack;
             RotateToClickDir();
-            _weapon._sfx.PlaySFXs("Slash Air");
+            _weapon._sfx.PlaySFXs("Slash Air", 0.3f);
             _animator.SetInteger(_hashCombo, ++_combo);
 
             // 근거리 일반공격 관련
@@ -237,7 +239,7 @@ public class PlayerCombat : MonoBehaviour
 
             RotateToClickDir();
             _animator.SetInteger(_hashCombo, _combo);
-            _weapon._sfx.PlaySFXs("Slash Air");
+            _weapon._sfx.PlaySFXs("Slash Air", 0.3f);
             _atkBehaviour._isComboAtk = false;
             return;
         }

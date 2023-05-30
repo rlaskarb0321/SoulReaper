@@ -24,7 +24,7 @@ public class SoundEffects : MonoBehaviour
     }
 
     // 타 스크립트에서 이 스크립트를 가질 게임오브젝트 소리를 실행시키기 위한 함수
-    public void PlaySFXs(string sfxName)
+    public void PlaySFXs(string sfxName, float volume = 1.0f)
     {
         #region Dict로 사운드 캐싱 case 1
         //int i;
@@ -57,6 +57,7 @@ public class SoundEffects : MonoBehaviour
         if (_sfxDict.TryGetValue(sfxName, out i))
         {
             _audio.loop = _sfxs[i].isLoop;
+            _audio.volume = volume;
             _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
             _audio.PlayOneShot(_sfxs[i].sfx);
 
@@ -71,6 +72,7 @@ public class SoundEffects : MonoBehaviour
                     _sfxDict.Add(_sfxs[i].name, i);
 
                     _audio.loop = _sfxs[i].isLoop;
+                    _audio.volume = volume;
                     _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
                     _audio.PlayOneShot(_sfxs[i].sfx);
                     // print("없어서 추가");
@@ -81,12 +83,12 @@ public class SoundEffects : MonoBehaviour
     }
 
     // 약간의 딜레이를 가진 후 사운드 실행
-    public IEnumerator PlaySFXsDelay(string sfxName, float delay)
+    public IEnumerator PlaySFXsDelay(string sfxName, float delay, float volume = 1.0f)
     {
         WaitForSeconds ws = new WaitForSeconds(delay);
         yield return ws;
 
-        PlaySFXs(sfxName);
+        PlaySFXs(sfxName, volume);
     }
 
     // PlayOnAwake가 true인 audioClip 재생
