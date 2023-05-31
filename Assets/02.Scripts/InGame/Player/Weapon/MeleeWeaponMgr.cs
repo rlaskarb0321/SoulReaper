@@ -61,7 +61,7 @@ public class MeleeWeaponMgr : MonoBehaviour
             if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 MonsterBase monster = _hitEnemiesList[i].GetComponent<MonsterBase>();
-                monster.DecreaseHp(_combat.CalcDamage());
+                monster.DecreaseHp(_combat.CalcDamage(), _combat.transform.position);
                 _hitEnemiesList.Remove(monster.gameObject);
             }
             else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))

@@ -33,7 +33,7 @@ public class LaunchProjectile : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             MonsterBase monster = other.GetComponent<MonsterBase>();
-            monster.DecreaseHp(_dmg);
+            monster.DecreaseHp(_dmg, Vector3.forward);
         }
 
         GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;

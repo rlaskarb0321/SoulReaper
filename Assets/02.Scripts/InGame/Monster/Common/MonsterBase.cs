@@ -19,7 +19,6 @@ public struct MonsterStat
 
 public abstract class MonsterBase : MonoBehaviour
 {
-    [HideInInspector] public Rigidbody _rbody;
     [HideInInspector] public Animator _animator;
     [HideInInspector] public NavMeshAgent _nav;
     [HideInInspector] public MonsterAI _brain;
@@ -30,6 +29,8 @@ public abstract class MonsterBase : MonoBehaviour
     public bool _isAtk;
     public bool _isIdle;
     [Space(10.0f)]
+    [Range(0, 20)]
+    public int _knockBackFrame;
     public Material[] _hitMats; // 0번 인덱스는 기본 mat, 1번 인덱스는 피격시 잠깐바뀔 mat
     public Material[] _deadMat; // 0번 인덱스는 기본 Opaque Mat, 1번 인덱스는 Fade Mat
     public float _bodyBuryTime; // 시체처리연출의 시작까지 기다릴 값
@@ -40,7 +41,6 @@ public abstract class MonsterBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        _rbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _nav = GetComponent<NavMeshAgent>();
         _brain = GetComponent<MonsterAI>();
@@ -67,7 +67,6 @@ public abstract class MonsterBase : MonoBehaviour
     /// <summary>
     /// 타겟을 바라보게 해주는 함수
     /// </summary>
-    /// <param name="target"></param>
     public abstract void LookTarget(Vector3 target);
 
     /// <summary>
@@ -78,13 +77,17 @@ public abstract class MonsterBase : MonoBehaviour
     /// <summary>
     /// 자신의 체력을 깎는 함수
     /// </summary>
-    /// <param name="amount"></param>
-    public abstract void DecreaseHp(float amount);
+    public abstract void DecreaseHp(float amount, Vector3 hitPos);
 
     /// <summary>
     /// 공격을 맞았을 때 이펙트관련 함수
     /// </summary>
     public abstract IEnumerator OnHitEvent();
+
+    /// <summary>
+    /// 공격을 맞았을 때 반응관련 함수
+    /// </summary>
+    protected virtual IEnumerator KnockBack(Vector3 hitPos) { yield return null; }
 
     /// <summary>
     /// 몬스터를 죽게 해주고 관련변수 초기화해주는 함수

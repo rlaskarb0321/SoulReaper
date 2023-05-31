@@ -26,16 +26,12 @@ public class MonsterAI : MonoBehaviour
     private float _currScoutIdle; // 현재 남아있는 정찰 대기시간값
     private MonsterStat _stat;
     private MonsterBase _monster;
-    private NavMeshAgent _nav;
-    private NavMeshPath _path;
 
 
     private void Awake()
     {
         _stat = this.GetComponent<MonsterBase>()._stat;
         _monster = GetComponent<MonsterBase>();
-        _nav = GetComponent<NavMeshAgent>();
-        _path = new NavMeshPath();
     }
 
     private void Start()

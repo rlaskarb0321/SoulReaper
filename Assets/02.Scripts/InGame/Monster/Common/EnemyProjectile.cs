@@ -43,7 +43,7 @@ public class EnemyProjectile : MonoBehaviour
             {
                 MonsterBase monster = other.GetComponent<MonsterBase>();
                 // Vector3 hitDir = (other.transform.forward - _rbody.position).normalized;
-                monster.DecreaseHp(_dmg);
+                monster.DecreaseHp(_dmg, Vector3.forward);
                 GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
                 Destroy(effect, 0.5f);
 

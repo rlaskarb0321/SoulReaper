@@ -8,6 +8,7 @@ public class LongRange : MonsterBase
     public GameObject _projectile;
     public Transform _firePos;
 
+    private WaitForFixedUpdate _wfs;
     private readonly int _hashAtk1 = Animator.StringToHash("Attack1");
     
     protected override void Awake()
@@ -18,12 +19,16 @@ public class LongRange : MonsterBase
     protected override void Start()
     {
         base.Start();
+
+        _wfs = new WaitForFixedUpdate();
     }
 
-    public override void DecreaseHp(float amount)
+    public override void DecreaseHp(float amount, Vector3 hitPos)
     {
-        _currHp -= amount;
+        StartCoroutine(KnockBack(hitPos));
         StartCoroutine(OnHitEvent());
+
+        _currHp -= amount;
         if (_currHp <= 0.0f)
         {
             _currHp = 0.0f;
@@ -48,6 +53,19 @@ public class LongRange : MonsterBase
         //    print("어디서 맞은거지?");
         //    _brain._patrolPos = GameObject.Find("PlayerCharacter").transform.position;
         //}
+    }
+
+    protected override IEnumerator KnockBack(Vector3 hitPos)
+    {
+        hitPos.y = transform.position.y;
+        Vector3 knockBackDir = (transform.position - hitPos).normalized;
+        int knockBackFrame = _knockBackFrame;
+
+        while (--knockBackFrame >= 0)
+        {
+            transform.position += knockBackDir * Time.fixedDeltaTime;
+            yield return _wfs;
+        }
     }
 
     public override void Attack()

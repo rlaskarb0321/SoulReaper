@@ -10,6 +10,7 @@ public class MeleeRange : MonsterBase
 
     private BoxCollider _atkColl;
     private readonly int _hashAtk1 = Animator.StringToHash("Attack1");
+    private WaitForFixedUpdate _wfs;
 
     protected override void Awake()
     {
@@ -21,6 +22,8 @@ public class MeleeRange : MonsterBase
     protected override void Start()
     {
         base.Start();
+
+        _wfs = new WaitForFixedUpdate();
     }
 
     public override void Attack()
@@ -42,10 +45,12 @@ public class MeleeRange : MonsterBase
     }
     #endregion 공격애니메이션 델리게이트 함수
 
-    public override void DecreaseHp(float amount)
+    public override void DecreaseHp(float amount, Vector3 hitPos)
     {
-        _currHp -= amount;
+        StartCoroutine(KnockBack(hitPos));
         StartCoroutine(OnHitEvent());
+
+        _currHp -= amount;
         if (_currHp <= 0.0f)
         {
             _currHp = 0.0f;
@@ -88,6 +93,19 @@ public class MeleeRange : MonsterBase
 
         newMat = _hitMats[0];
         _mesh.material = newMat;
+    }
+
+    protected override IEnumerator KnockBack(Vector3 hitPos)
+    {
+        hitPos.y = transform.position.y;
+        Vector3 knockBackDir = (transform.position - hitPos).normalized;
+        int knockBackFrame = _knockBackFrame;
+
+        while (--knockBackFrame >= 0)
+        {
+            transform.position += knockBackDir * Time.fixedDeltaTime;
+            yield return _wfs;
+        }
     }
 
     protected override void Dead()

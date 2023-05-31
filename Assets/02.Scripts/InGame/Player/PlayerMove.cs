@@ -6,6 +6,7 @@ public class PlayerMove : MonoBehaviour
     [Header("Move & Rotate")]
     public float _movSpeed;
     public float _rotSpeed;
+    [Range(0.0f, 90.0f)] public float _maxSlope;
     [HideInInspector] public float _v;
     [HideInInspector] public float _h;
 
@@ -22,12 +23,14 @@ public class PlayerMove : MonoBehaviour
     Rigidbody _rbody;
     bool _dodgeAttackEnd;
     float _originDodgeCoolDown;
+    WaitForFixedUpdate _wfs;
 
     [Header("Component")]
     PlayerCombat _combat;
     PlayerFSM _state;
     FollowCamera _followCam;
     FallBehaviour _fallBehaviour;
+    CapsuleCollider _capsuleColl;
     SmoothDodgeBehaviour _smoothDodgeBehaviour;
 
     readonly int _hashMove = Animator.StringToHash("isMove");
@@ -43,11 +46,13 @@ public class PlayerMove : MonoBehaviour
         _followCam = _followCamObj.GetComponent<FollowCamera>();
         _fallBehaviour = _animator.GetBehaviour<FallBehaviour>();
         _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
+        _capsuleColl = GetComponent<CapsuleCollider>();
     }
 
     void Start()
     {
         _originDodgeCoolDown = _dodgeCoolDown;
+        _wfs = new WaitForFixedUpdate();
     }
 
     void FixedUpdate()
@@ -113,9 +118,11 @@ public class PlayerMove : MonoBehaviour
         RaycastHit groundHit;
         Ray ray = new Ray(transform.position, -transform.up);
 
+        #region Ray 추가로 예전코드 비활성화
         // 떨어지는중인지아닌지 여부로 move애니메이션 결정
-        //bool isFall = _state.State == PlayerFSM.eState.Fall ? true : false;
+        // bool isFall = _state.State == PlayerFSM.eState.Fall ? true : false;
         //_animator.SetBool(_hashMove, !isFall);  
+        # endregion Ray 추가로 예전코드 비활성화
 
         if (Physics.Raycast(ray, out groundHit, 1.35f, 1 << LayerMask.NameToLayer("Ground")))
         {
@@ -137,19 +144,6 @@ public class PlayerMove : MonoBehaviour
         _rbody.MovePosition(_rbody.position + _dir * _movSpeed * Time.deltaTime);
     }
 
-    // 플레이어가 이동시키려는 방향으로 캐릭터를 스무스하게 회전시켜줌
-    void RotatePlayer()
-    {
-        if (_dir == Vector3.zero)
-            return;
-
-        Quaternion newRot = Quaternion.LookRotation(_dir);
-
-        newRot = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * Time.deltaTime);
-        newRot = Quaternion.Euler(transform.rotation.eulerAngles.x, newRot.eulerAngles.y, transform.rotation.eulerAngles.z);
-        _rbody.rotation = newRot;
-    }
-
     public IEnumerator Dodge(float h, float v)
     {
         if (_combat._curLongRangeChargingTime >= 0.0f)
@@ -164,6 +158,9 @@ public class PlayerMove : MonoBehaviour
         Vector3 dodgeDir; 
         float currDur = 0.0f;
         float dodgeSpeed = _movSpeed * _dodgeSpeed;
+        RaycastHit hit;
+        float wallAngle;
+        Vector3 wallClimbDir;
 
         // 구르기동작
         StartCoroutine(CoolDownDodge());
@@ -184,14 +181,28 @@ public class PlayerMove : MonoBehaviour
                 isDodgeAttackInput = true;
 
             // 구르는 방향에 벽이 너무가까이있으면 벽을 뚫지않도록하기위해 짧은 ray발사 후, 충돌지역까지만 구르기로 이동
-            RaycastHit hit;
             currDur += Time.deltaTime;
-            if (!Physics.Raycast(_rbody.position, transform.forward, out hit, 0.6f))
+            if (!Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius))
             {
+                // 플레이어 캡슐Coll의 반지름길이의 Ray가 벽과 충돌하지 않았을때는 구르기 이동
                 _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
             }
+            else
+            {
+                // 플레이어 캡슐Coll 반지름길이의 Ray가 벽과 충돌한 경우에는
+                // 벽의 각도를 구하고 해당 벽의 각도가 등반할 수 있는 값 이하이면 해당 경사면 방향으로 rbody MovePosition
 
-            yield return new WaitForFixedUpdate();
+                Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius, 1 << LayerMask.NameToLayer("Ground"));
+                wallAngle = Vector3.Angle(Vector3.up, hit.normal);
+                if (wallAngle <= _maxSlope)
+                {
+                    // 해당각도로 구르기이동
+                    wallClimbDir = Vector3.ProjectOnPlane(Vector3.up, hit.normal);
+                    wallClimbDir += transform.forward;
+                    _rbody.MovePosition(_rbody.position + wallClimbDir * dodgeSpeed * Time.deltaTime);
+                }
+            }
+            yield return _wfs;
         }
 
         // 구르기추가타 입력여부에 따른처리
@@ -213,6 +224,19 @@ public class PlayerMove : MonoBehaviour
             _animator.SetBool(_hashRoll, false);
             _smoothDodgeBehaviour._isDodgeInput = false;
         }
+    }
+
+    // 플레이어가 이동시키려는 방향으로 캐릭터를 스무스하게 회전시켜줌
+    void RotatePlayer()
+    {
+        if (_dir == Vector3.zero)
+            return;
+
+        Quaternion newRot = Quaternion.LookRotation(_dir);
+
+        newRot = Quaternion.Slerp(_rbody.rotation, newRot, _rotSpeed * Time.deltaTime);
+        newRot = Quaternion.Euler(transform.rotation.eulerAngles.x, newRot.eulerAngles.y, transform.rotation.eulerAngles.z);
+        _rbody.rotation = newRot;
     }
 
     IEnumerator CoolDownDodge()
