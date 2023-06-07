@@ -198,9 +198,9 @@ public class PlayerCombat : MonoBehaviour
         Vector3 landingPoint;
         float originAnimSpeed;
 
+        rbody.isKinematic = true;
         animator.SetBool(_hashFallAttack, true);
         _attackStyle = eAttackStyle.FallAttack;
-        rbody.isKinematic = true;
         originAnimSpeed = animator.speed;
         yield return new WaitUntil(() => _unFreeze);
 

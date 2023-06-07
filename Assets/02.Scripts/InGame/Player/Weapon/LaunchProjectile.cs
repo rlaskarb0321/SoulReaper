@@ -25,11 +25,6 @@ public class LaunchProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
-        {
-            return;
-        }
-
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             MonsterBase monster = other.GetComponent<MonsterBase>();

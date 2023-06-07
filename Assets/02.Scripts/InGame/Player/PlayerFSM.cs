@@ -88,12 +88,8 @@ public class PlayerFSM : MonoBehaviour
 
     void Fall()
     {
-        if (_isRoll)
-            _animator.SetBool(_hashRoll, false);
-        if (_atkCombo >= 1)
-            _animator.SetInteger(_hashCombo, 0);
+        ResetPlayerAnimParams();
 
-        _animator.ResetTrigger(_hashDodgeAttack);
         _state = eState.Fall;
         if (Input.GetMouseButtonDown(0))
         {
@@ -107,5 +103,13 @@ public class PlayerFSM : MonoBehaviour
         _weapon.transform.SetParent(parent);
         _weapon.transform.localPosition = Vector3.zero;
         _weapon.transform.localEulerAngles = Vector3.zero;
+    }
+
+    // 애니메이션 파라미터 초기화
+    public void ResetPlayerAnimParams()
+    {
+        _animator.SetBool(_hashRoll, false);
+        _animator.SetInteger(_hashCombo, 0);
+        _animator.ResetTrigger(_hashDodgeAttack);
     }
 }

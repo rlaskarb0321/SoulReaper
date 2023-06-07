@@ -194,6 +194,7 @@ public class PlayerMove : MonoBehaviour
 
                 Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius, 1 << LayerMask.NameToLayer("Ground"));
                 wallAngle = Vector3.Angle(Vector3.up, hit.normal);
+                // print(wallAngle);
                 if (wallAngle <= _maxSlope)
                 {
                     // 해당각도로 구르기이동

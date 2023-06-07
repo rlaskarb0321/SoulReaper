@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01.Scenes/03. Level_1_Boss_Castle.unity
+    path: Assets/01.Scenes/InGame/InGame_Castle.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/01.Scenes/OutGame/LoadingScene.unity
+    guid: 10223138a7f6c2e4a906d791da509e41
   m_configObjects: {}
