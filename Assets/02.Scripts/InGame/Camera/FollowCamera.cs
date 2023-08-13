@@ -77,54 +77,53 @@ public class FollowCamera : MonoBehaviour
         // 모니터 평면 기준, 가운데에서 마우스 위치로 향하는 벡터만큼 카메라를 월드좌표로 옮기게 해 주자
         // 중간에 어떤 물체를 만난다해도 모니터 평면을 변수로 여기니 어떻게 되지 않는다.
 
+        //Vector3 mousePos; // 마우스의 위치값 저장
+        //Vector3 dir; // player의 pos에서 mousePos로 향하는 벡터
+        //float dirLength;
+        //RaycastHit[] hits;
+        //RaycastHit hit;
+        //Ray ray;
 
-        Vector3 mousePos; // 마우스의 위치값 저장
-        Vector3 dir; // player의 pos에서 mousePos로 향하는 벡터
-        float dirLength;
-        RaycastHit[] hits;
-        RaycastHit hit;
-        Ray ray;
+        //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //hits = Physics.RaycastAll(ray, float.MaxValue, 1 << LayerMask.NameToLayer("Ground"));
+        //hit = hits.Where(obj => obj.transform.tag != "Wall").FirstOrDefault();
 
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        hits = Physics.RaycastAll(ray, float.MaxValue, 1 << LayerMask.NameToLayer("Ground"));
-        hit = hits.Where(obj => obj.transform.tag != "Wall").FirstOrDefault();
+        //mousePos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+        //dir = mousePos - new Vector3(player.position.x, transform.position.y, player.position.z);
+        //dirLength = dir.magnitude;
+        //dir = dir.normalized;
 
-        mousePos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-        dir = mousePos - new Vector3(player.position.x, transform.position.y, player.position.z);
-        dirLength = dir.magnitude;
-        dir = dir.normalized;
+        //// 카메라를 해당방향쪽으로 이동시킴
+        //Vector3 destination = new Vector3(player.position.x + (dir.x * range)
+        //    , transform.position.y
+        //    , player.position.z + (dir.z * range));
 
-        // 카메라를 해당방향쪽으로 이동시킴
-        Vector3 destination = new Vector3(player.position.x + (dir.x * range)
-            , transform.position.y
-            , player.position.z + (dir.z * range));
-
-        transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
+        //transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
         #region 23.05.19 물체의 모서리와 모서리 근처로 카메라를 보낼 때 위치값이 크게 차이나는 현상 수정
-        //if (Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit, 1 << LayerMask.NameToLayer("Ground")))
-        //{
-        //    mousePos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-        //    dir = mousePos - new Vector3(player.position.x, transform.position.y, player.position.z);
-        //    dirLength = dir.magnitude;
+        ////if (Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit, 1 << LayerMask.NameToLayer("Ground")))
+        ////{
+        ////    mousePos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+        ////    dir = mousePos - new Vector3(player.position.x, transform.position.y, player.position.z);
+        ////    dirLength = dir.magnitude;
 
-        //    if (dirLength < range)
-        //    {
-        //        // 허용범위안에 있다면 특별한거 없이 카메라를 마우스위치로 이동시킴
-        //        Vector3 destination = player.position + mousePos;
-        //        destination.y = transform.position.y;
-        //        transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
-        //    }
-        //    else
-        //    {
-        //        // 허용범위밖에 있다면 플레이어~마우스위치로의 방향만받고 카메라를 범위내에서 움직이게 함
-        //        dir = dir.normalized;
-        //        Vector3 destination = new Vector3(player.position.x + (dir.x * range)
-        //            , transform.position.y
-        //            , player.position.z + (dir.z * range));
+        ////    if (dirLength < range)
+        ////    {
+        ////        // 허용범위안에 있다면 특별한거 없이 카메라를 마우스위치로 이동시킴
+        ////        Vector3 destination = player.position + mousePos;
+        ////        destination.y = transform.position.y;
+        ////        transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
+        ////    }
+        ////    else
+        ////    {
+        ////        // 허용범위밖에 있다면 플레이어~마우스위치로의 방향만받고 카메라를 범위내에서 움직이게 함
+        ////        dir = dir.normalized;
+        ////        Vector3 destination = new Vector3(player.position.x + (dir.x * range)
+        ////            , transform.position.y
+        ////            , player.position.z + (dir.z * range));
 
-        //        transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
-        //    }
-        //}
+        ////        transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
+        ////    }
+        ////}
         #endregion 23.05.19 물체의 모서리와 모서리 근처로 카메라를 보낼 때 위치값이 크게 차이나는 현상 수정
     }
 
@@ -135,10 +134,6 @@ public class FollowCamera : MonoBehaviour
 
     void ControlTargetOutLine()
     {
-        // 23.08.04
-        // 카메라와 플레이어 사이에 오브젝트가 있을때 검사 후 playerTeam 이 아니면 실루엣 처리하는 방식에서
-        // 카메라와 플레이어 사이에 어떤 오브젝트가 있으면 실루엣 처리하는 방식으로 수정해보자
-
         Ray silhouetteRay;
         RaycastHit[] silRayHits;
         RaycastHit hitObj;

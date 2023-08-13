@@ -164,26 +164,12 @@ public class PlayerCombat : MonoBehaviour
     /// </summary>
     public void RotateToClickDir()
     {
-        RaycastHit[] hits;
-        RaycastHit hit;
-        Ray ray;
-        Vector3 clickVector;
-        Vector3 dir;
+        Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2); // 스크린 중앙 좌표
+        Vector2 baseVector = new Vector2(Screen.width / 2, Screen.height) - screenCenter; // 스크린 중앙 ~ 12시 스크린 꼭대기방향 벡터
+        Vector2 inputVector = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - screenCenter; // 스크린 중앙 ~ 마우스 입력방향 벡터
 
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        hits = Physics.RaycastAll(ray, float.MaxValue, 1 << LayerMask.NameToLayer("Ground"));
-        hit = hits.Where(obj => obj.transform.tag != "Wall").FirstOrDefault();
-
-        clickVector = new Vector3(hit.point.x, _player.position.y, hit.point.z);
-        dir = clickVector - _player.position;
-        transform.forward = dir;
-
-        //if (Physics.Raycast(_cam.ScreenPointToRay(Input.mousePosition), out hit))
-        //{
-        //    clickVector = new Vector3(hit.point.x, _player.position.y, hit.point.z);
-        //    dir = clickVector - _player.position;
-        //    transform.forward = dir;
-        //}
+        float angle = Vector2.SignedAngle(baseVector, inputVector);
+        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -angle, transform.eulerAngles.z);
     }
 
     public void InitChargingGauge()
