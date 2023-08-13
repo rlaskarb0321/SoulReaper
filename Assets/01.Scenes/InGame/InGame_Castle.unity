@@ -23750,7 +23750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movSpeed: 6.8
   _rotSpeed: 15
-  _maxSlope: 70
+  _maxSlope: 65
   _wallRayDintance: 1.7
   _v: 0
   _h: 0
@@ -23762,9 +23762,6 @@ MonoBehaviour:
   - {fileID: 884338798}
   - {fileID: 1776667461}
   - {fileID: 548993073}
-  _headRay: {fileID: 884338798}
-  _bellyRay: {fileID: 1776667461}
-  _footRay: {fileID: 548993073}
 --- !u!136 &616485954
 CapsuleCollider:
   m_ObjectHideFlags: 0

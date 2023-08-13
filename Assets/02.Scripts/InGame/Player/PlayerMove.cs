@@ -114,7 +114,7 @@ public class PlayerMove : MonoBehaviour
     void MovePlayer()
     {
         // 떨어질때 속력이 일정값 이하이면 fall상태로 전환
-        if (_animator.GetFloat(_hashYVelocity) <= -0.4f)
+        if (_animator.GetFloat(_hashYVelocity) <= -3.0f)
             _state.State = PlayerFSM.eState.Fall;
         else
             _state.State = PlayerFSM.eState.Move;
@@ -195,28 +195,63 @@ public class PlayerMove : MonoBehaviour
 
             currDur += Time.deltaTime;
 
-            // 구르는 방향에 벽이 너무가까이있으면 벽을 뚫지않도록하기위해 짧은 ray발사 후, 충돌지역까지만 구르기로 이동
-            // Ray가 벽에 닿지 않았을 때
-            if (!Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius))
+            // 3개의 레이(머리 배꼽 발끝)가 벽과 닿아있을 때 = 벽과 닿음
+            if (IsDeadEndRoad())
             {
-                // 구르기 이동
-                _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
+                _rbody.MovePosition(_rbody.position + Vector3.zero * Time.deltaTime);
+                yield return _wfs;
             }
-            // Ray가 벽에 닿았을 때
-            else
+
+            // 구르다가 Wall 을 만났을 때, 경사면을 체크 후 등반할 수 있는 각도 이하이면 해당 각도방향으로 구르기
+            if (Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius * _wallRayDintance,
+                1 << LayerMask.NameToLayer("Ground")))
             {
-                // 벽의 각도를 구하고 해당 벽의 각도가 등반할 수 있는 값 이하이면 해당 경사면 방향으로 rbody MovePosition
-                Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius * 2.0f, 1 << LayerMask.NameToLayer("Ground"));
-                
-                wallAngle = Vector3.Angle(Vector3.up, hit.normal);
-                if (wallAngle <= _maxSlope)
+                if (hit.collider.tag.Equals("Wall"))
                 {
-                    // 해당각도로 구르기이동
-                    wallClimbDir = Vector3.ProjectOnPlane(Vector3.up, hit.normal);
-                    wallClimbDir += transform.forward;
-                    _rbody.MovePosition(_rbody.position + wallClimbDir * dodgeSpeed * Time.deltaTime);
+                    wallAngle = Vector3.Angle(Vector3.up, hit.normal);
+                    if (wallAngle <= _maxSlope)
+                    {
+                        // 해당각도로 구르기이동
+                        wallClimbDir = Vector3.ProjectOnPlane(Vector3.up, hit.normal);
+                        wallClimbDir += transform.forward;
+                        _rbody.MovePosition(_rbody.position + wallClimbDir * dodgeSpeed * Time.deltaTime);
+                    }
+                    else
+                    {
+                        _rbody.MovePosition(_rbody.position + Vector3.zero * Time.deltaTime);
+                    }
                 }
             }
+            // 평지를 구를때
+            else
+            {
+                _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
+            }
+
+            #region 23.08.13 머리 배꼽 발끝 3개의 레이가 벽과 닿았을때 벽 닿음으로 판단하게 수정
+            //// 구르는 방향에 벽이 너무가까이있으면 벽을 뚫지않도록하기위해 짧은 ray발사 후, 충돌지역까지만 구르기로 이동
+            //// Ray가 벽에 닿지 않았을 때
+            //if (!Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius))
+            //{
+            //    // 구르기 이동
+            //    _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
+            //}
+            //// Ray가 벽에 닿았을 때
+            //else
+            //{
+            //    // 벽의 각도를 구하고 해당 벽의 각도가 등반할 수 있는 값 이하이면 해당 경사면 방향으로 rbody MovePosition
+            //    Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius * 2.0f, 1 << LayerMask.NameToLayer("Ground"));
+
+            //    wallAngle = Vector3.Angle(Vector3.up, hit.normal);
+            //    if (wallAngle <= _maxSlope)
+            //    {
+            //        // 해당각도로 구르기이동
+            //        wallClimbDir = Vector3.ProjectOnPlane(Vector3.up, hit.normal);
+            //        wallClimbDir += transform.forward;
+            //        _rbody.MovePosition(_rbody.position + wallClimbDir * dodgeSpeed * Time.deltaTime);
+            //    }
+            //}
+            #endregion 23.08.13 머리 배꼽 발끝 3개의 레이가 벽과 닿았을때 벽 닿음으로 판단하게 수정
             yield return _wfs;
         }
 
@@ -288,10 +323,14 @@ public class PlayerMove : MonoBehaviour
             ray = new Ray(_wallHitRays[i].transform.position, _wallHitRays[i].transform.forward);
 
             if (Physics.Raycast(ray, out rayHit, _capsuleColl.radius * _wallRayDintance, 1 << LayerMask.NameToLayer("Ground")))
+            {
                 if (!rayHit.collider.tag.Equals("Wall"))
                     return false;
+            }
             else
+            {
                 return false;
+            }
         }
 
         return true;
