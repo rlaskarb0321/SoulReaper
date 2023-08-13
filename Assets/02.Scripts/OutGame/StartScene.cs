@@ -1,12 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StartScene : MonoBehaviour
 {
     public GameObject _pressAnyKey;
     public GameObject _gameBtnGroup;
+    public Button _firstSelecBtn;
     [Range(0.0f, 3.0f)] public float _buttonShowDelay;
-    [Range(0.0f, 3.0f)]public float _loadNextSceneDelay;
+    [Range(0.0f, 3.0f)] public float _loadNextSceneDelay;
 
     private WaitForSeconds _waitbtnShow;
     private WaitForSeconds _waitLoadNextScene;
@@ -46,6 +48,8 @@ public class StartScene : MonoBehaviour
         yield return _waitLoadNextScene;
 
         _gameBtnGroup.SetActive(true);
+        _firstSelecBtn.Select();
+
         // 로딩씬 불러오기
     }
 

@@ -1039,6 +1039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pressAnyKey: {fileID: 270545761}
   _gameBtnGroup: {fileID: 1119088944}
+  _firstSelecBtn: {fileID: 40345405}
   _buttonShowDelay: 1.17
   _loadNextSceneDelay: 0.8
 --- !u!82 &805347194
@@ -1055,7 +1056,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

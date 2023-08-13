@@ -7,6 +7,7 @@ public class PlayerMove : MonoBehaviour
     public float _movSpeed;
     public float _rotSpeed;
     [Range(0.0f, 90.0f)] public float _maxSlope;
+    [SerializeField] private float _wallRayDintance;
     [HideInInspector] public float _v;
     [HideInInspector] public float _h;
 
@@ -17,6 +18,9 @@ public class PlayerMove : MonoBehaviour
     
     [Header("Follow Cam")]
     public GameObject _followCamObj;
+
+    [Header("Wall Hit Ray")]
+    [SerializeField] private GameObject[] _wallHitRays;
 
     Vector3 _dir; // 플레이어의 wasd조작으로 가게될 방향벡터값을 저장
     Animator _animator;
@@ -116,7 +120,7 @@ public class PlayerMove : MonoBehaviour
             _state.State = PlayerFSM.eState.Move;
 
         RaycastHit groundHit;
-        Ray ray = new Ray(transform.position, -transform.up);
+        Ray climbRay = new Ray(transform.position, -transform.up);
 
         #region Ray 추가로 예전코드 비활성화
         // 떨어지는중인지아닌지 여부로 move애니메이션 결정
@@ -124,11 +128,12 @@ public class PlayerMove : MonoBehaviour
         //_animator.SetBool(_hashMove, !isFall);  
         # endregion Ray 추가로 예전코드 비활성화
 
-        if (Physics.Raycast(ray, out groundHit, 1.35f, 1 << LayerMask.NameToLayer("Ground")))
+        // 경사면 이동
+        if (Physics.Raycast(climbRay, out groundHit, 1.35f, 1 << LayerMask.NameToLayer("Ground")))
         {
             _animator.SetBool(_hashMove, true);
             _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
-        
+
             if (Vector3.Angle(transform.up, groundHit.normal) != 0)
             {
                 Vector3 slopeMoveDir = Vector3.ProjectOnPlane(_dir, groundHit.normal);
@@ -139,6 +144,13 @@ public class PlayerMove : MonoBehaviour
         {
             _animator.SetBool(_hashMove, false);
             _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
+        }
+
+        // 벽 충돌
+        if (IsDeadEndRoad())
+        {
+            _rbody.MovePosition(_rbody.position + Vector3.zero * Time.deltaTime);
+            return;
         }
 
         _rbody.MovePosition(_rbody.position + _dir * _movSpeed * Time.deltaTime);
@@ -172,6 +184,7 @@ public class PlayerMove : MonoBehaviour
             dodgeDir = ((h * Vector3.right) + (v * Vector3.forward)).normalized;
         else
             dodgeDir = transform.forward;
+
         transform.forward = dodgeDir;
 
         while (currDur < _dodgeDur)
@@ -180,21 +193,22 @@ public class PlayerMove : MonoBehaviour
             if (Input.GetMouseButton(0) && !isDodgeAttackInput)
                 isDodgeAttackInput = true;
 
-            // 구르는 방향에 벽이 너무가까이있으면 벽을 뚫지않도록하기위해 짧은 ray발사 후, 충돌지역까지만 구르기로 이동
             currDur += Time.deltaTime;
+
+            // 구르는 방향에 벽이 너무가까이있으면 벽을 뚫지않도록하기위해 짧은 ray발사 후, 충돌지역까지만 구르기로 이동
+            // Ray가 벽에 닿지 않았을 때
             if (!Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius))
             {
-                // 플레이어 캡슐Coll의 반지름길이의 Ray가 벽과 충돌하지 않았을때는 구르기 이동
+                // 구르기 이동
                 _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
             }
+            // Ray가 벽에 닿았을 때
             else
             {
-                // 플레이어 캡슐Coll 반지름길이의 Ray가 벽과 충돌한 경우에는
                 // 벽의 각도를 구하고 해당 벽의 각도가 등반할 수 있는 값 이하이면 해당 경사면 방향으로 rbody MovePosition
-
-                Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius, 1 << LayerMask.NameToLayer("Ground"));
+                Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius * 2.0f, 1 << LayerMask.NameToLayer("Ground"));
+                
                 wallAngle = Vector3.Angle(Vector3.up, hit.normal);
-                // print(wallAngle);
                 if (wallAngle <= _maxSlope)
                 {
                     // 해당각도로 구르기이동
@@ -257,5 +271,29 @@ public class PlayerMove : MonoBehaviour
     {
         _dodgeAttackEnd = true;
         _combat._attackStyle = PlayerCombat.eAttackStyle.NonCombat;
+    }
+
+    /// <summary>
+    /// 머리, 배꼽, 발에서 발사하는 레이 모두가 벽과 충돌하고있는지
+    /// </summary>
+    /// <returns></returns>
+    private bool IsDeadEndRoad()
+    {
+        Ray ray;
+        RaycastHit rayHit;
+        
+        // i번째 레이가 벽과 충돌여부 판단, 하나라도 벽과 충돌하고있지않으면 return false
+        for (int i = 0; i < _wallHitRays.Length; i++)
+        {
+            ray = new Ray(_wallHitRays[i].transform.position, _wallHitRays[i].transform.forward);
+
+            if (Physics.Raycast(ray, out rayHit, _capsuleColl.radius * _wallRayDintance, 1 << LayerMask.NameToLayer("Ground")))
+                if (!rayHit.collider.tag.Equals("Wall"))
+                    return false;
+            else
+                return false;
+        }
+
+        return true;
     }
 }

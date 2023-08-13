@@ -15,7 +15,7 @@ public class ButtonUI : UIInteractBase
 
     private void Start()
     {
-        _originColor = _text.color;
+        _originColor = Color.white;
     }
 
     public override void OnPointerEnter()

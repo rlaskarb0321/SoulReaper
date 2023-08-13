@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-    // 인스턴스화 고려중
-
     public enum eCameraState { Follow, Patrol, Charging }
     public Transform _target;
     public float _range; 
@@ -75,6 +73,11 @@ public class FollowCamera : MonoBehaviour
     /// <param name="speed">카메라가 옮겨지는 속도</param>
     void PatrolCamera(Camera cam, Transform player, float range, float speed)
     {
+        // 23.08.04
+        // 모니터 평면 기준, 가운데에서 마우스 위치로 향하는 벡터만큼 카메라를 월드좌표로 옮기게 해 주자
+        // 중간에 어떤 물체를 만난다해도 모니터 평면을 변수로 여기니 어떻게 되지 않는다.
+
+
         Vector3 mousePos; // 마우스의 위치값 저장
         Vector3 dir; // player의 pos에서 mousePos로 향하는 벡터
         float dirLength;
@@ -132,6 +135,10 @@ public class FollowCamera : MonoBehaviour
 
     void ControlTargetOutLine()
     {
+        // 23.08.04
+        // 카메라와 플레이어 사이에 오브젝트가 있을때 검사 후 playerTeam 이 아니면 실루엣 처리하는 방식에서
+        // 카메라와 플레이어 사이에 어떤 오브젝트가 있으면 실루엣 처리하는 방식으로 수정해보자
+
         Ray silhouetteRay;
         RaycastHit[] silRayHits;
         RaycastHit hitObj;
