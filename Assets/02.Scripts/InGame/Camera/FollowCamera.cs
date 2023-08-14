@@ -74,7 +74,7 @@ public class FollowCamera : MonoBehaviour
     void PatrolCamera(Camera cam, Transform player, float range, float speed)
     {
         Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2); // ½ºÅ©¸° Áß¾Ó ÁÂÇ¥
-        Vector2 mousePos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        Vector2 mousePos = new Vector2(Input.mousePosition.x, Input.mousePosition.y); // ¸¶¿ì½º ÀÔ·Â ÁÂÇ¥
         Vector3 dir = (mousePos - screenCenter).normalized;
         Vector3 destination = new Vector3(player.position.x + (dir.x * range), transform.position.y, player.position.z + (dir.y * range));
 

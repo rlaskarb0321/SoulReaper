@@ -97,7 +97,8 @@ public class PlayerMove : MonoBehaviour
         if (_state.State == PlayerFSM.eState.Dead)
             return;
 
-        if (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move || _state.State == PlayerFSM.eState.Fall)
+        if (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move 
+            || _state.State == PlayerFSM.eState.Fall || _state.State == PlayerFSM.eState.Charging)
         {
             _h = Input.GetAxisRaw("Horizontal");
             _v = Input.GetAxisRaw("Vertical");
@@ -121,12 +122,6 @@ public class PlayerMove : MonoBehaviour
 
         RaycastHit groundHit;
         Ray climbRay = new Ray(transform.position, -transform.up);
-
-        #region Ray 추가로 예전코드 비활성화
-        // 떨어지는중인지아닌지 여부로 move애니메이션 결정
-        // bool isFall = _state.State == PlayerFSM.eState.Fall ? true : false;
-        //_animator.SetBool(_hashMove, !isFall);  
-        # endregion Ray 추가로 예전코드 비활성화
 
         // 경사면 이동
         if (Physics.Raycast(climbRay, out groundHit, 1.35f, 1 << LayerMask.NameToLayer("Ground")))
@@ -161,10 +156,7 @@ public class PlayerMove : MonoBehaviour
         if (_combat._curLongRangeChargingTime >= 0.0f)
             _combat.InitChargingGauge();
         if (_followCam.CamState != FollowCamera.eCameraState.Follow)
-        {
             _followCam.CamState = FollowCamera.eCameraState.Follow;
-            Input.ResetInputAxes();
-        }
 
         bool isDodgeAttackInput = false;
         Vector3 dodgeDir; 
