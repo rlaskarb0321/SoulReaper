@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestMapTeleport : MonoBehaviour
+public class MapTeleport : MonoBehaviour
 {
     [Header("=== From ===")]
     [SerializeField] private GameObject _enterPos;
@@ -22,10 +22,13 @@ public class TestMapTeleport : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
         {
+            Vector3 contactPoint = other.ClosestPoint(_enterPos.transform.localPosition);
+            Vector3 contactLocalPos = _enterPos.transform.InverseTransformPoint(contactPoint);
+            contactLocalPos.y = 0.0f;
+
             _fadePanel.SetActive(false);
             _fadePanel.SetActive(true);
-
-            _playerBody.transform.position = _nextPos.transform.position;
+            _playerBody.transform.position = _nextPos.transform.position + contactLocalPos;
             _cameraArm.transform.position = _playerBody.transform.position;
         }
     }

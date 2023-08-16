@@ -5,17 +5,22 @@ using UnityEngine;
 public class PlayerFSM : MonoBehaviour
 {
     public enum eState { Idle, Fall, Move, Dodge, Attack, Charging, Hit, Dead }
+    [Header("=== State ===")]
     [SerializeField] private eState _state;
     public eState State { get { return _state; } set { _state = value; } }
 
-    // Component
+    [Header("=== Combat ===")]
+    public float _hitDelay;
+    public Transform _weaponCombatPos; // 공격할때 무기의 위치값
+    public Transform _weaponNonCombatPos; // 공격상태가 아닐때 무기의 위치값
+    public GameObject _weapon; // 무기이미지
+
     Animator _animator;
     Rigidbody _rbody;
     PlayerCombat _combat;
     PlayerMove _mov;
     FallBehaviour _fallBehaviour;
 
-    // Field
     readonly int _hashRoll = Animator.StringToHash("isRoll");
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
     readonly int _hashDodgeAttack = Animator.StringToHash("DodgeAttack");
@@ -25,13 +30,6 @@ public class PlayerFSM : MonoBehaviour
     Vector3 _atkDir;
     public Vector3 AtkDir { set { _atkDir = value; } }
     float _originHitDelayValue;
-
-    // public
-    [Header("Combat")]
-    public float _hitDelay;
-    public Transform _weaponCombatPos; // 공격할때 무기의 위치값
-    public Transform _weaponNonCombatPos; // 공격상태가 아닐때 무기의 위치값
-    public GameObject _weapon; // 무기이미지
 
     void Awake()
     {
