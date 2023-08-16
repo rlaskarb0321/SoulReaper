@@ -11,9 +11,11 @@ public class PlayerMove : MonoBehaviour
     [HideInInspector] public float _h;
     [SerializeField] private float _wallRayDintance;
     [SerializeField] private GameObject _groundCheckBox;
-    private bool _isGrounded;
-    private bool _isOnSlope;
-    private Vector3 _dir; // 플레이어의 wasd조작으로 가게될 방향벡터값을 저장
+    [SerializeField] private GameObject[] _raySet;
+    public bool _isGrounded;
+    public bool _isOnSlope;
+    public GameObject _nextPosRay;
+    public Vector3 _dir; // 플레이어의 wasd조작으로 가게될 방향벡터값을 저장
     private Vector3 _gravity; // rigidbody.velocity 를 직접 조작하기때문에 중력또한 직접 조작
     private Ray _groundRay;
     private RaycastHit _groundHit;
@@ -41,8 +43,8 @@ public class PlayerMove : MonoBehaviour
 
     [Header("=== Animator Params ===")]
     readonly int _hashMove = Animator.StringToHash("isMove");
-    readonly int _hashYVelocity = Animator.StringToHash("yVelocity");
     readonly int _hashRoll = Animator.StringToHash("isRoll");
+    readonly int _hashFall = Animator.StringToHash("isFall");
 
     void Awake()
     {
@@ -76,9 +78,8 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        _animator.SetFloat(_hashYVelocity, _rbody.velocity.y);
-        
         ManipulPhysics();
+        _animator.SetBool(_hashFall, !_isGrounded);
 
         // h나 v가 입력됬을 때
         if (_h != 0.0f || _v != 0.0f)
@@ -86,6 +87,7 @@ public class PlayerMove : MonoBehaviour
             MovePlayer();
             RotatePlayer();
         }
+        // 아닐 때
         else
         {
             // 땅이나 경사위에 있을때, 인풋이 입력되었다가 떼어지면!
@@ -97,8 +99,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         // h나 v중 하나도 입력되지않고, 떨어지는상태와 공격상태와 사망상태가 아니라면 = idle상태
-        if (_h == 0.0f && _v == 0.0f
-            &&
+        if ((_h == 0.0f && _v == 0.0f) &&
             !_fallBehaviour._isFall && _state.State != PlayerFSM.eState.Attack && _state.State != PlayerFSM.eState.Dead)
         {
             _state.State = PlayerFSM.eState.Idle;
@@ -131,16 +132,15 @@ public class PlayerMove : MonoBehaviour
     void MovePlayer()
     {
         // 떨어질때 속력이 일정값 이하이면 fall상태로 전환
-        if (_animator.GetFloat(_hashYVelocity) <= -5.0f)
+        if (_animator.GetBool(_hashFall))
             _state.State = PlayerFSM.eState.Fall;
         else
             _state.State = PlayerFSM.eState.Move;
 
+        _animator.SetBool(_hashMove, _dir != Vector3.zero);
         _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
         _dir = _isOnSlope ? GetSlopeDir(_dir) : _dir;
-        _animator.SetBool(_hashMove, _dir != Vector3.zero);
-        _animator.SetFloat(_hashYVelocity, _rbody.velocity.y);
-        
+
         _rbody.velocity = _dir * _movSpeed + _gravity;
     }
 
@@ -150,10 +150,9 @@ public class PlayerMove : MonoBehaviour
         return Physics.CheckBox(_groundCheckBox.transform.position, boxSize, Quaternion.identity, 1 << LayerMask.NameToLayer("Ground"));
     }
 
-    private bool OnSlope()
+    private bool OnSlope(Ray ray)
     {
-        // 땅 판단을 레이캐스트대신 콜리더넣고 isGrounded 스크립트 생성, 공중에 있지 않을때에는 중력끄기
-        if (Physics.Raycast(_groundRay, out _groundHit, 0.3f, 1 << LayerMask.NameToLayer("Ground")))
+        if (Physics.Raycast(ray, out _groundHit, 1 << LayerMask.NameToLayer("Ground")))
         {
             float angle = Vector3.Angle(transform.up, _groundHit.normal);
             return angle != 0 && angle < _maxSlope;
@@ -172,12 +171,16 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void ManipulPhysics()
     {
+        // 1. 현재 속도로 이동하면 닿게될 다음프레임에 벽이있을때 벽의 각도를 구하고 올라갈 수 없으면 못 올라가게
+        // 그리고 올라갈때 멈칫하는 현상 해결할 수 있을듯
+        // 2. 스파이더맨 현상
+
         _groundRay = new Ray(transform.position, Vector3.down);
         _isGrounded = OnGround();
-        _isOnSlope = OnSlope();
+        _isOnSlope = OnSlope(_groundRay);
 
         _gravity = _isGrounded ? Vector3.zero : Vector3.down * Mathf.Abs(_rbody.velocity.y);
-        _rbody.useGravity = !_isOnSlope;
+        _rbody.useGravity = !_isOnSlope || !_isGrounded;
     }
 
     public IEnumerator Dodge(float h, float v)
@@ -329,6 +332,20 @@ public class PlayerMove : MonoBehaviour
         _combat._attackStyle = PlayerCombat.eAttackStyle.NonCombat;
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.tag.Equals("Wall"))
+        {
+            Vector3 wallNorm = collision.contacts[0].normal;
+            Debug.DrawRay(collision.contacts[0].point, wallNorm, Color.green);
+            Debug.DrawRay(transform.position, transform.forward - wallNorm, Color.red);
+
+            // 벽과 비비고있을때 움직이면 마찰하는 방향을 나타내는 벡터, 충돌지점에서 시작
+            Vector3 projection = Vector3.ProjectOnPlane(transform.forward - wallNorm, wallNorm);
+            Debug.DrawRay(collision.contacts[0].point, projection, Color.blue);
+        }
+    }
+
     /// <summary>
     /// 머리, 배꼽, 발에서 발사하는 레이 모두가 벽과 충돌하고있는지
     /// </summary>
@@ -337,7 +354,7 @@ public class PlayerMove : MonoBehaviour
     //{
     //    Ray ray;
     //    RaycastHit rayHit;
-        
+
     //    // i번째 레이가 벽과 충돌여부 판단, 하나라도 벽과 충돌하고있지않으면 return false
     //    for (int i = 0; i < _wallHitRays.Length; i++)
     //    {
