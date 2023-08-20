@@ -23,10 +23,12 @@ public class PlayerMove : MonoBehaviour
     [Header("=== Dodge ===")]
     public float _dodgeSpeed; // 구를때 가속시킬 값 (dodgeSpeed = _dodgeSpeed * _movSpeed)
     public float _dodgeDur; // 구르기상태가 지속될 시간
+    public float _currDodgeDur;
     public float _dodgeCoolDown;
     private float _originDodgeCoolDown;
     private bool _dodgeAttackEnd;
-    
+    public Vector3 _dodgeDir;
+
     [Header("=== Follow Cam ===")]
     public GameObject _followCamObj;
 
@@ -61,6 +63,7 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         _originDodgeCoolDown = _dodgeCoolDown;
+        _currDodgeDur = 0.0f;
         _wfs = new WaitForFixedUpdate();
     }
 
@@ -70,6 +73,20 @@ public class PlayerMove : MonoBehaviour
             return;
         if (_state.State == PlayerFSM.eState.Dead)
             return;
+
+        if (_state.State == PlayerFSM.eState.Dodge)
+        {
+            if (_currDodgeDur > _dodgeDur)
+            {
+                _currDodgeDur = 0.0f;
+                _state.State = PlayerFSM.eState.Idle;
+                _animator.SetBool(_hashRoll, false);
+                return;
+            }
+
+            _currDodgeDur += Time.deltaTime;
+            _rbody.velocity = _dodgeDir * _movSpeed * _dodgeSpeed + _gravity;
+        }
 
         // idle, fall, move상태가 아니라면 움직이게 조작할 수 없음
         if (_state.State != PlayerFSM.eState.Idle && _state.State != PlayerFSM.eState.Fall && _state.State != PlayerFSM.eState.Move)
@@ -82,13 +99,29 @@ public class PlayerMove : MonoBehaviour
         _animator.SetBool(_hashFall, !_isGrounded);
 
         // h나 v가 입력됬을 때
-        if (_h != 0.0f || _v != 0.0f)
-        {
-            MovePlayer();
-            RotatePlayer();
-        }
+        //if (_h != 0.0f || _v != 0.0f)
+        //{
+        //    _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
+        //    MovePlayer(_dir, _movSpeed);
+        //    RotatePlayer();
+        //}
+        //// 아닐 때
+        //else
+        //{
+        //    // 땅이나 경사위에 있을때, 인풋이 입력되었다가 떼어지면!
+        //    if (_isGrounded || _isOnSlope)
+        //    {
+        //        _dir = Vector3.zero;
+        //        _rbody.velocity = Vector3.zero;
+        //    }
+        //}
+
+        _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
+        MovePlayer(_dir, _movSpeed);
+        RotatePlayer();
+
         // 아닐 때
-        else
+        if (_h == 0.0f && _v == 0.0f)
         {
             // 땅이나 경사위에 있을때, 인풋이 입력되었다가 떼어지면!
             if (_isGrounded || _isOnSlope)
@@ -105,6 +138,8 @@ public class PlayerMove : MonoBehaviour
             _state.State = PlayerFSM.eState.Idle;
             _animator.SetBool(_hashMove, false);
         }
+
+        
     }
 
     void Update()
@@ -115,7 +150,7 @@ public class PlayerMove : MonoBehaviour
             return;
 
         // _groundRay = new Ray(transform.position, -transform.up * 0.3f);
-        if (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move 
+        if (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move
             || _state.State == PlayerFSM.eState.Fall || _state.State == PlayerFSM.eState.Charging)
         {
             _h = Input.GetAxisRaw("Horizontal");
@@ -123,25 +158,50 @@ public class PlayerMove : MonoBehaviour
         }
 
         // 회피키 입력관련
-        if (Input.GetKeyDown(KeyCode.Space) && 
+        if (Input.GetKeyDown(KeyCode.Space) &&
             (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move ||
             _state.State == PlayerFSM.eState.Charging) && _dodgeCoolDown == _originDodgeCoolDown)
-            StartCoroutine(Dodge(_h, _v));
+        {
+            if (_dir.Equals(Vector3.zero))
+            {
+                _dodgeDir = transform.forward;
+            }
+            else
+            {
+                _dodgeDir = _dir;
+            }
+
+            transform.forward = _dodgeDir;
+            _state.State = PlayerFSM.eState.Dodge;
+            StartCoroutine(CoolDownDodge());
+            _animator.SetBool(_hashRoll, true);
+            //StartCoroutine(Dodge(_h, _v));
+        }
     }
 
-    void MovePlayer()
+    void MovePlayer(Vector3 dir, float movSpeed)
     {
+        // //떨어질때 속력이 일정값 이하이면 fall상태로 전환
+        //if (_animator.GetBool(_hashFall))
+        //    _state.State = PlayerFSM.eState.Fall;
+        //else
+        //    _state.State = PlayerFSM.eState.Move;
+
+        //_animator.SetBool(_hashMove, _dir != Vector3.zero);
+        //_dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
+        //_dir = _isOnSlope ? GetSlopeDir(_dir) : _dir;
+
+        //_rbody.velocity = _dir * _movSpeed + _gravity;
+
         // 떨어질때 속력이 일정값 이하이면 fall상태로 전환
         if (_animator.GetBool(_hashFall))
             _state.State = PlayerFSM.eState.Fall;
         else
             _state.State = PlayerFSM.eState.Move;
 
-        _animator.SetBool(_hashMove, _dir != Vector3.zero);
-        _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
-        _dir = _isOnSlope ? GetSlopeDir(_dir) : _dir;
-
-        _rbody.velocity = _dir * _movSpeed + _gravity;
+        _animator.SetBool(_hashMove, dir != Vector3.zero);
+        dir = _isOnSlope ? GetSlopeDir(dir) : dir;
+        _rbody.velocity = dir * movSpeed + _gravity;
     }
 
     private bool OnGround()
@@ -191,15 +251,17 @@ public class PlayerMove : MonoBehaviour
             _followCam.CamState = FollowCamera.eCameraState.Follow;
 
         bool isDodgeAttackInput = false;
-        Vector3 dodgeDir; 
+        Vector3 dodgeDir;
         float currDur = 0.0f;
         float dodgeSpeed = _movSpeed * _dodgeSpeed;
         RaycastHit hit;
         float wallAngle;
         Vector3 wallClimbDir;
+        bool defalutGravity = _rbody.useGravity;
 
         // 구르기동작
         StartCoroutine(CoolDownDodge());
+        _rbody.useGravity = true;
         _state.State = PlayerFSM.eState.Dodge;
         _animator.SetBool(_hashRoll, true);
 
@@ -210,7 +272,6 @@ public class PlayerMove : MonoBehaviour
             dodgeDir = transform.forward;
 
         transform.forward = dodgeDir;
-
         while (currDur < _dodgeDur)
         {
             // 구르기추가타 입력값 저장
@@ -219,18 +280,15 @@ public class PlayerMove : MonoBehaviour
 
             currDur += Time.deltaTime;
 
-            // 3개의 레이(머리 배꼽 발끝)가 벽과 닿아있을 때 = 벽과 닿음
-            //if (IsDeadEndRoad())
-            //{
-            //    _rbody.MovePosition(_rbody.position + Vector3.zero * Time.deltaTime);
-            //    yield return _wfs;
-            //}
-
-            // 구르다가 Wall 을 만났을 때, 경사면을 체크 후 등반할 수 있는 각도 이하이면 해당 각도방향으로 구르기
-            if (Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius * _wallRayDintance,
+            // 구르다가 경사진 면을 만났을 때, 경사면을 체크 후 등반할 수 있는 각도 이하이면 구르기각도 수정
+            if (Physics.Raycast(_rbody.position, -transform.up, out hit, _capsuleColl.radius * _wallRayDintance,
                 1 << LayerMask.NameToLayer("Ground")))
             {
-                if (hit.collider.tag.Equals("Wall"))
+                if (hit.transform.tag.Equals("Wall"))
+                {
+                    dodgeDir = Vector3.zero;
+                }
+                else
                 {
                     wallAngle = Vector3.Angle(Vector3.up, hit.normal);
                     if (wallAngle <= _maxSlope)
@@ -238,46 +296,22 @@ public class PlayerMove : MonoBehaviour
                         // 해당각도로 구르기이동
                         wallClimbDir = Vector3.ProjectOnPlane(Vector3.up, hit.normal);
                         wallClimbDir += transform.forward;
-                        _rbody.MovePosition(_rbody.position + wallClimbDir * dodgeSpeed * Time.deltaTime);
+
+                        dodgeDir = wallClimbDir;
                     }
                     else
                     {
-                        _rbody.MovePosition(_rbody.position + Vector3.zero * Time.deltaTime);
+                        dodgeDir = Vector3.zero;
                     }
                 }
             }
-            // 평지를 구를때
-            else
-            {
-                _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
-            }
 
-            #region 23.08.13 머리 배꼽 발끝 3개의 레이가 벽과 닿았을때 벽 닿음으로 판단하게 수정
-            //// 구르는 방향에 벽이 너무가까이있으면 벽을 뚫지않도록하기위해 짧은 ray발사 후, 충돌지역까지만 구르기로 이동
-            //// Ray가 벽에 닿지 않았을 때
-            //if (!Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius))
-            //{
-            //    // 구르기 이동
-            //    _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
-            //}
-            //// Ray가 벽에 닿았을 때
-            //else
-            //{
-            //    // 벽의 각도를 구하고 해당 벽의 각도가 등반할 수 있는 값 이하이면 해당 경사면 방향으로 rbody MovePosition
-            //    Physics.Raycast(_rbody.position, transform.forward, out hit, _capsuleColl.radius * 2.0f, 1 << LayerMask.NameToLayer("Ground"));
-
-            //    wallAngle = Vector3.Angle(Vector3.up, hit.normal);
-            //    if (wallAngle <= _maxSlope)
-            //    {
-            //        // 해당각도로 구르기이동
-            //        wallClimbDir = Vector3.ProjectOnPlane(Vector3.up, hit.normal);
-            //        wallClimbDir += transform.forward;
-            //        _rbody.MovePosition(_rbody.position + wallClimbDir * dodgeSpeed * Time.deltaTime);
-            //    }
-            //}
-            #endregion 23.08.13 머리 배꼽 발끝 3개의 레이가 벽과 닿았을때 벽 닿음으로 판단하게 수정
+            _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
+            //print(dodgeDir);
+            //_rbody.velocity = dodgeDir * dodgeSpeed + _gravity;
             yield return _wfs;
         }
+        _rbody.useGravity = defalutGravity;
 
         // 구르기추가타 입력여부에 따른처리
         if (isDodgeAttackInput)
@@ -334,15 +368,16 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.tag.Equals("Wall"))
+        if (collision.gameObject.tag.Equals("Wall") && (_h != 0.0f || _v != 0.0f))
         {
             Vector3 wallNorm = collision.contacts[0].normal;
-            Debug.DrawRay(collision.contacts[0].point, wallNorm, Color.green);
-            Debug.DrawRay(transform.position, transform.forward - wallNorm, Color.red);
+            Vector3 projection = Vector3.ProjectOnPlane(transform.forward - wallNorm, wallNorm); // 벽과 마찰시 움직이게 될 벡터
+            float power = _movSpeed * projection.magnitude * 2.0f;
 
-            // 벽과 비비고있을때 움직이면 마찰하는 방향을 나타내는 벡터, 충돌지점에서 시작
-            Vector3 projection = Vector3.ProjectOnPlane(transform.forward - wallNorm, wallNorm);
-            Debug.DrawRay(collision.contacts[0].point, projection, Color.blue);
+            //Debug.DrawRay(collision.contacts[0].point, wallNorm, Color.green);
+            //Debug.DrawRay(transform.position, transform.forward - wallNorm, Color.red);
+            //Debug.DrawRay(collision.contacts[0].point, projection, Color.blue);
+            _rbody.AddForce(projection.normalized * power, ForceMode.Impulse);
         }
     }
 
