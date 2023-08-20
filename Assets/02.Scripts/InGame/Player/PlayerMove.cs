@@ -15,7 +15,7 @@ public class PlayerMove : MonoBehaviour
     public bool _isGrounded;
     public bool _isOnSlope;
     public GameObject _nextPosRay;
-    public Vector3 _dir; // 플레이어의 wasd조작으로 가게될 방향벡터값을 저장
+    private Vector3 _dir; // 플레이어의 wasd조작으로 가게될 방향벡터값을 저장
     private Vector3 _gravity; // rigidbody.velocity 를 직접 조작하기때문에 중력또한 직접 조작
     private Ray _groundRay;
     private RaycastHit _groundHit;
@@ -69,6 +69,8 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        ManipulPhysics();
+
         if (_state.State == PlayerFSM.eState.Hit)
             return;
         if (_state.State == PlayerFSM.eState.Dead)
@@ -85,7 +87,13 @@ public class PlayerMove : MonoBehaviour
             }
 
             _currDodgeDur += Time.deltaTime;
-            _rbody.velocity = _dodgeDir * _movSpeed * _dodgeSpeed + _gravity;
+            _dodgeDir = _isOnSlope ? GetSlopeDir(_dodgeDir) : _dodgeDir;
+            print(_dodgeDir);
+
+            // 내리막길일때 따로 처리, 예를들면 각도가 음수(양수)일때?
+            //_rbody.velocity = _dodgeDir * _movSpeed * _dodgeSpeed + _gravity;
+            Vector3 force = _dodgeDir * _movSpeed * _dodgeSpeed + _gravity;
+            _rbody.AddForce(force, ForceMode.VelocityChange);
         }
 
         // idle, fall, move상태가 아니라면 움직이게 조작할 수 없음
@@ -95,7 +103,6 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        ManipulPhysics();
         _animator.SetBool(_hashFall, !_isGrounded);
 
         // h나 v가 입력됬을 때
@@ -173,14 +180,15 @@ public class PlayerMove : MonoBehaviour
 
             transform.forward = _dodgeDir;
             _state.State = PlayerFSM.eState.Dodge;
-            StartCoroutine(CoolDownDodge());
             _animator.SetBool(_hashRoll, true);
+            StartCoroutine(CoolDownDodge());
             //StartCoroutine(Dodge(_h, _v));
         }
     }
 
     void MovePlayer(Vector3 dir, float movSpeed)
     {
+        #region 23.08.20 함수 매개변수 추가로 인한 수정
         // //떨어질때 속력이 일정값 이하이면 fall상태로 전환
         //if (_animator.GetBool(_hashFall))
         //    _state.State = PlayerFSM.eState.Fall;
@@ -192,6 +200,7 @@ public class PlayerMove : MonoBehaviour
         //_dir = _isOnSlope ? GetSlopeDir(_dir) : _dir;
 
         //_rbody.velocity = _dir * _movSpeed + _gravity;
+        #endregion 23.08.20 함수 매개변수 추가로 인한 수정
 
         // 떨어질때 속력이 일정값 이하이면 fall상태로 전환
         if (_animator.GetBool(_hashFall))
@@ -199,7 +208,7 @@ public class PlayerMove : MonoBehaviour
         else
             _state.State = PlayerFSM.eState.Move;
 
-        _animator.SetBool(_hashMove, dir != Vector3.zero);
+        _animator.SetBool(_hashMove, _state.State == PlayerFSM.eState.Move);
         dir = _isOnSlope ? GetSlopeDir(dir) : dir;
         _rbody.velocity = dir * movSpeed + _gravity;
     }
