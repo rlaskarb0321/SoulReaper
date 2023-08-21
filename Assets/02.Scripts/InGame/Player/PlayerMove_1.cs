@@ -56,6 +56,8 @@ public class PlayerMove_1 : MonoBehaviour
     {
         _currDodgeCool = _dodgeCoolTime;
         _dodgeSpeed *= _movSpeed;
+
+        
     }
 
     private void Update()
@@ -134,47 +136,63 @@ public class PlayerMove_1 : MonoBehaviour
         if ((_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge)
             _state.State = PlayerFSM.eState.Move;
 
-        bool isOnSlope = IsOnSlope();
         bool isGrounded = IsGrounded();
         eOnSlopeState onSlopeState = GetSlopeState();
         Vector3 velocity = CalcNextFrameGroundAngle(movSpeed) < _maxSlope ? dir : Vector3.zero;
         Vector3 gravity = Vector3.down * Mathf.Abs(_rbody.velocity.y);
 
         _isGrounded = isGrounded;
-        _isOnSlope = isOnSlope;
         if (isGrounded)
         {
             switch (onSlopeState)
             {
                 case eOnSlopeState.None:
-                    print("평지");
+                    //print("평지");
+                    _rbody.useGravity = true;
                     break;
-                case eOnSlopeState.currOnSlope:
-                    print("현재 경사");
-                    break;
-                case eOnSlopeState.nextOnSlope:
-                    print("다음이 경사");
-                    break;
-            }
-        }
 
-        // 이거랑 isOnSlope를 대체 & 구체화하기위해 위에 eOnSlopeState 를 작성함
-        // 땅에있고 경사있을때
-        if (isGrounded && isOnSlope)
-        {
-            velocity = GetSlopeDir(velocity);
-            gravity = Vector3.zero;
-            _rbody.useGravity = false;
-        }
-        // 땅에있지않거나 경사에있지않을때
-        else
-        {
-            _rbody.useGravity = true;
+                case eOnSlopeState.currOnSlope:
+                case eOnSlopeState.nextOnSlope:
+                    //print("현재 경사면 위 or 다음이 경사면 위");
+                    _rbody.useGravity = false;
+                    velocity = GetSlopeDir(velocity);
+                    gravity = Vector3.zero;
+                    break;
+
+                #region 23.08.21 다음 프레임이 경사면일 경우 움직일 방향을 꺾을예정이었으나, 결론적으론 한 프레임앞서서 느려질 뿐이었음
+                    //case eOnSlopeState.currOnSlope:
+                    //    //print("현재 경사");
+                    //    _rbody.useGravity = false;
+                    //    velocity = GetSlopeDir(velocity);
+                    //    gravity = Vector3.zero;
+                    //    break;
+
+                    //case eOnSlopeState.nextOnSlope:
+                    //    print("다음이 경사");
+                    //    var nextFramePlayerPos = _nextPos.position + velocity * _movSpeed * Time.fixedDeltaTime * 0.5f;
+                    //    if (Physics.Raycast(nextFramePlayerPos, Vector3.down, out RaycastHit hit, RAY_DIST, 1 << LayerMask.NameToLayer("Ground")))
+                    //    {
+                    //        //Debug.DrawRay(nextFramePlayerPos, Vector3.down * RAY_DIST, Color.red); // 한 프레임 뒤 땅 판단용
+                    //        //print("next : " + Vector3.Angle(Vector3.up, hit.normal)); // 한 프레임 뒤 땅의 각도
+                    //        //print("curr : " + Vector3.Angle(Vector3.up, _slopeHit.normal)); // 현재 땅의 각도
+                    //        //print("curr Dir :" + dir); // 현재 진행 방향
+                    //        //print("Goal dir : " + Vector3.ProjectOnPlane(dir, hit.normal)); // 한 프레임 뒤 진행 방향
+
+                    //        velocity = Vector3.ProjectOnPlane(dir, hit.normal);
+                    //        velocity = velocity.y < 0.0f ? new Vector3(dir.x, 0.0f, dir.z) : velocity;
+                    //        print(velocity);
+                    //    }
+
+                    //    _rbody.useGravity = false;
+                    //    velocity = GetSlopeDir(velocity);
+                    //    gravity = Vector3.zero;
+                    //    break;
+                    #endregion
+            }
         }
 
         _animator.SetBool(_hashMove, (_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge);
         _rbody.velocity = velocity * movSpeed + gravity;
-        //print(_rbody.velocity);
     }
 
     private bool IsGrounded()
@@ -183,29 +201,20 @@ public class PlayerMove_1 : MonoBehaviour
         return Physics.CheckBox(_grounded.position, boxSize, Quaternion.identity, 1 << LayerMask.NameToLayer("Ground"));
     }
 
-    private bool IsOnSlope()
-    {
-        Ray ray = new Ray(transform.position, Vector3.down);
-        if (Physics.Raycast(ray, out _slopeHit, RAY_DIST, 1 << LayerMask.NameToLayer("Ground")))
-        {
-            float angle = Vector3.Angle(Vector3.up, _slopeHit.normal);
-            return angle != 0 && angle < _maxSlope;
-        }
-        return false;
-    }
-
     private eOnSlopeState GetSlopeState()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
         if (Physics.Raycast(ray, out _slopeHit, RAY_DIST, 1 << LayerMask.NameToLayer("Ground")))
         {
-            float angle = CalcNextFrameGroundAngle(_movSpeed);
-            if (angle != 0.0f && angle < _maxSlope)
+            float currAngle = Vector3.Angle(Vector3.up, _slopeHit.normal);
+            float nextAngle = CalcNextFrameGroundAngle(_movSpeed);
+
+            if (currAngle != 0.0f && currAngle < _maxSlope)
+                return eOnSlopeState.currOnSlope;
+
+            if (nextAngle != 0.0f && nextAngle < _maxSlope)
                 return eOnSlopeState.nextOnSlope;
 
-            angle = Vector3.Angle(Vector3.up, _slopeHit.normal);
-            if (angle != 0.0f && angle < _maxSlope)
-                return eOnSlopeState.currOnSlope;
         }
         return eOnSlopeState.None;
     }
@@ -217,7 +226,7 @@ public class PlayerMove_1 : MonoBehaviour
 
     private float CalcNextFrameGroundAngle(float movSpeed)
     {
-        var nextFramePlayerPos = _nextPos.position + _dir * _movSpeed * Time.fixedDeltaTime;
+        var nextFramePlayerPos = _nextPos.position + _dir * _movSpeed * Time.fixedDeltaTime * 0.5f;
         if (Physics.Raycast(nextFramePlayerPos, Vector3.down, out RaycastHit hit, RAY_DIST, 1 << LayerMask.NameToLayer("Ground")))
         {
             return Vector3.Angle(Vector3.up, hit.normal);
