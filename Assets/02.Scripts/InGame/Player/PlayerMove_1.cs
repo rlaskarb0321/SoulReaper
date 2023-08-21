@@ -21,6 +21,7 @@ public class PlayerMove_1 : MonoBehaviour
     private float _maxSlope = 50.0f;
     public bool _isOnSlope; // 디버깅 용
     [SerializeField] private Transform _nextPos;
+    private enum eOnSlopeState { None, currOnSlope, nextOnSlope }
 
     [Header("=== Dodge ===")]
     [SerializeField] private float _dodgeSpeed;
@@ -29,6 +30,7 @@ public class PlayerMove_1 : MonoBehaviour
     [SerializeField] private float _dodgeCoolTime;
     [SerializeField] private float _currDodgeCool; // 디버깅용으로 [SerializeField]
     [SerializeField] private Vector3 _dodgeDir;
+    private bool _isDodgeAttackInput;
     
 
     [Header("=== Anim Params ===")]
@@ -40,12 +42,14 @@ public class PlayerMove_1 : MonoBehaviour
     [Header("=== Component ===")]
     private Rigidbody _rbody;
     private PlayerFSM _state;
+    private PlayerCombat _combat;
 
     private void Awake()
     {
         _rbody = GetComponent<Rigidbody>();
         _state = GetComponent<PlayerFSM>();
         _animator = GetComponent<Animator>();
+        _combat = GetComponent<PlayerCombat>();
     }
 
     private void Start()
@@ -132,17 +136,37 @@ public class PlayerMove_1 : MonoBehaviour
 
         bool isOnSlope = IsOnSlope();
         bool isGrounded = IsGrounded();
+        eOnSlopeState onSlopeState = GetSlopeState();
         Vector3 velocity = CalcNextFrameGroundAngle(movSpeed) < _maxSlope ? dir : Vector3.zero;
         Vector3 gravity = Vector3.down * Mathf.Abs(_rbody.velocity.y);
 
         _isGrounded = isGrounded;
         _isOnSlope = isOnSlope;
+        if (isGrounded)
+        {
+            switch (onSlopeState)
+            {
+                case eOnSlopeState.None:
+                    print("평지");
+                    break;
+                case eOnSlopeState.currOnSlope:
+                    print("현재 경사");
+                    break;
+                case eOnSlopeState.nextOnSlope:
+                    print("다음이 경사");
+                    break;
+            }
+        }
+
+        // 이거랑 isOnSlope를 대체 & 구체화하기위해 위에 eOnSlopeState 를 작성함
+        // 땅에있고 경사있을때
         if (isGrounded && isOnSlope)
         {
             velocity = GetSlopeDir(velocity);
             gravity = Vector3.zero;
             _rbody.useGravity = false;
         }
+        // 땅에있지않거나 경사에있지않을때
         else
         {
             _rbody.useGravity = true;
@@ -168,17 +192,22 @@ public class PlayerMove_1 : MonoBehaviour
             return angle != 0 && angle < _maxSlope;
         }
         return false;
+    }
 
-        //Ray ray = new Ray(transform.position, Vector3.down);
-        //if (Physics.Raycast(ray, out _slopeHit, RAY_DIST, 1 << LayerMask.NameToLayer("Ground")))
-        //{
-        //    if (CalcNextFrameGroundAngle(_movSpeed) != 0.0f)
-        //        return true;
+    private eOnSlopeState GetSlopeState()
+    {
+        Ray ray = new Ray(transform.position, Vector3.down);
+        if (Physics.Raycast(ray, out _slopeHit, RAY_DIST, 1 << LayerMask.NameToLayer("Ground")))
+        {
+            float angle = CalcNextFrameGroundAngle(_movSpeed);
+            if (angle != 0.0f && angle < _maxSlope)
+                return eOnSlopeState.nextOnSlope;
 
-        //    float angle = Vector3.Angle(Vector3.up, _slopeHit.normal);
-        //    return angle != 0 && angle < _maxSlope;
-        //}
-        //return false;
+            angle = Vector3.Angle(Vector3.up, _slopeHit.normal);
+            if (angle != 0.0f && angle < _maxSlope)
+                return eOnSlopeState.currOnSlope;
+        }
+        return eOnSlopeState.None;
     }
 
     private Vector3 GetSlopeDir(Vector3 dir)
@@ -213,10 +242,21 @@ public class PlayerMove_1 : MonoBehaviour
     {
         if (_currDodgeDur >= _dodgeDur)
         {
+            if (_isDodgeAttackInput)
+            {
+                print("dodge attack");
+                _isDodgeAttackInput = false;
+            }
+
             _animator.SetBool(_hashRoll, false);
             _state.State = PlayerFSM.eState.Idle;
             _currDodgeDur = 0.0f;
             return;
+        }
+
+        if (Input.GetMouseButton(0) && !_isDodgeAttackInput)
+        {
+            _isDodgeAttackInput = true;
         }
 
         MovePlayer(_dodgeDir, _dodgeSpeed);

@@ -25926,6 +25926,12 @@ MonoBehaviour:
   _isGrounded: 0
   _isOnSlope: 0
   _nextPos: {fileID: 984907535}
+  _dodgeSpeed: 2.4
+  _dodgeDur: 0.32
+  _currDodgeDur: 0
+  _dodgeCoolTime: 0.95
+  _currDodgeCool: 0
+  _dodgeDir: {x: 0, y: 0, z: 0}
 --- !u!1001 &616920071
 PrefabInstance:
   m_ObjectHideFlags: 0
