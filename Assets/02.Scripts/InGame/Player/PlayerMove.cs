@@ -86,13 +86,17 @@ public class PlayerMove : MonoBehaviour
                 return;
             }
 
+            Vector3 force;
             _currDodgeDur += Time.deltaTime;
-            _dodgeDir = _isOnSlope ? GetSlopeDir(_dodgeDir) : _dodgeDir;
-            print(_dodgeDir);
+            _dodgeDir = _isOnSlope ? new Vector3(_dodgeDir.x, GetSlopeDir(_dodgeDir).y, _dodgeDir.z) : _dodgeDir;
+            _dodgeDir = _dodgeDir.normalized;
 
-            // 내리막길일때 따로 처리, 예를들면 각도가 음수(양수)일때?
-            //_rbody.velocity = _dodgeDir * _movSpeed * _dodgeSpeed + _gravity;
-            Vector3 force = _dodgeDir * _movSpeed * _dodgeSpeed + _gravity;
+
+            force = _dodgeDir * _movSpeed * _dodgeSpeed + _gravity;
+            if (_dodgeDir.y < 0.0f)
+            {
+                force.y = 0.0f + _gravity.y;
+            }
             _rbody.AddForce(force, ForceMode.VelocityChange);
         }
 
@@ -104,30 +108,10 @@ public class PlayerMove : MonoBehaviour
         }
 
         _animator.SetBool(_hashFall, !_isGrounded);
-
-        // h나 v가 입력됬을 때
-        //if (_h != 0.0f || _v != 0.0f)
-        //{
-        //    _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
-        //    MovePlayer(_dir, _movSpeed);
-        //    RotatePlayer();
-        //}
-        //// 아닐 때
-        //else
-        //{
-        //    // 땅이나 경사위에 있을때, 인풋이 입력되었다가 떼어지면!
-        //    if (_isGrounded || _isOnSlope)
-        //    {
-        //        _dir = Vector3.zero;
-        //        _rbody.velocity = Vector3.zero;
-        //    }
-        //}
-
         _dir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
         MovePlayer(_dir, _movSpeed);
         RotatePlayer();
 
-        // 아닐 때
         if (_h == 0.0f && _v == 0.0f)
         {
             // 땅이나 경사위에 있을때, 인풋이 입력되었다가 떼어지면!
@@ -175,7 +159,7 @@ public class PlayerMove : MonoBehaviour
             }
             else
             {
-                _dodgeDir = _dir;
+                _dodgeDir = ((_h * Vector3.right) + (_v * Vector3.forward)).normalized;
             }
 
             transform.forward = _dodgeDir;
@@ -183,6 +167,7 @@ public class PlayerMove : MonoBehaviour
             _animator.SetBool(_hashRoll, true);
             StartCoroutine(CoolDownDodge());
             //StartCoroutine(Dodge(_h, _v));
+            print("dodge : " + _dodgeDir);
         }
     }
 
@@ -210,6 +195,7 @@ public class PlayerMove : MonoBehaviour
 
         _animator.SetBool(_hashMove, _state.State == PlayerFSM.eState.Move);
         dir = _isOnSlope ? GetSlopeDir(dir) : dir;
+        dir = dir.normalized;
         _rbody.velocity = dir * movSpeed + _gravity;
     }
 
@@ -224,6 +210,7 @@ public class PlayerMove : MonoBehaviour
         if (Physics.Raycast(ray, out _groundHit, 1 << LayerMask.NameToLayer("Ground")))
         {
             float angle = Vector3.Angle(transform.up, _groundHit.normal);
+            print(angle);
             return angle != 0 && angle < _maxSlope;
         }
 
@@ -249,7 +236,7 @@ public class PlayerMove : MonoBehaviour
         _isOnSlope = OnSlope(_groundRay);
 
         _gravity = _isGrounded ? Vector3.zero : Vector3.down * Mathf.Abs(_rbody.velocity.y);
-        _rbody.useGravity = !_isOnSlope || !_isGrounded;
+        _rbody.useGravity = !_isOnSlope || !_isGrounded || _state.State == PlayerFSM.eState.Dodge;
     }
 
     public IEnumerator Dodge(float h, float v)
@@ -266,11 +253,9 @@ public class PlayerMove : MonoBehaviour
         RaycastHit hit;
         float wallAngle;
         Vector3 wallClimbDir;
-        bool defalutGravity = _rbody.useGravity;
 
         // 구르기동작
         StartCoroutine(CoolDownDodge());
-        _rbody.useGravity = true;
         _state.State = PlayerFSM.eState.Dodge;
         _animator.SetBool(_hashRoll, true);
 
@@ -316,11 +301,8 @@ public class PlayerMove : MonoBehaviour
             }
 
             _rbody.MovePosition(_rbody.position + dodgeDir * dodgeSpeed * Time.deltaTime);
-            //print(dodgeDir);
-            //_rbody.velocity = dodgeDir * dodgeSpeed + _gravity;
             yield return _wfs;
         }
-        _rbody.useGravity = defalutGravity;
 
         // 구르기추가타 입력여부에 따른처리
         if (isDodgeAttackInput)
@@ -383,9 +365,6 @@ public class PlayerMove : MonoBehaviour
             Vector3 projection = Vector3.ProjectOnPlane(transform.forward - wallNorm, wallNorm); // 벽과 마찰시 움직이게 될 벡터
             float power = _movSpeed * projection.magnitude * 2.0f;
 
-            //Debug.DrawRay(collision.contacts[0].point, wallNorm, Color.green);
-            //Debug.DrawRay(transform.position, transform.forward - wallNorm, Color.red);
-            //Debug.DrawRay(collision.contacts[0].point, projection, Color.blue);
             _rbody.AddForce(projection.normalized * power, ForceMode.Impulse);
         }
     }
