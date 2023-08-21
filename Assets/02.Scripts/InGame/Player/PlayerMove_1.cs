@@ -7,9 +7,9 @@ public class PlayerMove_1 : MonoBehaviour
     [Header("=== Move ===")]
     [SerializeField] private float _movSpeed;
     [SerializeField] private float _rotSpeed;
-    [SerializeField] private float _h;
-    [SerializeField] private float _v;
     [SerializeField] private Vector3 _dir;
+    private float _h;
+    private float _v;
 
     [Header("=== Grounded ===")]
     [SerializeField] private Transform _grounded;
@@ -19,7 +19,6 @@ public class PlayerMove_1 : MonoBehaviour
     private const float RAY_DIST = 2.1f;
     private RaycastHit _slopeHit;
     private float _maxSlope = 50.0f;
-    public bool _isOnSlope; // 디버깅 용
     [SerializeField] private Transform _nextPos;
     private enum eOnSlopeState { None, currOnSlope, nextOnSlope }
 
@@ -28,8 +27,8 @@ public class PlayerMove_1 : MonoBehaviour
     [SerializeField] private float _dodgeDur;
     [SerializeField] private float _currDodgeDur;
     [SerializeField] private float _dodgeCoolTime;
-    [SerializeField] private float _currDodgeCool; // 디버깅용으로 [SerializeField]
     [SerializeField] private Vector3 _dodgeDir;
+    private float _currDodgeCool; // 디버깅용으로 [SerializeField]
     private bool _isDodgeAttackInput;
     
 
@@ -43,9 +42,11 @@ public class PlayerMove_1 : MonoBehaviour
     private Rigidbody _rbody;
     private PlayerFSM _state;
     private PlayerCombat _combat;
+    private CapsuleCollider _capsuleColl;
 
     private void Awake()
     {
+        _capsuleColl = GetComponent<CapsuleCollider>();
         _rbody = GetComponent<Rigidbody>();
         _state = GetComponent<PlayerFSM>();
         _animator = GetComponent<Animator>();
@@ -56,8 +57,6 @@ public class PlayerMove_1 : MonoBehaviour
     {
         _currDodgeCool = _dodgeCoolTime;
         _dodgeSpeed *= _movSpeed;
-
-        
     }
 
     private void Update()
@@ -92,13 +91,6 @@ public class PlayerMove_1 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //float angle = CalcNextFrameGroundAngle(_movSpeed);
-        //if (_isGrounded && !_isOnSlope && angle != 0.0f)
-        //{
-        //    _isOnSlope = true;
-        //    print(angle + ", bug");
-        //}
-
         if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead)
         {
             return;
@@ -136,13 +128,12 @@ public class PlayerMove_1 : MonoBehaviour
         if ((_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge)
             _state.State = PlayerFSM.eState.Move;
 
-        bool isGrounded = IsGrounded();
+        _isGrounded = IsGrounded();
         eOnSlopeState onSlopeState = GetSlopeState();
         Vector3 velocity = CalcNextFrameGroundAngle(movSpeed) < _maxSlope ? dir : Vector3.zero;
         Vector3 gravity = Vector3.down * Mathf.Abs(_rbody.velocity.y);
 
-        _isGrounded = isGrounded;
-        if (isGrounded)
+        if (_isGrounded)
         {
             switch (onSlopeState)
             {
@@ -192,6 +183,7 @@ public class PlayerMove_1 : MonoBehaviour
         }
 
         _animator.SetBool(_hashMove, (_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge);
+        //print(velocity);
         _rbody.velocity = velocity * movSpeed + gravity;
     }
 
@@ -282,5 +274,20 @@ public class PlayerMove_1 : MonoBehaviour
         }
 
         _currDodgeCool = _dodgeCoolTime;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
+
+        if (Physics.Raycast(pos, transform.forward, _capsuleColl.radius * 1.5f, 1 << LayerMask.NameToLayer("Ground"))
+            && collision.gameObject.tag.Equals("Wall") && (_h != 0.0f || _v != 0.0f))
+        {
+            Vector3 wallNorm = collision.contacts[0].normal;
+            Vector3 projection = Vector3.ProjectOnPlane(transform.forward - wallNorm, wallNorm); // 벽과 마찰시 움직이게 될 벡터
+            float power = _movSpeed * projection.magnitude * 2.5f;
+
+            _rbody.AddForce(projection.normalized * power, ForceMode.Impulse);
+        }
     }
 }
