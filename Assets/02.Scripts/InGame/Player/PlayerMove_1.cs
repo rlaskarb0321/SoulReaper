@@ -155,7 +155,7 @@ public class PlayerMove_1 : MonoBehaviour
             {
                 case eOnSlopeState.None:
                     //print("평지");
-                    _movSpeed = _originSpeed;
+                    _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_movSpeed, _originSpeed, 1.0f);
                     _rbody.useGravity = true;
                     velocity = CalcNextFrameGroundAngle(movSpeed) < _maxSlope ? dir : Vector3.zero;
                     break;
@@ -163,7 +163,7 @@ public class PlayerMove_1 : MonoBehaviour
                 case eOnSlopeState.CurrOnSlope:
                 case eOnSlopeState.NextOnSlope:
                     //print("현재 경사면 위 or 다음이 경사면 위");
-                    _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_stairMovSpeed, _originSpeed, 0.5f);
+                    _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_movSpeed, _originSpeed, 0.5f);
                     _rbody.useGravity = false;
                     velocity = GetSlopeDir(velocity);
                     gravity = Vector3.zero;
@@ -191,7 +191,7 @@ public class PlayerMove_1 : MonoBehaviour
         Debug.DrawRay(_stepLower.position, transform.TransformDirection(Vector3.forward) * _lowerDist, Color.red);
         Debug.DrawRay(_stepUpper.position, transform.TransformDirection(Vector3.forward) * _upperDist, Color.red);
 
-        if (hit.collider != null && !hit.collider.tag.Equals("Stairs"))
+        if (hit.collider != null && (hit.collider.tag.Equals("Wall") || hit.collider.tag.Equals("Slope")))
             return;
 
         if (isLowerHit && !isUpperHit)
