@@ -10,6 +10,7 @@ public class PlayerMove_1 : MonoBehaviour
     [SerializeField] private Vector3 _dir;
     private float _h;
     private float _v;
+    private eOnSlopeState _onSlopeState;
 
     [Header("=== Grounded ===")]
     [SerializeField] private Transform _grounded;
@@ -20,7 +21,16 @@ public class PlayerMove_1 : MonoBehaviour
     private RaycastHit _slopeHit;
     private float _maxSlope = 50.0f;
     [SerializeField] private Transform _nextPos;
-    private enum eOnSlopeState { None, currOnSlope, nextOnSlope }
+    private enum eOnSlopeState { None, CurrOnSlope, NextOnSlope, OnStairs }
+
+    [Header("=== Stairs ===")]
+    [SerializeField] private Transform _stepLower;
+    [SerializeField] private Transform _stepUpper;
+    [SerializeField] private float _lowerDist;
+    [SerializeField] private float _upperDist;
+    [SerializeField] private float _stepHeight;
+    [Range(0.0f, 0.9f)] [SerializeField] private float _stairMovSpeed;
+    private float _originSpeed;
 
     [Header("=== Dodge ===")]
     [SerializeField] private float _dodgeSpeed;
@@ -31,7 +41,6 @@ public class PlayerMove_1 : MonoBehaviour
     private float _currDodgeCool; // 디버깅용으로 [SerializeField]
     private bool _isDodgeAttackInput;
     
-
     [Header("=== Anim Params ===")]
     private Animator _animator;
     readonly int _hashMove = Animator.StringToHash("isMove");
@@ -43,6 +52,7 @@ public class PlayerMove_1 : MonoBehaviour
     private PlayerFSM _state;
     private PlayerCombat _combat;
     private CapsuleCollider _capsuleColl;
+    private int _groundLayer;
 
     private void Awake()
     {
@@ -55,8 +65,11 @@ public class PlayerMove_1 : MonoBehaviour
 
     private void Start()
     {
+        _groundLayer = 1 << LayerMask.NameToLayer("Ground");
         _currDodgeCool = _dodgeCoolTime;
         _dodgeSpeed *= _movSpeed;
+        _originSpeed = _movSpeed;
+        _stairMovSpeed *= _movSpeed;
     }
 
     private void Update()
@@ -107,105 +120,115 @@ public class PlayerMove_1 : MonoBehaviour
             return;
         }
 
+        _animator.SetBool(_hashFall, !_isGrounded);
+        MovePlayer(_dir, _movSpeed);
+        StepOnStair();
+        RotatePlayer();
+
         if ((_h == 0.0f && _v == 0.0f) &&
-            _state.State != PlayerFSM.eState.Fall && _state.State != PlayerFSM.eState.Attack 
+            !_animator.GetBool(_hashFall) && _state.State != PlayerFSM.eState.Attack
             && _state.State != PlayerFSM.eState.Dead && _state.State != PlayerFSM.eState.Dodge)
         {
             _state.State = PlayerFSM.eState.Idle;
             _animator.SetBool(_hashMove, false);
         }
-
-        _animator.SetBool(_hashFall, !_isGrounded);
-        MovePlayer(_dir, _movSpeed);
-        RotatePlayer();
     }
 
     #region 플레이어 움직임 관련 메서드
     private void MovePlayer(Vector3 dir, float movSpeed)
     {
-        if (_animator.GetBool(_hashFall).Equals(true))
+        if (_animator.GetBool(_hashFall))
             _state.State = PlayerFSM.eState.Fall;
         if ((_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge)
             _state.State = PlayerFSM.eState.Move;
 
         _isGrounded = IsGrounded();
-        eOnSlopeState onSlopeState = GetSlopeState();
-        Vector3 velocity = CalcNextFrameGroundAngle(movSpeed) < _maxSlope ? dir : Vector3.zero;
+        _rbody.useGravity = true;
+        _onSlopeState = GetSlopeState();
+        Vector3 velocity = dir;
         Vector3 gravity = Vector3.down * Mathf.Abs(_rbody.velocity.y);
+        print(_onSlopeState);
 
         if (_isGrounded)
         {
-            switch (onSlopeState)
+            switch (_onSlopeState)
             {
                 case eOnSlopeState.None:
                     //print("평지");
+                    _movSpeed = _originSpeed;
                     _rbody.useGravity = true;
+                    velocity = CalcNextFrameGroundAngle(movSpeed) < _maxSlope ? dir : Vector3.zero;
                     break;
 
-                case eOnSlopeState.currOnSlope:
-                case eOnSlopeState.nextOnSlope:
+                case eOnSlopeState.CurrOnSlope:
+                case eOnSlopeState.NextOnSlope:
                     //print("현재 경사면 위 or 다음이 경사면 위");
+                    _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_stairMovSpeed, _originSpeed, 0.5f);
                     _rbody.useGravity = false;
                     velocity = GetSlopeDir(velocity);
                     gravity = Vector3.zero;
                     break;
 
-                #region 23.08.21 다음 프레임이 경사면일 경우 움직일 방향을 꺾을예정이었으나, 결론적으론 한 프레임앞서서 느려질 뿐이었음
-                    //case eOnSlopeState.currOnSlope:
-                    //    //print("현재 경사");
-                    //    _rbody.useGravity = false;
-                    //    velocity = GetSlopeDir(velocity);
-                    //    gravity = Vector3.zero;
-                    //    break;
-
-                    //case eOnSlopeState.nextOnSlope:
-                    //    print("다음이 경사");
-                    //    var nextFramePlayerPos = _nextPos.position + velocity * _movSpeed * Time.fixedDeltaTime * 0.5f;
-                    //    if (Physics.Raycast(nextFramePlayerPos, Vector3.down, out RaycastHit hit, RAY_DIST, 1 << LayerMask.NameToLayer("Ground")))
-                    //    {
-                    //        //Debug.DrawRay(nextFramePlayerPos, Vector3.down * RAY_DIST, Color.red); // 한 프레임 뒤 땅 판단용
-                    //        //print("next : " + Vector3.Angle(Vector3.up, hit.normal)); // 한 프레임 뒤 땅의 각도
-                    //        //print("curr : " + Vector3.Angle(Vector3.up, _slopeHit.normal)); // 현재 땅의 각도
-                    //        //print("curr Dir :" + dir); // 현재 진행 방향
-                    //        //print("Goal dir : " + Vector3.ProjectOnPlane(dir, hit.normal)); // 한 프레임 뒤 진행 방향
-
-                    //        velocity = Vector3.ProjectOnPlane(dir, hit.normal);
-                    //        velocity = velocity.y < 0.0f ? new Vector3(dir.x, 0.0f, dir.z) : velocity;
-                    //        print(velocity);
-                    //    }
-
-                    //    _rbody.useGravity = false;
-                    //    velocity = GetSlopeDir(velocity);
-                    //    gravity = Vector3.zero;
-                    //    break;
-                    #endregion
+                case eOnSlopeState.OnStairs:
+                    _movSpeed = Mathf.Lerp(_movSpeed, _stairMovSpeed, 0.5f);
+                    _rbody.useGravity = dir == Vector3.zero ? false : true;
+                    velocity = dir;
+                    gravity = Vector3.zero;
+                    break;
             }
         }
 
         _animator.SetBool(_hashMove, (_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge);
-        //print(velocity);
         _rbody.velocity = velocity * movSpeed + gravity;
+    }
+
+    private void StepOnStair()
+    {
+        RaycastHit hit;
+        bool isLowerHit = Physics.Raycast(_stepLower.position, transform.TransformDirection(Vector3.forward), out hit, _lowerDist, _groundLayer);
+        bool isUpperHit = Physics.Raycast(_stepUpper.position, transform.TransformDirection(Vector3.forward), _upperDist, _groundLayer);
+
+        Debug.DrawRay(_stepLower.position, transform.TransformDirection(Vector3.forward) * _lowerDist, Color.red);
+        Debug.DrawRay(_stepUpper.position, transform.TransformDirection(Vector3.forward) * _upperDist, Color.red);
+
+        if (hit.collider != null && !hit.collider.tag.Equals("Stairs"))
+            return;
+
+        if (isLowerHit && !isUpperHit)
+        {
+            if (!_dir.Equals(Vector3.zero))
+                _rbody.position += new Vector3(0f, _stepHeight * Time.deltaTime, 0f);
+        }
+
+        //// 원래는 계단 내려갈때를 판단하기 위한 목적이었지만, 계단 올라갈 때 넓은면을 밟고있는 상태일때도 해당 상황으로 판단 됨
+        //if (!isLowerHit && !isUpperHit && _onSlopeState == eOnSlopeState.OnStairs)
+        //{
+        //    print("위 아래 안닿았는데 계단위에있음");
+        //}
     }
 
     private bool IsGrounded()
     {
         Vector3 boxSize = _grounded.transform.lossyScale;
-        return Physics.CheckBox(_grounded.position, boxSize, Quaternion.identity, 1 << LayerMask.NameToLayer("Ground"));
+        return Physics.CheckBox(_grounded.position, boxSize, Quaternion.identity, _groundLayer);
     }
 
     private eOnSlopeState GetSlopeState()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        if (Physics.Raycast(ray, out _slopeHit, RAY_DIST, 1 << LayerMask.NameToLayer("Ground")))
+        if (Physics.Raycast(ray, out _slopeHit, RAY_DIST, _groundLayer))
         {
+            if (_slopeHit.collider.tag.Equals("Stairs"))
+                return eOnSlopeState.OnStairs;
+
             float currAngle = Vector3.Angle(Vector3.up, _slopeHit.normal);
             float nextAngle = CalcNextFrameGroundAngle(_movSpeed);
 
             if (currAngle != 0.0f && currAngle < _maxSlope)
-                return eOnSlopeState.currOnSlope;
+                return eOnSlopeState.CurrOnSlope;
 
             if (nextAngle != 0.0f && nextAngle < _maxSlope)
-                return eOnSlopeState.nextOnSlope;
+                return eOnSlopeState.NextOnSlope;
 
         }
         return eOnSlopeState.None;
@@ -219,9 +242,16 @@ public class PlayerMove_1 : MonoBehaviour
     private float CalcNextFrameGroundAngle(float movSpeed)
     {
         var nextFramePlayerPos = _nextPos.position + _dir * _movSpeed * Time.fixedDeltaTime * 0.5f;
-        if (Physics.Raycast(nextFramePlayerPos, Vector3.down, out RaycastHit hit, RAY_DIST, 1 << LayerMask.NameToLayer("Ground")))
+        if (Physics.Raycast(nextFramePlayerPos, Vector3.down, out RaycastHit hit, RAY_DIST, _groundLayer))
         {
-            return Vector3.Angle(Vector3.up, hit.normal);
+            if (hit.collider.tag.Equals("Stairs"))
+            {
+                return 0.0f;
+            }
+            else
+            {
+                return Vector3.Angle(Vector3.up, hit.normal);
+            }
         }
         return 0.0f;
     }
@@ -280,7 +310,7 @@ public class PlayerMove_1 : MonoBehaviour
     {
         Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
 
-        if (Physics.Raycast(pos, transform.forward, _capsuleColl.radius * 1.5f, 1 << LayerMask.NameToLayer("Ground"))
+        if (Physics.Raycast(pos, transform.forward, _capsuleColl.radius * 1.5f, _groundLayer)
             && collision.gameObject.tag.Equals("Wall") && (_h != 0.0f || _v != 0.0f))
         {
             Vector3 wallNorm = collision.contacts[0].normal;
