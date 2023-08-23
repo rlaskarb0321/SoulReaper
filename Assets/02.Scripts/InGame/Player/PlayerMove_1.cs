@@ -17,7 +17,7 @@ public class PlayerMove_1 : MonoBehaviour
     public bool _isGrounded; // 디버깅 용
 
     [Header("=== Slope ===")]
-    private const float RAY_DIST = 2.1f;
+    private const float RAY_DIST = 3.1f;
     private RaycastHit _slopeHit;
     private float _maxSlope = 50.0f;
     [SerializeField] private Transform _nextPos;
@@ -185,7 +185,8 @@ public class PlayerMove_1 : MonoBehaviour
     private void StepOnStair()
     {
         RaycastHit hit;
-        bool isLowerHit = Physics.Raycast(_stepLower.position, transform.TransformDirection(Vector3.forward), out hit, _lowerDist, _groundLayer);
+        bool isLowerHit 
+            = Physics.Raycast(_stepLower.position, transform.TransformDirection(Vector3.forward), out hit, _lowerDist, _groundLayer);
         bool isUpperHit = Physics.Raycast(_stepUpper.position, transform.TransformDirection(Vector3.forward), _upperDist, _groundLayer);
 
         Debug.DrawRay(_stepLower.position, transform.TransformDirection(Vector3.forward) * _lowerDist, Color.red);
@@ -194,17 +195,27 @@ public class PlayerMove_1 : MonoBehaviour
         if (hit.collider != null && (hit.collider.tag.Equals("Wall") || hit.collider.tag.Equals("Slope")))
             return;
 
+        // 올라갈때
         if (isLowerHit && !isUpperHit)
         {
             if (!_dir.Equals(Vector3.zero))
                 _rbody.position += new Vector3(0f, _stepHeight * Time.deltaTime, 0f);
         }
 
-        //// 원래는 계단 내려갈때를 판단하기 위한 목적이었지만, 계단 올라갈 때 넓은면을 밟고있는 상태일때도 해당 상황으로 판단 됨
-        //if (!isLowerHit && !isUpperHit && _onSlopeState == eOnSlopeState.OnStairs)
-        //{
-        //    print("위 아래 안닿았는데 계단위에있음");
-        //}
+        // 내려갈때
+        if (!isLowerHit && !isUpperHit && _onSlopeState == eOnSlopeState.OnStairs)
+        {
+            RaycastHit downHit;
+            if (Physics.Raycast(transform.position, Vector3.down, out downHit, _groundLayer))
+            {
+                if (downHit.distance > 0.8f)
+                {
+                    //print("down?");
+                    _isGrounded = true;
+                    _rbody.position -= new Vector3(0f, _stepHeight * Time.deltaTime, 0f);
+                }
+            }
+        }
     }
 
     private bool IsGrounded()
