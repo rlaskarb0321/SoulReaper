@@ -7,7 +7,7 @@ public class PlayerMove_1 : MonoBehaviour
     [Header("=== Move ===")]
     [SerializeField] private float _movSpeed;
     [SerializeField] private float _rotSpeed;
-    [SerializeField] private Vector3 _dir;
+    private Vector3 _dir;
     private float _h;
     private float _v;
     private eOnSlopeState _onSlopeState;
@@ -37,7 +37,7 @@ public class PlayerMove_1 : MonoBehaviour
     [SerializeField] private float _dodgeDur;
     [SerializeField] private float _currDodgeDur;
     [SerializeField] private float _dodgeCoolTime;
-    [SerializeField] private Vector3 _dodgeDir;
+    private Vector3 _dodgeDir;
     private float _currDodgeCool; // 디버깅용으로 [SerializeField]
     private bool _isDodgeAttackInput;
     
@@ -147,7 +147,7 @@ public class PlayerMove_1 : MonoBehaviour
         _onSlopeState = GetSlopeState();
         Vector3 velocity = dir;
         Vector3 gravity = Vector3.down * Mathf.Abs(_rbody.velocity.y);
-        print(_onSlopeState);
+        //print(_onSlopeState);
 
         if (_isGrounded)
         {
