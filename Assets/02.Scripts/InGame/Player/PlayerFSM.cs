@@ -74,6 +74,7 @@ public class PlayerFSM : MonoBehaviour
     {
         if (_hitDelay > 0.0f)
         {
+            // _rbody.addforce
             _rbody.MovePosition(_rbody.position + _atkDir * Time.deltaTime * Mathf.Pow(50448.5f, _hitDelay * 0.15f));
             _hitDelay -= Time.deltaTime;
             return;

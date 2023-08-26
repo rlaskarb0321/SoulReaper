@@ -79,7 +79,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1950166412682256490}
   m_Layer: 0
-  m_Name: Exit Pos
+  m_Name: RoomB Exit Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
