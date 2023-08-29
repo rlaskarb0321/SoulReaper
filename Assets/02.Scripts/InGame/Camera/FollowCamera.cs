@@ -98,7 +98,8 @@ public class FollowCamera : MonoBehaviour
         silRayHits = Physics.RaycastAll(silhouetteRay, (_raySearchTarget.transform.position - Camera.main.transform.position).magnitude);
         hitObj = silRayHits.OrderBy(hit => (Camera.main.transform.position - hit.transform.position).magnitude).First();
 
-        if (hitObj.transform.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
+        if (hitObj.transform.gameObject.layer == LayerMask.NameToLayer("PlayerTeam") ||
+            hitObj.transform.gameObject.layer == LayerMask.NameToLayer("Ignore OutLine"))
         {
             _playerOutline.enabled = false;
         }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1252372308}
   - component: {fileID: 1252372309}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Entry Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ PrefabInstance:
     - target: {fileID: 8599792117849144317, guid: e273745c9c631664eb07c663f76f9ce1,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 8599792117849368541, guid: e273745c9c631664eb07c663f76f9ce1,
         type: 3}
