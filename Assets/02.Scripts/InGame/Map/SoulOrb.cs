@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class SoulOrb : MonoBehaviour, IInteractable
 {
-    private bool _isPlayerEnter;
+    private PlayerStat _playerStat;
+    private bool _isTriggered;
 
     private void Update()
     {
-        if (!_isPlayerEnter)
-            return;
-
         if (Input.GetKeyDown(KeyCode.F))
         {
             Interact();
@@ -19,30 +17,33 @@ public class SoulOrb : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        print("soul + 100");
-        Destroy(gameObject);
+        if (!_isTriggered || _playerStat == null)
+            return;
+
+        print("Soul Orb + 100");
     }
 
     public void SetActiveInteractUI(bool value)
     {
-
+        // 상호작용 UI 키기 끄기
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.tag.Equals("Player"))
+        if (!other.CompareTag("Player"))
             return;
 
-        _isPlayerEnter = true;
-        SetActiveInteractUI(_isPlayerEnter);
+        SetActiveInteractUI(true);
+        _isTriggered = true;
+        _playerStat = other.GetComponent<PlayerStat>();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.gameObject.tag.Equals("Player"))
+        if (!other.CompareTag("Player"))
             return;
 
-        _isPlayerEnter = false;
-        SetActiveInteractUI(_isPlayerEnter);
+        SetActiveInteractUI(false);
+        _isTriggered = false;
     }
 }

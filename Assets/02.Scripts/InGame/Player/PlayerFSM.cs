@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerFSM : MonoBehaviour
 {
-    public enum eState { Idle, Fall, Move, Dodge, Attack, Charging, Hit, Dead }
+    public enum eState { Idle, Fall, Move, Dodge, Attack, Charging, Hit, Dead, Ladder }
     [Header("=== State ===")]
     [SerializeField] private eState _state;
     public eState State { get { return _state; } set { _state = value; } }

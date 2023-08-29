@@ -86,6 +86,8 @@ public class PlayerCombat : MonoBehaviour
             return;
         if (_state.State == PlayerFSM.eState.Dead)
             return;
+        if (_state.State == PlayerFSM.eState.Ladder)
+            return;
 
         // 근or원거리공격으로 모션전환관련
         if (Input.GetMouseButtonDown(0) && 

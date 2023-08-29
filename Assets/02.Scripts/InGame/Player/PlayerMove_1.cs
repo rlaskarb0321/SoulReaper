@@ -46,10 +46,13 @@ public class PlayerMove_1 : MonoBehaviour
     readonly int _hashMove = Animator.StringToHash("isMove");
     readonly int _hashRoll = Animator.StringToHash("isRoll");
     readonly int _hashFall = Animator.StringToHash("isFall");
+    readonly int _hashIsLadder = Animator.StringToHash("isLadder");
+    readonly int _hashLadderInput = Animator.StringToHash("isLadderInput");
+    readonly int _hashClimbSpeed = Animator.StringToHash("ClimbSpeed");
 
     [Header("=== Component ===")]
     private Rigidbody _rbody;
-    private PlayerFSM _state;
+    [HideInInspector] public PlayerFSM _state;
     private PlayerCombat _combat;
     private CapsuleCollider _capsuleColl;
     private int _groundLayer;
@@ -74,6 +77,12 @@ public class PlayerMove_1 : MonoBehaviour
 
     private void Update()
     {
+        if (_state.State == PlayerFSM.eState.Ladder)
+        {
+            ClimbLadder();
+            return;
+        }
+
         if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead)
         {
             return;
@@ -104,7 +113,7 @@ public class PlayerMove_1 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead)
+        if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead || _state.State == PlayerFSM.eState.Ladder)
         {
             return;
         }
@@ -114,7 +123,8 @@ public class PlayerMove_1 : MonoBehaviour
             Dodge();
         }
 
-        if (_state.State != PlayerFSM.eState.Idle && _state.State != PlayerFSM.eState.Fall && _state.State != PlayerFSM.eState.Move)
+        if (_state.State != PlayerFSM.eState.Idle && _state.State != PlayerFSM.eState.Fall && 
+            _state.State != PlayerFSM.eState.Move && _state.State != PlayerFSM.eState.Ladder)
         {
             _animator.SetBool(_hashMove, false);
             return;
@@ -125,9 +135,9 @@ public class PlayerMove_1 : MonoBehaviour
         StepOnStair();
         RotatePlayer();
 
-        if ((_h == 0.0f && _v == 0.0f) &&
-            !_animator.GetBool(_hashFall) && _state.State != PlayerFSM.eState.Attack
-            && _state.State != PlayerFSM.eState.Dead && _state.State != PlayerFSM.eState.Dodge)
+        if ((_h == 0.0f && _v == 0.0f) && !_animator.GetBool(_hashFall) &&
+            _state.State != PlayerFSM.eState.Attack && _state.State != PlayerFSM.eState.Ladder &&
+            _state.State != PlayerFSM.eState.Dead && _state.State != PlayerFSM.eState.Dodge)
         {
             _state.State = PlayerFSM.eState.Idle;
             _animator.SetBool(_hashMove, false);
@@ -137,6 +147,7 @@ public class PlayerMove_1 : MonoBehaviour
     #region 플레이어 움직임 관련 메서드
     private void MovePlayer(Vector3 dir, float movSpeed)
     {
+        
         if (_animator.GetBool(_hashFall))
             _state.State = PlayerFSM.eState.Fall;
         if ((_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge)
@@ -330,5 +341,24 @@ public class PlayerMove_1 : MonoBehaviour
 
             _rbody.AddForce(projection.normalized * power, ForceMode.Impulse);
         }
+    }
+
+    public void ClimbLadder()
+    {
+        if (!_animator.GetBool(_hashIsLadder))
+            _animator.SetBool(_hashIsLadder, true);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _state.State = PlayerFSM.eState.Fall;
+            _rbody.isKinematic = false;
+            _animator.SetBool(_hashIsLadder, false);
+            return;
+        }
+
+        _v = Input.GetAxisRaw("Vertical");
+        _rbody.isKinematic = true;
+        _rbody.position += new Vector3(0.0f, _v * Time.fixedDeltaTime * 1.2f, 0.0f);
+        _animator.SetBool(_hashLadderInput, _v != 0);
+        _animator.SetFloat(_hashClimbSpeed, _v);
     }
 }
