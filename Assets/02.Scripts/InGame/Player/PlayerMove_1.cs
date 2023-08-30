@@ -7,6 +7,7 @@ public class PlayerMove_1 : MonoBehaviour
     [Header("=== Move ===")]
     [SerializeField] private float _movSpeed;
     [SerializeField] private float _rotSpeed;
+    [Range(0.01f, 0.9f)] [SerializeField] private float _ladderSpeed;
     private Vector3 _dir;
     private float _h;
     private float _v;
@@ -343,22 +344,27 @@ public class PlayerMove_1 : MonoBehaviour
         }
     }
 
-    public void ClimbLadder()
+    private void ClimbLadder()
     {
         if (!_animator.GetBool(_hashIsLadder))
             _animator.SetBool(_hashIsLadder, true);
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _state.State = PlayerFSM.eState.Fall;
-            _rbody.isKinematic = false;
-            _animator.SetBool(_hashIsLadder, false);
+            ClimbDown();
             return;
         }
 
         _v = Input.GetAxisRaw("Vertical");
         _rbody.isKinematic = true;
-        _rbody.position += new Vector3(0.0f, _v * Time.fixedDeltaTime * 1.2f, 0.0f);
+        _rbody.position += new Vector3(0.0f, _v * (Time.fixedDeltaTime * _ladderSpeed), 0.0f);
         _animator.SetBool(_hashLadderInput, _v != 0);
         _animator.SetFloat(_hashClimbSpeed, _v);
+    }
+
+    public void ClimbDown()
+    {
+        _state.State = PlayerFSM.eState.Fall;
+        _rbody.isKinematic = false;
+        _animator.SetBool(_hashIsLadder, false);
     }
 }

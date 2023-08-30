@@ -18,14 +18,22 @@ public class MapTeleport : MonoBehaviour
     [Header("=== Fade Panel ===")]
     [SerializeField] private GameObject _fadePanel;
 
+    private PlayerMove_1 _playerMove;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
         {
+            if (_playerMove == null)
+                _playerMove = other.GetComponent<PlayerMove_1>();
+            if (_playerMove._state.State == PlayerFSM.eState.Ladder)
+            {
+                _playerMove.ClimbDown();
+            }
+
             //Vector3 contactPoint = other.ClosestPoint(_enterPos.transform.localPosition);
             //Vector3 contactLocalPos = _enterPos.transform.InverseTransformPoint(contactPoint);
             //contactLocalPos.y = 0.0f;
-
             _fadePanel.SetActive(false);
             _fadePanel.SetActive(true);
             //_playerBody.transform.position = _nextPos.transform.position + contactLocalPos;
