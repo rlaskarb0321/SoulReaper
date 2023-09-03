@@ -43,6 +43,9 @@ public class Key : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        if (!_keyObj.gameObject.activeSelf)
+            return;
+
         SetActiveInteractUI(false);
         print("¿­¼è½Àµæ");
     }
@@ -56,7 +59,7 @@ public class Key : MonoBehaviour, IInteractable
     {
         if (!other.gameObject.CompareTag("Player"))
             return;
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.F))
         {
             Interact();
             return;

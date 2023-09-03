@@ -50,6 +50,7 @@ public class PlayerMove_1 : MonoBehaviour
     readonly int _hashIsLadder = Animator.StringToHash("isLadder");
     readonly int _hashLadderInput = Animator.StringToHash("isLadderInput");
     readonly int _hashClimbSpeed = Animator.StringToHash("ClimbSpeed");
+    readonly int _hashReachTop = Animator.StringToHash("ReachTop");
 
     [Header("=== Component ===")]
     private Rigidbody _rbody;
@@ -348,11 +349,11 @@ public class PlayerMove_1 : MonoBehaviour
     {
         if (!_animator.GetBool(_hashIsLadder))
             _animator.SetBool(_hashIsLadder, true);
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ClimbDown();
-            return;
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    ClimbDown();
+        //    return;
+        //}
 
         _v = Input.GetAxisRaw("Vertical");
         _rbody.isKinematic = true;
@@ -361,10 +362,28 @@ public class PlayerMove_1 : MonoBehaviour
         _animator.SetFloat(_hashClimbSpeed, _v);
     }
 
-    public void ClimbDown()
+    public void ClimbDown(Ladder.eTriggerPos triggerPos = Ladder.eTriggerPos.None)
     {
-        _state.State = PlayerFSM.eState.Fall;
-        _rbody.isKinematic = false;
         _animator.SetBool(_hashIsLadder, false);
+        _animator.SetFloat(_hashClimbSpeed, 0.0f);
+
+        if (triggerPos == Ladder.eTriggerPos.Up)
+        {
+            _animator.SetBool(_hashLadderInput, false);
+            _animator.SetTrigger(_hashReachTop);
+        }
+        else
+        {
+            _state.State = PlayerFSM.eState.Fall;
+            _rbody.isKinematic = false;
+        }
+    }
+
+    public void CompleteClimb()
+    {
+        _animator.SetBool(_hashIsLadder, false);
+        _rbody.isKinematic = false;
+
+        _state.State = PlayerFSM.eState.Idle;
     }
 }

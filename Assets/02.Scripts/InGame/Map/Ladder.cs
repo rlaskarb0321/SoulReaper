@@ -4,31 +4,48 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour, IInteractable
 {
-    private bool _canClimbLadder;
-    private PlayerFSM _playerFSM;
-    [SerializeField] Transform _entryTrigger;
+    public enum eTriggerPos { Up, Down, None, }
+    public eTriggerPos _triggerPos;
+    private PlayerMove_1 _player;
+    [SerializeField] private Transform[] _triggers;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        //if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    Interact();
+        //}
+
+        if (_player == null)
+            return;
+        if (_player._state.State != PlayerFSM.eState.Ladder)
+            return;
+
+        if (_player.transform.position.y > _triggers[(int)eTriggerPos.Up].position.y)
         {
-            Interact();
+            _player.ClimbDown(eTriggerPos.Up);
+        }
+
+        if (_player.transform.position.y < _triggers[(int)eTriggerPos.Down].position.y)
+        {
+            _player.ClimbDown(eTriggerPos.Down);
         }
     }
 
+
     public void Interact()
     {
-        if (!_canClimbLadder)
+        if (_player._state.State == PlayerFSM.eState.Ladder)
             return;
-        if (_playerFSM.State == PlayerFSM.eState.Ladder) 
-            return;
-        if (_playerFSM.State != PlayerFSM.eState.Idle && _playerFSM.State != PlayerFSM.eState.Move)
+        if (_player._state.State != PlayerFSM.eState.Idle && _player._state.State != PlayerFSM.eState.Move)
             return;
 
-        _playerFSM.State = PlayerFSM.eState.Ladder;
+        Vector3 entryPos = _triggers[(int)_triggerPos].position;
+
         SetActiveInteractUI(false);
-        _playerFSM.transform.position = _entryTrigger.position;
-        _playerFSM.transform.forward = transform.forward;
+        _player._state.State = PlayerFSM.eState.Ladder;
+        _player.transform.forward = transform.forward;
+        _player.transform.position = entryPos;
     }
 
     public void SetActiveInteractUI(bool value)
@@ -41,11 +58,8 @@ public class Ladder : MonoBehaviour, IInteractable
         if (!other.CompareTag("Player"))
             return;
 
-        if (_playerFSM == null)
-            _playerFSM = other.GetComponent<PlayerFSM>();
-
-        SetActiveInteractUI(true);
-        _canClimbLadder = true;
+        if (_player == null)
+            _player = other.GetComponent<PlayerMove_1>();
     }
 
     private void OnTriggerExit(Collider other)
@@ -53,7 +67,22 @@ public class Ladder : MonoBehaviour, IInteractable
         if (!other.CompareTag("Player"))
             return;
 
+        _player = null;
         SetActiveInteractUI(false);
-        _canClimbLadder = false;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!other.CompareTag("Player"))
+            return;
+        if (_player._state.State == PlayerFSM.eState.Ladder)
+            return;
+        if (Input.GetKey(KeyCode.F))
+        {
+            Interact();
+            return;
+        }
+
+        SetActiveInteractUI(true);
     }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1252372308}
   - component: {fileID: 5713873302153352671}
+  - component: {fileID: 840824938607775055}
   m_Layer: 17
   m_Name: Down Trigger
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1898851587590579211}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5713873302153352671
 BoxCollider:
@@ -45,6 +46,78 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &840824938607775055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252372307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458a7462ce4e9a443af7b1c2e6859c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _myPos: 1
+--- !u!1 &7563659654194940334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3090741659692586649}
+  - component: {fileID: 3060778393526165091}
+  - component: {fileID: 4365418313999070437}
+  m_Layer: 17
+  m_Name: Up Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3090741659692586649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563659654194940334}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.9, y: 0.47, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1898851587590579211}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3060778393526165091
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563659654194940334}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4365418313999070437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563659654194940334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458a7462ce4e9a443af7b1c2e6859c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _myPos: 0
 --- !u!1001 &7854992618467902422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -168,7 +241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bdd1851fc08008428254fb0ff182030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entryTrigger: {fileID: 1252372308}
+  _triggerPos: 0
+  _triggers:
+  - {fileID: 3090741659692586649}
+  - {fileID: 1252372308}
 --- !u!4 &1898851587590579211 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8599792117849368541, guid: e273745c9c631664eb07c663f76f9ce1,
