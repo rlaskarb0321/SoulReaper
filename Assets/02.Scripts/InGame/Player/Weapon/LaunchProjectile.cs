@@ -45,7 +45,7 @@ public class LaunchProjectile : MonoBehaviour
 
     public void UpgradeFire()
     {
-        float speed = _movSpeed * 0.1f;
+        float speed = _movSpeed * 0.5f;
 
         _arrowState = ArrowState.Fire;
         _fireEffect.SetActive(true);

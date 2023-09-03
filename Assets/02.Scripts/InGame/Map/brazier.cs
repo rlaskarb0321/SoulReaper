@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class brazier : MonoBehaviour
+public class Brazier : MonoBehaviour
 {
-    private enum eBrazier { Normal, Fire }
-    [SerializeField] private eBrazier _brazierState;
+    [Header("=== Map ===")]
+    [SerializeField] private A2RoomMgr _roomMgr;
+
+    public enum eBrazier { Normal, Fire }
+    [Header("=== Brazier ===")]
+    [SerializeField] public eBrazier _brazierState;
     [SerializeField] private GameObject _fireEffect;
 
     private void OnTriggerEnter(Collider other)
@@ -29,9 +33,14 @@ public class brazier : MonoBehaviour
 
             case LaunchProjectile.ArrowState.Fire:
                 if (_brazierState == eBrazier.Normal)
+                {
                     IgniteBrazier();
+                    _roomMgr.ProceedingPuzzle();
+                }
                 else
+                {
                     projectile.Boom();
+                }
                 break;
         }
     }
