@@ -18,7 +18,6 @@ public class PlayerFSM : MonoBehaviour
     Animator _animator;
     Rigidbody _rbody;
     PlayerCombat _combat;
-    PlayerMove _mov;
     FallBehaviour _fallBehaviour;
 
     readonly int _hashRoll = Animator.StringToHash("isRoll");
@@ -37,7 +36,6 @@ public class PlayerFSM : MonoBehaviour
 
         _rbody = GetComponent<Rigidbody>();
         _combat = GetComponent<PlayerCombat>();
-        _mov = GetComponent<PlayerMove>();
         _animator = GetComponent<Animator>();
         _fallBehaviour = _animator.GetBehaviour<FallBehaviour>();
     }

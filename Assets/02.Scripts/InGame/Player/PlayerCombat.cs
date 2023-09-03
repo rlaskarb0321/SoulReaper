@@ -43,7 +43,7 @@ public class PlayerCombat : MonoBehaviour
     [Header("Component")]
     AttackComboBehaviour _atkBehaviour;
     SmoothDodgeBehaviour _smoothDodgeBehaviour;
-    PlayerMove _mov;
+    PlayerMove_1 _mov;
     PlayerFSM _state;
     FollowCamera _followCam;
     SoundEffects _sfx;
@@ -61,7 +61,7 @@ public class PlayerCombat : MonoBehaviour
         _atkBehaviour = _animator.GetBehaviour<AttackComboBehaviour>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
         _rbody = GetComponent<Rigidbody>();
-        _mov = GetComponent<PlayerMove>();
+        _mov = GetComponent<PlayerMove_1>();
         _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
         _sfx = GetComponent<SoundEffects>();
 
@@ -247,13 +247,13 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-        // 공격1, 2, 차징발사 애니메이션 실행도중에 space가 입력되면 해당 애니메이션의 마지막프레임에서 회피로 이동
-        if (_smoothDodgeBehaviour._isDodgeInput)
-        {
-            _animator.SetInteger(_hashCombo, _combo);
-            StartCoroutine(_mov.Dodge(_smoothDodgeBehaviour._h, _smoothDodgeBehaviour._v));
-            return;
-        }
+        //// 공격1, 2, 차징발사 애니메이션 실행도중에 space가 입력되면 해당 애니메이션의 마지막프레임에서 회피로 이동
+        //if (_smoothDodgeBehaviour._isDodgeInput)
+        //{
+        //    _animator.SetInteger(_hashCombo, _combo);
+        //    //StartCoroutine(_mov.Dodge(_smoothDodgeBehaviour._h, _smoothDodgeBehaviour._v));
+        //    return;
+        //}
 
         _state.State = PlayerFSM.eState.Idle;
         _animator.SetInteger(_hashCombo, _combo);

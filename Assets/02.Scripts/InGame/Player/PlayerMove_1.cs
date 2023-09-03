@@ -8,7 +8,7 @@ public class PlayerMove_1 : MonoBehaviour
     [SerializeField] private float _movSpeed;
     [SerializeField] private float _rotSpeed;
     [Range(0.01f, 0.9f)] [SerializeField] private float _ladderSpeed;
-    private Vector3 _dir;
+    public Vector3 _dir;
     private float _h;
     private float _v;
     private eOnSlopeState _onSlopeState;
@@ -89,7 +89,7 @@ public class PlayerMove_1 : MonoBehaviour
             return;
         }
 
-        if (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move
+        if (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move 
             || _state.State == PlayerFSM.eState.Fall || _state.State == PlayerFSM.eState.Charging)
         {
             _h = Input.GetAxisRaw("Horizontal");
@@ -105,6 +105,7 @@ public class PlayerMove_1 : MonoBehaviour
             else
                 _dodgeDir = _dir;
 
+            _dodgeDir = _dodgeDir.normalized;
             _state.State = PlayerFSM.eState.Dodge;
             transform.forward = _dodgeDir;
             StartCoroutine(CoolDownDodge());
@@ -148,7 +149,6 @@ public class PlayerMove_1 : MonoBehaviour
     #region 플레이어 움직임 관련 메서드
     private void MovePlayer(Vector3 dir, float movSpeed)
     {
-        
         if (_animator.GetBool(_hashFall))
             _state.State = PlayerFSM.eState.Fall;
         if ((_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge)
