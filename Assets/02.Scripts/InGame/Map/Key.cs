@@ -6,11 +6,22 @@ public class Key : MonoBehaviour, IInteractable
 {
     public Transform _keyObj;
     public float _rotSpeed;
+
     private SphereCollider _sphereColl;
+    private Animator _animator;
+    private Rigidbody _rbody;
+    private RigidbodyConstraints _previousConstraints;
 
     private void Awake()
     {
-        _sphereColl = GetComponent<SphereCollider>();
+        _sphereColl = _keyObj.GetComponent<SphereCollider>();
+        _animator = GetComponent<Animator>();
+        _rbody = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        _previousConstraints = _rbody.constraints;
     }
 
     private void Update()
@@ -23,7 +34,10 @@ public class Key : MonoBehaviour, IInteractable
 
     public void SolveReward()
     {
+        _rbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        _rbody.constraints = _previousConstraints;
         _sphereColl.enabled = true;
+        _animator.enabled = true;
         print("solve");
     }
 
