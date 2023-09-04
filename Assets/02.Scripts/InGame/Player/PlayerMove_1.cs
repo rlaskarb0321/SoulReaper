@@ -344,7 +344,7 @@ public class PlayerMove_1 : MonoBehaviour
             _rbody.AddForce(projection.normalized * power, ForceMode.Impulse);
         }
     }
-
+    
     private void ClimbLadder()
     {
         if (!_animator.GetBool(_hashIsLadder))
