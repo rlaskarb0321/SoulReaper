@@ -51,9 +51,37 @@ public class MeleeWeaponMgr : MonoBehaviour
         _hitEnemiesList.Add(other.gameObject);
     }
 
+    #region 23.09.11 다시 부활한 두번 타격, 큰 몬스터 때릴때 발생
     // 저장해 둔 리스트에서 적들의 hp관련 작업
-    void OnTriggerExit(Collider other)
+    //void OnTriggerExit(Collider other)
+    //{
+    //    _hitEnemiesList = _hitEnemiesList.Distinct().ToList();
+
+    //    for (int i = _hitEnemiesList.Count - 1; i >= 0; i--)
+    //    {
+    //        if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("Enemy"))
+    //        {
+    //            MonsterBase monster = _hitEnemiesList[i].GetComponent<MonsterBase>();
+    //            monster.DecreaseHp(_combat.CalcDamage(), _combat.transform.position);
+    //            //_hitEnemiesList.Remove(monster.gameObject);
+    //        }
+    //        else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
+    //        {
+    //            EnemyProjectile projectile = _hitEnemiesList[i].GetComponent<EnemyProjectile>();
+    //            projectile.AllowBaseballHit(_combat.transform.forward);
+    //            //_hitEnemiesList.Remove(_hitEnemiesList[i]);
+    //        }
+    //    }
+
+    //    _hitEnemiesList.Clear();
+    //}
+    #endregion 23.09.11 다시 부활한 두번 타격, 큰 몬스터 때릴때 발생
+
+    public void DecreaseHitMonster()
     {
+        if (_hitEnemiesList.Count == 0)
+            return;
+
         _hitEnemiesList = _hitEnemiesList.Distinct().ToList();
 
         for (int i = _hitEnemiesList.Count - 1; i >= 0; i--)

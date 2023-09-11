@@ -4,8 +4,4 @@ using UnityEngine;
 
 public class RabbitMonster : MeleeRange
 {
-    public override void MovingBehaviour()
-    {
-        // print("≈‰≥¢ ¡°«¡");
-    }
 }

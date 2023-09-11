@@ -283,6 +283,11 @@ public class PlayerCombat : MonoBehaviour
 
         _weaponTrail.emitting = !isTrailEnable;
         _weaponColl.enabled = !isCollEnable;
+
+        if (!_weaponColl.enabled)
+        {
+            _weapon.DecreaseHitMonster();
+        }
     }
 
     // 애니메이션 delegate로 원거리공격

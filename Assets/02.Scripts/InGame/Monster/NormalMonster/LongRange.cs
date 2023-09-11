@@ -2,18 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LongRange : MonsterBase
+public class LongRange : MonsterBase, INormalMonster
 {
-    [Space(15.0f)]
+    [Header("=== Launch ===")]
     public GameObject _projectile;
     public Transform _firePos;
 
+    [Header("=== Knock Back ===")]
+    public int _knockBackFrame;
+
+    [HideInInspector]
+    public MonsterAI _brain;
     private WaitForFixedUpdate _wfs;
     private readonly int _hashAtk1 = Animator.StringToHash("Attack1");
-    
+
     protected override void Awake()
     {
         base.Awake();
+
+        _brain = GetComponent<MonsterAI>();
+        _normalMonster = this;
     }
 
     protected override void Start()
@@ -53,19 +61,7 @@ public class LongRange : MonsterBase
         //    print("어디서 맞은거지?");
         //    _brain._patrolPos = GameObject.Find("PlayerCharacter").transform.position;
         //}
-    }
 
-    protected override IEnumerator KnockBack(Vector3 hitPos)
-    {
-        hitPos.y = transform.position.y;
-        Vector3 knockBackDir = (transform.position - hitPos).normalized;
-        int knockBackFrame = _knockBackFrame;
-
-        while (--knockBackFrame >= 0)
-        {
-            transform.position += knockBackDir * Time.fixedDeltaTime;
-            yield return _wfs;
-        }
     }
 
     public override void Attack()
@@ -85,10 +81,11 @@ public class LongRange : MonsterBase
             return;
         }
 
-        _animator.SetBool(_hashMove, true);
+        _nav.updatePosition = true;
         _nav.isStopped = false;
         _nav.speed = movSpeed;
         _nav.SetDestination(pos);
+        _animator.SetBool(_hashMove, true);
     }
 
     public override void Idle()
@@ -99,6 +96,7 @@ public class LongRange : MonsterBase
 
     #region 공격 애니메이션 델리게이트 함수
     public void LaunchMissile() => Instantiate(_projectile, _firePos.position, transform.rotation);
+
     public void EndAttack()
     {
         _isAtk = !_isAtk;
@@ -106,10 +104,23 @@ public class LongRange : MonsterBase
     }
     #endregion 공격 애니메이션 델리게이트 함수
 
-    public override void LookTarget(Vector3 target)
+    public void LookTarget(Vector3 target)
     {
         Vector3 dir = target - transform.position;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * Time.deltaTime);
+    }
+
+    public IEnumerator KnockBack(Vector3 hitPos)
+    {
+        hitPos.y = transform.position.y;
+        Vector3 knockBackDir = (transform.position - hitPos).normalized;
+        int knockBackFrame = _knockBackFrame;
+
+        while (--knockBackFrame >= 0)
+        {
+            transform.position += knockBackDir * Time.fixedDeltaTime;
+            yield return _wfs;
+        }
     }
 
     protected override void Dead()
@@ -130,8 +141,7 @@ public class LongRange : MonsterBase
     {
         yield return new WaitForSeconds(_bodyBuryTime);
 
-        Material newMat = _deadMat[1];
-        newMat.color = Vector4.one;
+        Material newMat = _mesh.material;
         Color color = newMat.color;
 
         while (newMat.color.a >= 0.05f)
@@ -141,6 +151,7 @@ public class LongRange : MonsterBase
             _mesh.material = newMat;
             yield return null;
         }
-        this.gameObject.SetActive(false);
+
+        gameObject.SetActive(false);
     }
 }
