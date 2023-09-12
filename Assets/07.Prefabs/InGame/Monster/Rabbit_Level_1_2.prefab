@@ -455,7 +455,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
   _nav: {fileID: 0}
-  _brain: {fileID: 0}
   _mesh: {fileID: 0}
   _stat:
     health: 200
@@ -468,16 +467,15 @@ MonoBehaviour:
   _currHp: 0
   _isAtk: 0
   _isIdle: 0
-  _knockBackFrame: 5
   _hitMats:
   - {fileID: 2100000, guid: 90408e15610415d439be9d498e36cd4d, type: 2}
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  _deadMat:
-  - {fileID: 2100000, guid: 90408e15610415d439be9d498e36cd4d, type: 2}
-  - {fileID: 2100000, guid: 769a2bd465e5cb74ab09a0fa950cdd03, type: 2}
   _bodyBuryTime: 2.5
+  _deadMat: {fileID: 2100000, guid: d4a6e8950aaad2448b5aa446a0f4fced, type: 2}
   _atkCollObj: {fileID: 7615946478086124151}
   _atkDmg: 10
+  _knockBackFrame: 5
+  _brain: {fileID: 0}
 --- !u!114 &5732425218775670567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,14 +488,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eadbfec748da55c4bb338cc197595550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isDef: 0
   _randomMinScoutIdle: -1.2
   _randomMaxScoutIdle: 1.2
   _isTargetConfirm: 0
   _targetTr: {fileID: 0}
-  _fsm: 0
-  _patrolPos: {x: 0, y: 0, z: 0}
   _isSetPatrolPos: 0
+  _isDef: 0
+  _fsm: 0
 --- !u!1 &8312964977247040741
 GameObject:
   m_ObjectHideFlags: 0

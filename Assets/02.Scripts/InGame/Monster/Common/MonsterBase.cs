@@ -42,6 +42,7 @@ public abstract class MonsterBase : MonoBehaviour
     [Header("=== Hit & Dead ===")]
     public Material[] _hitMats; // 0번 인덱스는 기본 mat, 1번 인덱스는 피격시 잠깐바뀔 mat
     public float _bodyBuryTime; // 시체처리연출의 시작까지 기다릴 값
+    public Material _deadMat;
 
     protected readonly int _hashMove = Animator.StringToHash("Move");
     protected readonly int _hashIdle = Animator.StringToHash("Idle");

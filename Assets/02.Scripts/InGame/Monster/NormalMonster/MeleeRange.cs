@@ -136,7 +136,8 @@ public class MeleeRange : MonsterBase, INormalMonster
     {
         yield return new WaitForSeconds(_bodyBuryTime);
 
-        Material newMat = _mesh.material;
+        //Material newMat = _mesh.material;
+        Material newMat = Instantiate(_deadMat);
         Color color = newMat.color;
 
         while (newMat.color.a >= 0.05f)
