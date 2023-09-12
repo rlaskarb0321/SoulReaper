@@ -7,7 +7,7 @@ public interface INormalMonster
 {
     public IEnumerator KnockBack(Vector3 hitPos);
 
-    public void LookTarget(Vector3 target);
+    
 }
 
 [System.Serializable]
@@ -43,10 +43,6 @@ public abstract class MonsterBase : MonoBehaviour
     public Material[] _hitMats; // 0번 인덱스는 기본 mat, 1번 인덱스는 피격시 잠깐바뀔 mat
     public float _bodyBuryTime; // 시체처리연출의 시작까지 기다릴 값
     public Material _deadMat;
-
-    protected readonly int _hashMove = Animator.StringToHash("Move");
-    protected readonly int _hashIdle = Animator.StringToHash("Idle");
-    protected readonly int _hashDead = Animator.StringToHash("Dead");
 
     protected virtual void Awake()
     {
@@ -100,5 +96,8 @@ public abstract class MonsterBase : MonoBehaviour
     /// 몬스터가 공격을 하기위해 실행되는 함수
     /// </summary>
     public abstract void Attack();
+
+    public virtual void LookTarget(Vector3 target) { }
+
     #endregion Control Method
 }

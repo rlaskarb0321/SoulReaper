@@ -14,7 +14,11 @@ public class LongRange : MonsterBase, INormalMonster
     [HideInInspector]
     public MonsterAI _brain;
     private WaitForFixedUpdate _wfs;
+
     private readonly int _hashAtk1 = Animator.StringToHash("Attack1");
+    private readonly int _hashMove = Animator.StringToHash("Move");
+    private readonly int _hashIdle = Animator.StringToHash("Idle");
+    private readonly int _hashDead = Animator.StringToHash("Dead");
 
     protected override void Awake()
     {
@@ -81,7 +85,6 @@ public class LongRange : MonsterBase, INormalMonster
             return;
         }
 
-        _nav.updatePosition = true;
         _nav.isStopped = false;
         _nav.speed = movSpeed;
         _nav.SetDestination(pos);
@@ -104,7 +107,7 @@ public class LongRange : MonsterBase, INormalMonster
     }
     #endregion 공격 애니메이션 델리게이트 함수
 
-    public void LookTarget(Vector3 target)
+    public override void LookTarget(Vector3 target)
     {
         Vector3 dir = target - transform.position;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * Time.deltaTime);

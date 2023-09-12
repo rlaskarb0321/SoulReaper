@@ -14,8 +14,12 @@ public class MeleeRange : MonsterBase, INormalMonster
     [HideInInspector]
     public MonsterAI _brain;
     private BoxCollider _atkColl;
-    private readonly int _hashAtk1 = Animator.StringToHash("Attack1");
     private WaitForFixedUpdate _wfs;
+
+    private readonly int _hashAtk1 = Animator.StringToHash("Attack1");
+    private readonly int _hashMove = Animator.StringToHash("Move");
+    private readonly int _hashIdle = Animator.StringToHash("Idle");
+    private readonly int _hashDead = Animator.StringToHash("Dead");
 
     protected override void Awake()
     {
@@ -71,7 +75,7 @@ public class MeleeRange : MonsterBase, INormalMonster
         _animator.SetTrigger(_hashIdle);
     }
 
-    public void LookTarget(Vector3 target)
+    public override void LookTarget(Vector3 target)
     {
         Vector3 dir = target - transform.position;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * Time.deltaTime);

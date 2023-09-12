@@ -145,7 +145,7 @@ public class MonsterAI : MonoBehaviour
                 }
 
                 _combatIdleTime -= Time.deltaTime;
-                _monster._normalMonster.LookTarget(_targetTr.position);
+                _monster.LookTarget(_targetTr.position);
                 break;
 
             case eMonsterFSM.Trace:
