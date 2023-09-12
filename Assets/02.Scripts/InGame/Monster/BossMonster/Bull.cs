@@ -10,6 +10,7 @@ public class Bull : MonsterBase
     [Header("=== Miniboss Bull ===")]
     public Transform _target;
     public float _attackRange;
+    public SphereCollider[] _weaponColl;
     public eBossState _state;
 
     // MonsterAI 사용하는 스크립트
@@ -17,7 +18,7 @@ public class Bull : MonsterBase
     //private int _comboCount;
 
     private float _currDelay;
-    [SerializeField] private bool _needTrace;
+    private bool _needTrace;
 
     private readonly int _hashIsDead = Animator.StringToHash("isDead");
     private readonly int _hashAttack = Animator.StringToHash("Attack");
@@ -89,6 +90,7 @@ public class Bull : MonsterBase
     }
 
     // 콤보를 이어 갈 수 있다면 다음 콤보를 실행, 마지막 콤보에 다다르거나 콤보가 불가능하면 공격 취소
+    // 공격 애니메이션에 붙히는 델리게이트 함수
     public void SearchTarget()
     {
         bool canCombo = TargetNearbyRange(_target, _stat.attakDist * 1.75f);
@@ -117,34 +119,8 @@ public class Bull : MonsterBase
         _animator.SetBool(_hashAttack, true);
     }
 
+    // 공격 애니메이션에서 적을 바라보는 기능 키고 끄기용 델리게이트 메서드
     public void SwitchNeedTrace(int value) => _needTrace = value == 1 ? true : false; 
-
-    // MonsterAI 사용하는 스크립트
-    //public override void Attack()
-    //{
-    //    _isAtk = true;
-    //    _nav.isStopped = true;
-    //    _nav.velocity = Vector3.zero;
-    //    _animator.SetInteger(_hashAtkCombo, ++_comboCount);
-    //}
-
-    //public void SearchTarget()
-    //{
-    //    float dist = Vector3.Distance(_target.position, transform.position);
-    //    _isAtk = false;
-
-    //    if (dist <= _stat.attakDist)
-    //    {
-    //        _brain._fsm = MonsterAI.eMonsterFSM.Attack;
-    //    }
-    //    else
-    //    {
-    //        _brain._fsm = MonsterAI.eMonsterFSM.Idle;
-    //        _comboCount = 0;
-    //    }
-
-    //    _animator.SetInteger(_hashAtkCombo, _comboCount);
-    //}
 
     public override void DecreaseHp(float amount, Vector3 hitPos)
     {
@@ -153,8 +129,10 @@ public class Bull : MonsterBase
         _currHp -= amount;
         if (_currHp <= 0.0f)
         {
+            GetComponent<CapsuleCollider>().enabled = false;
             _currHp = 0.0f;
-            Dead();
+            _animator.SetTrigger(_hashIsDead);
+            _state = eBossState.Dead;
         }
     }
 
@@ -200,7 +178,6 @@ public class Bull : MonsterBase
 
     protected override void Dead()
     {
-        _animator.SetBool(_hashIsDead, true);
         StartCoroutine(OnMonsterDie());
     }
 

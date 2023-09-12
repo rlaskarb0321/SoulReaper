@@ -14,6 +14,7 @@ public interface INormalMonster
 public struct MonsterStat
 {
     public int health; // 체력
+    public int damage;
     public float rotSpeed; 
     public float movSpeed; 
     public bool isInitiator; // 선공or비선공여부

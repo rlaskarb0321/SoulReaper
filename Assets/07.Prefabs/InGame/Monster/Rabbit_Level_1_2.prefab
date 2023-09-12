@@ -458,6 +458,7 @@ MonoBehaviour:
   _mesh: {fileID: 0}
   _stat:
     health: 200
+    damage: 10
     rotSpeed: 3.6
     movSpeed: 2.7
     isInitiator: 1

@@ -6,7 +6,6 @@ public class MeleeRange : MonsterBase, INormalMonster
 {
     [Header("=== Melee ===")]
     public GameObject _atkCollObj;
-    public float _atkDmg;
 
     [Header("=== Knock Back ===")]
     public int _knockBackFrame;

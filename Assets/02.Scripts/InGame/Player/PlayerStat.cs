@@ -53,6 +53,8 @@ public class PlayerStat : MonoBehaviour
 
         StartCoroutine(_followCam.ShakingCamera(_combat._hitCamShakeDur, _combat._hitCamShakeAmount));
         _combat.EndComboAtk();
+
+        attackDir = new Vector3(attackDir.x, 0.0f, attackDir.z);
         attackDir = attackDir.normalized;
         transform.forward = -attackDir;
         _fsm.AtkDir = attackDir;
