@@ -74,10 +74,10 @@ public class MeleeRange : MonsterBase, INormalMonster
         _animator.SetTrigger(_hashIdle);
     }
 
-    public override void LookTarget(Vector3 target)
+    public override void LookTarget(Vector3 target, float multiple = 1.0f)
     {
         Vector3 dir = target - transform.position;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * multiple * Time.deltaTime);
     }
 
     public IEnumerator KnockBack(Vector3 hitPos)

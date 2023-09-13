@@ -98,7 +98,7 @@ public abstract class MonsterBase : MonoBehaviour
     /// </summary>
     public abstract void Attack();
 
-    public virtual void LookTarget(Vector3 target) { }
+    public virtual void LookTarget(Vector3 target, float multiple = 1.0f) { }
 
     #endregion Control Method
 }

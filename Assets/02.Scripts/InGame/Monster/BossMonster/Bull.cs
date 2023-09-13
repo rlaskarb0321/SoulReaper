@@ -60,7 +60,7 @@ public class Bull : MonsterBase
                 if (_needTrace)
                 {
                     _nav.updatePosition = false;
-                    LookTarget(_target.position);
+                    LookTarget(_target.position, 1.5f);
                 }
                 else
                 {
@@ -120,7 +120,23 @@ public class Bull : MonsterBase
     }
 
     // 공격 애니메이션에서 적을 바라보는 기능 키고 끄기용 델리게이트 메서드
-    public void SwitchNeedTrace(int value) => _needTrace = value == 1 ? true : false; 
+    public void SwitchNeedTrace(int value) => _needTrace = value == 1 ? true : false;
+
+    // 공격 애니메이션에서 무기 콜리더를 키고 끄기 용
+    public void ExecuteAttack(int weaponIndex)
+    {
+        if (weaponIndex == 2)
+        {
+            for (int i = 0; i < _weaponColl.Length; i++)
+            {
+                _weaponColl[i].enabled = !_weaponColl[i].enabled;
+            }
+
+            return;
+        }
+
+        _weaponColl[weaponIndex].enabled = !_weaponColl[weaponIndex].enabled;
+    }
 
     public override void DecreaseHp(float amount, Vector3 hitPos)
     {
@@ -158,10 +174,10 @@ public class Bull : MonsterBase
         _nav.SetDestination(pos);
     }
 
-    public override void LookTarget(Vector3 target)
+    public override void LookTarget(Vector3 target, float multiple = 1.0f)
     {
         Vector3 dir = target - transform.position;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * multiple * Time.deltaTime);
     }
 
     public override IEnumerator OnHitEvent()

@@ -107,10 +107,10 @@ public class LongRange : MonsterBase, INormalMonster
     }
     #endregion 공격 애니메이션 델리게이트 함수
 
-    public override void LookTarget(Vector3 target)
+    public override void LookTarget(Vector3 target, float multiple = 1.0f)
     {
         Vector3 dir = target - transform.position;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * multiple * Time.deltaTime);
     }
 
     public IEnumerator KnockBack(Vector3 hitPos)
