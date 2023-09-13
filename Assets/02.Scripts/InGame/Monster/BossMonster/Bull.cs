@@ -23,6 +23,9 @@ public class Bull : MonsterBase
     private readonly int _hashIsDead = Animator.StringToHash("isDead");
     private readonly int _hashAttack = Animator.StringToHash("Attack");
     private readonly int _hashAtkCombo = Animator.StringToHash("AtkCombo");
+    private readonly int _hashIsIdle = Animator.StringToHash("isIdle");
+    private readonly int _hashIsWalk = Animator.StringToHash("isWalk");
+    private readonly int _hashIsRun = Animator.StringToHash("isRun");
 
     protected override void Awake()
     {
@@ -44,6 +47,7 @@ public class Bull : MonsterBase
     {
         switch (_state)
         {
+            // 타겟을 향해 움직이다가 가까워지면 공격을 시작하게 해줌
             case eBossState.Move:
                 bool canAttack = TargetNearbyRange(_target, _stat.attakDist);
                 if (canAttack)
@@ -56,6 +60,7 @@ public class Bull : MonsterBase
                 }
                 break;
 
+            // 플레이어를 향해 일정 공격 애니메이션 프레임만큼 위치를 따라가고, 최종 위치 방향으로 Bull을 회전시키고 공격
             case eBossState.Attack:
                 if (_needTrace)
                 {
@@ -70,8 +75,10 @@ public class Bull : MonsterBase
                 Attack();
                 break;
 
+            // 공격 후 쿨타임 돌리는 시간, 쿨타임이 도는 동안 플레이어가 가까워지는지의 여부에따라 애니메이션 상태가 다르게 전이된다.
             case eBossState.Delay:
                 bool targetNearAttackDist = TargetNearbyRange(_target, _stat.attakDist);
+
                 if (_currDelay <= 0.0f)
                 {
                     _currDelay = _stat.actDelay;
@@ -80,8 +87,18 @@ public class Bull : MonsterBase
                     return;
                 }
 
-                LookTarget(_target.position);
                 _currDelay -= Time.deltaTime;
+                _animator.SetBool(_hashIsIdle, targetNearAttackDist);
+                _animator.SetBool(_hashIsWalk, !targetNearAttackDist);
+
+                if (!targetNearAttackDist)
+                {
+                    Move(_target.position, _stat.movSpeed * 0.2f);
+                }
+                else
+                {
+                    LookTarget(_target.position);
+                }
                 break;
 
             case eBossState.Dead:
@@ -215,8 +232,6 @@ public class Bull : MonsterBase
 
         gameObject.SetActive(false);
     }
-
-    
 
     public bool TargetNearbyRange(Transform target, float range)
     {
