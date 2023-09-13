@@ -32,7 +32,7 @@ public class Key : MonoBehaviour, IInteractable
         _keyObj.Rotate(Vector3.up * _rotSpeed * Time.deltaTime);
     }
 
-    public void SolveReward()
+    public void Reward()
     {
         _rbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         _rbody.constraints = _previousConstraints;

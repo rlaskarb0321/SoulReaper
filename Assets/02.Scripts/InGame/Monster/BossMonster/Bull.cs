@@ -8,6 +8,7 @@ public class Bull : MonsterBase
     public enum eBossState { Idle, Move, Attack, Delay, Dead, }
 
     [Header("=== Miniboss Bull ===")]
+    public QuestRoom _spawnRoom;
     public Transform _target;
     public float _attackRange;
     public SphereCollider[] _weaponColl;
@@ -163,6 +164,7 @@ public class Bull : MonsterBase
         if (_currHp <= 0.0f)
         {
             GetComponent<CapsuleCollider>().enabled = false;
+            _spawnRoom.SolveQuest();
             _currHp = 0.0f;
             _animator.SetTrigger(_hashIsDead);
             _state = eBossState.Dead;
