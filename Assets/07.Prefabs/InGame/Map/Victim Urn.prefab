@@ -734,7 +734,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7362282032321112060}
-  - component: {fileID: 3569680900527102714}
   m_Layer: 0
   m_Name: Shatters
   m_TagString: Untagged
@@ -765,26 +764,6 @@ Transform:
   m_Father: {fileID: 9169644358291467643}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3569680900527102714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6153102354705971087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 671e9363fb1e862418ff735bf93de847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shatters: {fileID: 6153102354705971087}
-  _force: 100
-  _offset: {x: 0, y: -6, z: 0}
-  _urnType: 1
-  _restoreDelay: 4
-  _fadeMat: {fileID: 2100000, guid: 9d2752ab8dfbef44eaf67511f73f5d6b, type: 2}
-  _key: {fileID: 1265762289420566782}
-  _keyRotateSpeed: 45
 --- !u!1 &8247014710044636657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,6 +1003,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9169644358291467643}
+  - component: {fileID: 2489640768030457176}
+  - component: {fileID: 882571980675299457}
   m_Layer: 0
   m_Name: Victim Urn
   m_TagString: Untagged
@@ -1049,6 +1030,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &2489640768030457176
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169644358291467642}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 48ebbcafa17c11745a3625105b52d9e0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &882571980675299457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169644358291467642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4b0a1d2c55b93488f5d09a9b19923f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _roomMgr: {fileID: 0}
+  _shatter: {fileID: 6153102354705971087}
+  _force: 0
+  _offset: {x: 0, y: 0, z: 0}
+  _shatterFadeMat: {fileID: 2100000, guid: 9d2752ab8dfbef44eaf67511f73f5d6b, type: 2}
+  _victim: {fileID: 446993443433746658}
+  _victimFadeMat: {fileID: 2100000, guid: 38d9e7552cead074ab5a70dbcdfdd34b, type: 2}
+  _key: {fileID: 1265762289420566782}
+  _lock: {fileID: 0}
+  _unlockMat: {fileID: 2100000, guid: c14021abfaa46d1498a6155145915532, type: 2}
+  _keyRotateSpeed: 45
 --- !u!1001 &21433356081304981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1138,6 +1162,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7577e3de9babd604d9880ded032d1752, type: 3}
+--- !u!1 &446993443433746658 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 466174982370493815, guid: 7577e3de9babd604d9880ded032d1752,
+    type: 3}
+  m_PrefabInstance: {fileID: 21433356081304981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &446993443433746659 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 466174982370493814, guid: 7577e3de9babd604d9880ded032d1752,

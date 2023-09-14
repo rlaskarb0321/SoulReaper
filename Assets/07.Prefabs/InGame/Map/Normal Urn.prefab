@@ -395,9 +395,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671e9363fb1e862418ff735bf93de847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shatters: {fileID: 8610186162908097568}
+  _shatter: {fileID: 8610186162908097568}
   _force: 100
   _offset: {x: 3, y: 3, z: 5}
   _urnType: 0
   _restoreDelay: 4
   _fadeMat: {fileID: 0}
+  _key: {fileID: 0}
+  _keyRotateSpeed: 0
+  _victimAnim: {fileID: 0}
+  _shattersArriveCount: 0
