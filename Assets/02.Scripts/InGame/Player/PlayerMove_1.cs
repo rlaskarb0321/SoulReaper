@@ -85,6 +85,13 @@ public class PlayerMove_1 : MonoBehaviour
             return;
         }
 
+        if (_state.State == PlayerFSM.eState.LadderOut)
+        {
+            _h = 0.0f;
+            _v = 0.0f;
+            return;
+        }
+
         if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead)
         {
             return;
@@ -345,15 +352,16 @@ public class PlayerMove_1 : MonoBehaviour
         }
     }
     
+    // 플레이어를 사다리 오르게 하기
     private void ClimbLadder()
     {
         if (!_animator.GetBool(_hashIsLadder))
             _animator.SetBool(_hashIsLadder, true);
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    ClimbDown();
-        //    return;
-        //}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ClimbDown();
+            return;
+        }
 
         _v = Input.GetAxisRaw("Vertical");
         _rbody.isKinematic = true;
@@ -362,6 +370,7 @@ public class PlayerMove_1 : MonoBehaviour
         _animator.SetFloat(_hashClimbSpeed, _v);
     }
 
+    // 사다리에서 내려가는 방법 (꼭대기에 도달, 맨 아래에 도달, 중간에 하차) 을 구현하는 메서드
     public void ClimbDown(Ladder.eTriggerPos triggerPos = Ladder.eTriggerPos.None)
     {
         _animator.SetBool(_hashIsLadder, false);
@@ -379,11 +388,22 @@ public class PlayerMove_1 : MonoBehaviour
         }
     }
 
-    public void CompleteClimb()
+    // 사다리 꼭대기에 도달했을때 행하는 애니메이션에 붙히는 대리자 메서드
+    public void CompleteClimb(int LadderOut)
     {
-        _animator.SetBool(_hashIsLadder, false);
-        _rbody.isKinematic = false;
+        bool isLadderOutOn = LadderOut == 1 ? true : false;
 
-        _state.State = PlayerFSM.eState.Idle;
+        _animator.SetBool(_hashIsLadder, false);
+        if (isLadderOutOn)
+        {
+            _state.State = PlayerFSM.eState.LadderOut;
+            _animator.SetBool(_hashLadderInput, false);
+        }
+        else
+        {
+            _rbody.isKinematic = false;
+            _animator.ResetTrigger(_hashReachTop);
+            _state.State = PlayerFSM.eState.Idle;
+        }
     }
 }

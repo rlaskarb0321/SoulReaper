@@ -82,11 +82,9 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        if (_state.State == PlayerFSM.eState.Hit)
+        if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead)
             return;
-        if (_state.State == PlayerFSM.eState.Dead)
-            return;
-        if (_state.State == PlayerFSM.eState.Ladder)
+        if (_state.State == PlayerFSM.eState.Ladder || _state.State == PlayerFSM.eState.LadderOut)
             return;
 
         // 근or원거리공격으로 모션전환관련

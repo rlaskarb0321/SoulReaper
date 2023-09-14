@@ -6,33 +6,31 @@ public class Ladder : MonoBehaviour, IInteractable
 {
     public enum eTriggerPos { Up, Down, None, }
     public eTriggerPos _triggerPos;
-    private PlayerMove_1 _player;
+    [SerializeField] private PlayerMove_1 _player;
     [SerializeField] private Transform[] _triggers;
+    [SerializeField] private Transform[] _entryPos;
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.F))
-        //{
-        //    Interact();
-        //}
-
         if (_player == null)
             return;
         if (_player._state.State != PlayerFSM.eState.Ladder)
             return;
 
-        if (_player.transform.position.y > _triggers[(int)eTriggerPos.Up].position.y)
+        // 위에 배치된 입장 위치의 y값 보다 플레이어의 y값이 높으면 다 올라왔음 판정
+        if (_player.transform.position.y > _entryPos[(int)eTriggerPos.Up].position.y)
         {
             _player.ClimbDown(eTriggerPos.Up);
         }
 
-        if (_player.transform.position.y < _triggers[(int)eTriggerPos.Down].position.y)
+        // 아래에 배치된 입장 위치의 y값 보다 플레이어의 y값이 낮으면 다 내려옴 판정
+        if (_player.transform.position.y < _entryPos[(int)eTriggerPos.Down].position.y)
         {
             _player.ClimbDown(eTriggerPos.Down);
         }
     }
 
-
+    // 플레이어의 상태값을 Ladder로 바꿔주고, 플레이어의 위치, 방향 조정
     public void Interact()
     {
         if (_player._state.State == PlayerFSM.eState.Ladder)
@@ -40,12 +38,10 @@ public class Ladder : MonoBehaviour, IInteractable
         if (_player._state.State != PlayerFSM.eState.Idle && _player._state.State != PlayerFSM.eState.Move)
             return;
 
-        Vector3 entryPos = _triggers[(int)_triggerPos].position;
-
         SetActiveInteractUI(false);
         _player._state.State = PlayerFSM.eState.Ladder;
         _player.transform.forward = transform.forward;
-        _player.transform.position = entryPos;
+        _player.transform.position = _entryPos[(int)_triggerPos].position;
     }
 
     public void SetActiveInteractUI(bool value)
@@ -53,6 +49,7 @@ public class Ladder : MonoBehaviour, IInteractable
 
     }
 
+    // 플레이어를 참조
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
@@ -62,6 +59,7 @@ public class Ladder : MonoBehaviour, IInteractable
             _player = other.GetComponent<PlayerMove_1>();
     }
 
+    // 플레이어 참조 해제
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player"))
@@ -71,6 +69,7 @@ public class Ladder : MonoBehaviour, IInteractable
         SetActiveInteractUI(false);
     }
 
+    // 상호작용 UI표시, F 키 누르면 상호작용
     private void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Player"))
