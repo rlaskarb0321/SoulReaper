@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-public class A3RoomMgr : QuestRoom
+public class VictimUrnRoom : QuestRoom
 {
+    [Header("=== Map ===")]
     [SerializeField] private int _sealCount;
-    [SerializeField] private MapTeleport _portal_A4;
-    [SerializeField] private TimelineAsset _cutScene;
+    [SerializeField] private MapTeleport _portal;
 
+    [Header("=== Production ===")]
+    [SerializeField] private TimelineAsset _cutScene;
     [SerializeField] private PlayableDirector _playableDirector;
 
     public override void SolveQuest()
@@ -24,6 +26,6 @@ public class A3RoomMgr : QuestRoom
 
     public override void RewardQuest()
     {
-        _portal_A4.gameObject.SetActive(true);
+        _portal.gameObject.SetActive(true);
     }
 }

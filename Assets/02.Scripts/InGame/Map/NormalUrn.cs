@@ -23,22 +23,14 @@ public class NormalUrn : MonoBehaviour
         _ws = new WaitForSeconds(_restoreDelay);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Explosion();
-        }
-    }
-
-    public void Explosion()
+    public void Explosion(Vector3 dir)
     {
         for (int i = 0; i < _rbodys.Length; i++)
         {
             Transform originPos = _rbodys[i].transform;
 
             _rbodys[i].isKinematic = false;
-            _rbodys[i].AddExplosionForce(_force, transform.position + _offset, 10.0f);
+            _rbodys[i].AddExplosionForce(_force, transform.position + dir, 10.0f);
             StartCoroutine(Restoration(_rbodys[i], originPos));
         }
     }
@@ -86,6 +78,18 @@ public class NormalUrn : MonoBehaviour
             targetRot = targetRot.normalized;
             shatter.MoveRotation(targetRot);
             yield return new WaitForFixedUpdate();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile") ||
+            other.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
+        {
+            Vector3 dir = transform.position - other.gameObject.transform.position;
+            dir = dir.normalized;
+
+            Explosion(dir);
         }
     }
 }

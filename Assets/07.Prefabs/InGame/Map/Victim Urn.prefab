@@ -1005,6 +1005,7 @@ GameObject:
   - component: {fileID: 9169644358291467643}
   - component: {fileID: 2489640768030457176}
   - component: {fileID: 882571980675299457}
+  - component: {fileID: 9186375520297055985}
   m_Layer: 0
   m_Name: Victim Urn
   m_TagString: Untagged
@@ -1064,7 +1065,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomMgr: {fileID: 0}
   _shatter: {fileID: 6153102354705971087}
-  _force: 0
+  _force: 60
   _offset: {x: 0, y: 0, z: 0}
   _shatterFadeMat: {fileID: 2100000, guid: 9d2752ab8dfbef44eaf67511f73f5d6b, type: 2}
   _victim: {fileID: 446993443433746658}
@@ -1073,6 +1074,19 @@ MonoBehaviour:
   _lock: {fileID: 0}
   _unlockMat: {fileID: 2100000, guid: c14021abfaa46d1498a6155145915532, type: 2}
   _keyRotateSpeed: 45
+--- !u!65 &9186375520297055985
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169644358291467642}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.6748701, z: 1}
+  m_Center: {x: 0, y: 0.98743504, z: 0}
 --- !u!1001 &21433356081304981
 PrefabInstance:
   m_ObjectHideFlags: 0

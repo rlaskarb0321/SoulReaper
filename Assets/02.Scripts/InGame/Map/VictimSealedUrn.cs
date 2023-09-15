@@ -32,15 +32,10 @@ public class VictimSealedUrn : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Explosion();
-        }
-
         _key.transform.Rotate(Vector3.up * _keyRotateSpeed * Time.deltaTime);
     }
 
-    public void Explosion()
+    public void Explosion(Vector3 dir)
     {
         // 파편효과
         for (int i = 0; i < _rbodys.Length; i++)
@@ -48,7 +43,7 @@ public class VictimSealedUrn : MonoBehaviour
             Transform originPos = _rbodys[i].transform;
 
             _rbodys[i].isKinematic = false;
-            _rbodys[i].AddExplosionForce(_force, transform.position + _offset, 10.0f);
+            _rbodys[i].AddExplosionForce(_force, transform.position + dir, 10.0f);
             StartCoroutine(FadeOutShatter(_rbodys[i].gameObject.GetComponent<MeshRenderer>(), _shatterFadeMat, _rbodys[i]));
         }
 
@@ -102,5 +97,17 @@ public class VictimSealedUrn : MonoBehaviour
     public void CallFadeOutVictim()
     {
         StartCoroutine(FadeOutVictim(_victim.GetComponentInChildren<SkinnedMeshRenderer>(), _victimFadeMat));
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile") || 
+            other.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
+        {
+            Vector3 dir = transform.position - other.gameObject.transform.position;
+            dir = dir.normalized;
+
+            Explosion(dir);
+        }
     }
 }
