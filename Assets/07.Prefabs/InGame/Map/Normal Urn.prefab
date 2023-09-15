@@ -15,17 +15,17 @@ PrefabInstance:
     - target: {fileID: 3851599090668264035, guid: 22c3c9f59017bab44a6af40069e7785f,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.4
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 3851599090668264035, guid: 22c3c9f59017bab44a6af40069e7785f,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.4
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 3851599090668264035, guid: 22c3c9f59017bab44a6af40069e7785f,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.4
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 3851599090668264035, guid: 22c3c9f59017bab44a6af40069e7785f,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 3851599090668264035, guid: 22c3c9f59017bab44a6af40069e7785f,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4483456969399566553, guid: 22c3c9f59017bab44a6af40069e7785f,
         type: 3}
@@ -398,10 +398,4 @@ MonoBehaviour:
   _shatter: {fileID: 8610186162908097568}
   _force: 100
   _offset: {x: 3, y: 3, z: 5}
-  _urnType: 0
   _restoreDelay: 4
-  _fadeMat: {fileID: 0}
-  _key: {fileID: 0}
-  _keyRotateSpeed: 0
-  _victimAnim: {fileID: 0}
-  _shattersArriveCount: 0

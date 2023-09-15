@@ -6,23 +6,23 @@ using UnityEngine;
 public class FollowCamera : MonoBehaviour
 {
     public enum eCameraState { Follow, Patrol, Charging }
+    public eCameraState CamState { get { return _camState; } set { _camState = value; } }
+
+    [Header("=== Cam ===")]
     public Transform _target;
+    public Transform _player;
+    public GameObject _vCam;
     public float _range; 
     public float _speed;
-    public GameObject _raySearchTarget;
-    public eCameraState CamState { get { return _camState; } set { _camState = value; } }
-    eCameraState _camState;
-    Camera _cam;
-    Outline _playerOutline;
 
-    private void Awake()
-    {
-        _playerOutline = _target.GetComponent<Outline>();
-    }
+    [Header("=== OutLine ===")]
+    public GameObject _raySearchTarget;
+    public Outline _playerOutline;
+
+    [SerializeField] private eCameraState _camState;
 
     void Start()
     {
-        _cam = Camera.main;
         _camState = eCameraState.Follow;
     }
 
@@ -44,10 +44,10 @@ public class FollowCamera : MonoBehaviour
                 FollowPlayer();
                 break;
             case eCameraState.Patrol:
-                PatrolCamera(_cam, _target, _range, _speed);
+                PatrolCamera(_target, _range, _speed);
                 break;
             case eCameraState.Charging:
-                PatrolCamera(_cam, _target, _range * 0.5f, _speed * 1.2f);
+                PatrolCamera(_target, _range * 0.5f, _speed * 1.2f);
                 break;
         }
     }
@@ -71,19 +71,20 @@ public class FollowCamera : MonoBehaviour
     /// <param name="player">카메라가 따라다닐 캐릭터</param>
     /// <param name="range">카메라가 마우스위치를 따라갈 수 있는 길이</param>
     /// <param name="speed">카메라가 옮겨지는 속도</param>
-    void PatrolCamera(Camera cam, Transform player, float range, float speed)
+    void PatrolCamera(Transform lookTarget, float range, float speed)
     {
         Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2); // 스크린 중앙 좌표
         Vector2 mousePos = new Vector2(Input.mousePosition.x, Input.mousePosition.y); // 마우스 입력 좌표
         Vector3 dir = (mousePos - screenCenter).normalized;
-        Vector3 destination = new Vector3(player.position.x + (dir.x * range), transform.position.y, player.position.z + (dir.y * range));
+        Vector3 destination 
+            = new Vector3(_player.position.x + (dir.x * range), lookTarget.transform.position.y, _player.position.z + (dir.y * range));
 
-        transform.position = Vector3.Lerp(transform.position, destination, speed * 1.05f);
+        lookTarget.transform.position = Vector3.Lerp(lookTarget.transform.position, destination, speed * 1.05f);
     }
 
     void FollowPlayer()
     {
-        transform.position = Vector3.Lerp(transform.position, _target.position, _speed);
+        _target.position = Vector3.Lerp(_target.position, _player.position, 0.1f);
     }
 
     void ControlTargetOutLine()
@@ -92,9 +93,9 @@ public class FollowCamera : MonoBehaviour
         RaycastHit[] silRayHits;
         RaycastHit hitObj;
 
-        silhouetteRay = new Ray(Camera.main.transform.position, (_raySearchTarget.transform.position - Camera.main.transform.position).normalized);
-        silRayHits = Physics.RaycastAll(silhouetteRay, (_raySearchTarget.transform.position - Camera.main.transform.position).magnitude);
-        silRayHits.OrderBy(hit => (Camera.main.transform.position - hit.transform.position).magnitude);
+        silhouetteRay = new Ray(_vCam.transform.position, (_raySearchTarget.transform.position - _vCam.transform.position).normalized);
+        silRayHits = Physics.RaycastAll(silhouetteRay, (_raySearchTarget.transform.position - _vCam.transform.position).magnitude);
+        silRayHits.OrderBy(hit => (_vCam.transform.position - hit.transform.position).magnitude);
         hitObj = silRayHits[0];
 
         if (hitObj.transform.gameObject.layer == LayerMask.NameToLayer("PlayerTeam") ||
