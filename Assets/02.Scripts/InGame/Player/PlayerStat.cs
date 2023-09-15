@@ -51,7 +51,8 @@ public class PlayerStat : MonoBehaviour
             _animator.SetTrigger(_hashHit);
         }
 
-        StartCoroutine(_followCam.ShakingCamera(_combat._hitCamShakeDur, _combat._hitCamShakeAmount));
+        StartCoroutine(FollowCamera._instance.ShakeCamera(_combat._hitCamShakeAmount, _combat._hitCamShakeDur));
+        //StartCoroutine(_followCam.ShakingCamera(_combat._hitCamShakeDur, _combat._hitCamShakeAmount));
         _combat.EndComboAtk();
 
         attackDir = new Vector3(attackDir.x, 0.0f, attackDir.z);

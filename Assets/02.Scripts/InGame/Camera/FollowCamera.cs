@@ -2,24 +2,36 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class FollowCamera : MonoBehaviour
 {
+    public static FollowCamera _instance;
+
     public enum eCameraState { Follow, Patrol, Charging }
     public eCameraState CamState { get { return _camState; } set { _camState = value; } }
 
     [Header("=== Cam ===")]
     public Transform _target;
     public Transform _player;
-    public GameObject _vCam;
+    public CinemachineVirtualCamera _vCam;
+    public float _shakeTimer;
     public float _range; 
     public float _speed;
+    [SerializeField] private eCameraState _camState;
 
     [Header("=== OutLine ===")]
     public GameObject _raySearchTarget;
     public Outline _playerOutline;
 
-    [SerializeField] private eCameraState _camState;
+    [SerializeField] private CinemachineBasicMultiChannelPerlin _perlin;
+
+    private void Awake()
+    {
+        _instance = this;
+
+        _perlin = _vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+    }
 
     void Start()
     {
@@ -52,16 +64,19 @@ public class FollowCamera : MonoBehaviour
         }
     }
 
-    public IEnumerator ShakingCamera(float shakeDur, float shakeAmount)
+    public IEnumerator ShakeCamera(float intensity, float timer)
     {
-        Vector3 originCamPos = transform.localPosition;
-        while (shakeDur > 0.0f)
+        _perlin.m_AmplitudeGain = intensity;
+        _shakeTimer = timer;
+
+        while (_shakeTimer > 0.0f)
         {
-            Vector3 randomPos = originCamPos + Random.insideUnitSphere * shakeAmount;
-            transform.localPosition = randomPos;
-            shakeDur -= Time.deltaTime;
-            yield return null;
+            _shakeTimer -= Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
         }
+
+        _perlin.m_AmplitudeGain = 0.0f;
+        _shakeTimer = 0.0f;
     }
 
     /// <summary>
