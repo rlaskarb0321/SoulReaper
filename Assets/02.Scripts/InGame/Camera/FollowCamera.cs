@@ -15,7 +15,7 @@ public class FollowCamera : MonoBehaviour
     public Transform _target;
     public Transform _player;
     public CinemachineVirtualCamera _vCam;
-    public float _shakeTimer;
+    private float _shakeTimer;
     public float _range; 
     public float _speed;
     [SerializeField] private eCameraState _camState;
@@ -72,9 +72,11 @@ public class FollowCamera : MonoBehaviour
         while (_shakeTimer > 0.0f)
         {
             _shakeTimer -= Time.fixedDeltaTime;
+            print(_shakeTimer);
             yield return new WaitForFixedUpdate();
         }
 
+        print("end");
         _perlin.m_AmplitudeGain = 0.0f;
         _shakeTimer = 0.0f;
     }

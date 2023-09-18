@@ -82,6 +82,9 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (ProductionMgr._isPlayingProduction)
+            return;
+
         if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead)
             return;
         if (_state.State == PlayerFSM.eState.Ladder || _state.State == PlayerFSM.eState.LadderOut)

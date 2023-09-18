@@ -16,7 +16,7 @@ public class MapTeleport : MonoBehaviour
     [SerializeField] private GameObject _playerBody;
     [SerializeField] private GameObject _cameraArm;
     [SerializeField] private CinemachineVirtualCamera _cam;
-    [SerializeField] private Vector3 _originDamp;
+    private Vector3 _originDamp;
 
     [Header("=== Fade Panel ===")]
     [SerializeField] private GameObject _fadePanel;

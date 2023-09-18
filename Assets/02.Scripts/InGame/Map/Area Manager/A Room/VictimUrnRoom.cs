@@ -18,7 +18,6 @@ public class VictimUrnRoom : QuestRoom
     {
         if (--_sealCount == 0)
         {
-            print("solve");
             ProductionMgr.StartProduction(_playableDirector);
             RewardQuest();
         }

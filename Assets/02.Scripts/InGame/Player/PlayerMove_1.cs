@@ -79,6 +79,9 @@ public class PlayerMove_1 : MonoBehaviour
 
     private void Update()
     {
+        if (ProductionMgr._isPlayingProduction)
+            return;
+
         if (_state.State == PlayerFSM.eState.Ladder)
         {
             ClimbLadder();
@@ -123,6 +126,9 @@ public class PlayerMove_1 : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (ProductionMgr._isPlayingProduction)
+            return;
+
         if (_state.State == PlayerFSM.eState.Hit || _state.State == PlayerFSM.eState.Dead || _state.State == PlayerFSM.eState.Ladder)
         {
             return;
