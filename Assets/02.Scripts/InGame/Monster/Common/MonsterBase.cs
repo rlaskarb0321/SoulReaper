@@ -45,6 +45,9 @@ public abstract class MonsterBase : MonoBehaviour
     public float _bodyBuryTime; // 시체처리연출의 시작까지 기다릴 값
     public Material _deadMat;
 
+    [Header("=== Raid Monster ===")]
+    public WaveMonster _waveMonster;
+
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();

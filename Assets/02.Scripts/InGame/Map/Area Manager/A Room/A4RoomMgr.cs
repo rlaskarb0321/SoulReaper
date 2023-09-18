@@ -8,11 +8,6 @@ public class A4RoomMgr : QuestRoom
     public Bull _bull;
     public GameObject _ladder;
 
-    public override void RewardQuest()
-    {
-
-    }
-
     public override void SolveQuest()
     {
         GetComponent<BoxCollider>().enabled = false;
@@ -22,6 +17,9 @@ public class A4RoomMgr : QuestRoom
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("PlayerTeam"))
+            return;
+
         _entranceBlockObj.SetActive(true);
         _bull.gameObject.SetActive(true);
     }

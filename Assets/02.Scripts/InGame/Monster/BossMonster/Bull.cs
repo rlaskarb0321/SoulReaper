@@ -163,8 +163,17 @@ public class Bull : MonsterBase
         _currHp -= amount;
         if (_currHp <= 0.0f)
         {
+            if (_spawnRoom != null)
+            {
+                _spawnRoom.SolveQuest(); 
+            }
+            if (_waveMonster != null)
+            {
+                _waveMonster.AlertDead();
+            }
+
             GetComponent<CapsuleCollider>().enabled = false;
-            _spawnRoom.SolveQuest();
+            _nav.enabled = false;
             _currHp = 0.0f;
             _animator.SetTrigger(_hashIsDead);
             _state = eBossState.Dead;

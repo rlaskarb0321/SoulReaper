@@ -65,6 +65,10 @@ public class MeleeRange : MonsterBase, INormalMonster
         {
             _currHp = 0.0f;
             Dead();
+            if (_waveMonster != null)
+            {
+                _waveMonster.AlertDead();
+            }
         }
     }
 

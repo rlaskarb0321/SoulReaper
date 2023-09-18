@@ -52,6 +52,7 @@ public class VictimSealedUrn : MonoBehaviour
         _lock.material = _unlockMat;
         gameObject.GetComponent<Animator>().enabled = true;
         _key.gameObject.SetActive(false);
+        gameObject.GetComponent<BoxCollider>().enabled = false;
     }
 
     // 부서진 후 파편들을 페이드아웃 후 없앰
