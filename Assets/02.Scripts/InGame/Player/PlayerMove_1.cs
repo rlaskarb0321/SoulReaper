@@ -80,7 +80,11 @@ public class PlayerMove_1 : MonoBehaviour
     private void Update()
     {
         if (ProductionMgr._isPlayingProduction)
+        {
+            _animator.SetBool(_hashMove, false);
+            _state.State = PlayerFSM.eState.Idle;
             return;
+        }
 
         if (_state.State == PlayerFSM.eState.Ladder)
         {

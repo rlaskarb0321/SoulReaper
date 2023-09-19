@@ -172,6 +172,11 @@ public class Bull : MonsterBase
                 _waveMonster.AlertDead();
             }
 
+            for (int i = 0; i < _weaponColl.Length; i++)
+            {
+                _weaponColl[i].enabled = false;
+            }
+
             GetComponent<CapsuleCollider>().enabled = false;
             _nav.enabled = false;
             _currHp = 0.0f;
