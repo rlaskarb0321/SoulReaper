@@ -82,6 +82,7 @@ public class PlayerMove_1 : MonoBehaviour
         if (ProductionMgr._isPlayingProduction)
         {
             _animator.SetBool(_hashMove, false);
+            _animator.SetBool(_hashRoll, false);
             _state.State = PlayerFSM.eState.Idle;
             return;
         }

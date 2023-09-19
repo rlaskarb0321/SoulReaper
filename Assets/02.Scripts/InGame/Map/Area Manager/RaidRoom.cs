@@ -21,7 +21,6 @@ public class RaidRoom : QuestRoom
     {
         if (_currWave >= _waves.Length)
         {
-            print("Solve");
             _ladder.gameObject.SetActive(true);
             _entranceBlockObj.SetActive(false);
             return;
