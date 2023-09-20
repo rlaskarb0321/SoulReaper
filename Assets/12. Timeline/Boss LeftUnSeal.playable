@@ -178,7 +178,25 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -202,7 +220,7 @@ MonoBehaviour:
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: 1
-    m_BlendOutDuration: 0.7666666666666666
+    m_BlendOutDuration: 0.7666663333333332
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -226,15 +244,15 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CM vcam5
   - m_Version: 1
-    m_Start: 4.216666666666667
+    m_Start: 4.216667
     m_ClipIn: 0
     m_Asset: {fileID: 5641887332655319421}
-    m_Duration: 5.766666666666667
+    m_Duration: 1.7833329999999998
     m_TimeScale: 1
     m_ParentTrack: {fileID: -429151503557029363}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.7666666666666666
+    m_BlendInDuration: 0.7666663333333332
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
@@ -300,7 +318,22 @@ MonoBehaviour:
     m_Framerate: 60
     m_ScenePreview: 1
   m_DurationMode: 0
-  m_MarkerTrack: {fileID: 0}
+  m_MarkerTrack: {fileID: 8739158827931210445}
+--- !u!114 &597789589180546200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9aa3794a9d3b0e45a3099d4b5323d5b, type: 3}
+  m_Name: Testing Marker
+  m_EditorClassIdentifier: 
+  m_Time: 4.2
+  _dialogCSV: {fileID: 4900000, guid: f51e4cd7cb60e44449494131702140d3, type: 3}
+  _letteringSpeed: 0.1
 --- !u!114 &599041274270419597
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,7 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 9.983333333333334
+  m_Time: 6
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: d313867b24405934188111eddcec6256, type: 2}
@@ -371,3 +404,27 @@ MonoBehaviour:
   VirtualCamera:
     exposedName: e9807dab37691ea4b8a0c3410592ccb9
     defaultValue: {fileID: 0}
+--- !u!114 &8739158827931210445
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a16748d9461eae46a725db9776d5390, type: 3}
+  m_Name: Markers
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects:
+    - {fileID: 597789589180546200}

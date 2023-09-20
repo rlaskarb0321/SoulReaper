@@ -16,7 +16,6 @@ public class Victim : MonoBehaviour, IInteractable
             return;
 
         _isInteract = true;
-        print("快府甫 秦规 矫难拎..");
         ProductionMgr.StartProduction(_playableDirector);
     }
 

@@ -40,10 +40,8 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
     {
         TestingMarker dialogMarker = notification as TestingMarker;
 
-        _playable.Pause();
         _letteringWS = new WaitForSeconds(dialogMarker._letteringSpeed);
-        _dialogUI.SetActive(true);
-
+        SetTimelinePlay(false);
         StartCoroutine(StartDialog(dialogMarker._dialogCSV));
     }
 
@@ -58,6 +56,9 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
         // CSV 파일의 총 대화 라인 수 만큼 반복
         while (index < lines.Length)
         {
+            if (_dialogText == null)
+                break;
+
             int letteringIndex = 0;
             string[] line = lines[index].Split(',');
 
@@ -67,7 +68,7 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
             _isEndLine = false;
 
             // 화자가 "" 가 아니면 바꿔줌
-            if (!speaker.Equals(""))
+            if (_speakerText != null && !speaker.Equals(""))
             {
                 _speakerText.text = speaker;
             }
@@ -98,5 +99,20 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
         }
 
         _isEndDialog = true;
+        SetTimelinePlay(true);
+    }
+
+    private void SetTimelinePlay(bool isSetGo)
+    {
+        if (isSetGo)
+        {
+            _playable.Resume();
+        }
+        else
+        {
+            _playable.Pause();
+        }
+
+        _dialogUI.SetActive(!isSetGo);
     }
 }
