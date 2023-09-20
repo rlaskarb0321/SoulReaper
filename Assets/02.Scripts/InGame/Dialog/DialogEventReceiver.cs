@@ -64,6 +64,7 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
 
             speaker = line[0];
             dialog = line[1];
+            dialog = dialog.Replace('*', '\n');
             letterSb.Clear();
             _isEndLine = false;
 
