@@ -38,7 +38,7 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
 
     public void OnNotify(Playable origin, INotification notification, object context)
     {
-        TestingMarker dialogMarker = notification as TestingMarker;
+        DialogMarker dialogMarker = notification as DialogMarker;
 
         _letteringWS = new WaitForSeconds(dialogMarker._letteringSpeed);
         SetTimelinePlay(false);

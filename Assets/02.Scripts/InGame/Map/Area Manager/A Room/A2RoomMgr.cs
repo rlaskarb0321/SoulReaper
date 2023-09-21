@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class A2RoomMgr : QuestRoom
 {
-    public Brazier[] _braziers;
-    public Brazier _solveObj;
+    public Flammable[] _braziers;
+    public Flammable _solveObj;
     public Key _reward;
 
     public override void SolveQuest()
     {
-        if (_solveObj._brazierState == Brazier.eBrazier.Fire)
+        if (_solveObj._fireState == Flammable.eFireState.Fire)
         {
             _reward.Reward();
             return;
