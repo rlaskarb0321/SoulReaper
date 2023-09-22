@@ -6,9 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01.Scenes/InGame/InGame_Castle.unity
+    path: Assets/01.Scenes/InGame/Castle_Map.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/01.Scenes/OutGame/LoadingScene.unity
     guid: 10223138a7f6c2e4a906d791da509e41
+  - enabled: 1
+    path: Assets/01.Scenes/OutGame/OutGame_StartScene.unity
+    guid: 88ae7fecdd7f35b41a764806ac56fc76
+  - enabled: 1
+    path: Assets/01.Scenes/InGame/Player.unity
+    guid: 4321bf8f21b7542489312080054d7b53
+  - enabled: 1
+    path: Assets/01.Scenes/InGame/Only_Castle_Map.unity
+    guid: 3608cb94264761d49805c9add136a27b
   m_configObjects: {}

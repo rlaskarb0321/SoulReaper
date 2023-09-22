@@ -40,12 +40,22 @@ public class Bull : MonsterBase
     {
         base.Start();
 
+
         _state = eBossState.Move;
         _currDelay = _stat.actDelay;
     }
 
     private void Update()
     {
+        if (_target == null)
+        {
+            Collider[] colls = Physics.OverlapSphere(transform.position, 200.0f, 1 << LayerMask.NameToLayer("PlayerTeam"));
+            if (colls.Length < 1)
+                return;
+
+            _target = colls[0].transform;
+        }
+
         switch (_state)
         {
             // 타겟을 향해 움직이다가 가까워지면 공격을 시작하게 해줌

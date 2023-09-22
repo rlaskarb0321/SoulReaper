@@ -26,8 +26,8 @@ public class MapTeleport : MonoBehaviour
 
     private void Awake()
     {
-        _vcamOption = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
-        _originDamp = new Vector3(_vcamOption.m_XDamping, _vcamOption.m_YDamping, _vcamOption.m_ZDamping);
+        //_vcamOption = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        //_originDamp = new Vector3(_vcamOption.m_XDamping, _vcamOption.m_YDamping, _vcamOption.m_ZDamping);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,16 +41,18 @@ public class MapTeleport : MonoBehaviour
                 _playerMove.ClimbDown();
             }
 
-            _vcamOption.m_XDamping = 0.0f;
-            _vcamOption.m_YDamping = 0.0f;
-            _vcamOption.m_ZDamping = 0.0f;
+            _playerMove.TeleportPlayer(_nextPos.transform);
 
-            _fadePanel.SetActive(false);
-            _fadePanel.SetActive(true);
-            _playerBody.transform.position = _nextPos.transform.position;
-            _cameraArm.transform.position = _playerBody.transform.position;
+            //_vcamOption.m_XDamping = 0.0f;
+            //_vcamOption.m_YDamping = 0.0f;
+            //_vcamOption.m_ZDamping = 0.0f;
 
-            StartCoroutine(RestoreCamDampValue());
+            //_fadePanel.SetActive(false);
+            //_fadePanel.SetActive(true);
+            //_playerBody.transform.position = _nextPos.transform.position;
+            //_cameraArm.transform.position = _playerBody.transform.position;
+
+            //StartCoroutine(RestoreCamDampValue());
         }
     }
 

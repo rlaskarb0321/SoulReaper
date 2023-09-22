@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerMove_1 : MonoBehaviour
 {
@@ -42,6 +43,14 @@ public class PlayerMove_1 : MonoBehaviour
     private float _currDodgeCool; // 디버깅용으로 [SerializeField]
     private bool _isDodgeAttackInput;
     
+    [Header("=== Teleport ===")]
+    [SerializeField] private GameObject _playerBody;
+    [SerializeField] private GameObject _cameraArm;
+    [SerializeField] private CinemachineVirtualCamera _cam;
+    private Vector3 _originDamp;
+    [SerializeField] private GameObject _fadePanel;
+    private CinemachineFramingTransposer _vcamOption;
+
     [Header("=== Anim Params ===")]
     private Animator _animator;
     readonly int _hashMove = Animator.StringToHash("isMove");
@@ -66,6 +75,9 @@ public class PlayerMove_1 : MonoBehaviour
         _state = GetComponent<PlayerFSM>();
         _animator = GetComponent<Animator>();
         _combat = GetComponent<PlayerCombat>();
+
+        _vcamOption = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        _originDamp = new Vector3(_vcamOption.m_XDamping, _vcamOption.m_YDamping, _vcamOption.m_ZDamping);
     }
 
     private void Start()
@@ -416,5 +428,27 @@ public class PlayerMove_1 : MonoBehaviour
             _animator.ResetTrigger(_hashReachTop);
             _state.State = PlayerFSM.eState.Idle;
         }
+    }
+
+    public void TeleportPlayer(Transform nextPos)
+    {
+        _vcamOption.m_XDamping = 0.0f;
+        _vcamOption.m_YDamping = 0.0f;
+        _vcamOption.m_ZDamping = 0.0f;
+
+        _fadePanel.SetActive(false);
+        _fadePanel.SetActive(true);
+        _playerBody.transform.position = nextPos.transform.position;
+        _cameraArm.transform.position = _playerBody.transform.position;
+        StartCoroutine(RestoreCamDampValue());
+    }
+
+    private IEnumerator RestoreCamDampValue()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        _vcamOption.m_XDamping = _originDamp.x;
+        _vcamOption.m_YDamping = _originDamp.y;
+        _vcamOption.m_ZDamping = _originDamp.z;
     }
 }
