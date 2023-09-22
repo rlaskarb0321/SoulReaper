@@ -55,10 +55,10 @@ public class StartScene : MonoBehaviour
 
     public void OnStartBtnClick()
     {
-        //LoadingScene.LoadScene("Only_Castle_Map");
+        LoadingScene.LoadScene("Castle_Map");
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Player");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Castle_Map", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("Player");
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("Castle_Map", UnityEngine.SceneManagement.LoadSceneMode.Additive);
     }
 
     public void OnExitBtnClick()
