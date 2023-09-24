@@ -1432,7 +1432,7 @@ MonoBehaviour:
     rotSpeed: 10
     movSpeed: 6
     isInitiator: 1
-    traceDist: 50
+    traceDist: 200
     attakDist: 3.2
     actDelay: 1.2
   _currHp: 0
@@ -1443,6 +1443,7 @@ MonoBehaviour:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   _bodyBuryTime: 3.5
   _deadMat: {fileID: 2100000, guid: 7f1ae4b2aeeafde4494403d290913507, type: 2}
+  _waveMonster: {fileID: 0}
   _spawnRoom: {fileID: 0}
   _target: {fileID: 0}
   _attackRange: 1.74

@@ -40,7 +40,6 @@ public class Bull : MonsterBase
     {
         base.Start();
 
-
         _state = eBossState.Move;
         _currDelay = _stat.actDelay;
     }
@@ -49,7 +48,7 @@ public class Bull : MonsterBase
     {
         if (_target == null)
         {
-            Collider[] colls = Physics.OverlapSphere(transform.position, 200.0f, 1 << LayerMask.NameToLayer("PlayerTeam"));
+            Collider[] colls = Physics.OverlapSphere(transform.position, _stat.traceDist, 1 << LayerMask.NameToLayer("PlayerTeam"));
             if (colls.Length < 1)
                 return;
 

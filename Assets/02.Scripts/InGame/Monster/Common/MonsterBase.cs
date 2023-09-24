@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public interface INormalMonster
-{
-    public IEnumerator KnockBack(Vector3 hitPos);
-
-    
-}
-
 [System.Serializable]
 public struct MonsterStat
 {
@@ -23,6 +16,11 @@ public struct MonsterStat
     public float traceDist; // 추격 가능 거리
     public float attakDist; // 공격 가능 거리
     public float actDelay; // 멍 때리는 시간
+}
+
+public interface INormalMonster
+{
+    public IEnumerator KnockBack(Vector3 hitDir);
 }
 
 public abstract class MonsterBase : MonoBehaviour
