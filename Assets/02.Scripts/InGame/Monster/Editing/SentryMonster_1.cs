@@ -45,6 +45,9 @@ public class SentryMonster_1 : MonsterType
         }
     }
 
+    /// <summary>
+    /// 정찰지에 도착한 후, 일정시간 기다림
+    /// </summary>
     private void Idle()
     {
         if (_monsterBase._target != null)
