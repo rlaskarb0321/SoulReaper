@@ -5,11 +5,21 @@ using UnityEngine.AI;
 
 public class MonsterBase_1 : MonoBehaviour
 {
-    public enum eMonsterState { Idle, Move, Attack, Hit, Delay, Dead, }
+    public enum eMonsterState 
+    { 
+        Idle,   // 정찰 후 포지션을 지킬때
+        Move,
+        Attack,
+        Hit,
+        Delay,  // 공격 후 딜레이 시간을 가질때
+        Dead,
+    }
+
     public enum eMonsterType { Wave, Patrol, }
 
     [Header("=== Stat ===")]
     public MonsterStat _stat;
+    public float _currHp;
 
     [Header("=== FSM ===")]
     public eMonsterState _state;
@@ -28,6 +38,7 @@ public class MonsterBase_1 : MonoBehaviour
     public SentryMonster_1 _sentryMonster;
 
     private NavMeshAgent _nav;
+    private SkinnedMeshRenderer _mesh;
 
     protected void Awake()
     {
@@ -49,6 +60,12 @@ public class MonsterBase_1 : MonoBehaviour
         }
 
         _nav = GetComponent<NavMeshAgent>();
+        _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
+    }
+
+    protected void Start()
+    {
+        _currHp = _stat.health;
     }
 
     public virtual void SearchTarget()
@@ -85,6 +102,11 @@ public class MonsterBase_1 : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 목표 위치로 movSpeed 값을 가진 속도로 이동함
+    /// </summary>
+    /// <param name="pos">이동 목표 위치</param>
+    /// <param name="movSpeed">목표로 향하는 이동 속도</param>
     public virtual void Move(Vector3 pos, float movSpeed)
     {
         if (_nav.pathPending)
@@ -97,8 +119,75 @@ public class MonsterBase_1 : MonoBehaviour
         _nav.SetDestination(pos);
     }
 
-    public virtual void DecreaseHP(float amount) { }
-    public virtual IEnumerator OnHitEvent() { yield return null; }
-    public virtual void Dead() { }
-    public virtual IEnumerator OnMonsterDead() { yield return null; }
+    /// <summary>
+    /// 몬스터의 currHp 를 amount 만큼 깎음
+    /// </summary>
+    /// <param name="amount">hp를 깎을 양</param>
+    public virtual void DecreaseHP(float amount)
+    {
+        StartCoroutine(OnHitEvent());
+
+        _currHp -= amount;
+        if (_currHp <= 0.0f)
+        {
+            _currHp = 0.0f;
+            Dead();
+            if (_waveMonster != null)
+            {
+                _waveMonster.AlertDead();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 몬스터가 피격당했을 때, 피격 연출용 코루틴
+    /// </summary>
+    /// <returns></returns>
+    public virtual IEnumerator OnHitEvent()
+    {
+        Material newMat;
+
+        newMat = _hitMats[1];
+        _mesh.material = newMat;
+        yield return new WaitForSeconds(Time.deltaTime * 4.0f);
+
+        newMat = _hitMats[0];
+        _mesh.material = newMat;
+    }
+
+    /// <summary>
+    /// 몬스터가 공격 피격후 currHp = 0 이 되었을 때 호출될 함수
+    /// </summary>
+    public virtual void Dead()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+
+        _nav.velocity = Vector3.zero;
+        _nav.isStopped = true;
+        _nav.baseOffset = 0.0f;
+
+        StartCoroutine(OnMonsterDead());
+    }
+
+    /// <summary>
+    /// 몬스터의 사망 후 연출을 위한 함수
+    /// </summary>
+    /// <returns></returns>
+    public virtual IEnumerator OnMonsterDead()
+    {
+        yield return new WaitForSeconds(_bodyBuryTime);
+
+        Material newMat = Instantiate(_deadMat);
+        Color color = newMat.color;
+
+        while (newMat.color.a >= 0.05f)
+        {
+            color.a -= Time.deltaTime;
+            newMat.color = color;
+            _mesh.material = newMat;
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+    }
 }

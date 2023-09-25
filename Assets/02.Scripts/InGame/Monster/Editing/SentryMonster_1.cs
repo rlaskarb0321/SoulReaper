@@ -27,26 +27,6 @@ public class SentryMonster_1 : MonoBehaviour
             _isSetPatrolPos = true;
             return;
         }
-
-        switch (_monsterBase._state)
-        {
-            case MonsterBase_1.eMonsterState.Idle:
-                break;
-            case MonsterBase_1.eMonsterState.Move:
-                _monsterBase.Move(_movPos, _monsterBase._stat.movSpeed * 0.5f);
-                print(Vector3.Distance(transform.position, _movPos));
-                break;
-            case MonsterBase_1.eMonsterState.Attack:
-                break;
-            case MonsterBase_1.eMonsterState.Hit:
-                break;
-            case MonsterBase_1.eMonsterState.Delay:
-                break;
-            case MonsterBase_1.eMonsterState.Dead:
-                break;
-        }
-
-        
     }
 
     public Vector3 SetRandomPoint(Vector3 center, Vector3 destination, float radius)
