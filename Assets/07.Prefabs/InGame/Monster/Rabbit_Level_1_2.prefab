@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2368654715978939673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2724404884243541797}
+  m_Layer: 12
+  m_Name: Eye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2724404884243541797
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2368654715978939673}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.42501283, z: 0.34108478}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8312964977247201475}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7615946478086124151
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,8 +390,8 @@ GameObject:
   - component: {fileID: 8312964977254451003}
   - component: {fileID: 157836366128375959}
   - component: {fileID: 8312964977247072861}
-  - component: {fileID: 6616108947912997508}
-  - component: {fileID: 5732425218775670567}
+  - component: {fileID: 3490945325151847049}
+  - component: {fileID: 1878817968765893851}
   m_Layer: 12
   m_Name: Rabbit_Level_1_2
   m_TagString: Untagged
@@ -383,6 +414,7 @@ Transform:
   - {fileID: 8312964977247201485}
   - {fileID: 8312964977247201521}
   - {fileID: 7611870380094219480}
+  - {fileID: 2724404884243541797}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -441,7 +473,7 @@ NavMeshAgent:
   m_BaseOffset: 0.03
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6616108947912997508
+--- !u!114 &3490945325151847049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -450,34 +482,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 8312964977247040739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a4038943cc32504c8e097e5608bb2b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ab3d9ee6f2e11b409da7e137f0e7a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
-  _nav: {fileID: 0}
-  _mesh: {fileID: 0}
   _stat:
-    health: 200
+    health: 100
     damage: 10
     rotSpeed: 3.6
-    movSpeed: 2.7
-    isInitiator: 1
+    movSpeed: 3.3
+    isInitiator: 0
     traceDist: 13
     attakDist: 2
     actDelay: 2.8
   _currHp: 0
-  _isAtk: 0
-  _isIdle: 0
+  _state: 1
+  _target: {fileID: 0}
   _hitMats:
   - {fileID: 2100000, guid: 90408e15610415d439be9d498e36cd4d, type: 2}
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   _bodyBuryTime: 2.5
   _deadMat: {fileID: 2100000, guid: d4a6e8950aaad2448b5aa446a0f4fced, type: 2}
-  _waveMonster: {fileID: 0}
-  _atkCollObj: {fileID: 7615946478086124151}
-  _knockBackFrame: 5
-  _brain: {fileID: 0}
---- !u!114 &5732425218775670567
+  _monsterType: {fileID: 1878817968765893851}
+  _nav: {fileID: 0}
+  _animator: {fileID: 0}
+  _attackCollObj: {fileID: 6347244888392554632}
+--- !u!114 &1878817968765893851
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -486,16 +515,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8312964977247040739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eadbfec748da55c4bb338cc197595550, type: 3}
+  m_Script: {fileID: 11500000, guid: 746aefde7914688438b9782417f2c078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _randomMinScoutIdle: -1.2
-  _randomMaxScoutIdle: 1.2
-  _isTargetConfirm: 0
-  _targetTr: {fileID: 0}
+  _eyePos: {fileID: 2724404884243541797}
   _isSetPatrolPos: 0
-  _isDef: 0
-  _fsm: 0
+  _missTargetMulti: 1.75
+  _idleTime: 3
+  _monsterBase: {fileID: 3490945325151847049}
 --- !u!1 &8312964977247040741
 GameObject:
   m_ObjectHideFlags: 0

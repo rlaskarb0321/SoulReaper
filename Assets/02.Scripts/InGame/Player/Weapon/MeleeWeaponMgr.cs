@@ -88,11 +88,11 @@ public class MeleeWeaponMgr : MonoBehaviour
         {
             if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                MonsterBase monster = _hitEnemiesList[i].GetComponent<MonsterBase>();
+                MonsterBase_1 monster = _hitEnemiesList[i].GetComponent<MonsterBase_1>();
                 if (monster._currHp == 0)
                     return;
 
-                monster.DecreaseHp(_combat.CalcDamage(), _combat.transform.position);
+                monster.DecreaseHP(_combat.CalcDamage());
                 _hitEnemiesList.Remove(monster.gameObject);
             }
             else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))

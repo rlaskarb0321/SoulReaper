@@ -8,19 +8,20 @@ public class SentryMonster_1 : MonsterType
     [Header("=== Sentry ===")]
     public Transform _eyePos;
     [SerializeField] private bool _isSetPatrolPos;
-    [SerializeField] private float _missTargetDist;
+    [SerializeField] private float _missTargetMulti;
     [SerializeField] private float _idleTime;
 
     [Header("=== MonsterBase ===")]
     public MonsterBase_1 _monsterBase;
 
-    [SerializeField] private Vector3 _movPos;
-    [SerializeField] private float _movSpeed;
+    private Vector3 _movPos;
+    private float _movSpeed;
     private float _originIdleTime;
+    private float _missTargetDist;
 
     private void Start()
     {
-        _missTargetDist = _monsterBase._stat.traceDist * 1.75f;
+        _missTargetDist = _monsterBase._stat.traceDist * _missTargetMulti;
         _originIdleTime = _idleTime;
     }
 
@@ -65,6 +66,7 @@ public class SentryMonster_1 : MonsterType
             return;
         }
 
+        _monsterBase._animator.SetBool(_monsterBase._hashMove, false);
         _idleTime -= Time.deltaTime;
         _monsterBase._target = SearchTarget();
     }
@@ -72,7 +74,7 @@ public class SentryMonster_1 : MonsterType
     /// <summary>
     /// 타겟을 쫓는 메서드, 너무 멀어지면 타겟을 놓친다.
     /// </summary>
-    private void Trace()
+    public override void Trace()
     {
         float distance = Vector3.Distance(transform.position, _monsterBase._target.transform.position);
         if (distance >= _missTargetDist)
@@ -80,6 +82,12 @@ public class SentryMonster_1 : MonsterType
             _monsterBase._target = null;
             _isSetPatrolPos = false;
             _monsterBase._state = MonsterBase_1.eMonsterState.Scout;
+            return;
+        }
+
+        if (distance <= _monsterBase._stat.attakDist)
+        {
+            _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
             return;
         }
 
@@ -134,7 +142,6 @@ public class SentryMonster_1 : MonsterType
     /// <returns>탐색 성공시 목표 위치, 실패시 Vector3.zero</returns>
     private Vector3 SetRandomScout(Vector3 center, Vector3 destination, float radius)
     {
-        print("hi");
         for (int i = 0; i < 30; i++)
         {
             Vector3 randomPos = center + Random.insideUnitSphere * radius;
@@ -142,7 +149,6 @@ public class SentryMonster_1 : MonsterType
 
             if (NavMesh.SamplePosition(randomPos, out hit, radius, NavMesh.AllAreas))
             {
-                print(i);
                 destination = hit.position;
                 return destination;
             }

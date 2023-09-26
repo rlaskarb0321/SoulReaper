@@ -11,7 +11,6 @@ public class MonsterBase_1 : MonoBehaviour
         Scout,
         Trace,
         Attack,
-        GetHit,
         Delay,  // 공격 후 딜레이 시간을 가질때
         Dead,
     }
@@ -33,36 +32,41 @@ public class MonsterBase_1 : MonoBehaviour
     public Material _deadMat;
 
     [Header("=== Monster Type ===")]
-    public WaveMonster _waveMonster;
-    public SentryMonster_1 _sentryMonster;
+    public MonsterType _monsterType;
+
+    public readonly int _hashMove = Animator.StringToHash("Move");
+    public readonly int _hashDead = Animator.StringToHash("Dead");
 
     [HideInInspector] public NavMeshAgent _nav;
     private SkinnedMeshRenderer _mesh;
+    [HideInInspector] public Animator _animator;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
-        if (_waveMonster == null && _sentryMonster == null)
+        //if (_waveMonster == null && _sentryMonster == null)
+        //{
+        //    Debug.LogError(gameObject.name + "오브젝트의 초병 또는 웨이브 등 몬스터 형식을 지정하지 않음");
+        //    return;
+        //}
+
+        //if ((_waveMonster != null && _sentryMonster != null))
+        //{
+        //    Debug.LogError(gameObject.name + "오브젝트의 초병 또는 웨이브 등 몬스터 형식은 하나만 지정해야 함");
+        //    return;
+        //}
+
+        if (_monsterType == null)
         {
             Debug.LogError(gameObject.name + "오브젝트의 초병 또는 웨이브 등 몬스터 형식을 지정하지 않음");
             return;
         }
 
-        if ((_waveMonster != null && _sentryMonster != null))
-        {
-            Debug.LogError(gameObject.name + "오브젝트의 초병 또는 웨이브 등 몬스터 형식은 하나만 지정해야 함");
-            return;
-        }
-
-        if (_waveMonster != null)
-        {
-            _stat.traceDist = 150.0f;
-        }
-
         _nav = GetComponent<NavMeshAgent>();
         _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
+        _animator = GetComponent<Animator>();
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         _currHp = _stat.health;
     }
@@ -79,6 +83,7 @@ public class MonsterBase_1 : MonoBehaviour
             return;
         }
 
+        _animator.SetBool(_hashMove, true);
         _nav.isStopped = false;
         _nav.speed = movSpeed;
         _nav.SetDestination(pos);
@@ -90,17 +95,15 @@ public class MonsterBase_1 : MonoBehaviour
     /// <param name="amount">hp를 깎을 양</param>
     public virtual void DecreaseHP(float amount)
     {
-        StartCoroutine(OnHitEvent());
+        if (_currHp <= 0.0f)
+            return;
 
+        StartCoroutine(OnHitEvent());
         _currHp -= amount;
         if (_currHp <= 0.0f)
         {
             _currHp = 0.0f;
             Dead();
-            if (_waveMonster != null)
-            {
-                _waveMonster.AlertDead();
-            }
         }
     }
 
@@ -114,7 +117,7 @@ public class MonsterBase_1 : MonoBehaviour
 
         newMat = _hitMats[1];
         _mesh.material = newMat;
-        yield return new WaitForSeconds(Time.deltaTime * 4.0f);
+        yield return new WaitForSeconds(Time.deltaTime * 12.0f);
 
         newMat = _hitMats[0];
         _mesh.material = newMat;
@@ -127,9 +130,11 @@ public class MonsterBase_1 : MonoBehaviour
     {
         GetComponent<BoxCollider>().enabled = false;
 
+        _state = eMonsterState.Dead;
         _nav.velocity = Vector3.zero;
         _nav.isStopped = true;
         _nav.baseOffset = 0.0f;
+        _animator.SetTrigger(_hashDead);
 
         StartCoroutine(OnMonsterDead());
     }
@@ -157,4 +162,11 @@ public class MonsterBase_1 : MonoBehaviour
     }
 
     public virtual void Attack() { }
+
+    public virtual void AimingTarget(Vector3 target, float rotMulti) { }
+
+    /// <summary>
+    /// 공격을 끝낸 후, 다음 행동에 딜레이를 갖게하는 함수
+    /// </summary>
+    public virtual void Delay() { }
 }

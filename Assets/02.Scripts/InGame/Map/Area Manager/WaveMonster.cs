@@ -10,10 +10,22 @@ public class WaveMonster : MonsterType
     [Header("=== MonsterBase ===")]
     public MonsterBase_1 _monsterBase;
 
+    private bool _isAlert;
+
+    private void Start()
+    {
+        _monsterBase._stat.traceDist = 150.0f;
+    }
+
     private void Update()
     {
         if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
-            return;
+        {
+            if (_isAlert)
+                return;
+
+            AlertDead();
+        }
 
         switch (_monsterBase._state)
         {
@@ -25,8 +37,7 @@ public class WaveMonster : MonsterType
     // 해당 몬스터가 포함된 웨이브 관리하는 Obj에게 본인이 죽었음을 알림
     public void AlertDead()
     {
+        _isAlert = true;
         _waveMaster.DecreaseMonsterCount();
     }
-
-
 }

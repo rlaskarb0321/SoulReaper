@@ -13,8 +13,6 @@ public class LongRange_1 : MonsterBase_1
         {
             case eMonsterState.Attack:
                 break;
-            case eMonsterState.GetHit:
-                break;
             case eMonsterState.Delay:
                 break;
             case eMonsterState.Dead:
