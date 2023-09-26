@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SentryMonster_1 : MonsterType
+public class SentryMonster : MonsterType
 {
     [Header("=== Sentry ===")]
     public Transform _eyePos;
@@ -117,7 +117,7 @@ public class SentryMonster_1 : MonsterType
         }
 
         float distance = Vector3.Distance(transform.position, _movPos);
-        if (distance <= _monsterBase._nav.stoppingDistance)
+        if (distance <= _monsterBase._nav.stoppingDistance + _monsterBase._nav.baseOffset)
         {
             _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
             return;

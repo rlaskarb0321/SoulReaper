@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RabbitMonster_1 : MeleeRange_1
+public class RabbitMonster_1 : MeleeRange
 {
 
 }
