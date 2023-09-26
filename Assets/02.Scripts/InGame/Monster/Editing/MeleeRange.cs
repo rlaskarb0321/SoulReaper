@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeleeRange : MonsterBase_1
 {
-    [Header("=== Attack Coll ===")]
+    [Header("=== Melee Range ===")]
     public BoxCollider _attackCollObj;
 
     private bool _needAiming;
