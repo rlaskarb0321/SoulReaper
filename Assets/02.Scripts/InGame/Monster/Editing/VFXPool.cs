@@ -13,10 +13,18 @@ public interface IObjectPooling
     /// 오브젝트풀의 기본 사이즈보다 더 오브젝트가 필요할 때 사이즈를 늘려주는 함수
     /// </summary>
     public void AddObject();
+
+    /// <summary>
+    /// 사용 완료된 오브젝트를 풀로 반환시키는 함수
+    /// </summary>
+    public void ReturnObject();
 }
 
 public class VFXPool : MonoBehaviour
 {
+    public GameObject _objectPoolManager;
+    public IObjectPooling _pooling;
+
     #region Pooling 오브젝트의 데이터를 초기화 시켜주는 오버라이딩 함수들
     public virtual void SetPoolData() { }
     public virtual void SetPoolData(LaunchData data) { }

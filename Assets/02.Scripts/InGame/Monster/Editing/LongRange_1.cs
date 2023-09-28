@@ -7,7 +7,7 @@ public class LongRange_1 : MonsterBase_1, IObjectPooling
     [Header("=== Long Range & Object Pool ===")]
     public List<VFXPool> _projectile;
     public Transform _firePos;
-    public int _poolCount = 0;
+    public int _poolCount = 0; // 현재 활성화 되어있는 오브젝트들의 수를 체크
 
     private bool _needAiming;
     private float _originDelay;
@@ -104,13 +104,8 @@ public class LongRange_1 : MonsterBase_1, IObjectPooling
         {
             if (!_projectile[i].gameObject.activeSelf)
             {
-                LaunchData launchData = new LaunchData();
                 Vector3 launchAngle = _target.transform.position - transform.position;
-
-                launchData.damage = _stat.damage;
-                launchData.speed = 2.0f;
-                launchData.launchAngle = launchAngle;
-                launchData.position = _firePos.position;
+                LaunchData launchData = new LaunchData(launchAngle, _firePos.position, _stat.damage, 2.0f);
 
                 _projectile[i].gameObject.SetActive(true);
                 _projectile[i].SetPoolData(launchData);
@@ -126,5 +121,10 @@ public class LongRange_1 : MonsterBase_1, IObjectPooling
 
         projectile.gameObject.SetActive(false);
         _projectile.Add(projectile);
+    }
+
+    public void ReturnObject()
+    {
+        _poolCount--;
     }
 }

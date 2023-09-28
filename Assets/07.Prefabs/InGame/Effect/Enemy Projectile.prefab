@@ -9749,7 +9749,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -34062,7 +34062,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a0bdaef31abc5478b8e3e3c49432ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explodeEffect: {fileID: 8329570875031682754}
+  _explodeEffect: {fileID: 8329570875031682749}
+  _missileObj: {fileID: 8329570875703556486}
+  _launchData:
+    launchAngle: {x: 0, y: 0, z: 0}
+    position: {x: 0, y: 0, z: 0}
+    damage: 0
+    speed: 0
 --- !u!1 &8329570876150517781
 GameObject:
   m_ObjectHideFlags: 0

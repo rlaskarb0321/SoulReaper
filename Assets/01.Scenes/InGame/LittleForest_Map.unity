@@ -17761,6 +17761,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 660892209}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &661227350 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5257809214769901429, guid: 4be61539dbcf62444afa7cf89005f120,
+    type: 3}
+  m_PrefabInstance: {fileID: 601043021}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &663324885 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1418059963432224869, guid: d3be3902f0af21d40b381cd77208daa0,
@@ -47020,6 +47026,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1371887555308183985, guid: efc6c84f29cdbb84aa38126d0f9541a5,
+        type: 3}
+      propertyPath: _objectPool
+      value: 
+      objectReference: {fileID: 661227350}
+    - target: {fileID: 1371887555308183985, guid: efc6c84f29cdbb84aa38126d0f9541a5,
+        type: 3}
+      propertyPath: _objectPoolManager
+      value: 
+      objectReference: {fileID: 661227350}
     - target: {fileID: 8329570876005992277, guid: efc6c84f29cdbb84aa38126d0f9541a5,
         type: 3}
       propertyPath: m_Name
@@ -47719,6 +47735,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1371887555308183985, guid: efc6c84f29cdbb84aa38126d0f9541a5,
+        type: 3}
+      propertyPath: _objectPool
+      value: 
+      objectReference: {fileID: 661227350}
+    - target: {fileID: 1371887555308183985, guid: efc6c84f29cdbb84aa38126d0f9541a5,
+        type: 3}
+      propertyPath: _objectPoolManager
+      value: 
+      objectReference: {fileID: 661227350}
     - target: {fileID: 8329570876005992277, guid: efc6c84f29cdbb84aa38126d0f9541a5,
         type: 3}
       propertyPath: m_Name
@@ -57902,6 +57928,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1371887555308183985, guid: efc6c84f29cdbb84aa38126d0f9541a5,
+        type: 3}
+      propertyPath: _objectPool
+      value: 
+      objectReference: {fileID: 661227350}
+    - target: {fileID: 1371887555308183985, guid: efc6c84f29cdbb84aa38126d0f9541a5,
+        type: 3}
+      propertyPath: _objectPoolManager
+      value: 
+      objectReference: {fileID: 661227350}
     - target: {fileID: 8329570876005992277, guid: efc6c84f29cdbb84aa38126d0f9541a5,
         type: 3}
       propertyPath: m_Name
