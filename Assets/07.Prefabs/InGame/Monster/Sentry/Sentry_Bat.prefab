@@ -1509,10 +1509,6 @@ MonoBehaviour:
   _projectile: []
   _firePos: {fileID: 5257809215316306469}
   _poolCount: 0
-  _launchData:
-    damage: 10
-    eleveationAngle: 0
-    speed: 6
 --- !u!114 &4109077098165902515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1716,7 +1712,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5257809215316306468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.408, z: 0.527}
+  m_LocalPosition: {x: 0, y: 0.989, z: 0.527}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

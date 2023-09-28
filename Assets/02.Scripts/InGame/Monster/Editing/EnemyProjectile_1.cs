@@ -5,16 +5,18 @@ using UnityEngine;
 [System.Serializable]
 public struct LaunchData
 {
+    public Vector3 launchAngle;
+    public Vector3 position;
     public float damage;
-    public float eleveationAngle;
     public float speed;
 }
 
 public class EnemyProjectile_1 : VFXPool
 {
     public GameObject _explodeEffect;
-    public Vector3 _launchDir;
+    public LaunchData _launchData;
 
+    private bool _isLaunch;
     private Rigidbody _rbody;
     private Vector3 _originPos;
     private Vector3 _originScale;
@@ -32,19 +34,19 @@ public class EnemyProjectile_1 : VFXPool
 
     private void Update()
     {
+        if (!_isLaunch)
+            return;
 
+        _rbody.MovePosition(_rbody.position + transform.forward * _launchData.speed * Time.fixedDeltaTime);
     }
 
     public override void SetPoolData(LaunchData data)
     {
+        _launchData = data;
+        transform.forward = data.launchAngle;
+        _rbody.position = data.position;
 
-        Launch();
-    }
-
-    private void Launch()
-    {
-        _launchDir = new Vector3(0.0f, 0.0f, 0.0f);
-        print("น฿ป็!!");
+        _isLaunch = true;
     }
 
     private void OnTriggerEnter(Collider other)

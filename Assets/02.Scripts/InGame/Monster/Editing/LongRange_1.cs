@@ -8,7 +8,6 @@ public class LongRange_1 : MonsterBase_1, IObjectPooling
     public List<VFXPool> _projectile;
     public Transform _firePos;
     public int _poolCount = 0;
-    public LaunchData _launchData;
 
     private bool _needAiming;
     private float _originDelay;
@@ -72,7 +71,6 @@ public class LongRange_1 : MonsterBase_1, IObjectPooling
 
     public void ExecuteAtk()
     {
-        print("발사체 오브젝트 풀링에서 하나 꺼내서 사용");
         PullOutObject();
     }
 
@@ -106,9 +104,16 @@ public class LongRange_1 : MonsterBase_1, IObjectPooling
         {
             if (!_projectile[i].gameObject.activeSelf)
             {
-                _launchData.eleveationAngle = CalcEleveationAngle();
+                LaunchData launchData = new LaunchData();
+                Vector3 launchAngle = _target.transform.position - transform.position;
+
+                launchData.damage = _stat.damage;
+                launchData.speed = 2.0f;
+                launchData.launchAngle = launchAngle;
+                launchData.position = _firePos.position;
+
                 _projectile[i].gameObject.SetActive(true);
-                _projectile[i].SetPoolData(_launchData);
+                _projectile[i].SetPoolData(launchData);
                 _poolCount++;
                 break;
             }
@@ -117,15 +122,9 @@ public class LongRange_1 : MonsterBase_1, IObjectPooling
 
     public void AddObject()
     {
-        VFXPool projectile = Instantiate(_projectile[0], Vector3.zero, Quaternion.identity, _firePos.transform);
+        VFXPool projectile = Instantiate(_projectile[0], _firePos.position, Quaternion.identity);
 
         projectile.gameObject.SetActive(false);
         _projectile.Add(projectile);
-    }
-
-    private float CalcEleveationAngle()
-    {
-
-        return 0.0f;
     }
 }
