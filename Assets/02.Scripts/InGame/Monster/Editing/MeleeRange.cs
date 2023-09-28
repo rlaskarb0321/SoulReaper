@@ -48,14 +48,14 @@ public class MeleeRange : MonsterBase_1
         _animator.SetBool(_hashAttack, true);
     }
 
-    public override void AimingTarget(Vector3 target, float rotMultiple)
+    public override void AimingTarget(Vector3 target, float rotMulti)
     {
         if (_needAiming)
         {
             _nav.updatePosition = false;
             Vector3 dir = target - transform.position;
             transform.rotation = 
-                Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * rotMultiple * Time.deltaTime);
+                Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * rotMulti * Time.deltaTime);
         }
         else
         {
@@ -63,7 +63,7 @@ public class MeleeRange : MonsterBase_1
         }
     }
 
-    public void SwitchNeedAiming(int value) => _needAiming = value == 1 ? true : false;
+    public override void SwitchNeedAiming(int value) => _needAiming = value == 1 ? true : false;
 
     public void ExecuteAtk() => _attackCollObj.enabled = !_attackCollObj.enabled;
 

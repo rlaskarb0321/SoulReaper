@@ -163,10 +163,21 @@ public class MonsterBase_1 : MonoBehaviour
 
     public virtual void Attack() { }
 
+    /// <summary>
+    /// 몬스터의 공격 애니메이션 대리자, 타겟을 조준하게하는 메서드이다.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="rotMulti"></param>
     public virtual void AimingTarget(Vector3 target, float rotMulti) { }
 
     /// <summary>
     /// 공격을 끝낸 후, 다음 행동에 딜레이를 갖게하는 함수
     /// </summary>
     public virtual void Delay() { }
+
+    /// <summary>
+    /// 몬스터의 공격 애니메이션 대리자, 타겟의 조준을 정지시키는 메서드
+    /// </summary>
+    /// <param name="value"></param>
+    public virtual void SwitchNeedAiming(int value) { }
 }

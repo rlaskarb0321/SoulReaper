@@ -1506,9 +1506,13 @@ MonoBehaviour:
   _monsterType: {fileID: 4109077098165902515}
   _nav: {fileID: 0}
   _animator: {fileID: 0}
-  _projectile: {fileID: 1490659678486382040, guid: d615199ea05b1554fa8ccaa571d65d98,
-    type: 3}
+  _projectile: []
   _firePos: {fileID: 5257809215316306469}
+  _poolCount: 0
+  _launchData:
+    damage: 10
+    eleveationAngle: 0
+    speed: 6
 --- !u!114 &4109077098165902515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1523,7 +1527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eyePos: {fileID: 2748412578719574283}
   _isSetPatrolPos: 0
-  _missTargetMulti: 1.5
+  _missTargetMulti: 2.4
   _idleTime: 2
   _monsterBase: {fileID: 2203484406525109432}
 --- !u!1 &5257809214769901431
