@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 3490945325151847049}
   - component: {fileID: 1878817968765893851}
   m_Layer: 12
-  m_Name: Sentry_Rabbit
+  m_Name: Rabbit_Sentry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

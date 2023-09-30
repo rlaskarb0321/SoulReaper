@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LongRange_1 : MonsterBase_1, IObjectPooling
+public class LongRange_1 : MonsterBase_1
 {
     [Header("=== Long Range & Object Pool ===")]
-    public List<VFXPool> _projectile;
+    public ObjectPooling _projectilePool;
     public Transform _firePos;
-    public int _poolCount = 0; // 현재 활성화 되어있는 오브젝트들의 수를 체크
 
     private bool _needAiming;
     private float _originDelay;
@@ -71,7 +70,12 @@ public class LongRange_1 : MonsterBase_1, IObjectPooling
 
     public void ExecuteAtk()
     {
-        PullOutObject();
+        Vector3 launchAngle = _target.transform.position - transform.position;
+        LaunchData launchData = new LaunchData(launchAngle, _firePos.position, _stat.damage, 2.0f);
+        VFXPool projectile = _projectilePool.PullOutObject();
+
+        projectile.gameObject.SetActive(true);
+        projectile.SetPoolData(launchData);
     }
 
     public void EndAttack()
@@ -91,40 +95,5 @@ public class LongRange_1 : MonsterBase_1, IObjectPooling
         }
 
         _stat.actDelay -= Time.deltaTime;
-    }
-
-    public void PullOutObject()
-    {
-        if (_poolCount == _projectile.Count)
-        {
-            AddObject();
-        }
-
-        for (int i = 0; i < _projectile.Count; i++)
-        {
-            if (!_projectile[i].gameObject.activeSelf)
-            {
-                Vector3 launchAngle = _target.transform.position - transform.position;
-                LaunchData launchData = new LaunchData(launchAngle, _firePos.position, _stat.damage, 2.0f);
-
-                _projectile[i].gameObject.SetActive(true);
-                _projectile[i].SetPoolData(launchData);
-                _poolCount++;
-                break;
-            }
-        }
-    }
-
-    public void AddObject()
-    {
-        VFXPool projectile = Instantiate(_projectile[0], _firePos.position, Quaternion.identity);
-
-        projectile.gameObject.SetActive(false);
-        _projectile.Add(projectile);
-    }
-
-    public void ReturnObject()
-    {
-        _poolCount--;
     }
 }

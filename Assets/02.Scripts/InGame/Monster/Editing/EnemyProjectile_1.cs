@@ -34,7 +34,6 @@ public class EnemyProjectile_1 : VFXPool
     private void Awake()
     {
         _rbody = GetComponent<Rigidbody>();
-        _pooling = _objectPoolManager.GetComponent<IObjectPooling>();
         _coll = GetComponent<SphereCollider>();
     }
 
@@ -63,8 +62,6 @@ public class EnemyProjectile_1 : VFXPool
 
         yield return new WaitForSeconds(_explodeEffect.main.duration);
 
-        // Return to Pool
-        _pooling.ReturnObject();
         gameObject.SetActive(false);
     }
 
@@ -72,10 +69,9 @@ public class EnemyProjectile_1 : VFXPool
     {
         _launchData = data;
         transform.forward = data.launchAngle;
-        _rbody.position = data.position;
+        transform.position = data.position;
 
         _coll.enabled = true;
-        _missileObj.transform.position = _rbody.position;
         _missileObj.SetActive(true);
         _explodeEffect.gameObject.SetActive(false);
         _isLaunch = true;

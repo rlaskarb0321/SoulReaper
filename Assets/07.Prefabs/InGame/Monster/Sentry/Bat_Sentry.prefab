@@ -1336,7 +1336,7 @@ GameObject:
   - component: {fileID: 2203484406525109432}
   - component: {fileID: 4109077098165902515}
   m_Layer: 12
-  m_Name: Sentry_Bat
+  m_Name: Bat_Sentry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1487,7 +1487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stat:
-    health: 100
+    health: 60
     damage: 10
     rotSpeed: 3.5
     movSpeed: 3
@@ -1506,7 +1506,17 @@ MonoBehaviour:
   _monsterType: {fileID: 4109077098165902515}
   _nav: {fileID: 0}
   _animator: {fileID: 0}
-  _projectile: []
+  _projectile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _projectileParent: {fileID: 0}
   _firePos: {fileID: 5257809215316306469}
   _poolCount: 0
 --- !u!114 &4109077098165902515
