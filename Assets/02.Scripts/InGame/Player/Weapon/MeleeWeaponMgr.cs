@@ -97,8 +97,8 @@ public class MeleeWeaponMgr : MonoBehaviour
             }
             else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
             {
-                EnemyProjectile projectile = _hitEnemiesList[i].GetComponent<EnemyProjectile>();
-                projectile.AllowBaseballHit(_combat.transform.forward);
+                EnemyProjectile_1 projectile = _hitEnemiesList[i].GetComponent<EnemyProjectile_1>();
+                projectile.ReflectProjectile(_combat.transform.forward);
                 _hitEnemiesList.Remove(_hitEnemiesList[i]);
             }
         }

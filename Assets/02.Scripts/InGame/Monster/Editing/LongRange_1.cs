@@ -7,6 +7,7 @@ public class LongRange_1 : MonsterBase_1
     [Header("=== Long Range & Object Pool ===")]
     public ObjectPooling _projectilePool;
     public Transform _firePos;
+    public float _projectileSpeed;
 
     private bool _needAiming;
     private float _originDelay;
@@ -71,7 +72,7 @@ public class LongRange_1 : MonsterBase_1
     public void ExecuteAtk()
     {
         Vector3 launchAngle = _target.transform.position - transform.position;
-        LaunchData launchData = new LaunchData(launchAngle, _firePos.position, _stat.damage, 2.0f);
+        LaunchData launchData = new LaunchData(launchAngle, _firePos.position, _stat.damage, _projectileSpeed);
         VFXPool projectile = _projectilePool.PullOutObject();
 
         projectile.gameObject.SetActive(true);

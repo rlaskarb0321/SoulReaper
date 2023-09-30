@@ -23,27 +23,35 @@ public class EnemyProjectile_1 : VFXPool
 {
     public ParticleSystem _explodeEffect;
     public GameObject _missileObj;
+    public float _lifeTime;
+    public bool _isReflected;
     [HideInInspector] public LaunchData _launchData;
 
     private bool _isLaunch;
+    private float _originLifeTime;
     private SphereCollider _coll;
     private Rigidbody _rbody;
-    private Vector3 _originPos;
-    private Vector3 _originScale;
 
     private void Awake()
     {
         _rbody = GetComponent<Rigidbody>();
         _coll = GetComponent<SphereCollider>();
-    }
 
-    private void Start()
-    {
-        _originPos = transform.localPosition;
-        _originScale = transform.localScale;
+        _originLifeTime = _lifeTime;
     }
 
     private void Update()
+    {
+        if (_lifeTime <= 0.0f)
+        {
+            StartCoroutine(Explosion());
+            return;
+        }
+        
+        _lifeTime -= Time.deltaTime;
+    }
+
+    private void FixedUpdate()
     {
         if (!_isLaunch)
             return;
@@ -59,6 +67,7 @@ public class EnemyProjectile_1 : VFXPool
         _explodeEffect.transform.position = transform.position;
         _explodeEffect.gameObject.SetActive(true);
         _coll.enabled = false;
+        _lifeTime = _originLifeTime;
 
         yield return new WaitForSeconds(_explodeEffect.main.duration);
 
@@ -77,14 +86,43 @@ public class EnemyProjectile_1 : VFXPool
         _isLaunch = true;
     }
 
+    public void ReflectProjectile(Vector3 hitDir)
+    {
+        float hitMovSpeed = _launchData.speed * 4.0f;
+
+        _lifeTime = _originLifeTime;
+        _isReflected = true;
+        transform.forward = hitDir;
+        _launchData.speed = hitMovSpeed;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        // 플레이어가 반사시켰을 때
+        if (_isReflected)
+        {
+            // 몬스터와 충돌
+            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                MonsterBase_1 monster = other.GetComponent<MonsterBase_1>();
+                monster.DecreaseHP(_launchData.damage);
+                StartCoroutine(Explosion());
+            }
+            // 땅과 충돌
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                StartCoroutine(Explosion());
+            }
+        }
+
+        // 플레이어와 충돌
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
         {
             PlayerStat player = other.GetComponent<PlayerStat>();
             player.DecreaseHP(transform.forward, _launchData.damage);
             StartCoroutine(Explosion());
         }
+        // 땅과 충돌
         else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             StartCoroutine(Explosion());

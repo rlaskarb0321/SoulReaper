@@ -34064,6 +34064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explodeEffect: {fileID: 8329570875031682749}
   _missileObj: {fileID: 8329570875703556486}
+  _lifeTime: 12
   _launchData:
     launchAngle: {x: 0, y: 0, z: 0}
     position: {x: 0, y: 0, z: 0}

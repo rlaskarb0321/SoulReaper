@@ -1506,19 +1506,9 @@ MonoBehaviour:
   _monsterType: {fileID: 4109077098165902515}
   _nav: {fileID: 0}
   _animator: {fileID: 0}
-  _projectile:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _projectileParent: {fileID: 0}
+  _projectilePool: {fileID: 0}
   _firePos: {fileID: 5257809215316306469}
-  _poolCount: 0
+  _projectileSpeed: 4
 --- !u!114 &4109077098165902515
 MonoBehaviour:
   m_ObjectHideFlags: 0
