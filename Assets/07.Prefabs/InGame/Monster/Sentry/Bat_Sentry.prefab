@@ -1330,9 +1330,7 @@ GameObject:
   - component: {fileID: 5257809214770066261}
   - component: {fileID: 5257809214779415735}
   - component: {fileID: 5257809215201469510}
-  - component: {fileID: 5549047504258749632}
-  - component: {fileID: 4596764427631698717}
-  - component: {fileID: 4536693116096592920}
+  - component: {fileID: 2909028144428227018}
   - component: {fileID: 2203484406525109432}
   - component: {fileID: 4109077098165902515}
   m_Layer: 12
@@ -1403,8 +1401,8 @@ NavMeshAgent:
   m_BaseOffset: 0.74
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!136 &5549047504258749632
-CapsuleCollider:
+--- !u!65 &2909028144428227018
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1413,67 +1411,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.35
-  m_Height: 1.5
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.12, z: 0}
---- !u!114 &4596764427631698717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5257809214769901429}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d96ed0a3ccc877842a1bdf8b81aafdaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
-  _nav: {fileID: 0}
-  _mesh: {fileID: 0}
-  _stat:
-    health: 100
-    damage: 0
-    rotSpeed: 3.5
-    movSpeed: 2.5
-    isInitiator: 1
-    traceDist: 12
-    attakDist: 9
-    actDelay: 3.2
-  _currHp: 0
-  _isAtk: 0
-  _isIdle: 0
-  _hitMats:
-  - {fileID: 2100000, guid: 66bfedde0e774294cafa3d62f8d6d75d, type: 2}
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  _bodyBuryTime: 2.5
-  _deadMat: {fileID: 2100000, guid: b2594f4abf7bc744385e18b33f586cc4, type: 2}
-  _waveMonster: {fileID: 0}
-  _projectile: {fileID: 1490659678486382040, guid: d615199ea05b1554fa8ccaa571d65d98,
-    type: 3}
-  _firePos: {fileID: 5257809215316306469}
-  _knockBackFrame: 15
-  _brain: {fileID: 0}
---- !u!114 &4536693116096592920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5257809214769901429}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eadbfec748da55c4bb338cc197595550, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _randomMinScoutIdle: -1.2
-  _randomMaxScoutIdle: 1.2
-  _isTargetConfirm: 0
-  _targetTr: {fileID: 0}
-  _isSetPatrolPos: 0
-  _isDef: 0
-  _fsm: 0
+  serializedVersion: 2
+  m_Size: {x: 0.7151816, y: 1.8736796, z: 1}
+  m_Center: {x: 0.0036087632, y: 0.18370628, z: 9.358044e-12}
 --- !u!114 &2203484406525109432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1487,7 +1427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stat:
-    health: 60
+    health: 40
     damage: 10
     rotSpeed: 3.5
     movSpeed: 3

@@ -77,6 +77,7 @@ public class SentryMonster : MonsterType
     public override void Trace()
     {
         float distance = Vector3.Distance(transform.position, _monsterBase._target.transform.position);
+        //print(gameObject.name);
         if (distance >= _missTargetDist)
         {
             _monsterBase._target = null;

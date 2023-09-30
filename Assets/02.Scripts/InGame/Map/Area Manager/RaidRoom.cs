@@ -13,7 +13,7 @@ public class RaidRoom : QuestRoom
 
     [Header("=== Raid Room ===")]
     public RaidWave[] _waves;
-    public MonsterBase[] _monsters;
+    public MonsterBase_1[] _monsters;
     public int _currWave = 0;
 
     // 웨이브 격퇴를 기록, 모든 웨이브가 격퇴되면 해당 방의 퀘스트 완료

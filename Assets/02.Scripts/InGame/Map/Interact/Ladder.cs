@@ -18,13 +18,14 @@ public class Ladder : MonoBehaviour, IInteractable
             return;
 
         // 위에 배치된 입장 위치의 y값 보다 플레이어의 y값이 높으면 다 올라왔음 판정
-        if (_player.transform.position.y > _entryPos[(int)eTriggerPos.Up].position.y)
+        if (_player.transform.position.y > _triggers[(int)eTriggerPos.Up].position.y)
         {
+            //print("player : " + _player.transform.position.y + "up : " + _entryPos[(int)eTriggerPos.Up].position.y);
             _player.ClimbDown(eTriggerPos.Up);
         }
 
         // 아래에 배치된 입장 위치의 y값 보다 플레이어의 y값이 낮으면 다 내려옴 판정
-        if (_player.transform.position.y < _entryPos[(int)eTriggerPos.Down].position.y)
+        if (_player.transform.position.y < _triggers[(int)eTriggerPos.Down].position.y)
         {
             _player.ClimbDown(eTriggerPos.Down);
         }

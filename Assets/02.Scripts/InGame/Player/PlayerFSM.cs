@@ -17,6 +17,7 @@ public class PlayerFSM : MonoBehaviour
 
     Animator _animator;
     Rigidbody _rbody;
+    PlayerMove_1 _move;
     PlayerCombat _combat;
     FallBehaviour _fallBehaviour;
 
@@ -34,6 +35,7 @@ public class PlayerFSM : MonoBehaviour
     {
         _state = eState.Idle;
 
+        _move = GetComponent<PlayerMove_1>();
         _rbody = GetComponent<Rigidbody>();
         _combat = GetComponent<PlayerCombat>();
         _animator = GetComponent<Animator>();
@@ -73,11 +75,13 @@ public class PlayerFSM : MonoBehaviour
         if (_hitDelay > 0.0f)
         {
             // _rbody.addforce
+            _rbody.isKinematic = false;
             _rbody.MovePosition(_rbody.position + _atkDir * Time.deltaTime * Mathf.Pow(50448.5f, _hitDelay * 0.15f));
             _hitDelay -= Time.deltaTime;
             return;
         }
 
+        _move.ClimbDown();
         _animator.SetTrigger(_hashGetUP);
         _hitDelay = _originHitDelayValue;
         _state = eState.Idle;

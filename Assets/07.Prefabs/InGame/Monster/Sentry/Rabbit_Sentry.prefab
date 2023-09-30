@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stat:
-    health: 100
+    health: 60
     damage: 10
     rotSpeed: 3.6
     movSpeed: 3.3

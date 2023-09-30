@@ -43,18 +43,6 @@ public class MonsterBase_1 : MonoBehaviour
 
     protected virtual void Awake()
     {
-        //if (_waveMonster == null && _sentryMonster == null)
-        //{
-        //    Debug.LogError(gameObject.name + "오브젝트의 초병 또는 웨이브 등 몬스터 형식을 지정하지 않음");
-        //    return;
-        //}
-
-        //if ((_waveMonster != null && _sentryMonster != null))
-        //{
-        //    Debug.LogError(gameObject.name + "오브젝트의 초병 또는 웨이브 등 몬스터 형식은 하나만 지정해야 함");
-        //    return;
-        //}
-
         if (_monsterType == null)
         {
             Debug.LogError(gameObject.name + "오브젝트의 초병 또는 웨이브 등 몬스터 형식을 지정하지 않음");
@@ -117,7 +105,7 @@ public class MonsterBase_1 : MonoBehaviour
 
         newMat = _hitMats[1];
         _mesh.material = newMat;
-        yield return new WaitForSeconds(Time.deltaTime * 12.0f);
+        yield return new WaitForSeconds(Time.deltaTime * 6.0f);
 
         newMat = _hitMats[0];
         _mesh.material = newMat;
@@ -134,6 +122,7 @@ public class MonsterBase_1 : MonoBehaviour
         _nav.velocity = Vector3.zero;
         _nav.isStopped = true;
         _nav.baseOffset = 0.0f;
+        _nav.enabled = false;
         _animator.SetTrigger(_hashDead);
 
         StartCoroutine(OnMonsterDead());

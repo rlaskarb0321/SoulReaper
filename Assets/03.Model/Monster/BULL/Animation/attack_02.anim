@@ -78931,14 +78931,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.06666667
-    functionName: SwitchNeedTrace
+    functionName: SwitchNeedAiming
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
   - time: 0.3
-    functionName: SwitchNeedTrace
+    functionName: SwitchNeedAiming
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -78958,8 +78958,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.3
-    functionName: SearchTarget
+  - time: 1.1666666
+    functionName: MakingComboAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

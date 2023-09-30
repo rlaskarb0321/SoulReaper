@@ -1375,20 +1375,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &2075388990
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3432847142717208332}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.64
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!195 &2075388988
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1418,7 +1404,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3432847142717208332}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c02e40a1d2c486a4685dd13cc4c3744f, type: 3}
   m_Name: 
@@ -1451,22 +1437,35 @@ MonoBehaviour:
   - {fileID: 1766812906}
   - {fileID: 1359765476}
   _state: 0
---- !u!114 &2075388992
+--- !u!114 &1065296634430429740
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3432847142717208332}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eadbfec748da55c4bb338cc197595550, type: 3}
+  m_Script: {fileID: 11500000, guid: fee8d32670f9ca849ad5c454d0eb4e0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _randomMinScoutIdle: 0
-  _randomMaxScoutIdle: 0.1
-  _isTargetConfirm: 0
-  _targetTr: {fileID: 0}
-  _isSetPatrolPos: 0
-  _isDef: 0
-  _fsm: 0
+  _stat:
+    health: 10
+    damage: 20
+    rotSpeed: 10
+    movSpeed: 6
+    isInitiator: 1
+    traceDist: 200
+    attakDist: 3.2
+    actDelay: 1.2
+  _currHp: 0
+  _state: 0
+  _target: {fileID: 0}
+  _hitMats:
+  - {fileID: 2100000, guid: 2adcd0740dbab9543950e17d5421900e, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  _bodyBuryTime: 3.5
+  _deadMat: {fileID: 2100000, guid: 7f1ae4b2aeeafde4494403d290913507, type: 2}
+  _monsterType: {fileID: 0}
+  _nav: {fileID: 0}
+  _animator: {fileID: 0}

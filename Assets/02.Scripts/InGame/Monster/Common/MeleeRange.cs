@@ -8,8 +8,8 @@ public class MeleeRange : MonsterBase_1
     public BoxCollider _attackCollObj;
 
     private bool _needAiming;
-    private float _originDelay;
-    private readonly int _hashAttack = Animator.StringToHash("Attack");
+    protected float _originDelay;
+    protected readonly int _hashAttack = Animator.StringToHash("Attack");
 
     protected override void Start()
     {
@@ -18,7 +18,7 @@ public class MeleeRange : MonsterBase_1
         _originDelay = _stat.actDelay;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (_state == MonsterBase_1.eMonsterState.Dead)
             return;

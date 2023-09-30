@@ -19,7 +19,7 @@ public struct LaunchData
     }
 }
 
-public class EnemyProjectile_1 : VFXPool
+public class EnemyProjectile : VFXPool
 {
     public ParticleSystem _explodeEffect;
     public GameObject _missileObj;
@@ -80,6 +80,7 @@ public class EnemyProjectile_1 : VFXPool
         transform.forward = data.launchAngle;
         transform.position = data.position;
 
+        _isReflected = false;
         _coll.enabled = true;
         _missileObj.SetActive(true);
         _explodeEffect.gameObject.SetActive(false);

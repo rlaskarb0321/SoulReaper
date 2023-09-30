@@ -14,10 +14,6 @@ public class Bull : MonsterBase
     public SphereCollider[] _weaponColl;
     public eBossState _state;
 
-    // MonsterAI 사용하는 스크립트
-    //private MonsterAI _brain;
-    //private int _comboCount;
-
     private float _currDelay;
     private bool _needTrace;
 
@@ -31,9 +27,6 @@ public class Bull : MonsterBase
     protected override void Awake()
     {
         base.Awake();
-
-        // MonsterAI 사용하는 스크립트
-        //_brain = GetComponent<MonsterAI>();
     }
 
     protected override void Start()
