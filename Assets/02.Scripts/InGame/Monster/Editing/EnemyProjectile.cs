@@ -124,7 +124,7 @@ public class EnemyProjectile : VFXPool
             StartCoroutine(Explosion());
         }
         // ¶¥°ú Ãæµ¹
-        else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Ground") || other.gameObject.CompareTag("Wall"))
         {
             StartCoroutine(Explosion());
         }
