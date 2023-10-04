@@ -121,7 +121,7 @@ public class Bull_1 : MeleeRange
             _weaponColl[i].enabled = false;
         }
 
-        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<CapsuleCollider>().enabled = false;
         _nav.enabled = false;
         _currHp = 0.0f;
         _animator.SetTrigger(_hashDead);

@@ -7,6 +7,7 @@ using UnityEngine.Playables;
 public class HallMgr : MonoBehaviour
 {
     public GameObject[] _unSealTriggers;
+    public GameObject _firstMeet;
 
     public void SetUnSealTrigger(int index)
     {
@@ -26,5 +27,10 @@ public class HallMgr : MonoBehaviour
         }
 
         _unSealTriggers[index].gameObject.SetActive(true);
+    }
+
+    public void SetOffFirstMeet()
+    {
+        _firstMeet.SetActive(false);
     }
 }

@@ -14,6 +14,7 @@ public class WaveMonster : MonsterType
 
     protected virtual void Awake()
     {
+        _monsterBase._stat.traceDist = 150.0f;
         _monsterBase._target = SearchTarget();
     }
 

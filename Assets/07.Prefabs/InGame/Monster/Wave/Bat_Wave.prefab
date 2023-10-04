@@ -1398,7 +1398,7 @@ NavMeshAgent:
   m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1.87
-  m_BaseOffset: 0.74
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!136 &5549047504258749632
@@ -1412,9 +1412,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.35
-  m_Height: 1.5
+  m_Height: 1.94
   m_Direction: 1
-  m_Center: {x: 0, y: -0.12, z: 0}
+  m_Center: {x: 0, y: 0.84, z: 0}
 --- !u!114 &2203484406525109432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1437,7 +1437,7 @@ MonoBehaviour:
     attakDist: 9
     actDelay: 3.2
   _currHp: 0
-  _state: 1
+  _state: 2
   _target: {fileID: 0}
   _hitMats:
   - {fileID: 2100000, guid: 66bfedde0e774294cafa3d62f8d6d75d, type: 2}

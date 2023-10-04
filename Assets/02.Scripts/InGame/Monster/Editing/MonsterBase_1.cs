@@ -116,7 +116,7 @@ public class MonsterBase_1 : MonoBehaviour
     /// </summary>
     public virtual void Dead()
     {
-        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<CapsuleCollider>().enabled = false;
 
         _state = eMonsterState.Dead;
         _nav.velocity = Vector3.zero;
