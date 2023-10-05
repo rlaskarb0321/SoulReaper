@@ -641,6 +641,7 @@ MonoBehaviour:
   m_Time: 0
   _dialogCSV: {fileID: 4900000, guid: c8b87f0871712ba4da3dc6f5897f155f, type: 3}
   _letteringSpeed: 0.12
+  _dialogType: 2
 --- !u!74 &-2145232793393990367
 AnimationClip:
   m_ObjectHideFlags: 0

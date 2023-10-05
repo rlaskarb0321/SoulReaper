@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class PlayableTrigger : MonoBehaviour
+public class TimelineTrigger : MonoBehaviour
 {
     private PlayableDirector _playableDirector;
 
