@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
 
+// 이 스크립트는 현재 보스의 파티참여 권유에 대해서만 국한되어있음
+// 만일 다른 a, b, c 선택지 또는 플레이어의 입력값 받기 혹은 다른 상황같은 경우에는 이 스크립트를 확장하면 된다.
 public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
 {
     [Header("=== On/Off GameObject ===")]
@@ -141,16 +143,23 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
             if (_dialogMarker._dialogType == DialogMarker.eDialogType.Selection)
             {
                 // 여기에 선택지 추가와 값 할당하는 메서드 작성
-                SelectionDialog(_dialogMarker._dialogCSV);
+                ShowSelection(_dialogMarker._dialogCSV_1[0]);
             }
             else
             {
-                StartCoroutine(StartDialog(_dialogMarker._dialogCSV, _speakerText[(int)_dialogMarker._dialogType], _dialogText[(int)_dialogMarker._dialogType]));
+                int index = 0;
+                if (DialogMgr._isPartySelect)
+                {
+                    print("hi");
+                    index = DialogMgr._isSelectPartyYes ? 0 : 1;
+                }
+
+                StartCoroutine(StartDialog(_dialogMarker._dialogCSV_1[index], _speakerText[(int)_dialogMarker._dialogType], _dialogText[(int)_dialogMarker._dialogType]));
             }
         }
     }
 
-    private void SelectionDialog(TextAsset text)
+    private void ShowSelection(TextAsset text)
     {
         int totalLength = _selectionContents.transform.childCount; // 기존 스크롤뷰 콘텐츠의 자식 오브젝트로 있는 비활성화 오브젝트의 갯수
         string[] lines = text.text.Split('\n');
@@ -170,7 +179,12 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
             string content = line[1];
 
             selection.RemoveAllListenerSelection();
-            selection.AddListenerSelection(() => SetTimelinePlay(true, DialogMarker.eDialogType.Selection));
+            selection.AddListenerSelection(() =>
+            {
+                SetTimelinePlay(true, DialogMarker.eDialogType.Selection);
+                DialogMgr._isSelectPartyYes = selection._isYes;
+                DialogMgr._isPartySelect = true;
+            });
             selection.InputSelectionData(content);
         }
     }

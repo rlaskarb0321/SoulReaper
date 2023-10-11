@@ -90,7 +90,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Time: 3.5
   _dialogCSV: {fileID: 4900000, guid: 1fd8b53ed1b381045a9b12cc578ab95c, type: 3}
+  _dialogCSV_1:
+  - {fileID: 4900000, guid: 1fd8b53ed1b381045a9b12cc578ab95c, type: 3}
+  - {fileID: 0}
   _letteringSpeed: 0.12
+  _dialogType: 0
 --- !u!114 &-1108602907332708840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,7 +153,25 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -242,25 +264,7 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

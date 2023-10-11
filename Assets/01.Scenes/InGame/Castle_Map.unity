@@ -39974,7 +39974,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.5418228, y: -0.000000027090374, z: 0.000000030669117, w: 0.840491}
+  m_LocalRotation: {x: 0.5418228, y: -0.000000027090374, z: 0.000000030669117, w: 0.8404928}
   m_LocalPosition: {x: 40.26, y: 31.413475, z: 21.975111}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -40411,6 +40411,7 @@ MonoBehaviour:
   _selectImg: {fileID: 1008410977}
   _selectionText: {fileID: 37994136}
   _btn: {fileID: 0}
+  _isYes: 1
 --- !u!114 &975574536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43956,6 +43957,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1066930831}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1072977141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1072977142}
+  m_Layer: 0
+  m_Name: Dialog Selection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1072977142
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072977141}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1073705408
 GameObject:
   m_ObjectHideFlags: 0
@@ -48609,6 +48641,7 @@ MonoBehaviour:
   _selectImg: {fileID: 427025285}
   _selectionText: {fileID: 1979271913}
   _btn: {fileID: 0}
+  _isYes: 0
 --- !u!114 &1179368336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49001,6 +49034,7 @@ MonoBehaviour:
   _selectImg: {fileID: 1535568920}
   _selectionText: {fileID: 862981694}
   _btn: {fileID: 0}
+  _isYes: 0
 --- !u!114 &1184034535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52024,6 +52058,7 @@ MonoBehaviour:
   _selectImg: {fileID: 1619642102}
   _selectionText: {fileID: 127387978}
   _btn: {fileID: 0}
+  _isYes: 0
 --- !u!114 &1244834555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61194,7 +61229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1385096636}
   m_Layer: 5
-  m_Name: Player Dialog Selec
+  m_Name: Player Dialog Selec Y/N
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73506,6 +73541,7 @@ MonoBehaviour:
   _selectImg: {fileID: 1616302870}
   _selectionText: {fileID: 279784139}
   _btn: {fileID: 0}
+  _isYes: 0
 --- !u!114 &1694962381
 MonoBehaviour:
   m_ObjectHideFlags: 0
