@@ -471,6 +471,7 @@ MonoBehaviour:
   _deadMat: {fileID: 2100000, guid: d4a6e8950aaad2448b5aa446a0f4fced, type: 2}
   _monsterType: {fileID: 4875606739295224897}
   _nav: {fileID: 0}
+  _mesh: {fileID: 0}
   _animator: {fileID: 0}
   _attackCollObj: {fileID: 6347244888392554632}
 --- !u!114 &4875606739295224897
@@ -486,6 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waveMaster: {fileID: 0}
+  _dissolveMat: {fileID: 2100000, guid: ae5e5cf948487ed45bac6928bf37e4bf, type: 2}
   _monsterBase: {fileID: 3490945325151847049}
 --- !u!1 &8312964977247040741
 GameObject:
@@ -665,7 +667,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 90408e15610415d439be9d498e36cd4d, type: 2}
+  - {fileID: 2100000, guid: ae5e5cf948487ed45bac6928bf37e4bf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

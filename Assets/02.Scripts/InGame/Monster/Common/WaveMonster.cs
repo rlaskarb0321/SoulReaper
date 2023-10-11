@@ -6,6 +6,7 @@ public class WaveMonster : MonsterType
 {
     [Header("=== Wave ===")]
     public RaidWave _waveMaster;
+    public Material _dissolveMat;
 
     [Header("=== MonsterBase ===")]
     public MonsterBase_1 _monsterBase;
@@ -65,5 +66,25 @@ public class WaveMonster : MonsterType
         _waveMaster.DecreaseMonsterCount();
     }
 
-    public void SetWaveMonsterAIActive() => _monsterBase._nav.enabled = true;
+    public IEnumerator DissolveAppear()
+    {
+        Material newMat = Instantiate(_dissolveMat);
+        float dissolveAmount = newMat.GetFloat("_DissolveAmount");
+
+        while (dissolveAmount >= 0.0f)
+        {
+            dissolveAmount -= 0.0015f;
+            if (dissolveAmount <= 0.0f)
+            {
+                dissolveAmount = 0.0f;
+                break;
+            }
+
+            newMat.SetFloat("_DissolveAmount", dissolveAmount);
+            _monsterBase._mesh.material = newMat;
+            yield return null;
+        }
+
+        
+    }
 }

@@ -117,7 +117,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 66bfedde0e774294cafa3d62f8d6d75d, type: 2}
+  - {fileID: 2100000, guid: 157dda7b7a2211749b4825603384a93e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1367,7 +1367,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5257809214769901429}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 59afa1f2c595d6343b15e945602e1f8f, type: 3}
   m_Controller: {fileID: 9100000, guid: 246a247028085944c84280054a49ba69, type: 2}
   m_CullingMode: 1
@@ -1386,7 +1386,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5257809214769901429}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.6
   m_Speed: 4.2
@@ -1410,7 +1410,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 5257809214769901429}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.35
   m_Height: 1.94
   m_Direction: 1
@@ -1446,6 +1446,7 @@ MonoBehaviour:
   _deadMat: {fileID: 2100000, guid: b2594f4abf7bc744385e18b33f586cc4, type: 2}
   _monsterType: {fileID: -6396805982392071501}
   _nav: {fileID: 0}
+  _mesh: {fileID: 0}
   _animator: {fileID: 0}
   _projectilePool: {fileID: 0}
   _firePos: {fileID: 5257809215316306469}
@@ -1463,6 +1464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waveMaster: {fileID: 0}
+  _dissolveMat: {fileID: 2100000, guid: 157dda7b7a2211749b4825603384a93e, type: 2}
   _monsterBase: {fileID: 2203484406525109432}
 --- !u!1 &5257809214769901431
 GameObject:
