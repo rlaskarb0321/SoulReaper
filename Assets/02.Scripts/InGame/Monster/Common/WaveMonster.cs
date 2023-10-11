@@ -45,6 +45,9 @@ public class WaveMonster : MonsterType
 
     public override void Trace()
     {
+        if (!_monsterBase._nav.enabled)
+            return;
+
         float distance = Vector3.Distance(transform.position, _monsterBase._target.transform.position);
         if (distance <= _monsterBase._stat.attakDist)
         {
@@ -61,4 +64,6 @@ public class WaveMonster : MonsterType
         _isAlert = true;
         _waveMaster.DecreaseMonsterCount();
     }
+
+    public void SetWaveMonsterAIActive() => _monsterBase._nav.enabled = true;
 }

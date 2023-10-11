@@ -60,6 +60,7 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
         string[] lines = text.text.Split('\n'); // CSV 파일 한줄한줄씩 저장
         int index = 1;
         StringBuilder letterSb = new StringBuilder();
+        _isEndDialog = false;
 
         // CSV 파일의 총 대화 라인 수 만큼 반복
         while (index < lines.Length)
@@ -150,8 +151,8 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
                 int index = 0;
                 if (DialogMgr._isPartySelect)
                 {
-                    print("hi");
                     index = DialogMgr._isSelectPartyYes ? 0 : 1;
+                    DialogMgr._isPartySelect = false;
                 }
 
                 StartCoroutine(StartDialog(_dialogMarker._dialogCSV_1[index], _speakerText[(int)_dialogMarker._dialogType], _dialogText[(int)_dialogMarker._dialogType]));

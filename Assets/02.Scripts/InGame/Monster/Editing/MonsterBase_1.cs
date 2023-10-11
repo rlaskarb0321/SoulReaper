@@ -66,10 +66,10 @@ public class MonsterBase_1 : MonoBehaviour
     /// <param name="movSpeed">목표로 향하는 이동 속도</param>
     public virtual void Move(Vector3 pos, float movSpeed)
     {
-        if (_nav.pathPending)
-        {
+        if (!_nav.enabled)
             return;
-        }
+        if (_nav.pathPending)
+            return;
 
         _animator.SetBool(_hashMove, true);
         _nav.isStopped = false;

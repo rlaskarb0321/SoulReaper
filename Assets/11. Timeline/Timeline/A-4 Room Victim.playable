@@ -638,8 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9aa3794a9d3b0e45a3099d4b5323d5b, type: 3}
   m_Name: Testing Marker
   m_EditorClassIdentifier: 
-  m_Time: 0
-  _dialogCSV: {fileID: 4900000, guid: c8b87f0871712ba4da3dc6f5897f155f, type: 3}
+  m_Time: 0.016666666666666666
   _dialogCSV_1:
   - {fileID: 4900000, guid: c8b87f0871712ba4da3dc6f5897f155f, type: 3}
   - {fileID: 0}

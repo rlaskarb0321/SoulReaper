@@ -7,6 +7,7 @@ public class RaidWave : MonoBehaviour
     public RaidRoom _raidRoom;
     public int _waveIndex;
     public int _monsterCount;
+    public WaveMonster[] _monsters;
 
     private void Awake()
     {
