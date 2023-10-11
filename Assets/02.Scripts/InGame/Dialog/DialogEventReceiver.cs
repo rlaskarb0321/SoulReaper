@@ -11,6 +11,9 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
     [SerializeField] private GameObject[] _dialogUI;
     [SerializeField] private GameObject _nextDialogBtn;
 
+    [Header("=== Selection Dialog ===")]
+    [SerializeField] private GameObject _selectionContents;
+
     [Header("=== Text ===")]
     [SerializeField] private Text[] _speakerText;
     [SerializeField] private Text[] _dialogText;
@@ -77,7 +80,6 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
                 speakerText.text = speaker;
             }
 
-            // 여기에 Selection 과 Normal 분기점, 대화선택문 OnOff 관련
             // 대화문을 한 글자씩 출력
             while (letteringIndex < dialog.Length)
             {
@@ -136,7 +138,40 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
         else
         {
             _playable.Pause();
-            StartCoroutine(StartDialog(_dialogMarker._dialogCSV, _speakerText[(int)_dialogMarker._dialogType], _dialogText[(int)_dialogMarker._dialogType]));
+            if (_dialogMarker._dialogType == DialogMarker.eDialogType.Selection)
+            {
+                // 여기에 선택지 추가와 값 할당하는 메서드 작성
+                SelectionDialog(_dialogMarker._dialogCSV);
+            }
+            else
+            {
+                StartCoroutine(StartDialog(_dialogMarker._dialogCSV, _speakerText[(int)_dialogMarker._dialogType], _dialogText[(int)_dialogMarker._dialogType]));
+            }
+        }
+    }
+
+    private void SelectionDialog(TextAsset text)
+    {
+        int totalLength = _selectionContents.transform.childCount; // 기존 스크롤뷰 콘텐츠의 자식 오브젝트로 있는 비활성화 오브젝트의 갯수
+        string[] lines = text.text.Split('\n');
+        int selectionCount = lines.Length - 1; // 대화 선택지의 개수
+        int startIndex = 1; // csv 에서 시작라인
+
+        for (int i = startIndex; i < lines.Length; i++)
+        {
+            DialogSelection selection = _selectionContents.transform.GetChild(i - 1).GetComponent<DialogSelection>();
+
+            if (!_selectionContents.transform.GetChild(i - 1).gameObject.activeSelf)
+                _selectionContents.transform.GetChild(i - 1).gameObject.SetActive(true);
+            if (i == startIndex)
+                selection._btn.Select();
+
+            string[] line = lines[i].Split(',');
+            string content = line[1];
+
+            selection.RemoveAllListenerSelection();
+            selection.AddListenerSelection(() => SetTimelinePlay(true, DialogMarker.eDialogType.Selection));
+            selection.InputSelectionData(content);
         }
     }
 }
