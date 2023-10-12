@@ -428,7 +428,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 7.3333335
+  - time: 6.1833334
     functionName: SetMonsterAIOn
     data: 
     objectReferenceParameter: {fileID: 0}
