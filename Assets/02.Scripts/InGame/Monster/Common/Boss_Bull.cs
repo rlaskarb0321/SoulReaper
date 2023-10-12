@@ -12,6 +12,9 @@ public class Boss_Bull : WaveMonster
 
     public override void Trace()
     {
+        if (!_monsterBase._nav.enabled)
+            return;
+
         float distance = Vector3.Distance(transform.position, _monsterBase._target.transform.position);
 
         _monsterBase._animator.SetBool(_hashRun, true);

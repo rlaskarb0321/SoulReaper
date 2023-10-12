@@ -7,6 +7,7 @@ public class WaveMonster : MonsterType
     [Header("=== Wave ===")]
     public RaidWave _waveMaster;
     public Material _dissolveMat;
+    public float _dissolveAmount;
 
     [Header("=== MonsterBase ===")]
     public MonsterBase_1 _monsterBase;
@@ -73,7 +74,7 @@ public class WaveMonster : MonsterType
 
         while (dissolveAmount >= 0.0f)
         {
-            dissolveAmount -= 0.0015f;
+            dissolveAmount -= _dissolveAmount;
             if (dissolveAmount <= 0.0f)
             {
                 dissolveAmount = 0.0f;

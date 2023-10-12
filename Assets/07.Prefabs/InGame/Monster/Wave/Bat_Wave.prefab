@@ -105,7 +105,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5257809214769901315}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1465,6 +1465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waveMaster: {fileID: 0}
   _dissolveMat: {fileID: 2100000, guid: 157dda7b7a2211749b4825603384a93e, type: 2}
+  _dissolveAmount: 0.0015
   _monsterBase: {fileID: 2203484406525109432}
 --- !u!1 &5257809214769901431
 GameObject:

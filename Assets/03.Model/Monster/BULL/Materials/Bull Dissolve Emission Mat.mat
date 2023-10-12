@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rabbit Dissolve Emission Mat
+  m_Name: Bull Dissolve Emission Mat
   m_Shader: {fileID: 4800000, guid: f998d3b5c50b283478ecc9cce87d8e91, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -45,7 +45,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b2745c2e243d8d14d91d89302d1d301a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 681437b4ccf540441902f3923cb453f7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -76,7 +76,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DissolveAmount: 1
     - _DissolveEmission: 1
-    - _DissolveWidth: 0.0163
+    - _DissolveWidth: 0
     - _DstBlend: 0
     - _Edges: 0.1
     - _GlossMapScale: 1
@@ -95,7 +95,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DissolveColor: {r: 1, g: 0, b: 0.19651747, a: 1}
+    - _DissolveColor: {r: 0.8679245, g: 0.027839031, b: 0.15104423, a: 1}
     - _EdgeColour1: {r: 1, g: 1, b: 1, a: 1}
     - _EdgeColour2: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
