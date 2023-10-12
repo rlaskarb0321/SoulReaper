@@ -6008,7 +6008,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 159477738}
   m_LocalRotation: {x: 0.5418228, y: -0.000000027090374, z: 0.000000030669117, w: 0.8404928}
-  m_LocalPosition: {x: 6.7599993, y: -0.0000076293945, z: 6.7400208}
+  m_LocalPosition: {x: 6.76, y: 0, z: 6.7400055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6249,7 +6249,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171595524}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.53, y: 18.23, z: -242.99}
+  m_LocalPosition: {x: 19.34, y: 22.98, z: -211.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -40726,7 +40726,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.5418228, y: -0.000000027090374, z: 0.000000030669117, w: 0.8404928}
-  m_LocalPosition: {x: 11.33, y: 35.543465, z: -251.79489}
+  m_LocalPosition: {x: 19.140001, y: 40.293472, z: -220.0849}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -62226,7 +62226,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 9375167}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1383155752
+--- !u!114 &1383155757
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -62235,23 +62235,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1383155747}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77524689168301441ac4a4e12824dc25, type: 3}
+  m_Script: {fileID: 11500000, guid: b1aa306da309b2b44935b3d5756d929d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dialogUI:
-  - {fileID: 475954639}
-  - {fileID: 1385096635}
-  - {fileID: 319213160}
-  _nextDialogBtn: {fileID: 0}
-  _selectionContents: {fileID: 0}
-  _speakerText:
-  - {fileID: 329576698}
-  - {fileID: 789020006}
-  - {fileID: 0}
-  _dialogText:
-  - {fileID: 1430472708}
-  - {fileID: 0}
-  - {fileID: 1311855948}
+  _selectionUI:
+    _activateUI: {fileID: 1385096635}
+    _speaker: {fileID: 789020006}
+    _context: {fileID: 1658747787}
+    _selectionContent: {fileID: 1558614471}
+--- !u!114 &1383155758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383155747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdabef80b82e7b4c8f90107f2cfdf15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _oneWayDialogUI:
+    _activateUI: {fileID: 319213160}
+    _speaker: {fileID: 0}
+    _context: {fileID: 1311855948}
+    _selectionContent: {fileID: 0}
 --- !u!1 &1385096635
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,11 +27,13 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
     private WaitUntil _endLineWU;
     private WaitForSeconds _letteringWS;
     private PlayableDirector _playable;
+    private DialogMgr _dialogMgr;
 
     private void Awake()
     {
         _playable = GetComponent<PlayableDirector>();
         _endLineWU = new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || _timer <= 0.0f);
+        _dialogMgr = new DialogMgr();
     }
 
     private void Update()
@@ -73,7 +75,8 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
 
             speaker = line[0];
             dialog = line[1];
-            dialog = dialog.Replace('*', '\n'); // 기획자가 대사문에 특수한 의미를 갖는 기호를 넣으면 그걸 파싱과정에 반영
+            dialog = _dialogMgr.ReplaceDialogSpecialChar(dialog);
+            //dialog = dialog.Replace('*', '\n'); // 기획자가 대사문에 특수한 의미를 갖는 기호를 넣으면 그걸 파싱과정에 반영
             letterSb.Clear();
             _isEndLine = false;
 
