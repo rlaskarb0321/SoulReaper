@@ -172,24 +172,24 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
 
         for (int i = startIndex; i < lines.Length; i++)
         {
-            DialogSelection selection = _selectionContents.transform.GetChild(i - 1).GetComponent<DialogSelection>();
+            //DialogSelection selection = _selectionContents.transform.GetChild(i - 1).GetComponent<DialogSelection>();
 
-            if (!_selectionContents.transform.GetChild(i - 1).gameObject.activeSelf)
-                _selectionContents.transform.GetChild(i - 1).gameObject.SetActive(true);
-            if (i == startIndex)
-                selection._btn.Select();
+            //if (!_selectionContents.transform.GetChild(i - 1).gameObject.activeSelf)
+            //    _selectionContents.transform.GetChild(i - 1).gameObject.SetActive(true);
+            //if (i == startIndex)
+            //    selection._btn.Select();
 
-            string[] line = lines[i].Split(',');
-            string content = line[1];
+            //string[] line = lines[i].Split(',');
+            //string content = line[1];
 
-            selection.RemoveAllListenerSelection();
-            selection.AddListenerSelection(() =>
-            {
-                SetTimelinePlay(true, DialogMarker.eDialogType.Selection);
-                DialogMgr._isSelectPartyYes = selection._isYes;
-                DialogMgr._isPartySelect = true;
-            });
-            selection.InputSelectionData(content);
+            //selection.RemoveAllListenerSelection();
+            //selection.AddListenerSelection(() =>
+            //{
+            //    SetTimelinePlay(true, DialogMarker.eDialogType.Selection);
+            //    DialogMgr._isSelectPartyYes = selection._isYes;
+            //    DialogMgr._isPartySelect = true;
+            //});
+            //selection.InputSelectionData(content);
         }
     }
 }

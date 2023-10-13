@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Clips: []
   m_Markers:
     m_Objects:
-    - {fileID: -2731331471350003804}
+    - {fileID: 1692012163203907215}
 --- !u!114 &-5206555536945003801
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -76,25 +76,6 @@ MonoBehaviour:
   m_Loop: 0
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &-2731331471350003804
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9aa3794a9d3b0e45a3099d4b5323d5b, type: 3}
-  m_Name: Dialog Marker
-  m_EditorClassIdentifier: 
-  m_Time: 3.5
-  _dialogCSV: {fileID: 4900000, guid: 1fd8b53ed1b381045a9b12cc578ab95c, type: 3}
-  _dialogCSV_1:
-  - {fileID: 4900000, guid: 1fd8b53ed1b381045a9b12cc578ab95c, type: 3}
-  - {fileID: 0}
-  _letteringSpeed: 0.12
-  _dialogType: 0
 --- !u!114 &-1108602907332708840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1008,6 +989,21 @@ MonoBehaviour:
   m_Markers:
     m_Objects:
     - {fileID: 6679679320043142251}
+--- !u!114 &1692012163203907215
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 644b4012fadd01c4f82972586dfb8265, type: 3}
+  m_Name: One Way Dialog Marker
+  m_EditorClassIdentifier: 
+  m_Time: 3.5
+  _oneWayDialog: {fileID: 4900000, guid: 1fd8b53ed1b381045a9b12cc578ab95c, type: 3}
+  _letteringSpeed: 0.1
 --- !u!114 &6199026915991695322
 MonoBehaviour:
   m_ObjectHideFlags: 1

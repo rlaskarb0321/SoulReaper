@@ -43,10 +43,10 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
 
         _letteringSpeed = marker._letteringSpeed;
         _letteringWS = new WaitForSeconds(_letteringSpeed);
-        PlayDialog(lines);
+        PlayDialogType(lines);
     }
 
-    private void PlayDialog(string[] lines)
+    private void PlayDialogType(string[] lines)
     {
         _oneWayDialogUI._activateUI.gameObject.SetActive(true);
         _playable.Pause();

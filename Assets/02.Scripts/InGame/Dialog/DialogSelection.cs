@@ -9,7 +9,7 @@ public class DialogSelection : MonoBehaviour
     [SerializeField] private Image _selectImg;
     [SerializeField] private Text _selectionText;
     [HideInInspector] public Button _btn;
-    public bool _isYes;
+    public int _selectionNum; // 선택지 답변을 저장
 
     private void Awake()
     {

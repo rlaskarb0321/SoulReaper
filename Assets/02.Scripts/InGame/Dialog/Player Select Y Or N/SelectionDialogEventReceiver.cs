@@ -27,10 +27,10 @@ public class SelectionDialogEventReceiver : MonoBehaviour, INotificationReceiver
         SelectionDialogMarker marker = notification as SelectionDialogMarker;
         string[] lines = _dialogMgr.ParsingCSVLine(marker._playerSelection);
 
-        PlayDialog(lines);
+        PlayDialogType(lines);
     }
 
-    private void PlayDialog(string[] lines)
+    private void PlayDialogType(string[] lines)
     {
         int selectionIndex = Array.FindIndex(lines, line => line.Contains('#'));
         int selectionCount = lines.Length - (selectionIndex + 1);
