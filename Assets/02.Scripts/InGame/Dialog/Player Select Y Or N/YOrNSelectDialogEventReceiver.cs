@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-/// <summary>
-/// 선택지 대화에서 키고 끌 ui 오브젝트, 글을 입력할 화자text와 대화내용text
-/// </summary>
-public class SelectionDialogEventReceiver : MonoBehaviour, INotificationReceiver
+public class YOrNSelectDialogEventReceiver : MonoBehaviour, INotificationReceiver
 {
     public DialogUI _selectionUI;
+
     private PlayableDirector _playable;
     private DialogMgr _dialogMgr;
+    private IYOrNSelectOption _selectionResult;
 
     private void Awake()
     {
         _playable = GetComponent<PlayableDirector>();
         _dialogMgr = new DialogMgr();
+        _selectionResult = GetComponent<IYOrNSelectOption>();
     }
 
     public void OnNotify(Playable origin, INotification notification, object context)
@@ -24,7 +24,7 @@ public class SelectionDialogEventReceiver : MonoBehaviour, INotificationReceiver
         if (!notification.id.Equals("Selection"))
             return;
 
-        SelectionDialogMarker marker = notification as SelectionDialogMarker;
+        YOrNSelectDialogMarker marker = notification as YOrNSelectDialogMarker;
         string[] lines = _dialogMgr.ParsingCSVLine(marker._playerSelection);
 
         PlayDialogType(lines);
@@ -55,8 +55,9 @@ public class SelectionDialogEventReceiver : MonoBehaviour, INotificationReceiver
 
             selection.RemoveAllListenerSelection();
             selection.InputSelectionData(context);
-            selection.AddListenerSelection(() =>
+            selection.AddListenerOnClick(() =>
             {
+                _selectionResult.ApplyOption(selection._selectionIdx);
                 _playable.Resume();
                 _selectionUI._activateUI.SetActive(false);
             });

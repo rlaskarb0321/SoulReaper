@@ -5931,7 +5931,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 159477738}
   m_LocalRotation: {x: 0.5418228, y: -0.000000027090374, z: 0.000000030669117, w: 0.8404928}
-  m_LocalPosition: {x: 6.7599993, y: 0.0000019073486, z: 6.7400208}
+  m_LocalPosition: {x: 6.76, y: 0.0000019073486, z: 6.7400055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6172,7 +6172,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171595524}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.89, y: 11.76, z: 37.72}
+  m_LocalPosition: {x: 18.98, y: 21.06, z: -211.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -40702,7 +40702,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.5418228, y: -0.000000027090374, z: 0.000000030669117, w: 0.8404928}
-  m_LocalPosition: {x: 0.6900003, y: 29.073475, z: 28.915115}
+  m_LocalPosition: {x: 18.78, y: 38.373474, z: -219.8549}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41138,7 +41138,7 @@ MonoBehaviour:
   _selectImg: {fileID: 1008410977}
   _selectionText: {fileID: 37994136}
   _btn: {fileID: 0}
-  _selectionNum: 0
+  _selectionIdx: 0
 --- !u!114 &975574536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49530,7 +49530,7 @@ MonoBehaviour:
   _selectImg: {fileID: 427025285}
   _selectionText: {fileID: 1979271913}
   _btn: {fileID: 0}
-  _selectionNum: 1
+  _selectionIdx: 1
 --- !u!114 &1179368336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49923,7 +49923,7 @@ MonoBehaviour:
   _selectImg: {fileID: 1535568920}
   _selectionText: {fileID: 862981694}
   _btn: {fileID: 0}
-  _selectionNum: 2
+  _selectionIdx: 2
 --- !u!114 &1184034535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52947,7 +52947,7 @@ MonoBehaviour:
   _selectImg: {fileID: 1619642102}
   _selectionText: {fileID: 127387978}
   _btn: {fileID: 0}
-  _selectionNum: 4
+  _selectionIdx: 4
 --- !u!114 &1244834555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62252,6 +62252,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _oneWayDialogUI:
+    _activateUI: {fileID: 319213160}
+    _speaker: {fileID: 1844645604}
+    _context: {fileID: 1311855948}
+    _selectionContent: {fileID: 0}
+--- !u!114 &1383155763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383155747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9ede50cb0b09143b0fac881fdb7b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogUI:
     _activateUI: {fileID: 319213160}
     _speaker: {fileID: 1844645604}
     _context: {fileID: 1311855948}
@@ -74790,7 +74807,7 @@ MonoBehaviour:
   _selectImg: {fileID: 1616302870}
   _selectionText: {fileID: 279784139}
   _btn: {fileID: 0}
-  _selectionNum: 3
+  _selectionIdx: 3
 --- !u!114 &1694962381
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -32,6 +32,15 @@ public class ProductionMgr : MonoBehaviour
         _director.Play();
     }
 
+    public static void StopProduction(PlayableDirector playable)
+    {
+        _isCallProduction = false;
+        _isPlayingProduction = false;
+
+        _director = playable;
+        _director.Stop();
+    }
+
     private bool IsPlayingCutScene()
     {
         if (System.Math.Abs(_director.duration - _director.time) < 0.05f)
