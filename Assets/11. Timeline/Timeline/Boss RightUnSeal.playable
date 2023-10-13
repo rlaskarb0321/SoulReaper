@@ -58,7 +58,25 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -85,13 +103,49 @@ MonoBehaviour:
     m_BlendOutDuration: 0.6666666666666643
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -1101,6 +1155,7 @@ MonoBehaviour:
     m_Objects:
     - {fileID: -3242210656167182243}
     - {fileID: 8198807761421794490}
+    - {fileID: 4920891945504577874}
 --- !u!114 &3457559195893361894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1159,6 +1214,23 @@ MonoBehaviour:
   _pausePerLetter: 0.1
   _retroactive: 1
   _emitonce: 1
+--- !u!114 &4920891945504577874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de8dfae25f3eab47a1fffd0151c3cd3, type: 3}
+  m_Name: After Y Or N Select Dialog Marker
+  m_EditorClassIdentifier: 
+  m_Time: 3.566666666666667
+  _dialogCSVFile:
+  - {fileID: 4900000, guid: f23268f58747e7848ac70abcb3e37aa4, type: 3}
+  - {fileID: 4900000, guid: 89a73da0e005c144ea2a1c1cb1be2a65, type: 3}
+  _letteringSpeed: 0.1
 --- !u!114 &5847306852994682493
 MonoBehaviour:
   m_ObjectHideFlags: 1

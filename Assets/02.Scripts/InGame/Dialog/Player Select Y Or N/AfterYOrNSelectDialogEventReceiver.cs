@@ -110,6 +110,7 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
             _lineEndTimer = 2.0f;
         }
 
+        // 수락하면서 수락 인덱스의 csvfile이 null 이 아닐때도 resume 을 해야함
         _isEndDialog = true;
         _dialogUI._activateUI.gameObject.SetActive(false);
         ProductionMgr.StopProduction(_playable);
