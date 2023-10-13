@@ -39,7 +39,6 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
             return;
 
         OneWayDialogMarker marker = notification as OneWayDialogMarker;
-        IYOrNSelectOption selectOption = marker._dialogSelectOption.GetComponent<IYOrNSelectOption>();
         string[] lines = _dialogMgr.ParsingCSVLine(marker._oneWayDialog);
 
         _letteringSpeed = marker._letteringSpeed;

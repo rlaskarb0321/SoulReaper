@@ -412,8 +412,6 @@ MonoBehaviour:
   _dialogCSVFile:
   - {fileID: 0}
   - {fileID: 4900000, guid: 872ffca990dc6584987c584f6596d6bd, type: 3}
-  _dialogObj: {fileID: 5449762095173611235, guid: 0e4269b1e299a844692f7989ada10f65,
-    type: 3}
   _letteringSpeed: 0.085
 --- !u!114 &-5768306049946125744
 MonoBehaviour:
@@ -1647,8 +1645,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Time: 0
   _oneWayDialog: {fileID: 4900000, guid: 43d157b7061211944977c9cfbd2ec481, type: 3}
-  _dialogSelectOption: {fileID: 5449762095173611235, guid: 0e4269b1e299a844692f7989ada10f65,
-    type: 3}
   _letteringSpeed: 0.085
 --- !u!114 &3510833684946749475
 MonoBehaviour:
