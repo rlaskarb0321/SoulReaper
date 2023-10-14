@@ -57,7 +57,7 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
         _selectNum = selectNum;
 
         // 선택지가 Y일 경우
-        if (selectNum.Equals(0))
+        if (selectNum.Equals((int)DialogSelection.eYesOrNo.Yes))
             return;
         
         if (++_noSaveCount > _playableAssets.Length - 1)
@@ -66,8 +66,18 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
         }
     }
 
-    public void EndDialog()
+    public void CheckAnswer(bool isAnswerYes)
     {
-        _isInteract = false;
+        // Y를 고르면 Playable을 재생시키고 N를 고르면 상호작용이 가능하도록 만들고 Playable을 중단함
+
+        if (isAnswerYes)
+        {
+            _playableDirector.Resume();
+        }
+        else
+        {
+            _isInteract = false;
+            ProductionMgr.StopProduction(_playableDirector);
+        }
     }
 }

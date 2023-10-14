@@ -42,10 +42,6 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
 
         AfterYOrNSelectDialogMarker marker = notification as AfterYOrNSelectDialogMarker;
         int selectNum = _yesOrNo.ReturnSelectResult();
-
-        if (marker._dialogCSVFile[selectNum] == null)
-            return;
-
         string[] lines = _dialogMgr.ParsingCSVLine(marker._dialogCSVFile[selectNum]);
 
         _letteringSpeed = marker._letteringSpeed;
@@ -66,6 +62,7 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
         string speaker = "";
         string context = "";
         StringBuilder letterSb = new StringBuilder();
+        int selectNumber;
         _isEndDialog = false;
 
         // CSV 파일의 총 라인수만큼 반복
@@ -110,10 +107,11 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
             _lineEndTimer = 2.0f;
         }
 
-        // 수락하면서 수락 인덱스의 csvfile이 null 이 아닐때도 resume 을 해야함
         _isEndDialog = true;
         _dialogUI._activateUI.gameObject.SetActive(false);
-        ProductionMgr.StopProduction(_playable);
-        _yesOrNo.EndDialog();
+
+        // 대화가 끝난 후, y/n 상태에 따라 playable 진행을 제어
+        selectNumber = _yesOrNo.ReturnSelectResult();
+        _yesOrNo.CheckAnswer(selectNumber == (int)DialogSelection.eYesOrNo.Yes);
     }
 }
