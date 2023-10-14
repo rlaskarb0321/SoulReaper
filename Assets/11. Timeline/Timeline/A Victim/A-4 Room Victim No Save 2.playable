@@ -410,10 +410,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Time: 0.03333333333333333
   _dialogCSVFile:
-  - {fileID: 0}
-  - {fileID: 0}
-  _dialogObj: {fileID: 5449762095173611235, guid: 0e4269b1e299a844692f7989ada10f65,
-    type: 3}
+  - {fileID: 4900000, guid: 618c08fb61afc9241a46aa39459c23c8, type: 3}
+  - {fileID: 4900000, guid: 97c8890c66dc2e146af218bc582889af, type: 3}
+  _letteringSpeed: 0.085
 --- !u!114 &-5768306049946125744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1645,9 +1644,7 @@ MonoBehaviour:
   m_Name: One Way Dialog Marker
   m_EditorClassIdentifier: 
   m_Time: 0
-  _oneWayDialog: {fileID: 4900000, guid: 43d157b7061211944977c9cfbd2ec481, type: 3}
-  _dialogSelectOption: {fileID: 5449762095173611235, guid: 0e4269b1e299a844692f7989ada10f65,
-    type: 3}
+  _oneWayDialog: {fileID: 4900000, guid: f30e401001437274cb813cf390c7a50c, type: 3}
   _letteringSpeed: 0.085
 --- !u!114 &3510833684946749475
 MonoBehaviour:
@@ -2033,7 +2030,7 @@ MonoBehaviour:
   m_Name: Y Or N Select Dialog Marker
   m_EditorClassIdentifier: 
   m_Time: 0.016666666666666666
-  _playerSelection: {fileID: 4900000, guid: 4d19db8e01ca5824b8909a22dbe5021f, type: 3}
+  _playerSelection: {fileID: 4900000, guid: 320109f96ff69914d99e5c102b755a96, type: 3}
 --- !u!114 &6905668841081673926
 MonoBehaviour:
   m_ObjectHideFlags: 1

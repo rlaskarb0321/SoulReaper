@@ -6,13 +6,18 @@ using UnityEngine.Playables;
 
 public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
 {
-    // PlayableDirector 의 Timeline 을 여러개 만들어서, _noSaveCount 번쨰 인덱스의 Timeline을 재생시키자
+    [Header("PlayableAsset by number of not saved")]
     [SerializeField] private PlayableAsset[] _playableAssets;
-    [SerializeField] private PlayableDirector _playableDirector;
+    [SerializeField] private int _noSaveCount;
 
-    private int _noSaveCount;
+    private PlayableDirector _playableDirector;
     private int _selectNum;
     private bool _isInteract;
+
+    private void Awake()
+    {
+        _playableDirector = GetComponent<PlayableDirector>();
+    }
 
     public void Interact()
     {
@@ -20,6 +25,7 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
             return;
 
         _isInteract = true;
+        _playableDirector.playableAsset = _playableAssets[_noSaveCount];
         ProductionMgr.StartProduction(_playableDirector);
     }
 
@@ -54,9 +60,9 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
         if (selectNum.Equals(0))
             return;
         
-        if (++_noSaveCount > 3)
+        if (++_noSaveCount > _playableAssets.Length - 1)
         {
-            _noSaveCount = 3;
+            _noSaveCount = _playableAssets.Length - 1;
         }
     }
 

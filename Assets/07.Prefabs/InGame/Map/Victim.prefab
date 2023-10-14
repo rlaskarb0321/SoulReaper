@@ -929,7 +929,7 @@ PlayableDirector:
   m_GameObject: {fileID: 5449762095173611235}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: df6a3c2e9d359574f88c451c3a5b31f6, type: 2}
+  m_PlayableAsset: {fileID: 0}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -991,7 +991,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ee826fea1f87e4f8f4e2dcfe3559a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playableDirector: {fileID: 5449762095173611263}
+  _playableAssets: []
+  _noSaveCount: 0
 --- !u!1 &6044780109325955298
 GameObject:
   m_ObjectHideFlags: 0

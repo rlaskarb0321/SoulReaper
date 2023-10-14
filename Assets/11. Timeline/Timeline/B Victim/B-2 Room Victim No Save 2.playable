@@ -751,7 +751,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfda56da833e2384a9677cd3c976a436, type: 3}
-  m_Name: B-2 Room Victim
+  m_Name: B-2 Room Victim No Save 2
   m_EditorClassIdentifier: 
   m_Version: 0
   m_Tracks:
@@ -825,25 +825,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -1199,7 +1181,7 @@ MonoBehaviour:
   m_Name: One Way Dialog Marker
   m_EditorClassIdentifier: 
   m_Time: 0
-  _oneWayDialog: {fileID: 4900000, guid: 20e4ad63c459c1846a51e7900419007e, type: 3}
+  _oneWayDialog: {fileID: 4900000, guid: 8e5ae8f836c49b941b4534648dec49e9, type: 3}
   _letteringSpeed: 0.085
 --- !u!114 &1561459316516619198
 MonoBehaviour:
@@ -1341,7 +1323,7 @@ MonoBehaviour:
   m_Name: Selection Dialog Marker
   m_EditorClassIdentifier: 
   m_Time: 0.016666666666666666
-  _playerSelection: {fileID: 4900000, guid: bf446add44bdca145b03bd1904ae3f72, type: 3}
+  _playerSelection: {fileID: 4900000, guid: ed0b30b5fe3014948b0376c12462b413, type: 3}
 --- !u!114 &3638919599708326295
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1380,8 +1362,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Time: 0.03333333333333333
   _dialogCSVFile:
-  - {fileID: 4900000, guid: f23268f58747e7848ac70abcb3e37aa4, type: 3}
-  - {fileID: 4900000, guid: 181999c7751989146afb2ed026061e6c, type: 3}
+  - {fileID: 4900000, guid: 093868faa3a431b409b34e7fda3d7ccf, type: 3}
+  - {fileID: 4900000, guid: 7a3deb43c6c95bf4fb682470c8d51a0e, type: 3}
   _letteringSpeed: 0.085
 --- !u!114 &5133437381760594574
 MonoBehaviour:

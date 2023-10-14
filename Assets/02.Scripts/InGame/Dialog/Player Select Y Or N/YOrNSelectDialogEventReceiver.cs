@@ -50,6 +50,7 @@ public class YOrNSelectDialogEventReceiver : MonoBehaviour, INotificationReceive
 
             if (!selection.gameObject.activeSelf)
                 selection.gameObject.SetActive(true);
+
             if (i.Equals(0))
                 selection._btn.Select();
 

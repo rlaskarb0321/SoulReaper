@@ -410,7 +410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Time: 0.03333333333333333
   _dialogCSVFile:
-  - {fileID: 0}
+  - {fileID: 4900000, guid: e3643ac40d9f07d46b40cb9d625fb7a3, type: 3}
   - {fileID: 4900000, guid: 872ffca990dc6584987c584f6596d6bd, type: 3}
   _letteringSpeed: 0.085
 --- !u!114 &-5768306049946125744

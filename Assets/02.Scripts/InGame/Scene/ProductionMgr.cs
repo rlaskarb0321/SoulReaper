@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 public class ProductionMgr : MonoBehaviour
 {
@@ -27,7 +24,6 @@ public class ProductionMgr : MonoBehaviour
     public static void StartProduction(PlayableDirector playable)
     {
         _isCallProduction = true;
-
         _director = playable;
         _director.Play();
     }

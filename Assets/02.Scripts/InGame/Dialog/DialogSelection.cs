@@ -8,7 +8,7 @@ public interface IYOrNSelectOption
     public int ReturnSelectResult();
 
     public void ApplyOption(int selectNum);
-
+    
     public void EndDialog();
 }
 
@@ -25,6 +25,7 @@ public class DialogSelection : MonoBehaviour
     private void Awake()
     {
         _btn = GetComponent<Button>();
+        SelectSelection(false);
     }
 
     public void InputSelectionData(string dialog)
