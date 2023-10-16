@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +29,7 @@ public interface IYOrNSelectOption
 public class DialogSelection : MonoBehaviour
 {
     [SerializeField] private Image _selectImg;
-    [SerializeField] private Text _selectionText;
+    [SerializeField] private TMP_Text _selectionText;
     [HideInInspector] public Button _btn;
     [SerializeField] public int _selectionIdx; // 선택지 답변을 저장
 

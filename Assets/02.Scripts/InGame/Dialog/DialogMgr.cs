@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +11,8 @@ public struct DialogUI
     public GameObject _activateUI;
 
     [Header("Dialog")]
-    public Text _speaker;
-    public Text _context;
+    public TMP_Text _speaker;
+    public TMP_Text _context;
     public GameObject _selectionContent;
 }
 
