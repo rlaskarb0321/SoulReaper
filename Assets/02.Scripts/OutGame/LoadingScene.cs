@@ -46,9 +46,11 @@ public class LoadingScene : MonoBehaviour
                     yield return new WaitForSeconds(1.5f);
 
                     op.allowSceneActivation = true;
+                    SceneManager.LoadScene("UI", LoadSceneMode.Additive);
                     yield break;
                 }
             }
         }
+
     }
 }

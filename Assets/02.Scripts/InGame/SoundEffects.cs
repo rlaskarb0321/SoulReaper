@@ -52,7 +52,6 @@ public class SoundEffects : MonoBehaviour
         //    _audio.PlayOneShot(_sfxs[i].sfx);
         //}
         #endregion Dict로 사운드 캐싱
-
         int i;
         if (_sfxDict.TryGetValue(sfxName, out i))
         {

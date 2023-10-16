@@ -55,10 +55,7 @@ public class StartScene : MonoBehaviour
 
     public void OnStartBtnClick()
     {
-        LoadingScene.LoadScene("Castle_Map");
-
-        //UnityEngine.SceneManagement.SceneManager.LoadScene("Player");
-        //UnityEngine.SceneManagement.SceneManager.LoadScene("Castle_Map", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        LoadingScene.LoadScene("LittleForest_Map");
     }
 
     public void OnExitBtnClick()

@@ -64,9 +64,9 @@ public class PlayerMove_1 : MonoBehaviour
     [Header("=== Component ===")]
     private Rigidbody _rbody;
     [HideInInspector] public PlayerFSM _state;
-    private PlayerCombat _combat;
     private CapsuleCollider _capsuleColl;
     private int _groundLayer;
+    private AudioSource _audio;
 
     private void Awake()
     {
@@ -74,7 +74,7 @@ public class PlayerMove_1 : MonoBehaviour
         _rbody = GetComponent<Rigidbody>();
         _state = GetComponent<PlayerFSM>();
         _animator = GetComponent<Animator>();
-        _combat = GetComponent<PlayerCombat>();
+        _audio = GetComponent<AudioSource>();
 
         _vcamOption = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
         _originDamp = new Vector3(_vcamOption.m_XDamping, _vcamOption.m_YDamping, _vcamOption.m_ZDamping);
@@ -182,7 +182,7 @@ public class PlayerMove_1 : MonoBehaviour
     {
         if (_animator.GetBool(_hashFall))
             _state.State = PlayerFSM.eState.Fall;
-        if ((_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge)
+        else if ((_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge)
             _state.State = PlayerFSM.eState.Move;
 
         _isGrounded = IsGrounded();
@@ -190,7 +190,6 @@ public class PlayerMove_1 : MonoBehaviour
         _onSlopeState = GetSlopeState();
         Vector3 velocity = dir;
         Vector3 gravity = Vector3.down * Mathf.Abs(_rbody.velocity.y);
-        //print(_onSlopeState);
 
         if (_isGrounded)
         {
