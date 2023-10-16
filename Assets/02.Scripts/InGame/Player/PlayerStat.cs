@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
+    [Header("UI")]
+    [SerializeField] private UIScene _ui;
+
     [Header("Health Value")]
     public float _maxHP;
     public float _currHP;
@@ -15,7 +18,6 @@ public class PlayerStat : MonoBehaviour
     PlayerFSM _fsm;
     Animator _animator;
     PlayerCombat _combat;
-    FollowCamera _followCam;
     readonly int _hashHit = Animator.StringToHash("Hit");
     readonly int _hashDead = Animator.StringToHash("Dead");
 
@@ -28,10 +30,11 @@ public class PlayerStat : MonoBehaviour
 
     private void Start()
     {
-        _followCam = _combat._followCamObj.GetComponent<FollowCamera>();
-
         _currHP = _maxHP;
         _currMP = _maxMP;
+
+        _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
+        _ui.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
     }
 
     public void DecreaseHP(Vector3 attackDir, float damage)
@@ -52,8 +55,8 @@ public class PlayerStat : MonoBehaviour
         }
 
         StartCoroutine(FollowCamera._instance.ShakeCamera(_combat._hitCamShakeAmount, _combat._hitCamShakeDur));
-        //StartCoroutine(_followCam.ShakingCamera(_combat._hitCamShakeDur, _combat._hitCamShakeAmount));
         _combat.EndComboAtk();
+        _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
 
         attackDir = new Vector3(attackDir.x, 0.0f, attackDir.z);
         attackDir = attackDir.normalized;

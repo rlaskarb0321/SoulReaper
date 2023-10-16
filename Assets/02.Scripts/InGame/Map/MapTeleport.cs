@@ -12,23 +12,23 @@ public class MapTeleport : MonoBehaviour
     [Header("=== To ===")]
     [SerializeField] private GameObject _nextPos;
 
-    [Header("=== Target ===")]
-    [SerializeField] private GameObject _playerBody;
-    [SerializeField] private GameObject _cameraArm;
-    [SerializeField] private CinemachineVirtualCamera _cam;
-    private Vector3 _originDamp;
+    //[Header("=== Target ===")]
+    //[SerializeField] private GameObject _playerBody;
+    //[SerializeField] private GameObject _cameraArm;
+    //[SerializeField] private CinemachineVirtualCamera _cam;
 
-    [Header("=== Fade Panel ===")]
-    [SerializeField] private GameObject _fadePanel;
+    //[Header("=== Fade Panel ===")]
+    //[SerializeField] private GameObject _fadePanel;
+
     private CinemachineFramingTransposer _vcamOption;
-
+    private Vector3 _originDamp;
     private PlayerMove_1 _playerMove;
 
-    private void Awake()
-    {
-        //_vcamOption = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
-        //_originDamp = new Vector3(_vcamOption.m_XDamping, _vcamOption.m_YDamping, _vcamOption.m_ZDamping);
-    }
+    //private void Awake()
+    //{
+    //    _vcamOption = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
+    //    _originDamp = new Vector3(_vcamOption.m_XDamping, _vcamOption.m_YDamping, _vcamOption.m_ZDamping);
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
