@@ -102,6 +102,5 @@ public class HealthPlant : MonoBehaviour, IInteractable
 
         SetActiveInteractUI(false);
         _ui._seedUI.GoDownSeedUI();
-        print("out");
     }
 }

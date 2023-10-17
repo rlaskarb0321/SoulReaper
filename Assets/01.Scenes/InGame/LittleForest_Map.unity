@@ -57234,6 +57234,7 @@ GameObject:
   - component: {fileID: 2096960310}
   - component: {fileID: 2096960312}
   - component: {fileID: 2096960313}
+  - component: {fileID: 2096960314}
   m_Layer: 15
   m_Name: Castle
   m_TagString: Wall
@@ -57293,6 +57294,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.48192003, y: 0.4729544, z: 0.45715111}
   m_Center: {x: 0.013800517, y: -1.0635202, z: -0.8161436}
+--- !u!114 &2096960314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096960309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4117d407bb011f546a3c47b8e76f4296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nextMap: Castle_Map
 --- !u!4 &2097076622 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7669050054777696935, guid: 176a91453eaadd74b965288ac97292c3,
