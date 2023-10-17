@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoulOrb : MonoBehaviour, IInteractable
 {
-    private PlayerStat _playerStat;
+    private PlayerData _playerStat;
     private bool _isTriggered;
 
     private void Update()
@@ -35,7 +35,7 @@ public class SoulOrb : MonoBehaviour, IInteractable
 
         SetActiveInteractUI(true);
         _isTriggered = true;
-        _playerStat = other.GetComponent<PlayerStat>();
+        _playerStat = other.GetComponent<PlayerData>();
     }
 
     private void OnTriggerExit(Collider other)

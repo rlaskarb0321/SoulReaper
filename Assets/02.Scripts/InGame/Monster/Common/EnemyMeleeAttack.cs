@@ -15,7 +15,7 @@ public class EnemyMeleeAttack : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            PlayerStat player = other.GetComponent<PlayerStat>();
+            PlayerData player = other.GetComponent<PlayerData>();
             player.DecreaseHP(transform.forward, _damage);
         }
     }

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStat : MonoBehaviour
+public class PlayerData : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private UIScene _ui;
+    public UIScene _ui;
 
     [Header("Health Value")]
     public float _maxHP;
@@ -14,6 +14,9 @@ public class PlayerStat : MonoBehaviour
     [Header("Mana Value")]
     public float _maxMP;
     public float _currMP;
+
+    [Header("Health Seed Count")]
+    public int _healthSeedCount;
 
     PlayerFSM _fsm;
     Animator _animator;

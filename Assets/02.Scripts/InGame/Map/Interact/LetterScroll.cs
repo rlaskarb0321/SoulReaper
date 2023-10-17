@@ -8,6 +8,8 @@ public class LetterScroll : MonoBehaviour, IInteractable
     [SerializeField] private GameObject _letterMesh;
     [SerializeField] private CarrierPigeon _carrierPigeon;
 
+    private UIScene _ui;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -23,14 +25,22 @@ public class LetterScroll : MonoBehaviour, IInteractable
             _carrierPigeon.FlyAway();
         }
 
-        _letterUI.SetActive(true);
         _letterMesh.SetActive(false);
+        _ui.SetUIPanelActive(_ui._letterPanel);
         GetComponent<SphereCollider>().enabled = false;
     }
 
     public void SetActiveInteractUI(bool value)
     {
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player"))
+            return;
+        if (_ui == null)
+            _ui = other.GetComponent<PlayerData>()._ui;
     }
 
     private void OnTriggerExit(Collider other)
@@ -51,7 +61,7 @@ public class LetterScroll : MonoBehaviour, IInteractable
             Interact();
             return;
         }
-
+        
         SetActiveInteractUI(true);
     }
 }

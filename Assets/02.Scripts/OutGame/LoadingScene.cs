@@ -43,7 +43,7 @@ public class LoadingScene : MonoBehaviour
                 _loadingFillImg.fillAmount = Mathf.Lerp(_loadingFillImg.fillAmount, 1f, timer);
                 if (_loadingFillImg.fillAmount == 1.0f)
                 {
-                    yield return new WaitForSeconds(1.5f);
+                    yield return new WaitForSeconds(0.5f);
 
                     op.allowSceneActivation = true;
                     SceneManager.LoadScene("UI", LoadSceneMode.Additive);

@@ -47,7 +47,7 @@ public class PlayerCombat : MonoBehaviour
     PlayerFSM _state;
     FollowCamera _followCam;
     SoundEffects _sfx;
-    PlayerStat _stat;
+    PlayerData _stat;
 
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
     readonly int _hashChargingValue = Animator.StringToHash("ChargingValue");
@@ -65,7 +65,7 @@ public class PlayerCombat : MonoBehaviour
         _mov = GetComponent<PlayerMove_1>();
         _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
         _sfx = GetComponent<SoundEffects>();
-        _stat = GetComponent<PlayerStat>();
+        _stat = GetComponent<PlayerData>();
 
         // Weapon
         _weaponColl = _meleeWeaponObj.GetComponentInChildren<BoxCollider>();

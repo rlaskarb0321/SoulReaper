@@ -119,7 +119,7 @@ public class EnemyProjectile : VFXPool
         // 플레이어와 충돌
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
         {
-            PlayerStat player = other.GetComponent<PlayerStat>();
+            PlayerData player = other.GetComponent<PlayerData>();
             player.DecreaseHP(transform.forward, _launchData.damage);
             StartCoroutine(Explosion());
         }

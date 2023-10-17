@@ -56,6 +56,7 @@ public class StartScene : MonoBehaviour
     public void OnStartBtnClick()
     {
         LoadingScene.LoadScene("Castle_Map");
+        //LoadingScene.LoadScene("LittleForest_Map");
     }
 
     public void OnExitBtnClick()

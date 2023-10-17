@@ -5,21 +5,16 @@ using UnityEngine.UI;
 public class ButtonUI : UIInteractBase
 {
     public Color _selectedColor;
+    public Color _originColor;
     public AudioClip _onPointerSound;
 
     private AudioSource _audio;
-    private Color _originColor;
     private TMP_Text _text;
 
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
         _text = GetComponent<TMP_Text>();
-    }
-
-    private void Start()
-    {
-        _originColor = Color.white;
     }
 
     public override void OnPointerEnter()

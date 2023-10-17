@@ -298,6 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectedColor: {r: 1, g: 0, b: 0, a: 1}
+  _originColor: {r: 1, g: 1, b: 1, a: 1}
   _onPointerSound: {fileID: 8300000, guid: 2f65fd0a518d74c4fb159fb1d0718fc4, type: 3}
 --- !u!114 &40345409
 MonoBehaviour:
@@ -439,7 +440,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -942,6 +943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectedColor: {r: 1, g: 0, b: 0, a: 1}
+  _originColor: {r: 1, g: 1, b: 1, a: 1}
   _onPointerSound: {fileID: 8300000, guid: 2f65fd0a518d74c4fb159fb1d0718fc4, type: 3}
 --- !u!114 &561442252
 MonoBehaviour:
