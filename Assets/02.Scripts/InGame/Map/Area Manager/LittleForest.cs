@@ -29,6 +29,8 @@ public class LittleForest : MonoBehaviour
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("PlayerTeam"))
             return;
+        if (_player == null)
+            _player = other.GetComponent<PlayerFSM>();
 
         _player.transform.position = _reversPos;
         _isFallDeath = true;

@@ -45,9 +45,9 @@ public class HealthPlant : MonoBehaviour, IInteractable
 
     private void EatPlant()
     {
-        print("Heal!");
         _audio.PlayOneShot(_audio.clip);
         _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _player._maxHP, _player._maxHP);
+        _ui._seedUI.GoDownSeedUI();
         _flowerState = eFlowerState.harvested;
 
         for (int i = 0; i < _leaves.Length; i++)
@@ -78,8 +78,8 @@ public class HealthPlant : MonoBehaviour, IInteractable
             _ui = other.GetComponent<PlayerData>()._ui;
         if (_player == null)
             _player = other.GetComponent<PlayerData>();
-
-        _ui._seedUI.PopUpSeedUI();
+        if (_flowerState != eFlowerState.harvested)
+            _ui._seedUI.PopUpSeedUI();
     }
 
     private void OnTriggerStay(Collider other)
