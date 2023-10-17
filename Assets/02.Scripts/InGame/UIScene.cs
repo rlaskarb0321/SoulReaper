@@ -6,10 +6,13 @@ using UnityEngine.UI;
 
 public class UIScene : MonoBehaviour
 {
-    [Header("=== Panel ===")]
-    [SerializeField] private GameObject _pausePanel;
-    public GameObject _letterPanel;
+    [Header("=== UI ===")]
     [SerializeField] private List<GameObject> _currOpenPanel;
+    [SerializeField] private GameObject _pausePanel; // 일시정지
+    public GameObject _letterPanel; // 전서구
+
+    [Header("=== Seed UI ===")]
+    public SeedUI _seedUI;
 
     [Header("=== Player ===")]
     [SerializeField] private PlayerData _stat;
@@ -25,7 +28,7 @@ public class UIScene : MonoBehaviour
     [SerializeField] private TMP_Text _mapName;
 
     [Header("=== Interact ===")]
-    public GameObject _interactUI;
+    public GameObject _interactUI; // 인게임에서 상호작용 가능한 물체 가까이 갔을 때 뜨게 할 텍스트 UI
 
     private void Awake()
     {

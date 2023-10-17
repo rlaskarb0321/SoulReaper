@@ -78,6 +78,8 @@ public class HealthPlant : MonoBehaviour, IInteractable
             _ui = other.GetComponent<PlayerData>()._ui;
         if (_player == null)
             _player = other.GetComponent<PlayerData>();
+
+        _ui._seedUI.PopUpSeedUI();
     }
 
     private void OnTriggerStay(Collider other)
@@ -99,5 +101,7 @@ public class HealthPlant : MonoBehaviour, IInteractable
             return;
 
         SetActiveInteractUI(false);
+        _ui._seedUI.GoDownSeedUI();
+        print("out");
     }
 }
