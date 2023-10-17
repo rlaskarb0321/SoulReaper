@@ -47,6 +47,7 @@ public class PlayerCombat : MonoBehaviour
     PlayerFSM _state;
     FollowCamera _followCam;
     SoundEffects _sfx;
+    PlayerStat _stat;
 
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
     readonly int _hashChargingValue = Animator.StringToHash("ChargingValue");
@@ -64,6 +65,7 @@ public class PlayerCombat : MonoBehaviour
         _mov = GetComponent<PlayerMove_1>();
         _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
         _sfx = GetComponent<SoundEffects>();
+        _stat = GetComponent<PlayerStat>();
 
         // Weapon
         _weaponColl = _meleeWeaponObj.GetComponentInChildren<BoxCollider>();
@@ -97,7 +99,7 @@ public class PlayerCombat : MonoBehaviour
             // 근거리 공격
             _state.State = PlayerFSM.eState.Attack;
             RotateToClickDir();
-            _weapon._sfx.PlaySFXs("Slash Air", 0.3f);
+            _weapon._sfx.PlayOneShotUsingDict("Slash Air");
             _animator.SetInteger(_hashCombo, ++_combo);
 
             // 근거리 일반공격 관련
@@ -228,7 +230,7 @@ public class PlayerCombat : MonoBehaviour
 
             RotateToClickDir();
             _animator.SetInteger(_hashCombo, _combo);
-            _weapon._sfx.PlaySFXs("Slash Air", 0.3f);
+            _weapon._sfx.PlayOneShotUsingDict("Slash Air");
             _atkBehaviour._isComboAtk = false;
             return;
         }
@@ -294,6 +296,10 @@ public class PlayerCombat : MonoBehaviour
     // 애니메이션 delegate로 원거리공격
     public void LaunchProjectile()
     {
+        bool isMpZero = _stat.DecreaseMP(10.0f); // 코스트 지정해서 가져와야 함
+        if (isMpZero)
+            return;
+
         Instantiate(_longRangeProjectile, _firePos.position, transform.rotation);
     }
 

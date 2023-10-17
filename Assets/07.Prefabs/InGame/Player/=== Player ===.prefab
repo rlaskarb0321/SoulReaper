@@ -1560,6 +1560,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3272357121094909031}
+  - component: {fileID: 6399863239188672295}
+  - component: {fileID: 5719470191344707143}
   m_Layer: 14
   m_Name: Foot Ray
   m_TagString: Untagged
@@ -1582,6 +1584,115 @@ Transform:
   m_Father: {fileID: 3272357121288171839}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &6399863239188672295
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3272357121094909032}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 7ec3d138c579aa34c9bbf077c6f3a67a, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &5719470191344707143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3272357121094909032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b642a795af93631498d45e2a3e839f8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _state: {fileID: 3272357121288171838}
 --- !u!1 &3272357121131163352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,6 +1868,7 @@ GameObject:
   - component: {fileID: 3272357121288171836}
   - component: {fileID: 3272357121288171837}
   - component: {fileID: 3272357121288171838}
+  - component: {fileID: 3414943530665312619}
   m_Layer: 14
   m_Name: PT_Plague_Doctor
   m_TagString: Player
@@ -1850,7 +1962,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.397
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3461,6 +3573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0190d3179854b4bb0a950e9246b203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ui: {fileID: 0}
   _maxHP: 20000
   _currHP: 0
   _maxMP: 50
@@ -3508,6 +3621,23 @@ MonoBehaviour:
   _weaponCombatPos: {fileID: 3272357121588126872}
   _weaponNonCombatPos: {fileID: 3272357122042431825}
   _weapon: {fileID: 9087212474813776099}
+--- !u!114 &3414943530665312619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3272357121288171840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e9c5d686961f9e42b59ed9c83c73704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sfxs:
+  - name: Dodge
+    sfx: {fileID: 8300000, guid: 7a01af942b1be0a438d8bc507d26d7b0, type: 3}
+    isLoop: 0
+    isPlayOnAwake: 0
 --- !u!1 &3272357121307104050
 GameObject:
   m_ObjectHideFlags: 0
@@ -4737,6 +4867,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.z
       value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408224528185730781, guid: 0029002b2fada3d4497680a36b12ae3e,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4150414889431488825, guid: 0029002b2fada3d4497680a36b12ae3e, type: 3}

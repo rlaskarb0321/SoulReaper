@@ -24,43 +24,88 @@ public class SoundEffects : MonoBehaviour
     }
 
     // 타 스크립트에서 이 스크립트를 가질 게임오브젝트 소리를 실행시키기 위한 함수
-    public void PlaySFXs(string sfxName, float volume = 1.0f)
+    public void PlayOneShotUsingDict(string sfxName, float volume = 1.0f)
     {
-        #region Dict로 사운드 캐싱 case 1
+        if (volume == 1.0f)
+            volume = _audio.volume;
+
+        int i = ReturnSFXIndex(sfxName);
+        if (i == -1)
+        {
+            print("sfxName 값이 sfxs 에 없습니다");
+            return;
+        }
+
+        _audio.loop = _sfxs[i].isLoop;
+        _audio.volume = volume;
+        _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
+        _audio.PlayOneShot(_sfxs[i].sfx);
+
+        #region 23.10.17 Dict 작업 메서드로 분리
         //int i;
-        //if (!_sfxDict.ContainsKey(sfxName))
+        //// Dict 에 sfxName 으로 된 키값이 있을경우
+        //if (_sfxDict.TryGetValue(sfxName, out i))
         //{
+        //    _audio.loop = _sfxs[i].isLoop;
+        //    _audio.volume = volume;
+        //    _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
+        //    _audio.PlayOneShot(_sfxs[i].sfx);
+        //}
+        //// 없을경우
+        //else
+        //{
+        //    // 입력된 sfxName값이, 해당 객체가 플레이할 수 있는 clip 명인지 확인후 Dict에 추가
         //    for (i = 0; i < _sfxs.Length; i++)
         //    {
+        //        // 일치함을 확인
         //        if (_sfxs[i].name == sfxName)
         //        {
         //            _sfxDict.Add(_sfxs[i].name, i);
 
         //            _audio.loop = _sfxs[i].isLoop;
+        //            _audio.volume = volume;
         //            _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
         //            _audio.PlayOneShot(_sfxs[i].sfx);
         //            break;
         //        }
         //    }
         //}
-        //else
-        //{
-        //    _sfxDict.TryGetValue(sfxName, out i);
+        #endregion 23.10.17 Dict 작업 메서드로 분리
+    }
 
-        //    _audio.loop = _sfxs[i].isLoop;
-        //    _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
-        //    _audio.PlayOneShot(_sfxs[i].sfx);
-        //}
-        #endregion Dict로 사운드 캐싱
-        int i;
-        if (_sfxDict.TryGetValue(sfxName, out i))
+    public void PlayUsingDict(string sfxName, float volume = 1.0f)
+    {
+        if (volume == 1.0f)
+            volume = _audio.volume;
+
+        int i = ReturnSFXIndex(sfxName);
+        if (i == -1)
         {
-            _audio.loop = _sfxs[i].isLoop;
-            _audio.volume = volume;
-            _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
-            _audio.PlayOneShot(_sfxs[i].sfx);
+            print("sfxName 값이 sfxs 에 없습니다");
+            return;
+        }
 
-            // print("이미 있음");
+        _audio.loop = _sfxs[i].isLoop;
+        _audio.volume = volume;
+        _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
+        _audio.clip = _sfxs[i].sfx;
+        _audio.Play();
+    }
+
+    public void Stop() => _audio.Stop();
+
+    public bool IsPlaying()
+    {
+        return _audio.isPlaying;
+    }
+
+    public int ReturnSFXIndex(string sfxName)
+    {
+        int i;
+
+        if(_sfxDict.TryGetValue(sfxName, out i))
+        {
+            return i;
         }
         else
         {
@@ -69,15 +114,11 @@ public class SoundEffects : MonoBehaviour
                 if (_sfxs[i].name == sfxName)
                 {
                     _sfxDict.Add(_sfxs[i].name, i);
-
-                    _audio.loop = _sfxs[i].isLoop;
-                    _audio.volume = volume;
-                    _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
-                    _audio.PlayOneShot(_sfxs[i].sfx);
-                    // print("없어서 추가");
-                    break;
+                    return i;
                 }
             }
+
+            return -1;
         }
     }
 
@@ -87,7 +128,7 @@ public class SoundEffects : MonoBehaviour
         WaitForSeconds ws = new WaitForSeconds(delay);
         yield return ws;
 
-        PlaySFXs(sfxName, volume);
+        PlayOneShotUsingDict(sfxName, volume);
     }
 
     // PlayOnAwake가 true인 audioClip 재생

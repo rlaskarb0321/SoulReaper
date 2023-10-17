@@ -51,7 +51,7 @@ public class PlayerMove_1 : MonoBehaviour
     [SerializeField] private GameObject _fadePanel;
     private CinemachineFramingTransposer _vcamOption;
 
-    [Header("=== Anim Params ===")]
+    // Anim Params
     private Animator _animator;
     readonly int _hashMove = Animator.StringToHash("isMove");
     readonly int _hashRoll = Animator.StringToHash("isRoll");
@@ -61,12 +61,12 @@ public class PlayerMove_1 : MonoBehaviour
     readonly int _hashClimbSpeed = Animator.StringToHash("ClimbSpeed");
     readonly int _hashReachTop = Animator.StringToHash("ReachTop");
 
-    [Header("=== Component ===")]
+    // Component
+    private SoundEffects _sfx;
     private Rigidbody _rbody;
     [HideInInspector] public PlayerFSM _state;
     private CapsuleCollider _capsuleColl;
     private int _groundLayer;
-    private AudioSource _audio;
 
     private void Awake()
     {
@@ -74,7 +74,7 @@ public class PlayerMove_1 : MonoBehaviour
         _rbody = GetComponent<Rigidbody>();
         _state = GetComponent<PlayerFSM>();
         _animator = GetComponent<Animator>();
-        _audio = GetComponent<AudioSource>();
+        _sfx = GetComponent<SoundEffects>();
 
         _vcamOption = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
         _originDamp = new Vector3(_vcamOption.m_XDamping, _vcamOption.m_YDamping, _vcamOption.m_ZDamping);
@@ -138,6 +138,7 @@ public class PlayerMove_1 : MonoBehaviour
             transform.forward = _dodgeDir;
             StartCoroutine(CoolDownDodge());
             _animator.SetBool(_hashRoll, true);
+            _sfx.PlayOneShotUsingDict("Dodge");
         }
     }
 
@@ -220,6 +221,7 @@ public class PlayerMove_1 : MonoBehaviour
             }
         }
 
+        PlayWalkSound();
         _animator.SetBool(_hashMove, (_h != 0.0f || _v != 0.0f) && _state.State != PlayerFSM.eState.Dodge);
         _rbody.velocity = velocity * movSpeed + gravity;
     }
@@ -345,6 +347,7 @@ public class PlayerMove_1 : MonoBehaviour
 
         MovePlayer(_dodgeDir, _dodgeSpeed);
         _currDodgeDur += Time.fixedDeltaTime;
+        
     }
 
     private IEnumerator CoolDownDodge()
@@ -449,5 +452,31 @@ public class PlayerMove_1 : MonoBehaviour
         _vcamOption.m_XDamping = _originDamp.x;
         _vcamOption.m_YDamping = _originDamp.y;
         _vcamOption.m_ZDamping = _originDamp.z;
+    }
+
+    private void PlayWalkSound()
+    {
+        //if (_state.State == PlayerFSM.eState.Move)
+        //{
+        //    if (!_sfx.IsPlaying())
+        //    {
+        //        _sfx.PlayUsingDict("Sprint");
+        //    }
+        //}
+        //else if (_state.State == PlayerFSM.eState.Dodge)
+        //{
+        //    if (!_sfx.IsPlaying())
+        //    {
+        //        _sfx.PlayOneShotUsingDict("Dodge");
+        //    }
+        //}
+
+        if (_state.State == PlayerFSM.eState.Dodge)
+        {
+            if (!_sfx.IsPlaying())
+            {
+                _sfx.PlayOneShotUsingDict("Dodge");
+            }
+        }
     }
 }

@@ -56,16 +56,45 @@ public class PlayerStat : MonoBehaviour
 
         StartCoroutine(FollowCamera._instance.ShakeCamera(_combat._hitCamShakeAmount, _combat._hitCamShakeDur));
         _combat.EndComboAtk();
-        _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
 
         attackDir = new Vector3(attackDir.x, 0.0f, attackDir.z);
         attackDir = attackDir.normalized;
         transform.forward = -attackDir;
         _fsm.AtkDir = attackDir;
+        _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
     }
 
     public void IncreaseHP(float amount)
     {
+        _currHP += amount;
+        if (_currHP >= _maxHP)
+        {
+            _currHP = _maxHP;
+        }
+        _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
+    }
 
+    public bool DecreaseMP(float amount)
+    {
+        float currMp = _currMP;
+        if (currMp - amount < 0.0f)
+        {
+            print("마나가 부족합니다");
+            return true;
+        }
+
+        _currMP -= amount;
+        _ui.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
+        return false;
+    }
+
+    public void IncreaseMP(float amount)
+    {
+        _currMP += amount;
+        if (_currMP >= _maxMP)
+        {
+            _currMP = _maxMP;
+        }
+        _ui.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
     }
 }
