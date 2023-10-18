@@ -114,7 +114,6 @@ public class FollowCamera : MonoBehaviour
         hitObj = silRayHits[0];
 
         if (hitObj.transform.gameObject.layer == LayerMask.NameToLayer("PlayerTeam") ||
-            hitObj.transform.gameObject.layer == LayerMask.NameToLayer("Ignore OutLine") ||
             hitObj.transform.gameObject.layer == LayerMask.NameToLayer("Interactable"))
         {
             _playerOutline.enabled = false;

@@ -29,15 +29,13 @@ public class LaunchProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && other.tag == "Untagged")
-            return;
-        if (other.gameObject.CompareTag("Fire"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ignore Coll") || other.gameObject.CompareTag("Fire"))
             return;
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            MonsterBase monster = other.GetComponent<MonsterBase>();
-            monster.DecreaseHp(_dmg, Vector3.forward);
+            MonsterBase_1 monster = other.GetComponent<MonsterBase_1>();
+            monster.DecreaseHP(_dmg);
         }
 
         Boom();

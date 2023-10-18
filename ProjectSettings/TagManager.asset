@@ -27,7 +27,7 @@ TagManager:
   - PlayerTeam
   - Interactable
   - PlayerProjectile
-  - Ignore OutLine
+  - Ignore Coll
   - PlayerWeapon
   - 
   - 

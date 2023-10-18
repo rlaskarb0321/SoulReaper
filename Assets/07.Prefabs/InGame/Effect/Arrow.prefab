@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7333868837623825911}
   - component: {fileID: 7333868837623825908}
-  - component: {fileID: 7333868837623825909}
   - component: {fileID: 7333868837623825910}
+  - component: {fileID: 6939982488212984673}
   m_Layer: 16
   m_Name: Arrow
   m_TagString: Untagged
@@ -52,19 +52,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!135 &7333868837623825909
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7333868837623825904}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7333868837623825910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +71,19 @@ MonoBehaviour:
   _movSpeed: 60
   _lifeTime: 0
   _dmg: 10
+--- !u!65 &6939982488212984673
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333868837623825904}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.45098805, y: 0.37734166, z: 1}
+  m_Center: {x: 0.0030404031, y: 0.010285929, z: 0}
 --- !u!1 &8630747245290190797
 GameObject:
   m_ObjectHideFlags: 0

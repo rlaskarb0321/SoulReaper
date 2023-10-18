@@ -79,13 +79,6 @@ public class PlayerData : MonoBehaviour
 
     public bool DecreaseMP(float amount)
     {
-        float currMp = _currMP;
-        if (currMp - amount < 0.0f)
-        {
-            print("마나가 부족합니다");
-            return true;
-        }
-
         _currMP -= amount;
         _ui.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
         return false;

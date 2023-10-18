@@ -10,14 +10,6 @@ public class LetterScroll : MonoBehaviour, IInteractable
 
     private UIScene _ui;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _letterUI.SetActive(false);
-        }
-    }
-
     public void Interact()
     {
         if (_carrierPigeon != null)

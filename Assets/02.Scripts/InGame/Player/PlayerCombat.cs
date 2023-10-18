@@ -107,10 +107,16 @@ public class PlayerCombat : MonoBehaviour
         }
 
         // 차징모션으로 전환 관련
-        else if (Input.GetMouseButton(1) && 
+        else if (Input.GetMouseButton(1) &&
             (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move
             || _state.State == PlayerFSM.eState.Charging))
         {
+            if (_stat._currMP - 10.0f < 0.0f)
+            {
+                print("마나가 부족");
+                return;
+            }
+
             // 원거리공격
             if (_curLongRangeChargingTime < _needChargingTime)
             {
@@ -296,10 +302,11 @@ public class PlayerCombat : MonoBehaviour
     // 애니메이션 delegate로 원거리공격
     public void LaunchProjectile()
     {
-        bool isMpZero = _stat.DecreaseMP(10.0f); // 코스트 지정해서 가져와야 함
-        if (isMpZero)
-            return;
+        //bool isMpZero = _stat.DecreaseMP(10.0f); // 코스트 지정해서 가져와야 함
+        //if (isMpZero)
+        //    return;
 
+        _stat.DecreaseMP(10.0f);
         Instantiate(_longRangeProjectile, _firePos.position, transform.rotation);
     }
 

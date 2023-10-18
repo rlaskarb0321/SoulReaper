@@ -3576,8 +3576,9 @@ MonoBehaviour:
   _ui: {fileID: 0}
   _maxHP: 20000
   _currHP: 0
-  _maxMP: 50
+  _maxMP: 10000
   _currMP: 0
+  _healthSeedCount: 5
 --- !u!114 &3272357121288171837
 MonoBehaviour:
   m_ObjectHideFlags: 0
