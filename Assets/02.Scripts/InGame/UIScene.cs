@@ -24,8 +24,9 @@ public class UIScene : MonoBehaviour
     [SerializeField] private Image _mpFill;
     [SerializeField] private TMP_Text _mpText;
 
-    [Header("=== Map Name ===")]
+    [Header("=== Scene Change ===")]
     [SerializeField] private TMP_Text _mapName;
+    public SceneTeleport _sceneTeleport;
 
     [Header("=== Interact ===")]
     public GameObject _interactUI; // 인게임에서 상호작용 가능한 물체 가까이 갔을 때 뜨게 할 텍스트 UI
@@ -44,12 +45,33 @@ public class UIScene : MonoBehaviour
         }
     }
 
+
+    #region UI Panel
+    
     // UI패널을 키고, 켜져있는 ui들 리스트에 넣음
     public void SetUIPanelActive(GameObject panel)
     {
         panel.SetActive(!panel.activeSelf);
         _currOpenPanel.Add(panel);
     }
+
+    public void PausePanel()
+    {
+        // 켜져있는 UI가 있으면 끔
+        if (_currOpenPanel.Count != 0)
+        {
+            int index = _currOpenPanel.Count - 1;
+
+            _currOpenPanel[index].SetActive(false);
+            _currOpenPanel.RemoveAt(index);
+            return;
+        }
+
+        // PausePanel 을 킴
+        SetUIPanelActive(_pausePanel);
+    }
+
+    #endregion UI Panel
 
     public void UpdateHPMP(ePercentageStat stat, float currValue, float maxValue)
     {
@@ -69,20 +91,5 @@ public class UIScene : MonoBehaviour
     private void EditMapName()
     {
 
-    }
-
-    public void PausePanel()
-    {
-        // 켜져있는 UI가 있으면 끔
-        if (_currOpenPanel.Count != 0)
-        {
-            int index = _currOpenPanel.Count - 1;
-
-            _currOpenPanel[index].SetActive(false);
-            _currOpenPanel.RemoveAt(index);
-            return;
-        }
-
-        SetUIPanelActive(_pausePanel);
     }
 }

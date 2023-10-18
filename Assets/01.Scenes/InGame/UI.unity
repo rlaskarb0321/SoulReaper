@@ -4224,6 +4224,7 @@ MonoBehaviour:
   _mpFill: {fileID: 870582287}
   _mpText: {fileID: 1523257858}
   _mapName: {fileID: 0}
+  _sceneTeleport: {fileID: 0}
   _interactUI: {fileID: 0}
 --- !u!95 &1320289524
 Animator:

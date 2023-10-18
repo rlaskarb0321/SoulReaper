@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3934151198610160756}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5558735033988416526}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Props1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1847784950704823275}
   - component: {fileID: 5449762093807171522}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Little_Ghost2_v1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3910192239226592683}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 6855954303070700224}
   - component: {fileID: 8424415388446451957}
   - component: {fileID: 4290481750793126556}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Umbrella_Closed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2174710726174605122}
   - component: {fileID: 5449762093807171548}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Victim Dummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2812619357605944914}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1645110281697670011}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: JNTs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3346690604634333941}
   - component: {fileID: 4674559013306406535}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Little_Ghost_2 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4741229423140713114}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,7 +482,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3038459239537032404}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +514,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3735956868256656169}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -548,7 +548,7 @@ GameObject:
   - component: {fileID: 1104884942326399479}
   - component: {fileID: 8374984861015573308}
   - component: {fileID: 2731766133373714192}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Umbrella_Open
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -629,7 +629,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 970803603768839005}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AxeHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -661,7 +661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5553651424927149464}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -693,7 +693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8993264015439036593}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: JNTs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -726,7 +726,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4930091061268664639}
   - component: {fileID: 3082072153791145293}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Little_Ghost_2 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,7 +815,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3158956171974148432}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -847,7 +847,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4625232521145683742}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -883,7 +883,7 @@ GameObject:
   - component: {fileID: 5449762095173611263}
   - component: {fileID: 5449762095173611262}
   - component: {fileID: 5449762095173611261}
-  m_Layer: 17
+  m_Layer: 2
   m_Name: Victim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1005,7 +1005,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6467782690303957219}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1037,7 +1037,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7449545696370047127}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AxeHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1071,7 +1071,7 @@ GameObject:
   - component: {fileID: 7300249151624294973}
   - component: {fileID: 2171591227751346422}
   - component: {fileID: 5761168523968384218}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Umbrella_Open
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1152,7 +1152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2827837130968184772}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Props1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1185,7 +1185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6665907197332377534}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1219,7 +1219,7 @@ GameObject:
   - component: {fileID: 3837023940257362186}
   - component: {fileID: 2230249135797033791}
   - component: {fileID: 5877264064642593110}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Umbrella_Closed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1300,7 +1300,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8373591448494066824}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Victim Real
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1333,7 +1333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8340174426619275297}
   - component: {fileID: 8340174426619275298}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Little_Ghost2_v1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1386,7 +1386,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6654400447626194529}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: joint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

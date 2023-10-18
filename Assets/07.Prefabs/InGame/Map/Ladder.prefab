@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1252372308}
   - component: {fileID: 5713873302153352671}
   - component: {fileID: 840824938607775055}
-  m_Layer: 17
+  m_Layer: 2
   m_Name: Down Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8050709052098056989}
-  m_Layer: 17
+  m_Layer: 2
   m_Name: Down Entry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6635777216266484847}
-  m_Layer: 17
+  m_Layer: 2
   m_Name: Up Entry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 3090741659692586649}
   - component: {fileID: 3060778393526165091}
   - component: {fileID: 4365418313999070437}
-  m_Layer: 17
+  m_Layer: 2
   m_Name: Up Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ PrefabInstance:
     - target: {fileID: 8599792117849144317, guid: e273745c9c631664eb07c663f76f9ce1,
         type: 3}
       propertyPath: m_Layer
-      value: 17
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8599792117849368541, guid: e273745c9c631664eb07c663f76f9ce1,
         type: 3}

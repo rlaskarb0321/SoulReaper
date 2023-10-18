@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1950166412619352880}
   - component: {fileID: 1950166412619352882}
   - component: {fileID: 1950166412619352883}
-  m_Layer: 17
+  m_Layer: 2
   m_Name: To RoomB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,9 +66,6 @@ MonoBehaviour:
   _enterPos: {fileID: 1950166412936065327}
   _exitPos: {fileID: 1950166412682256491}
   _nextPos: {fileID: 0}
-  _playerBody: {fileID: 0}
-  _cameraArm: {fileID: 0}
-  _fadePanel: {fileID: 0}
 --- !u!1 &1950166412682256491
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +75,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1950166412682256490}
-  m_Layer: 17
+  m_Layer: 2
   m_Name: RoomB Exit Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1950166412936065326}
   - component: {fileID: 1950166412936065313}
-  m_Layer: 17
+  m_Layer: 2
   m_Name: Enter Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
