@@ -303,6 +303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bdd1851fc08008428254fb0ff182030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interactName: "\uC0AC\uB2E4\uB9AC \uD0C0\uAE30"
+  _floatUIPos: {fileID: 0}
   _triggerPos: 0
   _player: {fileID: 0}
   _triggers:

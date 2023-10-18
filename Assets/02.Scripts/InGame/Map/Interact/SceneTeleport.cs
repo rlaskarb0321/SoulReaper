@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class SceneTeleport : MonoBehaviour, IInteractable
 {
+    [Header("=== Interact ===")]
+    [SerializeField] private string _interactName;
+    [SerializeField] private Transform _floatUIPos;
+
+    [Header("=== Scene ===")]
     [SerializeField] private string _nextMap;
     [SerializeField] private Animator _sceneOutPanel;
-    //[SerializeField] private PlayerData _player;
-    //[SerializeField] private UIScene _ui;
 
     private Image _sceneOutPanelImg;
 
@@ -26,7 +29,8 @@ public class SceneTeleport : MonoBehaviour, IInteractable
 
     public void SetActiveInteractUI(bool value)
     {
-
+        Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
+        UIScene._instance.FloatInteractUI(value, pos, _interactName);
     }
 
     private IEnumerator TestCor()
@@ -41,18 +45,6 @@ public class SceneTeleport : MonoBehaviour, IInteractable
 
         yield return new WaitForSeconds(1.0f);
         LoadingScene.LoadScene(_nextMap);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player"))
-            return;
-        //if (_player == null)
-        //    _player = other.GetComponent<PlayerData>();
-        //if (_ui == null)
-        //    _ui = _player._ui;
-
-        SetActiveInteractUI(true);
     }
 
     private void OnTriggerExit(Collider other)
@@ -72,5 +64,7 @@ public class SceneTeleport : MonoBehaviour, IInteractable
             Interact();
             return;
         }
+
+        SetActiveInteractUI(true);
     }
 }

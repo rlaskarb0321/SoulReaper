@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class LetterScroll : MonoBehaviour, IInteractable
 {
-    [SerializeField] private GameObject _letterUI;
+    [Header("=== Interact ===")]
+    [SerializeField] private string _interactName;
+    [SerializeField] private Transform _floatUIPos;
+
     [SerializeField] private GameObject _letterMesh;
     [SerializeField] private CarrierPigeon _carrierPigeon;
-
-    private UIScene _ui;
 
     public void Interact()
     {
@@ -18,21 +19,15 @@ public class LetterScroll : MonoBehaviour, IInteractable
         }
 
         _letterMesh.SetActive(false);
-        _ui.SetUIPanelActive(_ui._letterPanel);
+        SetActiveInteractUI(false);
+        UIScene._instance.SetUIPanelActive(UIScene._instance._letterPanel);
         GetComponent<SphereCollider>().enabled = false;
     }
 
     public void SetActiveInteractUI(bool value)
     {
-
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player"))
-            return;
-        if (_ui == null)
-            _ui = other.GetComponent<PlayerData>()._ui;
+        Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
+        UIScene._instance.FloatInteractUI(value, pos, _interactName);
     }
 
     private void OnTriggerExit(Collider other)

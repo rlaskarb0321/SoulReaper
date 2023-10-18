@@ -6,7 +6,11 @@ using UnityEngine.Playables;
 
 public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
 {
-    [Header("PlayableAsset by number of not saved")]
+    [Header("=== Interact ===")]
+    [SerializeField] private string _interactName;
+    [SerializeField] private Transform _floatUIPos;
+
+    [Header("PlayableAsset by number of not Liberated")]
     [SerializeField] private PlayableAsset[] _playableAssets;
     [SerializeField] private int _noSaveCount;
 
@@ -22,7 +26,9 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
     public void Interact()
     {
         if (_isInteract)
+        {
             return;
+        }
 
         _isInteract = true;
         _playableDirector.playableAsset = _playableAssets[_noSaveCount];
@@ -31,13 +37,19 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
 
     public void SetActiveInteractUI(bool value)
     {
-
+        Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
+        UIScene._instance.FloatInteractUI(value, pos, _interactName);
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Player"))
             return;
+        if (_isInteract)
+        {
+            SetActiveInteractUI(false);
+            return;
+        }
         if (Input.GetKey(KeyCode.F))
         {
             Interact();
@@ -45,6 +57,11 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
         }
 
         SetActiveInteractUI(true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        SetActiveInteractUI(false);
     }
 
     public int ReturnSelectResult()

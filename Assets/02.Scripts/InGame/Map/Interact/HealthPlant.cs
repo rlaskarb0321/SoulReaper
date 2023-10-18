@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class HealthPlant : MonoBehaviour, IInteractable
 {
-    private enum eFlowerState { None, Growing, Bloom, harvested, }
+    [Header("=== Interact ===")]
+    [SerializeField] private string _interactName;
+    [SerializeField] private Transform _floatUIPos;
 
+    private enum eFlowerState { None, Growing, Bloom, harvested, }
+    [Header("=== Plant ===")]
     [SerializeField] private eFlowerState _flowerState;
     [SerializeField] private GameObject _healthFlower;
     [SerializeField] private GameObject[] _leaves;
 
     private AudioSource _audio;
     private Animator _animator;
-    private UIScene _ui;
     private PlayerData _player;
 
     private void Awake()
@@ -45,9 +48,9 @@ public class HealthPlant : MonoBehaviour, IInteractable
 
     private void EatPlant()
     {
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _player._maxHP, _player._maxHP);
+        UIScene._instance._seedUI.GoDownSeedUI();
         _audio.PlayOneShot(_audio.clip);
-        _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _player._maxHP, _player._maxHP);
-        _ui._seedUI.GoDownSeedUI();
         _flowerState = eFlowerState.harvested;
 
         for (int i = 0; i < _leaves.Length; i++)
@@ -65,21 +68,20 @@ public class HealthPlant : MonoBehaviour, IInteractable
     public void SetActiveInteractUI(bool value)
     {
         if (_flowerState == eFlowerState.harvested || _flowerState == eFlowerState.Growing)
-            return;
+            value = false;
 
-
+        Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
+        UIScene._instance.FloatInteractUI(value, pos, _interactName);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
             return;
-        if (_ui == null)
-            _ui = other.GetComponent<PlayerData>()._ui;
         if (_player == null)
             _player = other.GetComponent<PlayerData>();
         if (_flowerState != eFlowerState.harvested)
-            _ui._seedUI.PopUpSeedUI();
+            UIScene._instance._seedUI.PopUpSeedUI();
     }
 
     private void OnTriggerStay(Collider other)
@@ -101,6 +103,6 @@ public class HealthPlant : MonoBehaviour, IInteractable
             return;
 
         SetActiveInteractUI(false);
-        _ui._seedUI.GoDownSeedUI();
+        UIScene._instance._seedUI.GoDownSeedUI();
     }
 }

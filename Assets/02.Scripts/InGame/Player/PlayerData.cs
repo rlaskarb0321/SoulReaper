@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
-    [Header("UI")]
-    public UIScene _ui;
-
     [Header("Health Value")]
     public float _maxHP;
     public float _currHP;
@@ -36,8 +33,8 @@ public class PlayerData : MonoBehaviour
         _currHP = _maxHP;
         _currMP = _maxMP;
 
-        _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
-        _ui.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
     }
 
     public void DecreaseHP(Vector3 attackDir, float damage)
@@ -64,7 +61,8 @@ public class PlayerData : MonoBehaviour
         attackDir = attackDir.normalized;
         transform.forward = -attackDir;
         _fsm.AtkDir = attackDir;
-        _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
+
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
     }
 
     public void IncreaseHP(float amount)
@@ -74,13 +72,14 @@ public class PlayerData : MonoBehaviour
         {
             _currHP = _maxHP;
         }
-        _ui.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
+
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
     }
 
     public bool DecreaseMP(float amount)
     {
         _currMP -= amount;
-        _ui.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
         return false;
     }
 
@@ -91,6 +90,6 @@ public class PlayerData : MonoBehaviour
         {
             _currMP = _maxMP;
         }
-        _ui.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
     }
 }

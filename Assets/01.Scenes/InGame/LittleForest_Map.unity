@@ -2162,6 +2162,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 57150317}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &60067985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 60067986}
+  m_Layer: 15
+  m_Name: Interact UI Float Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &60067986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60067985}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.019928038, y: -0.6841816, z: -0.6410049}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2096960310}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &61660485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17169,6 +17200,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 636273709}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &638856985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 638856986}
+  m_Layer: 15
+  m_Name: Float UI Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &638856986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638856985}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.38672, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 936478504}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &643973111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25806,6 +25868,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1050632826587472501}
+  - {fileID: 638856986}
   m_Father: {fileID: 1469376224}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25821,7 +25884,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca4616b8a72f9447a8a5ff07e4497a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _letterUI: {fileID: 0}
+  _interactName: "\uC804\uC11C\uAD6C \uD655\uC778"
+  _floatUIPos: {fileID: 638856986}
   _letterMesh: {fileID: 1050632826587446869}
   _carrierPigeon: {fileID: 6788538757269683694}
 --- !u!54 &936478506
@@ -56701,6 +56765,7 @@ Transform:
   - {fileID: 1726478367}
   - {fileID: 1261864757}
   - {fileID: 2063931065}
+  - {fileID: 60067986}
   m_Father: {fileID: 115724011}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -56745,6 +56810,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4117d407bb011f546a3c47b8e76f4296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interactName: "\uC785\uC7A5\uD558\uAE30"
+  _floatUIPos: {fileID: 60067986}
   _nextMap: Castle_Map
   _sceneOutPanel: {fileID: 709898466}
 --- !u!4 &2097076622 stripped

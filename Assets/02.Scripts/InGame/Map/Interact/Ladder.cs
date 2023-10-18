@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour, IInteractable
 {
+    [Header("=== Interact ===")]
+    [SerializeField] private string _interactName;
+
     public enum eTriggerPos { Up, Down, None, }
+    [Header("=== Ladder ===")]
     public eTriggerPos _triggerPos;
     [SerializeField] private PlayerMove_1 _player;
     [SerializeField] private Transform[] _triggers;
@@ -47,7 +51,8 @@ public class Ladder : MonoBehaviour, IInteractable
 
     public void SetActiveInteractUI(bool value)
     {
-
+        Vector3 pos = Camera.main.WorldToScreenPoint(_entryPos[(int)_triggerPos].position);
+        UIScene._instance.FloatInteractUI(value, pos, _interactName);
     }
 
     // 플레이어를 참조
@@ -75,7 +80,7 @@ public class Ladder : MonoBehaviour, IInteractable
     {
         if (!other.CompareTag("Player"))
             return;
-        if (_player._state.State == PlayerFSM.eState.Ladder)
+        if (_player._state.State == PlayerFSM.eState.Ladder || _player._state.State == PlayerFSM.eState.LadderOut)
             return;
         if (Input.GetKey(KeyCode.F))
         {
