@@ -323,6 +323,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1025800556}
     m_Modifications:
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 27.618832
+      objectReference: {fileID: 0}
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 11.83852
+      objectReference: {fileID: 0}
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 8.455954
+      objectReference: {fileID: 0}
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.42817682
+      objectReference: {fileID: 0}
     - target: {fileID: 2174710726174605122, guid: 0e4269b1e299a844692f7989ada10f65,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -362,6 +382,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 36.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2.943853
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.4050846
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 2.6722744
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.0047564483
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.16261578
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.084494844
       objectReference: {fileID: 0}
     - target: {fileID: 4741229423140713114, guid: 0e4269b1e299a844692f7989ada10f65,
         type: 3}
@@ -822,6 +872,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ExposedReferences.m_References.Array.data[1].second
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8264020797909892548, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Name
+      value: Victim Talk Trigger
       objectReference: {fileID: 0}
     - target: {fileID: 8373591448494066824, guid: 0e4269b1e299a844692f7989ada10f65,
         type: 3}
@@ -96723,6 +96778,36 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 16.254648
+      objectReference: {fileID: 0}
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.5078411
+      objectReference: {fileID: 0}
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 28.16736
+      objectReference: {fileID: 0}
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 2.2056994
+      objectReference: {fileID: 0}
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -0.52817535
+      objectReference: {fileID: 0}
+    - target: {fileID: 826519499112971560, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.044968653
+      objectReference: {fileID: 0}
     - target: {fileID: 907390389376685572, guid: 0e4269b1e299a844692f7989ada10f65,
         type: 3}
       propertyPath: m_Layer
@@ -96747,6 +96832,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 3.2296705
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.70788956
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 3.0434852
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.09490948
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -0.29311752
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915747359155076276, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.050153848
       objectReference: {fileID: 0}
     - target: {fileID: 3102703739142488823, guid: 0e4269b1e299a844692f7989ada10f65,
         type: 3}
@@ -97251,6 +97366,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8264020797909892548, guid: 0e4269b1e299a844692f7989ada10f65,
+        type: 3}
+      propertyPath: m_Name
+      value: Victim Talk Trigger
       objectReference: {fileID: 0}
     - target: {fileID: 8294076644951687291, guid: 0e4269b1e299a844692f7989ada10f65,
         type: 3}
