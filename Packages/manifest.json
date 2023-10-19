@@ -1,11 +1,8 @@
 {
   "dependencies": {
-<<<<<<< HEAD
     "com.unity.2d.animation": "7.0.12",
     "com.unity.2d.pixel-perfect": "5.0.3",
     "com.unity.2d.psdimporter": "6.0.7",
-=======
->>>>>>> parent of 05a7bdc (float ui 이미지)
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.cinemachine": "2.3.4",
