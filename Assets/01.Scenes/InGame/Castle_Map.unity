@@ -9146,6 +9146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 247495335}
+  - component: {fileID: 247495336}
   m_Layer: 0
   m_Name: Gate_Right_Root
   m_TagString: Untagged
@@ -9168,7 +9169,27 @@ Transform:
   - {fileID: 1947576274}
   m_Father: {fileID: 1421899660}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -60}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60.00004}
+--- !u!95 &247495336
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247495334}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &248982736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22129,6 +22150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 526421224}
+  - component: {fileID: 526421225}
   m_Layer: 0
   m_Name: Gate_Left_Root
   m_TagString: Untagged
@@ -22151,7 +22173,27 @@ Transform:
   - {fileID: 1268160862}
   m_Father: {fileID: 1421899660}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 150}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 211.0001}
+--- !u!95 &526421225
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526421223}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &527774768
 GameObject:
   m_ObjectHideFlags: 0
@@ -23235,6 +23277,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 554699236}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &557549143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 557549144}
+  m_Layer: 0
+  m_Name: Float UI Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &557549144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557549143}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.556, y: 3.809, z: -2.333}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1421899660}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &565855372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29716,6 +29789,7 @@ MonoBehaviour:
   - {fileID: 251483486}
   - {fileID: 1048876209}
   _firstMeet: {fileID: 1745869357}
+  _bossGateColl: {fileID: 1421899659}
 --- !u!114 &719533617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49925,7 +49999,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155968343}
-  m_LocalRotation: {x: 0.54642326, y: -0.000000027320391, z: 0.00000003092952, w: 0.7933873}
+  m_LocalRotation: {x: 0.5424364, y: -0.00000002712105, z: 0.000000030703838, w: 0.84009683}
   m_LocalPosition: {x: -116.337, y: 18.633474, z: -77.000885}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -63250,7 +63324,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1421899660}
   - component: {fileID: 1421899661}
-  m_Layer: 0
+  - component: {fileID: 1421899663}
+  - component: {fileID: 1421899662}
+  m_Layer: 15
   m_Name: Boss Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63275,6 +63351,7 @@ Transform:
   - {fileID: 4284560744545463}
   - {fileID: 4284561440768773}
   - {fileID: 414338164}
+  - {fileID: 557549144}
   m_Father: {fileID: 160108862}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -63288,7 +63365,7 @@ Animator:
   m_GameObject: {fileID: 1421899659}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d453c5f3fff2dba41a3ac4c62e2801ea, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -63298,6 +63375,34 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1421899662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421899659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1c36ad25ddbfe4ca186b44e7ba194c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactName: 
+  _floatUIPos: {fileID: 557549144}
+  _doorState: 1
+--- !u!65 &1421899663
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421899659}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 4.9617367, y: 0.6422414, z: 5.2325215}
+  m_Center: {x: 0.35610688, y: 0.17887925, z: -2.1162605}
 --- !u!1001 &1424085325
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77266,10 +77371,12 @@ PlayableDirector:
     value: {fileID: 1155968345}
   - key: {fileID: 6199026915991695322, guid: af7e09da88f5bea4ea65b60e9cac0458, type: 2}
     value: {fileID: 807536241}
-  - key: {fileID: 8722704544552939875, guid: af7e09da88f5bea4ea65b60e9cac0458, type: 2}
-    value: {fileID: 1421899661}
   - key: {fileID: 1542360843908944567, guid: af7e09da88f5bea4ea65b60e9cac0458, type: 2}
     value: {fileID: 719533617}
+  - key: {fileID: -5216867661563523224, guid: af7e09da88f5bea4ea65b60e9cac0458, type: 2}
+    value: {fileID: 526421225}
+  - key: {fileID: -7778478472385253148, guid: af7e09da88f5bea4ea65b60e9cac0458, type: 2}
+    value: {fileID: 247495336}
   m_ExposedReferences:
     m_References:
     - d776d17f196e46c43a5e42cccb08fe62: {fileID: 837366968}

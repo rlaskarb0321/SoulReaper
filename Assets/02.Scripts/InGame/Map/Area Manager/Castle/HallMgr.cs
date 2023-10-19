@@ -9,6 +9,8 @@ public class HallMgr : MonoBehaviour
     public GameObject[] _unSealTriggers;
     public GameObject _firstMeet;
 
+    public GameObject _bossGateColl;
+
     public void SetUnSealTrigger(int index)
     {
         if (index == -1)
@@ -25,6 +27,9 @@ public class HallMgr : MonoBehaviour
             _unSealTriggers[index].gameObject.SetActive(false);
             return;
         }
+
+        if (index == 1)
+            _bossGateColl.GetComponent<BoxCollider>().enabled = true;
 
         _unSealTriggers[index].gameObject.SetActive(true);
     }
