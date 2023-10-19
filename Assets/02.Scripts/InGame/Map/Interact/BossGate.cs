@@ -7,9 +7,10 @@ public class BossGate : MonoBehaviour, IInteractable
     private enum eDoorState { Open, Close }
 
     [Header("=== Interact ===")]
-    private string _interactName;
+    [SerializeField] private GameObject _bossRoomPortal;
     [SerializeField] private Transform _floatUIPos;
     [SerializeField] private eDoorState _doorState;
+    private string _interactName;
 
     private Animator _animator;
     private bool _isOperate;
@@ -21,6 +22,8 @@ public class BossGate : MonoBehaviour, IInteractable
         _doorState = eDoorState.Close;
     }
 
+    public void CanInteract() => this.GetComponent<BoxCollider>().enabled = true;
+
     public void Interact()
     {
         _isOperate = true;
@@ -28,7 +31,13 @@ public class BossGate : MonoBehaviour, IInteractable
     }
 
     // 문의 애니메이션 마지막에 달아놓아서 문 조작이 끝났음을 알림
-    public void EndOperating() => _isOperate = false;
+    public void EndOperating()
+    {
+        if (_doorState == eDoorState.Open)
+            _bossRoomPortal.SetActive(true);
+
+        _isOperate = false;
+    }
 
     // 문의 애니메이션 조작 중에 문의 상태를 바꿈
     public void StartOperating()
@@ -37,6 +46,16 @@ public class BossGate : MonoBehaviour, IInteractable
         index++;
         index %= 2;
         _doorState = (eDoorState)index;
+
+        switch (_doorState)
+        {
+            case eDoorState.Open:
+                _bossRoomPortal.SetActive(true);
+                break;
+            case eDoorState.Close:
+                _bossRoomPortal.SetActive(false);
+                break;
+        }
     }
 
     public void SetActiveInteractUI(bool value)
