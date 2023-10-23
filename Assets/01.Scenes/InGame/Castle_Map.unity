@@ -36123,6 +36123,7 @@ GameObject:
   - component: {fileID: 868867119}
   - component: {fileID: 868867115}
   - component: {fileID: 868867118}
+  - component: {fileID: 868867120}
   m_Layer: 0
   m_Name: SceneMgr
   m_TagString: Untagged
@@ -36292,6 +36293,18 @@ PlayableDirector:
   m_SceneBindings: []
   m_ExposedReferences:
     m_References: []
+--- !u!114 &868867120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868867114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f86a06061fc024d458569b18cc3b0e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &869371753
 GameObject:
   m_ObjectHideFlags: 0
