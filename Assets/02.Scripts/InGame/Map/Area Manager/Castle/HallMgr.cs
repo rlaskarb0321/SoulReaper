@@ -7,6 +7,7 @@ using UnityEngine.Playables;
 public class HallMgr : MonoBehaviour
 {
     public GameObject[] _unSealTriggers;
+    public GameObject[] _unSealVictim;
     public GameObject _firstMeet;
 
     public BossGate _bossGate;
@@ -32,6 +33,7 @@ public class HallMgr : MonoBehaviour
             _bossGate.CanInteract();
 
         _unSealTriggers[index].gameObject.SetActive(true);
+        _unSealVictim[index].gameObject.SetActive(false);
     }
 
     public void SetOffFirstMeet()

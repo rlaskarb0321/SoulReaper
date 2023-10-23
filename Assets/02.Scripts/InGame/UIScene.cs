@@ -9,30 +9,47 @@ public class UIScene : MonoBehaviour
     public static UIScene _instance;
 
     [Header("=== UI ===")]
-    [SerializeField] private List<GameObject> _currOpenPanel;
-    [SerializeField] private GameObject _pausePanel; // 일시정지
+    [SerializeField]
+    private List<GameObject> _currOpenPanel;
+
+    [SerializeField]
+    private GameObject _pausePanel; // 일시정지
     public GameObject _letterPanel; // 전서구
+
 
     [Header("=== Seed UI ===")]
     public SeedUI _seedUI;
 
+
     [Header("=== Player ===")]
     [SerializeField] private PlayerData _stat;
 
-    public enum ePercentageStat { Hp, Mp, }
+
     [Header("=== Hp & Mp ===")]
-    [SerializeField] private Image _hpFill;
-    [SerializeField] private TMP_Text _hpText;
-    [SerializeField] private Image _mpFill;
-    [SerializeField] private TMP_Text _mpText;
+    [SerializeField] 
+    private Image _hpFill;
+
+    [SerializeField] 
+    private TMP_Text _hpText;
+
+    [SerializeField] 
+    private Image _mpFill;
+
+    [SerializeField] 
+    private TMP_Text _mpText;
+    public enum ePercentageStat { Hp, Mp, }
+
 
     [Header("=== Scene Change ===")]
-    [SerializeField] private TMP_Text _mapName;
+    [SerializeField] 
+    private TMP_Text _mapName;
+
 
     [Header("=== Interact ===")]
     public GameObject _interactUI; // 인게임에서 상호작용 가능한 물체 가까이 갔을 때 뜨게 할 텍스트 UI
     public TMP_Text _objName;
-    private HorizontalLayoutGroup[] _horizon;
+    private RectTransform _rect;
+
 
     private void Awake()
     {
@@ -42,7 +59,7 @@ public class UIScene : MonoBehaviour
         _currOpenPanel = new List<GameObject>();
         UpdateHPMP(ePercentageStat.Hp, _stat._currHP, _stat._maxHP);
         UpdateHPMP(ePercentageStat.Mp, _stat._currMP, _stat._maxMP);
-        _horizon = _interactUI.GetComponentsInChildren<HorizontalLayoutGroup>();
+        _rect = _interactUI.GetComponent<RectTransform>();
     }
 
     private void Update()
@@ -112,7 +129,7 @@ public class UIScene : MonoBehaviour
             return;
         }
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate(_interactUI.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_rect);
         _interactUI.transform.position = pos;
         _interactUI.SetActive(true);
     }

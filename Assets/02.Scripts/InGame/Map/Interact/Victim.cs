@@ -18,11 +18,12 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
 
     private PlayableDirector _playableDirector;
     private int _selectNum;
-    private bool _isInteract;
+    [HideInInspector] public bool _isInteract;
 
     private void Awake()
     {
         _playableDirector = GetComponent<PlayableDirector>();
+        _victimTalk = GetComponentInChildren<VictimTalk>();
     }
 
     public void Interact()
@@ -34,6 +35,7 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
 
         _isInteract = true;
         _playableDirector.playableAsset = _playableAssets[_noSaveCount];
+        _victimTalk._isInteract = true;
         ProductionMgr.StartProduction(_playableDirector);
     }
 
