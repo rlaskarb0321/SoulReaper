@@ -36,6 +36,7 @@ public class HallMgr : MonoBehaviour
 
     public void SetOffFirstMeet()
     {
+        _bossGate.GetComponent<Animator>().enabled = true;
         _firstMeet.SetActive(false);
     }
 }

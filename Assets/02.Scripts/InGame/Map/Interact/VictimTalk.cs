@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class VictimTalk : MonoBehaviour
 {
-    private Victim _victimBody;
+    [SerializeField] private TextAsset _selfTalkCSV;
+    [SerializeField] private bool _isPlayerIn;
+    [SerializeField] private string[] _selfTalkLine;
+    [SerializeField] private Transform _selfTalkPos;
+
+    private DialogMgr _dialogMgr;
 
     private void Awake()
     {
-        _victimBody = GetComponentInParent<Victim>();
+        _dialogMgr = new DialogMgr();
+    }
+
+    private void Start()
+    {
+        _selfTalkLine = _dialogMgr.ParsingCSVLine(_selfTalkCSV);
     }
 
     private void OnTriggerStay(Collider other)
@@ -16,7 +26,7 @@ public class VictimTalk : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
-        print("Player In");
+        _isPlayerIn = true;
     }
 
     private void OnTriggerExit(Collider other)
@@ -24,6 +34,6 @@ public class VictimTalk : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
-        print("Player Out");
+        _isPlayerIn = false;
     }
 }

@@ -13,6 +13,8 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
     [Header("PlayableAsset by number of not Liberated")]
     [SerializeField] private PlayableAsset[] _playableAssets;
     [SerializeField] private int _noSaveCount;
+    [SerializeField] [Tooltip("희생자 혼잣말 트리거와 같이 있는 스크립트")]
+    private VictimTalk _victimTalk;
 
     private PlayableDirector _playableDirector;
     private int _selectNum;
