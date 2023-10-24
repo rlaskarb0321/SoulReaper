@@ -7,7 +7,7 @@ public class LittleForestData : MonoBehaviour
     [Header("=== Hierarchy ===")]
     public GameObject _scroll;
     public GameObject _sparrow;
-    //public HealthPlant.eFlowerState _eFlowerState;
+    public HealthPlant _eFlower;
     //public GameObject _shrineSeal;
     //public GameObject _shrineReward;
 
@@ -28,5 +28,15 @@ public class LittleForestData : MonoBehaviour
     private void Awake()
     {
         _mapData = MapDataPackage._mapData._forest._dataStruct;
+        ApplyData();
+    }
+
+    private void ApplyData()
+    {
+        if(_mapData._isScrollGet)
+        {
+            _scroll.SetActive(false);
+            _sparrow.SetActive(false);
+        }
     }
 }

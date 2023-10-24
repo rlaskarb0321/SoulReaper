@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class DataManage
 {
-    private static string SavePath => Application.persistentDataPath + "/saves/";
+    public static string SavePath => Application.persistentDataPath + "/saves/";
 
     // Save Method
     public static void SaveMData(MapData data, string saveFileName)
@@ -19,7 +19,6 @@ public static class DataManage
         string saveFilePath = SavePath + saveFileName + ".json";
 
         File.WriteAllText(saveFilePath, saveJson);
-        Debug.Log("Save Success: " + saveFilePath);
     }
 
     public static void SaveCData(CharacterData data, string saveFileName)
@@ -34,7 +33,6 @@ public static class DataManage
         string saveFilePath = SavePath + saveFileName + ".json";
 
         File.WriteAllText(saveFilePath, saveJson);
-        Debug.Log("Save Success: " + saveFilePath);
     }
 
     // Load Method

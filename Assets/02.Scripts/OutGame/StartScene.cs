@@ -1,3 +1,4 @@
+using System.IO;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,13 +54,25 @@ public class StartScene : MonoBehaviour
 
     public void OnStartBtnClick()
     {
-        CharacterData characterData = new CharacterData();
-        MapData mapData = new MapData();
+        string mapFilePath = DataManage.SavePath + "TestMData" + ".json";
+        string characterFilePath = DataManage.SavePath + "TestCData" + ".json";
+
+        if (!File.Exists(mapFilePath))
+        {
+            print("없어서 맵 데이터 새로 생성");
+            MapData mapData = new MapData();
+            DataManage.SaveMData(mapData, "TestMData");
+        }
+
+        if (!File.Exists(characterFilePath))
+        {
+            print("없어서 캐릭 데이터 새로 생성");
+            CharacterData characterData = new CharacterData();
+            DataManage.SaveCData(characterData, "TestCData");
+        }
 
         //LoadingScene.LoadScene("Castle_Map");
         LoadingScene.LoadScene("LittleForest_Map");
-        DataManage.SaveCData(characterData, "TestCData");
-        DataManage.SaveMData(mapData, "TestMData");
     }
 
     public void OnExitBtnClick()
