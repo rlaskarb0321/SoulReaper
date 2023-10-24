@@ -8,7 +8,7 @@ public class HealthPlant : MonoBehaviour, IInteractable
     [SerializeField] private string _interactName;
     [SerializeField] private Transform _floatUIPos;
 
-    private enum eFlowerState { None, Growing, Bloom, harvested, }
+    public enum eFlowerState { None, Growing, Bloom, harvested, }
     [Header("=== Plant ===")]
     [SerializeField] private eFlowerState _flowerState;
     [SerializeField] private GameObject _healthFlower;

@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public static class SaveLoadSystem
 {
-    private static string SavePath => Application.persistentDataPath + "/saves/";
+    public static string SavePath => Application.persistentDataPath + "/saves/";
 
-    public static void Save(SaveData data, string saveFileName)
+    public static void Save(MapData data, string saveFileName)
     {
         if (!Directory.Exists(SavePath))
         {
@@ -19,7 +20,7 @@ public static class SaveLoadSystem
         Debug.Log("Save Success: " + saveFilePath);
     }
 
-    public static SaveData Load(string saveFileName)
+    public static MapData Load(string saveFileName)
     {
         string saveFilePath = SavePath + saveFileName + ".json";
 
@@ -30,7 +31,7 @@ public static class SaveLoadSystem
         }
 
         string saveFile = File.ReadAllText(saveFilePath);
-        SaveData saveData = JsonUtility.FromJson<SaveData>(saveFile);
+        MapData saveData = JsonUtility.FromJson<MapData>(saveFile);
 
         return saveData;
     }
