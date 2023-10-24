@@ -11,6 +11,9 @@ public class LetterScroll : MonoBehaviour, IInteractable
     [SerializeField] private GameObject _letterMesh;
     [SerializeField] private CarrierPigeon _carrierPigeon;
 
+    [Header("=== Data ===")]
+    [SerializeField] private LittleForestData _map;
+
     public void Interact()
     {
         if (_carrierPigeon != null)
@@ -18,6 +21,10 @@ public class LetterScroll : MonoBehaviour, IInteractable
             _carrierPigeon.FlyAway();
         }
 
+        ForestData data = new ForestData();
+        data._isScrollGet = true;
+
+        _map.MapData = data;
         _letterMesh.SetActive(false);
         SetActiveInteractUI(false);
         UIScene._instance.SetUIPanelActive(UIScene._instance._letterPanel);
@@ -43,7 +50,7 @@ public class LetterScroll : MonoBehaviour, IInteractable
     {
         if (!other.CompareTag("Player"))
             return;
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             Interact();
             return;

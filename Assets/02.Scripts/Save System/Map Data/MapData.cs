@@ -9,30 +9,33 @@ public class MapData
 {
     public ForestMap _forest;
     public CastleMap _castle;
+
+    public MapData()
+    {
+        _forest = new ForestMap();
+        _castle = new CastleMap();
+    }
 }
 
-/// <summary>
-/// ½£ ¸Ê µ¥ÀÌÅÍ¸¦ ÀúÀåÇÏ´Â °´Ã¼
-/// </summary>
+#region ½£ ¸Ê µ¥ÀÌÅÍ
+// ½£ ¸Ê µ¥ÀÌÅÍ¸¦ ÀúÀåÇÏ´Â °´Ã¼
 [Serializable]
 public class ForestMap
 {
-    public ForestData _data;
+    public ForestData _dataStruct;
 
     public ForestMap()
     {
-        _data = new ForestData();
+        _dataStruct = new ForestData();
     }
 
     public ForestMap(ForestData data)
     {
-        _data = data;
+        _dataStruct = data;
     }
 }
 
-/// <summary>
-/// ½£ ¸Ê µ¥ÀÌÅÍ ±¸Á¶Ã¼
-/// </summary>
+// ½£ ¸Ê µ¥ÀÌÅÍ ±¸Á¶Ã¼
 [Serializable]
 public struct ForestData
 {
@@ -55,13 +58,10 @@ public struct ForestData
     public bool _isShrineUnSealed;
     public bool _isShrineGet;
 }
+#endregion
 
-
-
-
-/// <summary>
-/// ¼º ¸Ê µ¥ÀÌÅÍ¸¦ ÀúÀåÇÏ´Â °´Ã¼
-/// </summary>
+#region ¼º ¸Ê µ¥ÀÌÅÍ
+// ¼º ¸Ê µ¥ÀÌÅÍ¸¦ ÀúÀåÇÏ´Â °´Ã¼
 [Serializable]
 public class CastleMap
 {
@@ -83,9 +83,7 @@ public class CastleMap
     }
 }
 
-/// <summary>
-/// ¼º ¸Ê µ¥ÀÌÅÍ ±¸Á¶Ã¼
-/// </summary>
+// ¼º ¸Ê µ¥ÀÌÅÍ ±¸Á¶Ã¼
 [Serializable]
 public struct CastleData
 {
@@ -105,3 +103,4 @@ public struct CastleData
     public bool[] _isEncounteredBoss;
     public bool _isA1Clear;
 }
+#endregion

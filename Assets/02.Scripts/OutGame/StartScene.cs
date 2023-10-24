@@ -49,17 +49,17 @@ public class StartScene : MonoBehaviour
 
         _gameBtnGroup.SetActive(true);
         _firstSelecBtn.Select();
-
-        // 로딩씬 불러오기
     }
 
     public void OnStartBtnClick()
     {
+        CharacterData characterData = new CharacterData();
+        MapData mapData = new MapData();
+
         //LoadingScene.LoadScene("Castle_Map");
         LoadingScene.LoadScene("LittleForest_Map");
-
-        CharacterData characterData = new CharacterData();
         DataManage.SaveCData(characterData, "TestCData");
+        DataManage.SaveMData(mapData, "TestMData");
     }
 
     public void OnExitBtnClick()

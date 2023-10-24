@@ -10,7 +10,7 @@ public class CharacterData
 
     public CharacterData()
     {
-        _characterData = new CData("¿€¿∫ Ω£", new Vector3(-116.14f, -4.27f, -65.99f), 100, 100, 50, 50, 5);
+        _characterData = new CData("¿€¿∫ Ω£", new Vector3(-116.14f, -4.67f, -65.99f), 100, 100, 50, 50, 5);
     }
 
     public CharacterData(CData cData)

@@ -24,7 +24,7 @@ public class SceneTeleport : MonoBehaviour, IInteractable
     {
         _sceneOutPanel.gameObject.SetActive(true);
         _sceneOutPanel.enabled = true;
-        StartCoroutine(TestCor());
+        StartCoroutine(TeleportScene());
     }
 
     public void SetActiveInteractUI(bool value)
@@ -33,7 +33,7 @@ public class SceneTeleport : MonoBehaviour, IInteractable
         UIScene._instance.FloatInteractUI(value, pos, _interactName);
     }
 
-    private IEnumerator TestCor()
+    private IEnumerator TeleportScene()
     {
         while (_sceneOutPanelImg.color.a < 1.0f)
         {
