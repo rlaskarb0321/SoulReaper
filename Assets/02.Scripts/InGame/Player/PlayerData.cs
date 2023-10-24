@@ -28,14 +28,14 @@ public class PlayerData : MonoBehaviour
         _combat = GetComponent<PlayerCombat>();
     }
 
-    private void Start()
-    {
-        _currHP = _maxHP;
-        _currMP = _maxMP;
+    //private void Start()
+    //{
+    //    _currHP = _maxHP;
+    //    _currMP = _maxMP;
 
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
-    }
+    //    UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
+    //    UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
+    //}
 
     public void DecreaseHP(Vector3 attackDir, float damage)
     {

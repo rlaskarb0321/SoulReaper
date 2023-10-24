@@ -2618,6 +2618,16 @@ PrefabInstance:
       propertyPath: _ui
       value: 
       objectReference: {fileID: 1320289523}
+    - target: {fileID: 3272357121288171839, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.8070793
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272357121288171839, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.11099434
+      objectReference: {fileID: 0}
     - target: {fileID: 3272357121307104049, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3347,6 +3357,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0190d3179854b4bb0a950e9246b203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &779528199 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3272357121288171839, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 779528197}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &779528200 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3272357120339988104, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 779528197}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &838474656
 GameObject:
   m_ObjectHideFlags: 0
@@ -4298,6 +4320,7 @@ GameObject:
   - component: {fileID: 1320289519}
   - component: {fileID: 1320289524}
   - component: {fileID: 1320289523}
+  - component: {fileID: 1320289525}
   m_Layer: 5
   m_Name: UI Canvas
   m_TagString: Untagged
@@ -4442,6 +4465,44 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1320289525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320289518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba89185b752b93428bacaf2705e0934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerBody:
+  - {fileID: 779528199}
+  - {fileID: 779528200}
+  _hpFill: {fileID: 542289373}
+  _hpText: {fileID: 1376314439}
+  _mpFill: {fileID: 870582287}
+  _mpText: {fileID: 1523257858}
+  _seedCount: {fileID: 306963737}
+  _mapName: {fileID: 1790706889}
+  _dataInstance:
+    _characterData:
+      _mapName: "\uC791\uC740 \uC232"
+      _pos: {x: -116.14, y: -4.27, z: -65.99}
+      _currHp: 100
+      _maxHp: 100
+      _currMp: 50
+      _maxMp: 50
+      _seedCount: 5
+  _cdata:
+    _mapName: 
+    _pos: {x: 0, y: 0, z: 0}
+    _currHp: 0
+    _maxHp: 0
+    _currMp: 0
+    _maxMp: 0
+    _seedCount: 0
 --- !u!1 &1376314437
 GameObject:
   m_ObjectHideFlags: 0

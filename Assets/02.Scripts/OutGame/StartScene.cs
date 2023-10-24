@@ -57,6 +57,9 @@ public class StartScene : MonoBehaviour
     {
         //LoadingScene.LoadScene("Castle_Map");
         LoadingScene.LoadScene("LittleForest_Map");
+
+        CharacterData characterData = new CharacterData();
+        DataManage.SaveCData(characterData, "TestCData");
     }
 
     public void OnExitBtnClick()

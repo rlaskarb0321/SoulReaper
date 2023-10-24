@@ -57,8 +57,6 @@ public class UIScene : MonoBehaviour
 
         EditMapName();
         _currOpenPanel = new List<GameObject>();
-        UpdateHPMP(ePercentageStat.Hp, _stat._currHP, _stat._maxHP);
-        UpdateHPMP(ePercentageStat.Mp, _stat._currMP, _stat._maxMP);
         _rect = _interactUI.GetComponent<RectTransform>();
     }
 
@@ -100,10 +98,15 @@ public class UIScene : MonoBehaviour
         switch (stat)
         {
             case ePercentageStat.Hp:
+                _stat._currHP = currValue;
+                _stat._maxHP = maxValue;
                 _hpText.text = $"{currValue} / {maxValue}";
                 _hpFill.fillAmount = currValue / maxValue;
                 break;
+
             case ePercentageStat.Mp:
+                _stat._currMP = currValue;
+                _stat._maxMP = maxValue;
                 _mpText.text = $"{currValue} / {maxValue}";
                 _mpFill.fillAmount = currValue / maxValue;
                 break;
