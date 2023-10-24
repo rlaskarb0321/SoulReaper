@@ -7,7 +7,7 @@ public class LittleForestData : MonoBehaviour
     [Header("=== Hierarchy ===")]
     public GameObject _scroll;
     public GameObject _sparrow;
-    public HealthPlant _eFlower;
+    public HealthPlant _healthFlower;
     //public GameObject _shrineSeal;
     //public GameObject _shrineReward;
 
@@ -22,6 +22,7 @@ public class LittleForestData : MonoBehaviour
         }
     }
 
+    [Header("=== Forest Map Data ===")]
     [SerializeField]
     private ForestData _mapData;
 
@@ -37,6 +38,20 @@ public class LittleForestData : MonoBehaviour
         {
             _scroll.SetActive(false);
             _sparrow.SetActive(false);
+        }
+
+        print(_healthFlower.FlowerState);
+        switch (_healthFlower.FlowerState)
+        {
+            case HealthPlant.eFlowerState.None:
+            case HealthPlant.eFlowerState.Growing:
+                break;
+
+            case HealthPlant.eFlowerState.Bloom:
+                break;
+
+            case HealthPlant.eFlowerState.harvested:
+                break;
         }
     }
 }

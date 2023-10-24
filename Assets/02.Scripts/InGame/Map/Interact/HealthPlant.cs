@@ -4,38 +4,64 @@ using UnityEngine;
 
 public class HealthPlant : MonoBehaviour, IInteractable
 {
+    public enum eFlowerState { None, Growing, Bloom, harvested, }
+
     [Header("=== Interact ===")]
     [SerializeField] private string _interactName;
     [SerializeField] private Transform _floatUIPos;
-
-    public enum eFlowerState { None, Growing, Bloom, harvested, }
+    
     [Header("=== Plant ===")]
-    [SerializeField] private eFlowerState _flowerState;
-    [SerializeField] private GameObject _healthFlower;
-    [SerializeField] private GameObject[] _leaves;
+    private eFlowerState _flowerState;
+    public eFlowerState FlowerState
+    {   
+        get { return _flowerState; }
+        set 
+        { 
+            if (_flowerState != eFlowerState.Growing)
+            {
 
+            }
+        }
+    }
+    [SerializeField]
+    private GameObject _healthFlower;
+    [SerializeField]
+    private GameObject[] _leaves;
+
+    [Header("=== Data ===")]
+    [SerializeField] private LittleForestData _map;
+
+    // field
     private AudioSource _audio;
     private Animator _animator;
     private PlayerData _player;
+    private string _sceneName;
 
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
+
+        // 현재 열려있는 씬이 어느 씬인지 판단해야 꽃의 상태가 바뀌었을 때 어떤 맵 데이터 객체를 만들지 결정할 수 있음
+        int index = UnityEngine.SceneManagement.SceneManager.sceneCount;
+        for (int i = 0; i < index; i++)
+        {
+            print(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).name);
+        }
     }
 
     public void Interact()
     {
-        if (_flowerState == eFlowerState.harvested || _flowerState == eFlowerState.Growing)
+        if (FlowerState == eFlowerState.harvested || FlowerState == eFlowerState.Growing)
             return;
 
-        switch (_flowerState)
+        switch (FlowerState)
         {
             case eFlowerState.None:
                 PlantHealthSeed();
                 break;
             case eFlowerState.Bloom:
-                EatPlant();
+                EatFlower();
                 break;
         }
     }
@@ -43,15 +69,15 @@ public class HealthPlant : MonoBehaviour, IInteractable
     private void PlantHealthSeed()
     {
         _animator.enabled = true;
-        _flowerState = eFlowerState.Growing;
+        FlowerState = eFlowerState.Growing;
     }
 
-    private void EatPlant()
+    private void EatFlower()
     {
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _player._maxHP, _player._maxHP);
         UIScene._instance._seedUI.GoDownSeedUI();
         _audio.PlayOneShot(_audio.clip);
-        _flowerState = eFlowerState.harvested;
+        FlowerState = eFlowerState.harvested;
 
         for (int i = 0; i < _leaves.Length; i++)
         {
@@ -61,13 +87,13 @@ public class HealthPlant : MonoBehaviour, IInteractable
 
     public void EndGrown()
     {
-        _flowerState = eFlowerState.Bloom;
+        FlowerState = eFlowerState.Bloom;
         _animator.enabled = false;
     }
 
     public void SetActiveInteractUI(bool value)
     {
-        if (_flowerState == eFlowerState.harvested || _flowerState == eFlowerState.Growing)
+        if (FlowerState == eFlowerState.harvested || FlowerState == eFlowerState.Growing)
             value = false;
 
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
@@ -80,7 +106,7 @@ public class HealthPlant : MonoBehaviour, IInteractable
             return;
         if (_player == null)
             _player = other.GetComponent<PlayerData>();
-        if (_flowerState != eFlowerState.harvested)
+        if (FlowerState != eFlowerState.harvested)
             UIScene._instance._seedUI.PopUpSeedUI();
     }
 

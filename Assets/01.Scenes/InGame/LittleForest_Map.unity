@@ -34661,6 +34661,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 678170553293368865, guid: 8cd47022e7f61684f82ecc73632e0945,
+        type: 3}
+      propertyPath: _map
+      value: 
+      objectReference: {fileID: 1223063334}
     - target: {fileID: 678170553293368870, guid: 8cd47022e7f61684f82ecc73632e0945,
         type: 3}
       propertyPath: m_Name
@@ -34844,6 +34849,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1205052618}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1205052620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 678170553293368865, guid: 8cd47022e7f61684f82ecc73632e0945,
+    type: 3}
+  m_PrefabInstance: {fileID: 1205052618}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d4b969cb720a4342900463e82f964dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1207092310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35393,6 +35410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scroll: {fileID: 936478503}
   _sparrow: {fileID: 6788538757269683693}
+  _healthFlower: {fileID: 1205052620}
   _mapData:
     _isScrollGet: 0
     _state: 0
