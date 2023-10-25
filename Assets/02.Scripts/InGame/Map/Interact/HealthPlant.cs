@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthPlant : MonoBehaviour, IInteractable
 {
@@ -17,9 +18,11 @@ public class HealthPlant : MonoBehaviour, IInteractable
         get { return _flowerState; }
         set 
         { 
+            _flowerState = value;
             if (_flowerState != eFlowerState.Growing)
             {
-
+                print("health plant " + _flowerState);
+                _apply.EditMapData();
             }
         }
     }
@@ -29,27 +32,20 @@ public class HealthPlant : MonoBehaviour, IInteractable
     private GameObject[] _leaves;
 
     [Header("=== Data ===")]
-    [SerializeField] private LittleForestData _map;
+    [SerializeField] private DataApply _apply;
 
     // field
     private AudioSource _audio;
     private Animator _animator;
     private PlayerData _player;
-    private string _sceneName;
 
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
-
-        // 현재 열려있는 씬이 어느 씬인지 판단해야 꽃의 상태가 바뀌었을 때 어떤 맵 데이터 객체를 만들지 결정할 수 있음
-        int index = UnityEngine.SceneManagement.SceneManager.sceneCount;
-        for (int i = 0; i < index; i++)
-        {
-            print(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).name);
-        }
     }
 
+    #region Interface IInteractable Method
     public void Interact()
     {
         if (FlowerState == eFlowerState.harvested || FlowerState == eFlowerState.Growing)
@@ -66,31 +62,6 @@ public class HealthPlant : MonoBehaviour, IInteractable
         }
     }
 
-    private void PlantHealthSeed()
-    {
-        _animator.enabled = true;
-        FlowerState = eFlowerState.Growing;
-    }
-
-    private void EatFlower()
-    {
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _player._maxHP, _player._maxHP);
-        UIScene._instance._seedUI.GoDownSeedUI();
-        _audio.PlayOneShot(_audio.clip);
-        FlowerState = eFlowerState.harvested;
-
-        for (int i = 0; i < _leaves.Length; i++)
-        {
-            _leaves[i].SetActive(false);
-        }
-    }
-
-    public void EndGrown()
-    {
-        FlowerState = eFlowerState.Bloom;
-        _animator.enabled = false;
-    }
-
     public void SetActiveInteractUI(bool value)
     {
         if (FlowerState == eFlowerState.harvested || FlowerState == eFlowerState.Growing)
@@ -99,7 +70,9 @@ public class HealthPlant : MonoBehaviour, IInteractable
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
         UIScene._instance.FloatInteractUI(value, pos, _interactName);
     }
+    #endregion Interface IInteractable Method
 
+    #region Trigger Interact Method
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
@@ -131,4 +104,45 @@ public class HealthPlant : MonoBehaviour, IInteractable
         SetActiveInteractUI(false);
         UIScene._instance._seedUI.GoDownSeedUI();
     }
+    #endregion Trigger Interact Method
+
+    #region Health Plant Method
+    // 상호작용으로 꽃을 심을때 사용하는 메서드
+    private void PlantHealthSeed()
+    {
+        GrownPlant();
+        FlowerState = eFlowerState.Growing;
+    }
+
+    // 직접적으로 꽃의 상태를 바꾸는 작업
+    public void GrownPlant() => _animator.enabled = true;
+
+    // 상호작용으로 꽃의 열매를 먹을때 사용하는 메소드
+    private void EatFlower()
+    {
+        HarvestPlant();
+
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _player._maxHP, _player._maxHP);
+        UIScene._instance._seedUI.GoDownSeedUI();
+        _audio.PlayOneShot(_audio.clip);
+    }
+
+    // 직접적으로 꽃의 상태를 바꾸는 작업
+    public void HarvestPlant()
+    {
+        FlowerState = eFlowerState.harvested;
+
+        for (int i = 0; i < _leaves.Length; i++)
+        {
+            _leaves[i].SetActive(false);
+        }
+    }
+
+    // 꽃이 완전 성장되었을 때 animator를 정지시키기
+    public void EndGrown()
+    {
+        FlowerState = eFlowerState.Bloom;
+        _animator.enabled = false;
+    }
+    #endregion Health Plant Method
 }

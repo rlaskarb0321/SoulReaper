@@ -59,14 +59,14 @@ public class StartScene : MonoBehaviour
 
         if (!File.Exists(mapFilePath))
         {
-            print("없어서 맵 데이터 새로 생성");
+            print("맵 데이터 없어서 새로 생성");
             MapData mapData = new MapData();
             DataManage.SaveMData(mapData, "TestMData");
         }
 
         if (!File.Exists(characterFilePath))
         {
-            print("없어서 캐릭 데이터 새로 생성");
+            print("캐릭 데이터 없어서 새로 생성");
             CharacterData characterData = new CharacterData();
             DataManage.SaveCData(characterData, "TestCData");
         }

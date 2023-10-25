@@ -25888,7 +25888,7 @@ MonoBehaviour:
   _floatUIPos: {fileID: 638856986}
   _letterMesh: {fileID: 1050632826587446869}
   _carrierPigeon: {fileID: 6788538757269683694}
-  _map: {fileID: 1223063334}
+  _apply: {fileID: 1223063334}
 --- !u!54 &936478506
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -34666,6 +34666,11 @@ PrefabInstance:
       propertyPath: _map
       value: 
       objectReference: {fileID: 1223063334}
+    - target: {fileID: 678170553293368865, guid: 8cd47022e7f61684f82ecc73632e0945,
+        type: 3}
+      propertyPath: _apply
+      value: 
+      objectReference: {fileID: 1223063334}
     - target: {fileID: 678170553293368870, guid: 8cd47022e7f61684f82ecc73632e0945,
         type: 3}
       propertyPath: m_Name
@@ -35405,17 +35410,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1223063331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94cbe8ef4c32ab449a2741f9cd1efca9, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b19a74b425db9644add689fdd68b493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scroll: {fileID: 936478503}
+  _scrollMesh: {fileID: 1050632826587446869}
+  _scrollObj: {fileID: 936478503}
   _sparrow: {fileID: 6788538757269683693}
   _healthFlower: {fileID: 1205052620}
-  _mapData:
-    _isScrollGet: 0
-    _state: 0
-    _isShrineUnSealed: 0
-    _isShrineGet: 0
 --- !u!1001 &1228176423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57961,7 +57962,7 @@ GameObject:
   - component: {fileID: 1050632826589372567}
   - component: {fileID: 1050632826589372568}
   m_Layer: 0
-  m_Name: Mesh
+  m_Name: Scroll Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

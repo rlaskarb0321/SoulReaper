@@ -8,20 +8,47 @@ using System;
 public class MapData
 {
     public ForestMap _forest;
-    public CastleMap _castle;
+    public CastleARoom _castleA;
+    public CastleBRoom _castleB;
+    public CastleHall _castleHall;
 
     public MapData()
     {
         _forest = new ForestMap();
-        _castle = new CastleMap();
+        _castleA = new CastleARoom();
+        _castleB = new CastleBRoom();
+        _castleHall = new CastleHall();
     }
 }
 
-#region 숲 맵 데이터
+#region Forest Map Data
 // 숲 맵 데이터를 저장하는 객체
 [Serializable]
 public class ForestMap
 {
+    [Serializable]
+    public struct ForestData
+    {
+        public ForestData
+            (
+            bool isScrollGet = false,                                                   // 전서구 읽었는지 여부
+            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None,       // 화분의 상태
+            bool isShrineUnSealed = false,                                              // 사당입구 봉인 해제 여부
+            bool isShrineGet = false                                                    // 사당 보상 획득
+            )
+        {
+            _isScrollGet = isScrollGet;
+            _flowerState = flowerState;
+            _isShrineUnSealed = isShrineUnSealed;
+            _isShrineGet = isShrineGet;
+        }
+
+        public bool _isScrollGet;
+        public HealthPlant.eFlowerState _flowerState;
+        public bool _isShrineUnSealed;
+        public bool _isShrineGet;
+    }
+
     public ForestData _dataStruct;
 
     public ForestMap()
@@ -34,73 +61,78 @@ public class ForestMap
         _dataStruct = data;
     }
 }
+ #endregion Forest Map Data
 
-// 숲 맵 데이터 구조체
+
+#region Castle A Room Data
 [Serializable]
-public struct ForestData
+public class CastleARoom
 {
-    public ForestData
-        (
-        bool isScrollGet = false,                                                   // 전서구 읽었는지 여부
-        HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None,       // 화분의 상태
-        bool isShrineUnSealed = false,                                              // 사당입구 봉인 해제 여부
-        bool isShrineGet = false                                                    // 사당 보상 획득
-        )
+    [Serializable]
+    public struct RoomData
     {
-        _isScrollGet = isScrollGet;
-        _state = flowerState;
-        _isShrineUnSealed = isShrineUnSealed;
-        _isShrineGet = isShrineGet;
+
     }
 
-    public bool _isScrollGet;
-    public HealthPlant.eFlowerState _state;
-    public bool _isShrineUnSealed;
-    public bool _isShrineGet;
-}
-#endregion
+    public RoomData _data;
 
-#region 성 맵 데이터
-// 성 맵 데이터를 저장하는 객체
-[Serializable]
-public class CastleMap
-{
-    // 이 enum 들은 Castle Map 데이터 전용 스크립트로 옮기자
-    public enum eBossEncounterLevel { FirstMeet, Induce, Rationalize, } // 보스 조우 단계
-    public enum eARoomClear { A1, Shrine, A2, A3, A4, } // 해당 인덱스번째의 방을 클리어했는지
-    public enum eBRoomClear { B1, B2, } // 해당 인덱스번째의 방을 클리어했는지
-
-    public CastleData _data;
-
-    public CastleMap()
+    public CastleARoom()
     {
-        _data = new CastleData();
+        _data = new RoomData();
     }
 
-    public CastleMap(CastleData data)
+    public CastleARoom(RoomData data)
     {
         _data = data;
     }
 }
+#endregion Castle A Room Data
 
-// 성 맵 데이터 구조체
+#region Castle B Room Data
 [Serializable]
-public struct CastleData
+public class CastleBRoom
 {
-    public CastleData
-        (
-        bool isEntryClear = false,                                                  // Entry 방을 클리어했는지
-        bool[] isEncounteredBoss = null,                                            // 보스와 조우단계에 맞는 연출을 플레이 했는지
-        bool isA1Clear = false                                                      // A1 방을 클리어 했는지 (비밀을 풀었는지)
-        )
+    [Serializable]
+    public struct RoomData
     {
-        _isEntryClear = isEntryClear;
-        _isEncounteredBoss = isEncounteredBoss;
-        _isA1Clear = isA1Clear;
+
     }
 
-    public bool _isEntryClear;
-    public bool[] _isEncounteredBoss;
-    public bool _isA1Clear;
+    public RoomData _data;
+
+    public CastleBRoom()
+    {
+        _data = new RoomData();
+    }
+
+    public CastleBRoom(RoomData data)
+    {
+        _data = data;
+    }
 }
-#endregion
+#endregion Castle B Room Data
+
+
+#region Castle Hall Data
+[Serializable]
+public class CastleHall
+{
+    [Serializable]
+    public struct RoomData
+    {
+
+    }
+
+    public RoomData _data;
+
+    public CastleHall()
+    {
+        _data = new RoomData();
+    }
+
+    public CastleHall(RoomData data)
+    {
+        _data = data;
+    }
+}
+#endregion Castle Hall Data

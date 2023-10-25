@@ -12,7 +12,7 @@ public class LetterScroll : MonoBehaviour, IInteractable
     [SerializeField] private CarrierPigeon _carrierPigeon;
 
     [Header("=== Data ===")]
-    [SerializeField] private LittleForestData _map;
+    [SerializeField] private ForestDataApply _apply;
 
     public void Interact()
     {
@@ -21,14 +21,13 @@ public class LetterScroll : MonoBehaviour, IInteractable
             _carrierPigeon.FlyAway();
         }
 
-        ForestData data = new ForestData();
-        data._isScrollGet = true;
-
-        _map.MapData = data;
         _letterMesh.SetActive(false);
         SetActiveInteractUI(false);
         UIScene._instance.SetUIPanelActive(UIScene._instance._letterPanel);
         GetComponent<SphereCollider>().enabled = false;
+
+        // 여기서 데이터 변동
+        _apply.EditMapData();
     }
 
     public void SetActiveInteractUI(bool value)
