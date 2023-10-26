@@ -120,14 +120,25 @@ public class CastleHall
     [Serializable]
     public struct RoomData
     {
+        public RoomData
+            (
+            bool isWebDestruct = false,
+            bool[] bossEncounterPhase = null
+            )
+        {
+            _isWebDestruct = isWebDestruct;
+            _bossEncounterPhase = bossEncounterPhase;
+        }
 
+        public bool _isWebDestruct;
+        public bool[] _bossEncounterPhase;
     }
 
     public RoomData _data;
 
     public CastleHall()
     {
-        _data = new RoomData();
+        _data = new RoomData(false, new bool[ConstData.TOTAL_BOSS_ENOCOUNTER_PHASE_COUNT]);
     }
 
     public CastleHall(RoomData data)

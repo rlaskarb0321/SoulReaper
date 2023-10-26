@@ -46,15 +46,16 @@ public class ForestDataApply : DataApply, IDataApply
 
     public override void EditMapData()
     {
-        // 가지고있는 데이터를 수정하는 작업들
+        // 스크롤의 획득 여부를 데이터에 저장
         if (!_scrollMesh.activeSelf)
         {
             _data._isScrollGet = true;
         }
 
+        // 회복 화분의 상태를 데이터에 저장
         _data._flowerState = _healthFlower.FlowerState;
 
-        // 데이터 수정후 Json에 저장하는 작업들
+        // 데이터 수정후 Json에 저장하는 작업
         MapDataPackage._mapData._forest._dataStruct = _data;
         DataManage.SaveMData(MapDataPackage._mapData, "TestMData");
     }

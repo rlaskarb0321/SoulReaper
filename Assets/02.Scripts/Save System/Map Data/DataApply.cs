@@ -2,6 +2,9 @@ using UnityEngine;
 
 public abstract class DataApply : MonoBehaviour
 {
+    /// <summary>
+    /// 가지고있는 데이터를 수정하고 JSon 에 저장
+    /// </summary>
     public abstract void EditMapData();
 }
 

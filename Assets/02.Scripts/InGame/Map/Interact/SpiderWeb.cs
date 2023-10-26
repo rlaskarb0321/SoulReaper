@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SpiderWeb : Flammable
 {
+    [Header("=== Data ===")]
+    [SerializeField]
+    private DataApply _apply;
+
     private MeshRenderer[] _mesh;
     private Material[] _mats;
     private WaitForSeconds _ws;
@@ -25,7 +29,7 @@ public class SpiderWeb : Flammable
         base.OnTriggerEnter(other);
     }
 
-    protected override void IgniteSelf()
+    public override void IgniteSelf()
     {
         base.IgniteSelf();
 
@@ -35,6 +39,7 @@ public class SpiderWeb : Flammable
         }
 
         gameObject.GetComponent<BoxCollider>().enabled = false;
+        _apply.EditMapData();
     }
 
     private IEnumerator FadeDownWeb(Material mat, MeshRenderer mesh)

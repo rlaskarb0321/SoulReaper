@@ -39,7 +39,7 @@ public class Flammable : MonoBehaviour
     }
 
     // 본인을 점화시키는 함수
-    protected virtual void IgniteSelf()
+    public virtual void IgniteSelf()
     {
         _fireEffect.SetActive(true);
         _fireState = eFireState.Fire;

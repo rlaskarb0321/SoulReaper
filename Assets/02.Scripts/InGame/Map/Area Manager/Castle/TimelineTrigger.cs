@@ -3,6 +3,10 @@ using UnityEngine.Playables;
 
 public class TimelineTrigger : MonoBehaviour
 {
+    [Header("=== Data ===")]
+    [SerializeField]
+    private DataApply _data;
+
     private PlayableDirector _playableDirector;
 
     private void Awake()
@@ -17,5 +21,6 @@ public class TimelineTrigger : MonoBehaviour
 
         ProductionMgr.StartProduction(_playableDirector);
         gameObject.GetComponent<BoxCollider>().enabled = false;
+        _data.EditMapData();
     }
 }
