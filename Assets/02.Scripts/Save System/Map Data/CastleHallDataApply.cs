@@ -18,6 +18,9 @@ public class CastleHallDataApply : DataApply, IDataApply
     [SerializeField]
     private Animator _bossGateAnim;
 
+    [SerializeField]
+    private HealthPlant _healthPlant;
+
     // Field
     private CastleHall.RoomData _data;
 
@@ -46,6 +49,17 @@ public class CastleHallDataApply : DataApply, IDataApply
             _bossEncounterPhase[i].enabled = !_data._bossEncounterPhase[i];
             _productionObjParent[i].SetActive(!_data._bossEncounterPhase[i]);
         }
+
+        // 불러온 데이터 값으로 꽃의 상태 바꾸기
+        switch (_data._flowerState)
+        {
+            case HealthPlant.eFlowerState.Bloom:
+                _healthPlant.GrownPlant();
+                break;
+            case HealthPlant.eFlowerState.harvested:
+                _healthPlant.HarvestPlant();
+                break;
+        }
     }
 
     public override void EditMapData()
@@ -67,6 +81,8 @@ public class CastleHallDataApply : DataApply, IDataApply
             _data._bossEncounterPhase[i] = true;
         }
 
+        // 회복 화분의 상태를 데이터에 저장
+        _data._flowerState = _healthPlant.FlowerState;
 
         // 데이터 수정후 Json에 저장하는 작업
         MapDataPackage._mapData._castleHall._data = _data;

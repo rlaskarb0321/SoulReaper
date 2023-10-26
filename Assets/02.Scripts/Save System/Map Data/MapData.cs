@@ -71,7 +71,22 @@ public class CastleARoom
     [Serializable]
     public struct RoomData
     {
+        public RoomData(bool isA1RoomClear = false, bool isA2RoomClear = false, bool isYellowKeyGet = false, bool isA3RoomClear = false, bool isA4RoomClear = false, HealthPlant.eFlowerState a4FlowerState = HealthPlant.eFlowerState.None)
+        {
+            _isA1RoomClear = isA1RoomClear;
+            _isA2RoomClear = isA2RoomClear;
+            _isYellowKeyGet = isYellowKeyGet;
+            _isA3RoomClear = isA3RoomClear;
+            _isA4RoomClear = isA4RoomClear;
+            _a4FlowerState = a4FlowerState;
+        }
 
+        public bool _isA1RoomClear;
+        public bool _isA2RoomClear;
+        public bool _isYellowKeyGet;
+        public bool _isA3RoomClear;
+        public bool _isA4RoomClear;
+        public HealthPlant.eFlowerState _a4FlowerState;
     }
 
     public RoomData _data;
@@ -123,22 +138,25 @@ public class CastleHall
         public RoomData
             (
             bool isWebDestruct = false,
-            bool[] bossEncounterPhase = null
+            bool[] bossEncounterPhase = null,
+            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None
             )
         {
             _isWebDestruct = isWebDestruct;
             _bossEncounterPhase = bossEncounterPhase;
+            _flowerState = flowerState;
         }
 
         public bool _isWebDestruct;
         public bool[] _bossEncounterPhase;
+        public HealthPlant.eFlowerState _flowerState;
     }
 
     public RoomData _data;
 
     public CastleHall()
     {
-        _data = new RoomData(false, new bool[ConstData.TOTAL_BOSS_ENOCOUNTER_PHASE_COUNT]);
+        _data = new RoomData(false, new bool[ConstData.TOTAL_BOSS_ENOCOUNTER_PHASE_COUNT], HealthPlant.eFlowerState.None);
     }
 
     public CastleHall(RoomData data)
