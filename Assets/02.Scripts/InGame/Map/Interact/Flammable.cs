@@ -13,6 +13,9 @@ public class Flammable : MonoBehaviour
     public eFireState _fireState;
     [SerializeField] protected GameObject _fireEffect;
 
+    [Header("=== Data ===")]
+    public DataApply _apply;
+
     protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("PlayerProjectile"))
@@ -38,13 +41,20 @@ public class Flammable : MonoBehaviour
         }
     }
 
-    // 본인을 점화시키는 함수
-    public virtual void IgniteSelf()
+    public void Ignite()
     {
         _fireEffect.SetActive(true);
         _fireState = eFireState.Fire;
+    }
+
+    // 본인을 점화시키는 함수
+    public virtual void IgniteSelf()
+    {
+        Ignite();
 
         if (_roomMgr != null)
             _roomMgr.SolveQuest();
+        if (_apply != null)
+            _apply.EditMapData();
     }
 }

@@ -19,11 +19,13 @@ public class ForestDataApply : DataApply, IDataApply
     {
         // 게임 데이터 부여
         _data = MapDataPackage._mapData._forest._dataStruct;
-        ApplyData();
+        StartCoroutine(ApplyData());
     }
 
-    public void ApplyData()
+    public IEnumerator ApplyData()
     {
+        yield return new WaitForSeconds(0.1f);
+
         // 스크롤 얻음 여부에따른 오브젝트들 키고 끄기
         if (_data._isScrollGet)
         {

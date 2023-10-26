@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class SpiderWeb : Flammable
 {
-    [Header("=== Data ===")]
-    [SerializeField]
-    private DataApply _apply;
-
     private MeshRenderer[] _mesh;
     private Material[] _mats;
     private WaitForSeconds _ws;

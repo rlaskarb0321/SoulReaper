@@ -17,6 +17,10 @@ public class Key : MonoBehaviour, IInteractable
     private Rigidbody _rbody;
     private RigidbodyConstraints _previousConstraints;
 
+    [Header("=== Data ===")]
+    [SerializeField]
+    private DataApply _apply;
+
     private void Awake()
     {
         _sphereColl = _keyObj.GetComponent<SphereCollider>();
@@ -43,7 +47,6 @@ public class Key : MonoBehaviour, IInteractable
         _rbody.constraints = _previousConstraints;
         _sphereColl.enabled = true;
         _animator.enabled = true;
-        print("solve");
     }
 
     public void Interact()
@@ -52,7 +55,8 @@ public class Key : MonoBehaviour, IInteractable
             return;
 
         SetActiveInteractUI(false);
-        print("¿­¼è½Àµæ");
+        _keyObj.gameObject.SetActive(false);
+        _apply.EditMapData();
     }
 
     public void SetActiveInteractUI(bool value)

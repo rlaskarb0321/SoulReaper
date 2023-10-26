@@ -27,11 +27,13 @@ public class CastleHallDataApply : DataApply, IDataApply
     private void Awake()
     {
         _data = MapDataPackage._mapData._castleHall._data;
-        ApplyData();
+        StartCoroutine(ApplyData());
     }
 
-    public void ApplyData()
+    public IEnumerator ApplyData()
     {
+        yield return new WaitForSeconds(0.1f);
+
         // 불러온 데이터, 입구 거미줄 파괴 여부에 따라 Obj 상태 바꾸기
         if (_data._isWebDestruct)
         {
@@ -64,7 +66,7 @@ public class CastleHallDataApply : DataApply, IDataApply
 
     public override void EditMapData()
     {
-        print("Data Apply");
+        print("Hall Data Apply");
 
         // 입구를 막고있던 거미줄의 상태를 데이터에 저장
         if (_spiderWeb._fireState == Flammable.eFireState.Fire)

@@ -15,6 +15,9 @@ public class RaidRoom : QuestRoom
     public RaidWave[] _waves;
     public int _currWave = 0;
 
+    [Header("=== apply ===")]
+    public DataApply _apply;
+
     // 웨이브 격퇴를 기록, 웨이브를 진행시키며 모든 웨이브가 격퇴되면 해당 방의 퀘스트 완료
     public override void SolveQuest()
     {
@@ -23,6 +26,11 @@ public class RaidRoom : QuestRoom
         {
             _ladder.gameObject.SetActive(true);
             _entranceBlockObj.SetActive(false);
+
+            if (_apply != null)
+            {
+                _apply.EditMapData();
+            }
             return;
         }
 
