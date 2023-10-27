@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIData : DataApply, IDataApply
+public class CharacterDataPackage : DataApply, IDataApply
 {
     [Header("=== Hierarchy ===")]
     public Transform[] _playerBody;
@@ -15,8 +15,8 @@ public class UIData : DataApply, IDataApply
     public TMP_Text _seedCount;
     public TMP_Text _mapName;
 
-    [Header("=== Data ===")]
-    public CharacterData _characterData;
+    [HideInInspector]
+    public static CharacterData _characterData;
 
     // Field
     private CharacterData.CData _data;
@@ -37,6 +37,9 @@ public class UIData : DataApply, IDataApply
 
         for (int i = 0; i < _playerBody.Length; i++)
         {
+            if (i == 0)
+                _playerBody[i].rotation = _data._rot;
+
             _playerBody[i].position = _data._pos;
         }
 
