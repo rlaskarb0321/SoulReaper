@@ -169,4 +169,9 @@ public class UIScene : MonoBehaviour
         _interactUI.transform.position = pos;
         _interactUI.SetActive(true);
     }
+
+    public void DeadPlayer()
+    {
+        // 플레이어 죽었을때 패널띄우고 최근에 저장했던 위치로 피 마나 다 채우고 옮기기 (씬 다시 불러오기)
+    }
 }

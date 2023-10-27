@@ -73,8 +73,9 @@ public class StartScene : MonoBehaviour
 
         //LoadingScene.LoadScene("Castle_Map");
         //LoadingScene.LoadScene("LittleForest_Map");
+
+        // 데이터에 저장된 현재 플레이어의 위치(맵)에 맞는 씬을 불러옴
         CharacterData cDataPack = DataManage.LoadCData("TestCData");
-        print(cDataPack._characterData._mapName);
         LoadingScene.LoadScene(cDataPack._characterData._mapName);
     }
 

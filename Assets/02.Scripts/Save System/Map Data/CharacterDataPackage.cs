@@ -16,17 +16,19 @@ public class CharacterDataPackage : DataApply, IDataApply
     public TMP_Text _mapName;
 
     [HideInInspector]
-    public static CharacterData _characterData;
+    public static CharacterData _characterData; // 저장된 플레이어 데이터를 이곳에 입력시킴
 
     // Field
     private CharacterData.CData _data;
     private PlayerData _playerData;
+    private PlayerMove_1 _playerMove;
 
     private void Awake()
     {
         _characterData = DataManage.LoadCData("TestCData");
         _data = _characterData._characterData;
         _playerData = _playerBody[0].GetComponent<PlayerData>();
+        _playerMove = _playerBody[0].GetComponent<PlayerMove_1>();
 
         StartCoroutine(ApplyData());
     }
@@ -35,14 +37,12 @@ public class CharacterDataPackage : DataApply, IDataApply
     {
         yield return new WaitForSeconds(0.1f);
 
-        for (int i = 0; i < _playerBody.Length; i++)
-        {
-            if (i == 0)
-                _playerBody[i].rotation = _data._rot;
+        // 플레이어와 쫓아다니는 캠 동시에 데이터에 적혀있던 위치로 옮기기
+        _playerBody[0].rotation = _data._rot;
+        _playerBody[0].position = new Vector3(_data._pos.x, _data._pos.y, _data._pos.z);
+        _playerMove.TeleportPlayer(_playerBody[0]);
 
-            _playerBody[i].position = _data._pos;
-        }
-
+        // 플레이어의 체력과 마나를 데이터에 적혀있던대로 수정
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _data._currHP, _data._maxHP, false);
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _data._currMP, _data._maxMP, false);
 
