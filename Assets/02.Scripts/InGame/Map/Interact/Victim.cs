@@ -7,14 +7,26 @@ using UnityEngine.Playables;
 public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
 {
     [Header("=== Interact ===")]
-    [SerializeField] private string _interactName;
-    [SerializeField] private Transform _floatUIPos;
+    [SerializeField]
+    private string _interactName;
+
+    [SerializeField] 
+    private Transform _floatUIPos;
 
     [Header("PlayableAsset by number of not Liberated")]
-    [SerializeField] private PlayableAsset[] _playableAssets;
-    [SerializeField] private int _noSaveCount;
-    [SerializeField] [Tooltip("희생자 혼잣말 트리거와 같이 있는 스크립트")]
+    [SerializeField] 
+    private PlayableAsset[] _playableAssets;
+
+    [SerializeField] 
+    private int _noSaveCount;
+
+    [SerializeField] 
+    [Tooltip("희생자 혼잣말 트리거와 같이 있는 스크립트")]
     private VictimTalk _victimTalk;
+
+    [Header("=== Data ===")]
+    [SerializeField]
+    private DataApply _apply;
 
     private PlayableDirector _playableDirector;
     private int _selectNum;
@@ -100,5 +112,10 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
             _isInteract = false;
             ProductionMgr.StopProduction(_playableDirector);
         }
+    }
+
+    public void EditDataSignal()
+    {
+        _apply.EditMapData();
     }
 }

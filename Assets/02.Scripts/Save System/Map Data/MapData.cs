@@ -71,7 +71,7 @@ public class CastleARoom
     [Serializable]
     public struct RoomData
     {
-        public RoomData(bool isA1RoomClear = false, bool isA2RoomClear = false, bool isYellowKeyGet = false, bool isA3RoomClear = false, bool isA4RoomClear = false, HealthPlant.eFlowerState a4FlowerState = HealthPlant.eFlowerState.None)
+        public RoomData(bool isA1RoomClear = false, bool isA2RoomClear = false, bool isYellowKeyGet = false, bool isA3RoomClear = false, bool isA4RoomClear = false, HealthPlant.eFlowerState a4FlowerState = HealthPlant.eFlowerState.None, bool isVictimYes = false)
         {
             _isA1RoomClear = isA1RoomClear;
             _isA2RoomClear = isA2RoomClear;
@@ -79,6 +79,7 @@ public class CastleARoom
             _isA3RoomClear = isA3RoomClear;
             _isA4RoomClear = isA4RoomClear;
             _a4FlowerState = a4FlowerState;
+            _isVictimYes = isVictimYes;
         }
 
         public bool _isA1RoomClear;
@@ -87,6 +88,7 @@ public class CastleARoom
         public bool _isA3RoomClear;
         public bool _isA4RoomClear;
         public HealthPlant.eFlowerState _a4FlowerState;
+        public bool _isVictimYes;
     }
 
     public RoomData _data;

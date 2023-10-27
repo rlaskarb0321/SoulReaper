@@ -20,14 +20,21 @@ public class CastleARoomDataApply : DataApply, IDataApply
     [Header("=== A4 Room ===")]
     public GameObject _a4Ladder;
     public BoxCollider _a4EntryTrigger;
+    public HealthPlant _healthPlant;
+    public GameObject _victimReal;
+    public GameObject _rightUnseal;
+    public GameObject _rightFire;
+    public GameObject _victim;
 
     // Field
     private CastleARoom.RoomData _data;
+    private CastleHall.RoomData _hallData;
     private enum eRoomNumber { A1, A2_Key, A2_1, }
 
     private void Awake()
     {
         _data = MapDataPackage._mapData._castleA._data;
+        _hallData = MapDataPackage._mapData._castleHall._data;
         StartCoroutine(ApplyData());
     }
 
@@ -84,6 +91,25 @@ public class CastleARoomDataApply : DataApply, IDataApply
             _a4EntryTrigger.enabled = false;
             _a4Ladder.SetActive(true);
         }
+
+        if (_data._isVictimYes)
+        {
+            if (_hallData._bossEncounterPhase[(int)ConstData.eBossEncounterPhase.Induce])
+            {
+                // Induce 봤으니, 우측봉인해제 후 연출 트리거를 끄고, 오른쪽 불꽃을 활성화, 희생자 비활성화
+
+                _rightUnseal.SetActive(false);
+                _rightFire.SetActive(true);
+                _victim.SetActive(false);
+            }
+            else
+            {
+                // 희생자 보내놓고 Induce는 안 봤으니, 희생자와 보내고 불꽃 피우고, 연출 트리거는 건들지 않기
+                _rightUnseal.SetActive(true);
+                _rightFire.SetActive(true);
+                _victim.SetActive(false);
+            }
+        }
     }
 
     public override void EditMapData()
@@ -120,6 +146,15 @@ public class CastleARoomDataApply : DataApply, IDataApply
         if (_a4Ladder.activeSelf)
         {
             _data._isA4RoomClear = true;
+        }
+
+        // a4 룸 화분의 상태
+        _data._a4FlowerState = _healthPlant.FlowerState;
+
+        // 희생자와 대화를 했음 여부
+        if (!_victimReal.activeSelf)
+        {
+            _data._isVictimYes = true;
         }
 
         // 수정한 데이터를 Json에 저장
