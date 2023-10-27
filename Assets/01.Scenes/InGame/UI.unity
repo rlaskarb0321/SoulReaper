@@ -2618,6 +2618,26 @@ PrefabInstance:
       propertyPath: _ui
       value: 
       objectReference: {fileID: 1320289523}
+    - target: {fileID: 3272357121288171836, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
+        type: 3}
+      propertyPath: _maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272357121288171836, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
+        type: 3}
+      propertyPath: _maxMP
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272357121288171836, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
+        type: 3}
+      propertyPath: _currHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272357121288171836, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
+        type: 3}
+      propertyPath: _currMP
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3272357121288171839, guid: b5a6b428f3434594d8b0195cc4c7ba8f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4442,9 +4462,10 @@ MonoBehaviour:
   _hpText: {fileID: 1376314439}
   _mpFill: {fileID: 870582287}
   _mpText: {fileID: 1523257858}
-  _mapName: {fileID: 0}
+  _mapName: {fileID: 1790706889}
   _interactUI: {fileID: 1982097677}
   _objName: {fileID: 1513717612}
+  _apply: {fileID: 1320289525}
 --- !u!95 &1320289524
 Animator:
   serializedVersion: 4
@@ -4486,23 +4507,14 @@ MonoBehaviour:
   _mpText: {fileID: 1523257858}
   _seedCount: {fileID: 306963737}
   _mapName: {fileID: 1790706889}
-  _dataInstance:
+  _characterData:
     _characterData:
-      _mapName: "\uC791\uC740 \uC232"
-      _pos: {x: -116.14, y: -4.27, z: -65.99}
-      _currHp: 100
-      _maxHp: 100
-      _currMp: 50
-      _maxMp: 50
+      _pos: {x: -116.14, y: -4.67, z: -65.99}
+      _currHP: 100
+      _maxHP: 100
+      _currMP: 50
+      _maxMP: 50
       _seedCount: 5
-  _cdata:
-    _mapName: 
-    _pos: {x: 0, y: 0, z: 0}
-    _currHp: 0
-    _maxHp: 0
-    _currMp: 0
-    _maxMp: 0
-    _seedCount: 0
 --- !u!1 &1376314437
 GameObject:
   m_ObjectHideFlags: 0

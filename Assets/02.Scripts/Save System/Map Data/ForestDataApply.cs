@@ -48,6 +48,8 @@ public class ForestDataApply : DataApply, IDataApply
 
     public override void EditMapData()
     {
+        print("Forest Data Apply");
+
         // 스크롤의 획득 여부를 데이터에 저장
         if (!_scrollMesh.activeSelf)
         {

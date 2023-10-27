@@ -88,18 +88,22 @@ public class CastleBRoomDataApply : DataApply, IDataApply
     {
         print("Castle B Data Apply");
 
+        // b1룸에있는 희생자 항아리 전부깨지면 b1룸 클리어 인정 후 저장
         if (_b1Room._sealCount == 0)
         {
             _data._isB1RoomClear = true;
         }
 
+        // b2룸에 사다리가 켜져있으면 b2룸 클리어 인정 후 저장
         if (_b2Ladder.activeSelf)
         {
             _data._isB2RoomClear = true;
         }
 
+        // b2룸에 있는 꽃의 상태를 저장
         _data._flowerState = _healthPlant.FlowerState;
 
+        // 희생자와 대화에서 수락했음 여부
         if (!_victimReal.activeSelf)
         {
             _data._isVictimYes = true;

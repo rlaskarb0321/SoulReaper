@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIData : MonoBehaviour
+public class UIData : DataApply, IDataApply
 {
     [Header("=== Hierarchy ===")]
     public Transform[] _playerBody;
@@ -16,30 +16,48 @@ public class UIData : MonoBehaviour
     public TMP_Text _mapName;
 
     [Header("=== Data ===")]
-    public CharacterData _dataInstance;
-    
-    [HideInInspector]
-    public CData _cdata;
+    public CharacterData _characterData;
+
+    // Field
+    private CharacterData.CData _data;
+    private PlayerData _playerData;
 
     private void Awake()
     {
-        _dataInstance = DataManage.LoadCData("TestCData");
-        _cdata = _dataInstance._characterData;
+        _characterData = DataManage.LoadCData("TestCData");
+        _data = _characterData._characterData;
+        _playerData = _playerBody[0].GetComponent<PlayerData>();
 
-        ApplyData();
+        StartCoroutine(ApplyData());
     }
 
-    private void ApplyData()
+    public IEnumerator ApplyData()
     {
+        yield return new WaitForSeconds(0.1f);
+
         for (int i = 0; i < _playerBody.Length; i++)
         {
-            _playerBody[i].position = _cdata._pos;
+            _playerBody[i].position = _data._pos;
         }
 
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _cdata._currHp, _cdata._maxHp);
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _cdata._currMp, _cdata._maxMp);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _data._currHP, _data._maxHP, false);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _data._currMP, _data._maxMP, false);
 
-        _seedCount.text = $"X {_cdata._seedCount}";
-        _mapName.text = _cdata._mapName;
+        _seedCount.text = $"X {_data._seedCount}";
+    }
+
+    public override void EditMapData()
+    {
+        print("Edit Character Data");
+
+        // 플레이어의 체력, 마나 데이터 변경
+        _data._currHP = _playerData._currHP;
+        _data._maxHP = _playerData._maxHP;
+        _data._currMP = _playerData._currMP;
+        _data._maxMP = _playerData._maxMP;
+
+        // 변경한 데이터들 저장
+        _characterData._characterData = _data;
+        DataManage.SaveCData(_characterData, "TestCData");
     }
 }

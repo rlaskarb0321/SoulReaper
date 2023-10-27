@@ -71,7 +71,16 @@ public class CastleARoom
     [Serializable]
     public struct RoomData
     {
-        public RoomData(bool isA1RoomClear = false, bool isA2RoomClear = false, bool isYellowKeyGet = false, bool isA3RoomClear = false, bool isA4RoomClear = false, HealthPlant.eFlowerState a4FlowerState = HealthPlant.eFlowerState.None, bool isVictimYes = false)
+        public RoomData
+            (
+            bool isA1RoomClear = false,                                                     // A1 방 클리어 여부
+            bool isA2RoomClear = false,                                                     // A2 방 클리어 여부
+            bool isYellowKeyGet = false,                                                    // 옐로우 키 얻음 여부
+            bool isA3RoomClear = false,                                                     // A3 방 클리어 여부
+            bool isA4RoomClear = false,                                                     // A4 방 클리어 여부
+            HealthPlant.eFlowerState a4FlowerState = HealthPlant.eFlowerState.None,         // A4 방에 있는 화분의 상태
+            bool isVictimYes = false                                                        // 희생자와 대화에서 봉인 해제 승낙했는지
+            )
         {
             _isA1RoomClear = isA1RoomClear;
             _isA2RoomClear = isA2RoomClear;
@@ -115,10 +124,10 @@ public class CastleBRoom
     {
         public RoomData
             (
-            bool isB1RoomClear = false,
-            bool isB2RoomClear = false,
-            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None,
-            bool isVictimYes = false
+            bool isB1RoomClear = false,                                                         // B1 방 클리어 여부
+            bool isB2RoomClear = false,                                                         // B2 방 클리어 여부
+            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None,               // B2 방 화분의 상태
+            bool isVictimYes = false                                                            // 희생자와 대화에서 봉인 해제 승낙여부
             )
         {
             _isB1RoomClear = isB1RoomClear;
@@ -157,9 +166,9 @@ public class CastleHall
     {
         public RoomData
             (
-            bool isWebDestruct = false,
-            bool[] bossEncounterPhase = null,
-            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None
+            bool isWebDestruct = false,                                                         // 입구를 막는 거미줄을 파괴했는지
+            bool[] bossEncounterPhase = null,                                                   // 보스 조우단계
+            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None                // 홀에있는 화분의 상태
             )
         {
             _isWebDestruct = isWebDestruct;

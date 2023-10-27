@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIScene : MonoBehaviour
 {
@@ -50,14 +51,18 @@ public class UIScene : MonoBehaviour
     public TMP_Text _objName;
     private RectTransform _rect;
 
+    [Header("=== Data ===")]
+    [SerializeField]
+    private DataApply _apply;
+
 
     private void Awake()
     {
         _instance = this;
 
-        EditMapName();
         _currOpenPanel = new List<GameObject>();
         _rect = _interactUI.GetComponent<RectTransform>();
+        _mapName.text = EditMapName();
     }
 
     private void Update()
@@ -93,7 +98,7 @@ public class UIScene : MonoBehaviour
     }
     #endregion UI Panel
 
-    public void UpdateHPMP(ePercentageStat stat, float currValue, float maxValue)
+    public void UpdateHPMP(ePercentageStat stat, float currValue, float maxValue, bool isDataEdit = true)
     {
         switch (stat)
         {
@@ -111,11 +116,39 @@ public class UIScene : MonoBehaviour
                 _mpFill.fillAmount = currValue / maxValue;
                 break;
         }
+
+        if (isDataEdit)
+        {
+            _apply.EditMapData();
+        }
     }
 
-    private void EditMapName()
+    // 씬 옮기면서 보여줄 맵 네임값을 수정
+    public string EditMapName()
     {
+        string mapName;
+        int sceneCount = SceneManager.sceneCount;
+        List<string> sceneList = new List<string>();
+        for (int i = 0; i < sceneCount; i++)
+        {
+            string sceneName = SceneManager.GetSceneAt(i).name;
+            if (!sceneName.Contains("_Map"))
+                continue;
 
+            sceneList.Add(sceneName);
+        }
+
+        mapName = sceneList[0];
+        switch (mapName)
+        {
+            case "Castle_Map":
+                return "성";
+
+            case "LittleForest_Map":
+                return "작은 숲";
+        }
+
+        return "";
     }
 
     public void FloatInteractUI(bool turnOn, Vector3 pos, string text)
