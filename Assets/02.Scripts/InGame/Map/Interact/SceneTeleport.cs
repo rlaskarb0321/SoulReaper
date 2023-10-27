@@ -33,11 +33,13 @@ public class SceneTeleport : MonoBehaviour, IInteractable
             case "Castle_Map":
                 data._pos = new Vector3(ConstData.FROM_FOREST_TO_CASTLE_POS_X, ConstData.FROM_FOREST_TO_CASTLE_POS_Y, ConstData.FROM_FOREST_TO_CASTLE_POS_Z);
                 data._rot = new Quaternion(ConstData.FROM_FOREST_TO_CASTLE_ROT_X, ConstData.FROM_FOREST_TO_CASTLE_ROT_Y, ConstData.FROM_FOREST_TO_CASTLE_ROT_Z, ConstData.FROM_FOREST_TO_CASTLE_ROT_W);
+                data._mapName = "Castle_Map";
                 break;
 
             case "LittleForest_Map":
                 data._pos = new Vector3(ConstData.FROM_CASTLE_TO_FOREST_POS_X, ConstData.FROM_CASTLE_TO_FOREST_POS_Y, ConstData.FROM_CASTLE_TO_FOREST_POS_Z);
                 data._rot = new Quaternion(ConstData.FROM_CASTLE_TO_FOREST_ROT_X, ConstData.FROM_CASTLE_TO_FOREST_ROT_Y, ConstData.FROM_CASTLE_TO_FOREST_ROT_Z, ConstData.FROM_CASTLE_TO_FOREST_ROT_W);
+                data._mapName = "LittleForest_Map"; 
                 break;
         }
 

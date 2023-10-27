@@ -27,6 +27,17 @@ public class MapTeleport : MonoBehaviour
             }
 
             _playerMove.TeleportPlayer(_nextPos.transform);
+            EditMapData();
         }
+    }
+
+    private void EditMapData()
+    {
+        print("character teleport data save");
+
+        CharacterData.CData data = CharacterDataPackage._characterData._characterData;
+        data._pos = _nextPos.transform.position;
+        CharacterDataPackage._characterData._characterData = data;
+        DataManage.SaveCData(CharacterDataPackage._characterData, "TestCData");
     }
 }

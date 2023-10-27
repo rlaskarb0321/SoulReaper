@@ -72,7 +72,10 @@ public class StartScene : MonoBehaviour
         }
 
         //LoadingScene.LoadScene("Castle_Map");
-        LoadingScene.LoadScene("LittleForest_Map");
+        //LoadingScene.LoadScene("LittleForest_Map");
+        CharacterData cDataPack = DataManage.LoadCData("TestCData");
+        print(cDataPack._characterData._mapName);
+        LoadingScene.LoadScene(cDataPack._characterData._mapName);
     }
 
     public void OnExitBtnClick()
