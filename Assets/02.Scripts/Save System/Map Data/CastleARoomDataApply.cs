@@ -92,23 +92,23 @@ public class CastleARoomDataApply : DataApply, IDataApply
             _a4Ladder.SetActive(true);
         }
 
+        // 희생자와 대화에서 Yes를 선택했을때
         if (_data._isVictimYes)
         {
             if (_hallData._bossEncounterPhase[(int)ConstData.eBossEncounterPhase.Induce])
             {
-                // Induce 봤으니, 우측봉인해제 후 연출 트리거를 끄고, 오른쪽 불꽃을 활성화, 희생자 비활성화
-
+                // Induce 봤으니, 우측봉인해제 후 연출 트리거를 끔
                 _rightUnseal.SetActive(false);
-                _rightFire.SetActive(true);
-                _victim.SetActive(false);
             }
             else
             {
-                // 희생자 보내놓고 Induce는 안 봤으니, 희생자와 보내고 불꽃 피우고, 연출 트리거는 건들지 않기
+                // 희생자 보내놓고 Induce는 안 봤으니, 연출 트리거는 건들지 않기
                 _rightUnseal.SetActive(true);
-                _rightFire.SetActive(true);
-                _victim.SetActive(false);
             }
+
+            // 불 키고 희생자 끄고
+            _rightFire.SetActive(true);
+            _victim.SetActive(false);
         }
     }
 
@@ -151,7 +151,7 @@ public class CastleARoomDataApply : DataApply, IDataApply
         // a4 룸 화분의 상태
         _data._a4FlowerState = _healthPlant.FlowerState;
 
-        // 희생자와 대화를 했음 여부
+        // 희생자와 대화에서 수락 했음 여부
         if (!_victimReal.activeSelf)
         {
             _data._isVictimYes = true;

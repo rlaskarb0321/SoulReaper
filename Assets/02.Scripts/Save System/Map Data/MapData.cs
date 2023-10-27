@@ -105,6 +105,7 @@ public class CastleARoom
 }
 #endregion Castle A Room Data
 
+
 #region Castle B Room Data
 [Serializable]
 public class CastleBRoom
@@ -112,7 +113,24 @@ public class CastleBRoom
     [Serializable]
     public struct RoomData
     {
+        public RoomData
+            (
+            bool isB1RoomClear = false,
+            bool isB2RoomClear = false,
+            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None,
+            bool isVictimYes = false
+            )
+        {
+            _isB1RoomClear = isB1RoomClear;
+            _isB2RoomClear = isB2RoomClear;
+            _flowerState = flowerState;
+            _isVictimYes = isVictimYes;
+        }
 
+        public bool _isB1RoomClear;
+        public bool _isB2RoomClear;
+        public HealthPlant.eFlowerState _flowerState;
+        public bool _isVictimYes;
     }
 
     public RoomData _data;
