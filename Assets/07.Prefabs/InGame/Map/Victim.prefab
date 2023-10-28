@@ -1594,7 +1594,7 @@ MonoBehaviour:
   _isPlayerIn: 0
   _isInteract: 0
   _dialogFloatTime: 3
-  _dialogCoolTime: 7
+  _dialogCoolTime: 16
 --- !u!1 &8294076644951687291
 GameObject:
   m_ObjectHideFlags: 0

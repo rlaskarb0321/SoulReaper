@@ -38,43 +38,99 @@ public class VictimTalk : MonoBehaviour
     private float _dialogCoolTime;
 
 
-    // 그 외 private 한 변수들
+    // Field
     private string[] _selfTalkLine; // 혼잣말 대화 리스트
     private float _originFloatTime; // 대화 창 띄우고 있을 시간의 원본값
     private float _originDialogCoolTime; // 혼잣말 쿨타임의 원본값
+    private bool _isCoolDown; // 혼잣말 쿨타임을 식히고있는지
     private RectTransform _rect;
+
+    private void Awake()
+    {
+        _rect = _text.gameObject.GetComponent<RectTransform>();
+    }
 
     private void Start()
     {
         DialogMgr dialogMgr = new DialogMgr();
 
-        _rect = _text.gameObject.GetComponent<RectTransform>();
         _selfTalkLine = dialogMgr.ParsingCSVLine(_selfTalkCSV);
         _originFloatTime = _dialogFloatTime;
         _originDialogCoolTime = _dialogCoolTime;
     }
 
-    private void DoTalkMySelf(string context)
+    private void Update()
     {
-        _text.text = context;
-        _canvas.SetActive(true);
-        _dialogFloatTime = _originFloatTime;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(_rect);
-        StartCoroutine(FloatDialogUI());
+        // 혼잣말 쿨다운 중
+        if (_isCoolDown)
+        {
+            CoolDownTalkMySelf();
+            MaintainTalkMySelfUI();
+        }
     }
 
-    private IEnumerator FloatDialogUI()
+    private void CoolDownTalkMySelf()
     {
-        if (!_isPlayerIn)
-            yield break;
-
-        while (_dialogFloatTime > 0.0f)
+        if (_dialogCoolTime <= 0.0f)
         {
-            _dialogFloatTime -= Time.deltaTime;
-            yield return null;
+            _isCoolDown = false;
+            _dialogFloatTime = _originFloatTime;
+            return;
+        }
+        _dialogCoolTime -= Time.deltaTime;
+    }
+
+    private void MaintainTalkMySelfUI()
+    {
+        if (_dialogFloatTime <= 0.0f)
+        {
+            if (_canvas.activeSelf)
+                _canvas.SetActive(false);
+
+            _dialogFloatTime = 0.0f;
+            return;
         }
 
-        _canvas.SetActive(false);
+        _dialogFloatTime -= Time.deltaTime;
+    }
+
+    private void DoTalkMySelf(bool isPlayerOut = false)
+    {
+        // 상호작용 대화 중이거나 혼잣말 쿨다운 중일땐 혼잣말을 하지않는다.
+        if (_isCoolDown)
+            return;
+        if (_isInteract)
+        {
+            _canvas.SetActive(false);
+            return;
+        }
+        if (!_isPlayerIn)
+            return;
+
+        // 플레이어가 인식범위에 들어와있는지, 나가는지에 따라 다른 인덱스 번째의 혼잣말 텍스트
+        int index;
+        if (isPlayerOut)
+            index = _selfTalkLine.Length - 1;
+        else
+            index = Random.Range(0, _selfTalkLine.Length - 1);
+
+        // 혼잣말 쿨다운 시작
+        _isCoolDown = true;
+        _dialogCoolTime = _originDialogCoolTime;
+        _dialogFloatTime = _originFloatTime;
+
+        // 혼잣말 내용 보여주기
+        ShowTalkMySelfUI(_selfTalkLine[index]);
+    }
+
+    private void ShowTalkMySelfUI(string context)
+    {
+        if (_text.text != context)
+            _text.text = context;
+
+        _canvas.transform.forward = -Camera.main.transform.forward;
+        _canvas.SetActive(true);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_rect);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -84,11 +140,8 @@ public class VictimTalk : MonoBehaviour
         if (_isInteract)
             return;
 
-        int randomIdx = Random.Range(0, _selfTalkLine.Length - 1);
-
         _isPlayerIn = true;
-        _dialogCoolTime = _originDialogCoolTime;
-        DoTalkMySelf(_selfTalkLine[randomIdx]);
+        DoTalkMySelf();
     }
 
     private void OnTriggerStay(Collider other)
@@ -98,20 +151,7 @@ public class VictimTalk : MonoBehaviour
         if (_isInteract)
             return;
 
-        if (_dialogCoolTime <= 0.0f)
-        {
-            int randomIdx = Random.Range(0, _selfTalkLine.Length - 1);
-
-            _dialogCoolTime = _originDialogCoolTime;
-            DoTalkMySelf(_selfTalkLine[randomIdx]);
-            return;
-        }
-        else
-        {
-            _dialogCoolTime -= Time.deltaTime;
-        }
-
-        _canvas.transform.forward = -Camera.main.transform.forward;
+        DoTalkMySelf();
     }
 
     private void OnTriggerExit(Collider other)
@@ -120,10 +160,16 @@ public class VictimTalk : MonoBehaviour
             return;
         if (_isInteract)
             return;
-        if (_dialogFloatTime < _originFloatTime * 0.3f)
-            DoTalkMySelf(_selfTalkLine[_selfTalkLine.Length - 1]);
-
-        _isPlayerIn = false;
-        _dialogCoolTime = _originDialogCoolTime;
+        
+        if (Random.Range(0, 101) > ConstData.VICTIM_TRIGGER_OUT_TALK_MY_SELF_PERCENTAGE)
+        {
+            _isPlayerIn = false;
+        }
+        else
+        {
+            _isCoolDown = false;
+            DoTalkMySelf(true);
+            _isPlayerIn = false;
+        }
     }
 }

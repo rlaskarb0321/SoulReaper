@@ -28,4 +28,7 @@ public static class ConstData
     public const float FROM_FOREST_TO_CASTLE_ROT_Z = 0.0f;
     public const float FROM_FOREST_TO_CASTLE_ROT_W = 0.89f;
 
+    // Èñ»ýÀÚ È¥Àã¸», ÇÃ·¹ÀÌ¾î°¡ Æ®¸®°Å ¾Æ¿ôµÆÀ»¶§ È¥Àã¸»À» ÇÒ È®·ü
+    public const float VICTIM_TRIGGER_OUT_TALK_MY_SELF_PERCENTAGE = 18.0f;
+
 }
