@@ -121,7 +121,7 @@ public class HealthPlant : MonoBehaviour, IInteractable
     {
         HarvestPlant();
 
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _player._maxHP, _player._maxHP);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, _player._maxHP, _player._maxHP);
         UIScene._instance._seedUI.GoDownSeedUI();
         _audio.PlayOneShot(_audio.clip);
     }

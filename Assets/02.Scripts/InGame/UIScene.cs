@@ -38,7 +38,7 @@ public class UIScene : MonoBehaviour
 
     [SerializeField] 
     private TMP_Text _mpText;
-    public enum ePercentageStat { Hp, Mp, }
+    public enum ePercentageStat { HP, MP, }
 
 
     [Header("=== Scene Change ===")]
@@ -102,14 +102,14 @@ public class UIScene : MonoBehaviour
     {
         switch (stat)
         {
-            case ePercentageStat.Hp:
+            case ePercentageStat.HP:
                 _stat._currHP = currValue;
                 _stat._maxHP = maxValue;
                 _hpText.text = $"{currValue} / {maxValue}";
                 _hpFill.fillAmount = currValue / maxValue;
                 break;
 
-            case ePercentageStat.Mp:
+            case ePercentageStat.MP:
                 _stat._currMP = currValue;
                 _stat._maxMP = maxValue;
                 _mpText.text = $"{currValue} / {maxValue}";

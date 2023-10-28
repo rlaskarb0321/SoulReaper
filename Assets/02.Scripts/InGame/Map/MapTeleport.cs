@@ -26,7 +26,7 @@ public class MapTeleport : MonoBehaviour
                 _playerMove.ClimbDown();
             }
 
-            _playerMove.TeleportPlayer(_nextPos.transform);
+            _playerMove.TeleportPlayer(_nextPos.transform, true);
             EditMapData();
         }
     }
@@ -38,6 +38,7 @@ public class MapTeleport : MonoBehaviour
         CharacterData.CData data = CharacterDataPackage._characterData._characterData;
         data._pos = _nextPos.transform.position;
         data._rot = _playerMove.transform.rotation;
+
         CharacterDataPackage._characterData._characterData = data;
         DataManage.SaveCData(CharacterDataPackage._characterData, "TestCData");
     }

@@ -14,6 +14,7 @@ public class SceneTeleport : MonoBehaviour, IInteractable
     [SerializeField] private Animator _sceneOutPanel;
 
     private Image _sceneOutPanelImg;
+    private PlayerData _playerData;
 
     private void Awake()
     {
@@ -42,6 +43,11 @@ public class SceneTeleport : MonoBehaviour, IInteractable
                 data._mapName = "LittleForest_Map"; 
                 break;
         }
+
+        data._currHP = _playerData._currHP;
+        data._maxHP = _playerData._maxHP;
+        data._currMP = _playerData._currMP;
+        data._maxMP = _playerData._maxMP;
 
         CharacterDataPackage._characterData._characterData = data;
         DataManage.SaveCData(CharacterDataPackage._characterData, "TestCData");
@@ -80,6 +86,10 @@ public class SceneTeleport : MonoBehaviour, IInteractable
     {
         if (!other.CompareTag("Player"))
             return;
+        if (_playerData == null)
+        {
+            _playerData = other.GetComponent<PlayerData>();
+        }
         if (Input.GetKeyDown(KeyCode.F))
         {
             Interact();

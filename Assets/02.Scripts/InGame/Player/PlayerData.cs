@@ -28,15 +28,6 @@ public class PlayerData : MonoBehaviour
         _combat = GetComponent<PlayerCombat>();
     }
 
-    //private void Start()
-    //{
-    //    _currHP = _maxHP;
-    //    _currMP = _maxMP;
-
-    //    UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
-    //    UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
-    //}
-
     public void DecreaseHP(Vector3 attackDir, float damage)
     {
         if (_fsm.State == PlayerFSM.eState.Hit || _fsm.State == PlayerFSM.eState.Dead)
@@ -62,34 +53,13 @@ public class PlayerData : MonoBehaviour
         transform.forward = -attackDir;
         _fsm.AtkDir = attackDir;
 
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
-    }
-
-    public void IncreaseHP(float amount)
-    {
-        _currHP += amount;
-        if (_currHP >= _maxHP)
-        {
-            _currHP = _maxHP;
-        }
-
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Hp, _currHP, _maxHP);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, _currHP, _maxHP, false);
     }
 
     public bool DecreaseMP(float amount)
     {
         _currMP -= amount;
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, _currMP, _maxMP, false);
         return false;
-    }
-
-    public void IncreaseMP(float amount)
-    {
-        _currMP += amount;
-        if (_currMP >= _maxMP)
-        {
-            _currMP = _maxMP;
-        }
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.Mp, _currMP, _maxMP);
     }
 }

@@ -64,6 +64,7 @@ public class PlayerMove_1 : MonoBehaviour
     // Component
     private SoundEffects _sfx;
     private Rigidbody _rbody;
+    private PlayerData _data;
     [HideInInspector] public PlayerFSM _state;
     private CapsuleCollider _capsuleColl;
     private int _groundLayer;
@@ -75,6 +76,7 @@ public class PlayerMove_1 : MonoBehaviour
         _state = GetComponent<PlayerFSM>();
         _animator = GetComponent<Animator>();
         _sfx = GetComponent<SoundEffects>();
+        _data = GetComponent<PlayerData>();
 
         _vcamOption = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
         _originDamp = new Vector3(_vcamOption.m_XDamping, _vcamOption.m_YDamping, _vcamOption.m_ZDamping);
@@ -432,7 +434,7 @@ public class PlayerMove_1 : MonoBehaviour
         }
     }
 
-    public void TeleportPlayer(Transform nextPos)
+    public void TeleportPlayer(Transform nextPos, bool doSave)
     {
         _vcamOption.m_XDamping = 0.0f;
         _vcamOption.m_YDamping = 0.0f;
@@ -442,6 +444,9 @@ public class PlayerMove_1 : MonoBehaviour
         _fadePanel.SetActive(true);
         _playerBody.transform.position = nextPos.transform.position;
         _cameraArm.transform.position = _playerBody.transform.position;
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, _data._currHP, _data._maxHP, doSave);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, _data._currMP, _data._maxMP, doSave);
+
         StartCoroutine(RestoreCamDampValue());
     }
 
@@ -456,21 +461,6 @@ public class PlayerMove_1 : MonoBehaviour
 
     private void PlayWalkSound()
     {
-        //if (_state.State == PlayerFSM.eState.Move)
-        //{
-        //    if (!_sfx.IsPlaying())
-        //    {
-        //        _sfx.PlayUsingDict("Sprint");
-        //    }
-        //}
-        //else if (_state.State == PlayerFSM.eState.Dodge)
-        //{
-        //    if (!_sfx.IsPlaying())
-        //    {
-        //        _sfx.PlayOneShotUsingDict("Dodge");
-        //    }
-        //}
-
         if (_state.State == PlayerFSM.eState.Dodge)
         {
             if (!_sfx.IsPlaying())
