@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathTest : MonoBehaviour
+public class PlayerDeath : MonoBehaviour
 {
     [SerializeField]
     private CinemachineVirtualCamera _cam;
@@ -13,7 +13,6 @@ public class DeathTest : MonoBehaviour
 
     // Field
     private CinemachineFramingTransposer _vCamOption;
-    private float _originCamDistance;
     private bool _isPlayerDead;
     private Animator _anim;
 
@@ -23,26 +22,16 @@ public class DeathTest : MonoBehaviour
         _anim = GetComponent<Animator>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _originCamDistance = _vCamOption.m_CameraDistance;
-    }
-
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            _isPlayerDead = true;
-        }
-
         if (_isPlayerDead)
-        {
-            AnnouncePlayerDeath();
-        }
+            StartDeathProgress();
     }
 
-    public void AnnouncePlayerDeath()
+    public void AnnouncePlayerDeath() => _isPlayerDead = true; 
+
+    // 사망 후 연출 시작
+    private void StartDeathProgress()
     {
         if (_vCamOption.m_CameraDistance > _magnifyCamValue)
         {
@@ -54,11 +43,18 @@ public class DeathTest : MonoBehaviour
         _isPlayerDead = false;
     }
 
+    // 사망 연출 애니메이션의 마지막에 델리게이트로 달아놓을 메서드
+    public void LoadBeforeDeathData()
+    {
+        CharacterData cDataPack = DataManage.LoadCData("TestCData");
+        LoadingScene.LoadScene(cDataPack._characterData._mapName);
+    }
+
     private void MagnifyCam()
     {
         if (_vCamOption.m_CameraDistance <= _magnifyCamValue)
             return;
 
-        _vCamOption.m_CameraDistance -= Time.deltaTime * 2.5f;
+        _vCamOption.m_CameraDistance -= Time.deltaTime * 2.0f;
     }
 }

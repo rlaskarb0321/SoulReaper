@@ -37,6 +37,7 @@ public class PlayerData : MonoBehaviour
             _currHP = 0.0f;
             _fsm.State = PlayerFSM.eState.Dead;
             _animator.SetTrigger(_hashDead);
+            UIScene._instance.DeadPlayer();
         }
         else
         {

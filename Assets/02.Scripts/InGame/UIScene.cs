@@ -23,7 +23,11 @@ public class UIScene : MonoBehaviour
 
 
     [Header("=== Player ===")]
-    [SerializeField] private PlayerData _stat;
+    [SerializeField]
+    private PlayerData _stat;
+
+    [SerializeField]
+    private PlayerDeath _playerDeath;
 
 
     [Header("=== Hp & Mp ===")]
@@ -173,5 +177,6 @@ public class UIScene : MonoBehaviour
     public void DeadPlayer()
     {
         // 플레이어 죽었을때 패널띄우고 최근에 저장했던 위치로 피 마나 다 채우고 옮기기 (씬 다시 불러오기)
+        _playerDeath.AnnouncePlayerDeath();
     }
 }

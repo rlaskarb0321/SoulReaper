@@ -755,28 +755,14 @@ GameObject:
   m_Component:
   - component: {fileID: 416251359}
   - component: {fileID: 416251358}
-  - component: {fileID: 416251357}
+  - component: {fileID: 416251360}
   m_Layer: 0
-  m_Name: Death Test Obj
+  m_Name: Player Death
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &416251357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416251355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 713a3ec02bbfb41478057c8f50a2aec2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cam: {fileID: 779528201}
-  _magnifyCamValue: 21
 --- !u!95 &416251358
 Animator:
   serializedVersion: 4
@@ -819,6 +805,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &416251360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416251355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9077150e81cdd4747bc09a66ce604a11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cam: {fileID: 779528201}
+  _magnifyCamValue: 20
 --- !u!1 &420811613
 GameObject:
   m_ObjectHideFlags: 0
@@ -4621,6 +4621,7 @@ MonoBehaviour:
   _letterPanel: {fileID: 1434474771}
   _seedUI: {fileID: 2088698825}
   _stat: {fileID: 779528198}
+  _playerDeath: {fileID: 416251360}
   _hpFill: {fileID: 542289373}
   _hpText: {fileID: 1376314439}
   _mpFill: {fileID: 870582287}
