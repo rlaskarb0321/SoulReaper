@@ -40,6 +40,7 @@ public class MonsterBase_1 : MonoBehaviour
     [HideInInspector] public NavMeshAgent _nav;
     [HideInInspector] public SkinnedMeshRenderer _mesh;
     [HideInInspector] public Animator _animator;
+    [HideInInspector] public NavMeshPath _path;
 
     protected virtual void Awake()
     {
@@ -52,6 +53,7 @@ public class MonsterBase_1 : MonoBehaviour
         _nav = GetComponent<NavMeshAgent>();
         _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         _animator = GetComponent<Animator>();
+        _path = new NavMeshPath();
     }
 
     protected virtual void Start()
@@ -74,7 +76,17 @@ public class MonsterBase_1 : MonoBehaviour
         _animator.SetBool(_hashMove, true);
         _nav.isStopped = false;
         _nav.speed = movSpeed;
+
+        //_nav.CalculatePath(pos, _path);
+        //print(_path.status == NavMeshPathStatus.PathPartial);
+
         _nav.SetDestination(pos);
+    }
+
+    public bool IsPathPartial(Vector3 pos)
+    {
+        _nav.CalculatePath(pos, _path);
+        return _path.status == NavMeshPathStatus.PathPartial;
     }
 
     /// <summary>

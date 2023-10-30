@@ -61,6 +61,12 @@ public class VictimTalk : MonoBehaviour
 
     private void Update()
     {
+        if (_isInteract)
+        {
+            _canvas.SetActive(false);
+            return;
+        }
+
         // È¥Àã¸» Äð´Ù¿î Áß
         if (_isCoolDown)
         {

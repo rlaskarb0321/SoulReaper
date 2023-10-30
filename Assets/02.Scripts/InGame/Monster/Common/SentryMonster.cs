@@ -51,6 +51,7 @@ public class SentryMonster : MonsterType
     /// </summary>
     private void Idle()
     {
+        _monsterBase._target = SearchTarget();
         if (_monsterBase._target != null)
         {
             _isSetPatrolPos = false;
@@ -68,7 +69,6 @@ public class SentryMonster : MonsterType
 
         _monsterBase._animator.SetBool(_monsterBase._hashMove, false);
         _idleTime -= Time.deltaTime;
-        _monsterBase._target = SearchTarget();
     }
 
     /// <summary>
@@ -77,8 +77,8 @@ public class SentryMonster : MonsterType
     public override void Trace()
     {
         float distance = Vector3.Distance(transform.position, _monsterBase._target.transform.position);
-        //print(gameObject.name);
-        if (distance >= _missTargetDist)
+
+        if (distance >= _missTargetDist || _monsterBase.IsPathPartial(_monsterBase._target.transform.position))
         {
             _monsterBase._target = null;
             _isSetPatrolPos = false;
@@ -94,7 +94,6 @@ public class SentryMonster : MonsterType
 
         _movPos = _monsterBase._target.transform.position;
         _movSpeed = _monsterBase._stat.movSpeed;
-
         _monsterBase.Move(_movPos, _movSpeed);
     }
 
@@ -114,6 +113,9 @@ public class SentryMonster : MonsterType
         if (!_isSetPatrolPos)
         {
             _movPos = SetRandomScout(transform.position, _movPos, _monsterBase._stat.traceDist);
+            if (_monsterBase.IsPathPartial(_movPos))
+                return;
+
             _isSetPatrolPos = true;
         }
 
@@ -137,7 +139,7 @@ public class SentryMonster : MonsterType
     /// <summary>
     /// 자신 주위에 랜덤 포인트를 반환
     /// </summary>
-    /// <param name="center">주변을 탐색할 목표</param>
+    /// <param name="center">주변을 탐색할 본인의 위치</param>
     /// <param name="destination">목표 좌표</param>
     /// <param name="radius">탐색 범위</param>
     /// <returns>탐색 성공시 목표 위치, 실패시 Vector3.zero</returns>

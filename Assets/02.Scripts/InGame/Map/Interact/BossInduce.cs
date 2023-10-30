@@ -20,8 +20,7 @@ public class BossInduce : MonoBehaviour, IYOrNSelectOption
 
     public void CheckAnswer(bool isAnswerYes)
     {
-        // Y 또는 N 상관없이 반응만 다르게하고 Playable은 진행시킴
-
+        // 보스(성주)는 Y 또는 N 상관없이 반응만 다르게하고 Playable은 진행시킴
         _playableDirector.Resume();
     }
 

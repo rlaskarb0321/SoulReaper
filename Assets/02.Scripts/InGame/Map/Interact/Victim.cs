@@ -82,14 +82,17 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
 
     public int ReturnSelectResult()
     {
+        // 플레이어가 골랐던 선택지 번호를 리턴
         return _selectNum;
     }
 
     public void ApplyOption(int selectNum)
     {
+        // 플레이어가 고른 선택지에 대한 번호를 저장
         _selectNum = selectNum;
 
         // 선택지가 Y일 경우
+        // 여기서 만약 플레이어가 영혼 해방에 필요한 영혼이 부족할경우, _selectNum = 3 으로 수정하고, afterYorN에서 3일때 너 영혼없다는 대화
         if (selectNum.Equals((int)DialogSelection.eYesOrNo.Yes))
             return;
         
@@ -102,7 +105,6 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
     public void CheckAnswer(bool isAnswerYes)
     {
         // Y를 고르면 Playable을 재생시키고 N를 고르면 상호작용이 가능하도록 만들고 Playable을 중단함
-
         if (isAnswerYes)
         {
             _playableDirector.Resume();
@@ -110,6 +112,7 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
         else
         {
             _isInteract = false;
+            _victimTalk._isInteract = false;
             ProductionMgr.StopProduction(_playableDirector);
         }
     }

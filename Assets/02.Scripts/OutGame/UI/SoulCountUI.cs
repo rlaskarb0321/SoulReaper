@@ -54,7 +54,7 @@ public class SoulCountUI : MonoBehaviour
         yield return _ws;
 
         float framePerFadeOutTime = _fadeOutTime / Time.deltaTime; // FadeOutTime 은 몇 프레임?
-        float amount = Mathf.Abs(target - current) / framePerFadeOutTime; // 한 프레임당 증감시켜야 되는 양
+        float amount = (target - current) / framePerFadeOutTime; // 한 프레임당 증감시켜야 되는 양
         StartCoroutine(CountGetSoul(target - current, index));
 
         while (current < target)
