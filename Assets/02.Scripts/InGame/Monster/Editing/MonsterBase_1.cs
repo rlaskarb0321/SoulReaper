@@ -125,6 +125,7 @@ public class MonsterBase_1 : MonoBehaviour
         _nav.enabled = false;
         _animator.SetTrigger(_hashDead);
 
+        UIScene._instance.UpdateSoulCount(_stat.soul);
         StartCoroutine(OnMonsterDead());
     }
 

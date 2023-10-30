@@ -455,7 +455,7 @@ MonoBehaviour:
   _stat:
     health: 60
     damage: 10
-    soul: 20
+    soul: 15
     rotSpeed: 3.6
     movSpeed: 3.3
     isInitiator: 0

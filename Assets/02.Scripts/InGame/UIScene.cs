@@ -80,11 +80,6 @@ public class UIScene : MonoBehaviour
         {
             PausePanel();
         }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            UpdateSoulCount(10);
-        }
     }
 
     #region UI Panel
