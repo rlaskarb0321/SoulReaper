@@ -60,6 +60,7 @@ public class CharacterDataPackage : DataApply, IDataApply
         _data._maxHP = _playerData._maxHP;
         _data._currMP = _playerData._currMP;
         _data._maxMP = _playerData._maxMP;
+        _data._soulCount = _playerData._soulCount;
 
         // 변경한 데이터들 저장
         _characterData._characterData = _data;

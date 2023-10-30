@@ -47,7 +47,7 @@ public class UIScene : MonoBehaviour
 
     [Header("=== Soul Count ===")]
     [SerializeField]
-    private TMP_Text _soulCount;
+    private SoulCountUI _soulCount;
 
 
     [Header("=== Scene Change ===")]
@@ -80,6 +80,11 @@ public class UIScene : MonoBehaviour
         {
             PausePanel();
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            UpdateSoulCount(10);
+        }
     }
 
     #region UI Panel
@@ -106,6 +111,16 @@ public class UIScene : MonoBehaviour
         SetUIPanelActive(_pausePanel);
     }
     #endregion UI Panel
+
+    public void UpdateSoulCount(float amount)
+    {
+        StartCoroutine(_soulCount.CountTotalSoul(
+            CharacterDataPackage._characterData._characterData._soulCount + amount,
+            CharacterDataPackage._characterData._characterData._soulCount)
+            );
+        _stat._soulCount = (int)CharacterDataPackage._characterData._characterData._soulCount + (int)amount;
+        _apply.EditMapData();
+    }
 
     public void UpdateHPMP(ePercentageStat stat, float currValue, float maxValue, bool isDataEdit = true)
     {

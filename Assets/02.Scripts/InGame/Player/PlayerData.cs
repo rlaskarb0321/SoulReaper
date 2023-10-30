@@ -15,6 +15,9 @@ public class PlayerData : MonoBehaviour
     [Header("Health Seed Count")]
     public int _healthSeedCount;
 
+    [Header("Soul Total Count")]
+    public int _soulCount;
+
     PlayerFSM _fsm;
     Animator _animator;
     PlayerCombat _combat;
