@@ -45,6 +45,11 @@ public class UIScene : MonoBehaviour
     public enum ePercentageStat { HP, MP, }
 
 
+    [Header("=== Soul Count ===")]
+    [SerializeField]
+    private TMP_Text _soulCount;
+
+
     [Header("=== Scene Change ===")]
     [SerializeField] 
     private TMP_Text _mapName;

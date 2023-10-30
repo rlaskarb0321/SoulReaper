@@ -1053,7 +1053,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: new text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b389bcffce675c448539a5872d805a5, type: 2}
   m_sharedMaterial: {fileID: -7052467528009077315, guid: 9b389bcffce675c448539a5872d805a5,
@@ -1593,7 +1593,7 @@ MonoBehaviour:
   _text: {fileID: 2765282773973361532}
   _isPlayerIn: 0
   _isInteract: 0
-  _dialogFloatTime: 3
+  _dialogFloatTime: 4.5
   _dialogCoolTime: 16
 --- !u!1 &8294076644951687291
 GameObject:

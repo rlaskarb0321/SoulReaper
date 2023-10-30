@@ -14,6 +14,7 @@ public class CharacterDataPackage : DataApply, IDataApply
     public TMP_Text _mpText;
     public TMP_Text _seedCount;
     public TMP_Text _mapName;
+    public TMP_Text _soulCount;
 
     [HideInInspector]
     public static CharacterData _characterData; // 저장된 플레이어 데이터를 이곳에 입력시킴
@@ -47,6 +48,7 @@ public class CharacterDataPackage : DataApply, IDataApply
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, _data._currMP, _data._maxMP, false);
 
         _seedCount.text = $"X {_data._seedCount}";
+        _soulCount.text = $"X {_data._soulCount}";
     }
 
     public override void EditMapData()

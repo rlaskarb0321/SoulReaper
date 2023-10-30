@@ -32,21 +32,15 @@ public class ForestMap
         public ForestData
             (
             bool isScrollGet = false,                                                   // 전서구 읽었는지 여부
-            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None,       // 화분의 상태
-            bool isShrineUnSealed = false,                                              // 사당입구 봉인 해제 여부
-            bool isShrineGet = false                                                    // 사당 보상 획득
+            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None       // 화분의 상태
             )
         {
             _isScrollGet = isScrollGet;
             _flowerState = flowerState;
-            _isShrineUnSealed = isShrineUnSealed;
-            _isShrineGet = isShrineGet;
         }
 
         public bool _isScrollGet;
         public HealthPlant.eFlowerState _flowerState;
-        public bool _isShrineUnSealed;
-        public bool _isShrineGet;
     }
 
     public ForestData _dataStruct;

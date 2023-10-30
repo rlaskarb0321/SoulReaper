@@ -1430,6 +1430,7 @@ MonoBehaviour:
   _stat:
     health: 40
     damage: 10
+    soul: 20
     rotSpeed: 3.5
     movSpeed: 3
     isInitiator: 1
@@ -1446,6 +1447,7 @@ MonoBehaviour:
   _deadMat: {fileID: 2100000, guid: b2594f4abf7bc744385e18b33f586cc4, type: 2}
   _monsterType: {fileID: 4109077098165902515}
   _nav: {fileID: 0}
+  _mesh: {fileID: 0}
   _animator: {fileID: 0}
   _projectilePool: {fileID: 0}
   _firePos: {fileID: 5257809215316306469}
