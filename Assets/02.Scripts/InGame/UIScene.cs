@@ -114,9 +114,10 @@ public class UIScene : MonoBehaviour
 
     public void UpdateSoulCount(float amount)
     {
-        StartCoroutine(_soulCount.CountTotalSoul(
+        _soulCount.StartCount
+            (
             CharacterDataPackage._characterData._characterData._soulCount + amount,
-            CharacterDataPackage._characterData._characterData._soulCount)
+            CharacterDataPackage._characterData._characterData._soulCount
             );
         _stat._soulCount = (int)CharacterDataPackage._characterData._characterData._soulCount + (int)amount;
         _apply.EditMapData();
