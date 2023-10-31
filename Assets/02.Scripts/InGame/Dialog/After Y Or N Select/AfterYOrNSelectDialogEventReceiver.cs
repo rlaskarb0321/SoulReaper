@@ -44,7 +44,12 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
         int selectNum = _yesOrNo.ReturnSelectResult();
         if (selectNum == -1)
             selectNum = marker._dialogCSVFile.Length - 1;
-
+        if (marker._dialogCSVFile[selectNum] == null)
+        {
+            print("null is stop");
+            _yesOrNo.CheckAnswer(false);
+            return;
+        }
         string[] lines = _dialogMgr.ParsingCSVLine(marker._dialogCSVFile[selectNum]);
 
         _letteringSpeed = marker._letteringSpeed;
@@ -80,9 +85,13 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
             _isEndLine = false;
 
             // line 에서 화자가 ""가 아니면 바꿔줌
-            if (speaker != null && !speaker.Equals("") && _dialogUI._speaker != null)
+            if (!speaker.Equals(""))
             {
                 _dialogUI._speaker.text = speaker;
+            }
+            else
+            {
+                _dialogUI._speaker.text = "";
             }
 
             // 대화문을 한 글자씩 출력

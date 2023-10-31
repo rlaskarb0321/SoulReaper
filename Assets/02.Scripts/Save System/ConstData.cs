@@ -31,4 +31,10 @@ public static class ConstData
     // 희생자 혼잣말, 플레이어가 트리거 아웃됐을때 혼잣말을 할 확률
     public const float VICTIM_TRIGGER_OUT_TALK_MY_SELF_PERCENTAGE = 18.0f;
 
+    // 희생자 봉인 해제 시키는데 필요한 영혼 재화의 수
+    public const int VICTIM_LIBERATE_SOUL_COUNT = 60;
+
+    // 사당에 바치는 영혼의 수
+    public const int SHRINE_COST = 20;
+
 }

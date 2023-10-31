@@ -5358,6 +5358,7 @@ MonoBehaviour:
   _currOpenPanel: []
   _pausePanel: {fileID: 1824909797}
   _letterPanel: {fileID: 1434474771}
+  _shrineInteractPanel: {fileID: 0}
   _seedUI: {fileID: 2088698825}
   _stat: {fileID: 779528198}
   _playerDeath: {fileID: 416251360}

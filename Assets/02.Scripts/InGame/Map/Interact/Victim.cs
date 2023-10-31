@@ -11,7 +11,7 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
     [Header("=== Interact ===")]
     [SerializeField]
     private string _interactName;
-
+    
     [SerializeField] 
     private Transform _floatUIPos;
 
@@ -113,14 +113,14 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
         if (selectNum.Equals((int)DialogSelection.eYesOrNo.Yes))
         {
             // 플레이어가 가진 영혼의 수를 비교
-            if (_playerData._soulCount < 100)
+            if (_playerData._soulCount < ConstData.VICTIM_LIBERATE_SOUL_COUNT)
             {
                 _selectNum = -1;
                 return;
             }
             else
             {
-                UIScene._instance.UpdateSoulCount(-100.0f);
+                UIScene._instance.UpdateSoulCount(-1 * ConstData.VICTIM_LIBERATE_SOUL_COUNT);
                 return;
             }
         }

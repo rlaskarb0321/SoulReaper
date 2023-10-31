@@ -17,7 +17,6 @@ public class UIScene : MonoBehaviour
     private GameObject _pausePanel; // 일시정지
     public GameObject _letterPanel; // 전서구
 
-
     [Header("=== Seed UI ===")]
     public SeedUI _seedUI;
 

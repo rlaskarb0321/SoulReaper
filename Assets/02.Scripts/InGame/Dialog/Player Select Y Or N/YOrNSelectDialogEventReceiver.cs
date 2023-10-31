@@ -38,7 +38,7 @@ public class YOrNSelectDialogEventReceiver : MonoBehaviour, INotificationReceive
 
         _playable.Pause();
         _selectionUI._activateUI.SetActive(true);
-        _selectionUI._speaker.text = playerLine[0];
+        _selectionUI._speaker.text = playerLine[0]; 
         _selectionUI._context.text = _dialogMgr.ReplaceDialogSpecialChar(playerLine[1]);
 
         for (int i = 0; i < selectionCount; i++)
@@ -55,7 +55,7 @@ public class YOrNSelectDialogEventReceiver : MonoBehaviour, INotificationReceive
                 selection._btn.Select();
 
             selection.RemoveAllListenerSelection();
-            selection.InputSelectionData(context);
+            selection.InputSelectionData(_dialogMgr.ReplaceDialogSpecialChar(context));
             selection.AddListenerOnClick(() =>
             {
                 _selectionResult.ApplyOption(selection._selectionIdx);

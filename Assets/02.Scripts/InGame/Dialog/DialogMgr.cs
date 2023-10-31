@@ -31,8 +31,8 @@ public class DialogMgr
 
     public string ReplaceDialogSpecialChar(string input)
     {
-        char[] specialChar = { '#', '*', '&' };
-        char[] changeChar = { '\0', '\n', ',' };
+        string[] specialChar = { "#", "*", "&", "@", "^" };
+        string[] changeChar = { "\0", "\n", ",", ConstData.VICTIM_LIBERATE_SOUL_COUNT.ToString(), ConstData.SHRINE_COST.ToString() };
 
         for (int i = 0; i < specialChar.Length; i++)
         {
