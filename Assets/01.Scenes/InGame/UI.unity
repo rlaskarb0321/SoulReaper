@@ -628,7 +628,7 @@ MonoBehaviour:
   - {fileID: 302562522}
   - {fileID: 1763375679}
   - {fileID: 193858522}
-  _fadeOutTime: 0.4
+  _countTime: 0.5
   _countWaitTime: 1.5
 --- !u!1 &302562520
 GameObject:

@@ -85,6 +85,11 @@ public class UIScene : MonoBehaviour
         {
             UpdateSoulCount(20.0f);
         }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            UpdateSoulCount(-20.0f);
+        }
     }
 
     #region UI Panel

@@ -14,7 +14,7 @@ public class SoulCountUI : MonoBehaviour
 
     [Header("=== Float Value ===")]
     [SerializeField]
-    private float _fadeOutTime;
+    private float _countTime;
 
     [SerializeField]
     private float _countWaitTime;
@@ -36,7 +36,7 @@ public class SoulCountUI : MonoBehaviour
     public void StartCount(float target, float current)
     {
         char calcSign = (target < current) ? '-' : '+';
-
+        
         for (int i = 0; i < _getSoulAlarmArr.Length; i++)
         {
             if (_getSoulAlarmArr[i].gameObject.activeSelf)
@@ -55,37 +55,53 @@ public class SoulCountUI : MonoBehaviour
     {
         yield return _ws;
 
-        float framePerFadeOutTime = _fadeOutTime / Time.deltaTime; // FadeOutTime 은 몇 프레임?
-        float amount = (target - current) / framePerFadeOutTime; // 한 프레임당 증감시켜야 되는 양
-        StartCoroutine(CountGetSoul(target - current, index));
+        float framePerFadeOutTime = _countTime / Time.deltaTime; // FadeOutTime 은 몇 프레임?
+        float dist = target - current;
+        float amount = Mathf.Abs(dist) / framePerFadeOutTime; // 한 프레임당 증감시켜야 되는 양
+        StartCoroutine(CountGetSoul(dist, index));
 
-        while (current < target)
+        if (dist < 0.0f)
         {
-            current += amount;
-            _totalSoul.text = $"X {(int)current}";
-            yield return null;
+            while (target < current)
+            {
+                current -= amount;
+                _totalSoul.text = $"X {(int)current}";
+                yield return null;
+            }
         }
+        else
+        {
+            while (current < target)
+            {
+                current += amount;
+                _totalSoul.text = $"X {(int)current}";
+                yield return null;
+            }
+        }
+
 
         current = target;
         _totalSoul.text = $"X {(int)current}";
     }
 
-    private IEnumerator CountGetSoul(float current, int index)
+    private IEnumerator CountGetSoul(float value, int index)
     {
         _alarmAnim[index].enabled = true;
 
-        float framePerFadeOutTime = _fadeOutTime / Time.deltaTime;
-        float amount = current / framePerFadeOutTime;
+        char calcSign = value < 0 ? '-' : '+';
+        float framePerFadeOutTime = _countTime / Time.deltaTime;
+        float amount = Mathf.Abs(value) / framePerFadeOutTime;
 
-        while (current > 0.0f)
+        value = Mathf.Abs(value);
+        while (value > 0.0f)
         {
-            current -= amount;
-            _getSoulAlarmArr[index].text = $"+ {(int)current}";
+            value -= amount;
+            _getSoulAlarmArr[index].text = $"{calcSign} {(int)value}";
             yield return null;
         }
 
-        current = 0.0f;
-        _getSoulAlarmArr[index].text = $"+ {(int)current}";
+        value = 0.0f;
+        _getSoulAlarmArr[index].text = $"{calcSign} {(int)value}";
         _alarmAnim[index].enabled = false;
         _getSoulAlarmArr[index].gameObject.SetActive(false);
     }
