@@ -1364,6 +1364,7 @@ MonoBehaviour:
   _dialogCSVFile:
   - {fileID: 4900000, guid: 738a241bfb15be443aefeacead78b7a7, type: 3}
   - {fileID: 4900000, guid: e2ed198d069d6144e97e38c99d9462d9, type: 3}
+  - {fileID: 4900000, guid: 9c0f0a51fddead04185592cb8a4a8ef6, type: 3}
   _letteringSpeed: 0.085
 --- !u!114 &4137740510970658869
 MonoBehaviour:

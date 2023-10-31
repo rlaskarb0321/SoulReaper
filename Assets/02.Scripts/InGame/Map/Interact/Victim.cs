@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
 
@@ -13,7 +15,7 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
     [SerializeField] 
     private Transform _floatUIPos;
 
-    [Header("PlayableAsset by number of not Liberated")]
+    [Header("=== PlayableAsset by number of not Liberated ===")]
     [SerializeField] 
     private PlayableAsset[] _playableAssets;
 
@@ -24,6 +26,19 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
     [Tooltip("희생자 혼잣말 트리거와 같이 있는 스크립트")]
     private VictimTalk _victimTalk;
 
+    [Header("=== Dialog ===")]
+    [SerializeField]
+    private Image _hierarchyImg;
+
+    [SerializeField]
+    private Image _sourceIgm;
+
+    [SerializeField]
+    private TMP_Text _soulPriceText;
+
+    [SerializeField]
+    private int _soulPriceValue;
+
     [Header("=== Data ===")]
     [SerializeField]
     private DataApply _apply;
@@ -31,6 +46,7 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
     private PlayableDirector _playableDirector;
     private int _selectNum;
     [HideInInspector] public bool _isInteract;
+    private PlayerData _playerData;
 
     private void Awake()
     {
@@ -61,6 +77,8 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
     {
         if (!other.CompareTag("Player"))
             return;
+        if (_playerData == null)
+            _playerData = other.GetComponent<PlayerData>();
         if (_isInteract)
         {
             SetActiveInteractUI(false);
@@ -92,9 +110,20 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
         _selectNum = selectNum;
 
         // 선택지가 Y일 경우
-        // 여기서 만약 플레이어가 영혼 해방에 필요한 영혼이 부족할경우, _selectNum = 3 으로 수정하고, afterYorN에서 3일때 너 영혼없다는 대화
         if (selectNum.Equals((int)DialogSelection.eYesOrNo.Yes))
-            return;
+        {
+            // 플레이어가 가진 영혼의 수를 비교
+            if (_playerData._soulCount < 100)
+            {
+                _selectNum = -1;
+                return;
+            }
+            else
+            {
+                UIScene._instance.UpdateSoulCount(-100.0f);
+                return;
+            }
+        }
         
         if (++_noSaveCount > _playableAssets.Length - 1)
         {

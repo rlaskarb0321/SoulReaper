@@ -35,12 +35,14 @@ public class SoulCountUI : MonoBehaviour
 
     public void StartCount(float target, float current)
     {
+        char calcSign = (target < current) ? '-' : '+';
+
         for (int i = 0; i < _getSoulAlarmArr.Length; i++)
         {
             if (_getSoulAlarmArr[i].gameObject.activeSelf)
                 continue;
 
-            _getSoulAlarmArr[i].text = $"+ {(target - current)}";
+            _getSoulAlarmArr[i].text = $"{calcSign} {Mathf.Abs(target - current)}";
             _getSoulAlarmArr[i].gameObject.SetActive(true);
             _getSoulAlarmArr[i].transform.SetAsFirstSibling();
 

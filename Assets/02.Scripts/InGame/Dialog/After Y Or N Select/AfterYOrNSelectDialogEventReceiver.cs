@@ -42,6 +42,9 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
 
         AfterYOrNSelectDialogMarker marker = notification as AfterYOrNSelectDialogMarker;
         int selectNum = _yesOrNo.ReturnSelectResult();
+        if (selectNum == -1)
+            selectNum = marker._dialogCSVFile.Length - 1;
+
         string[] lines = _dialogMgr.ParsingCSVLine(marker._dialogCSVFile[selectNum]);
 
         _letteringSpeed = marker._letteringSpeed;

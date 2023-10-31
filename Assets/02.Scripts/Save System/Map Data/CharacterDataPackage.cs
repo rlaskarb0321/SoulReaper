@@ -48,7 +48,10 @@ public class CharacterDataPackage : DataApply, IDataApply
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, _data._currMP, _data._maxMP, false);
 
         _seedCount.text = $"X {_data._seedCount}";
+
+        // 데이터에 적혀있던 대로 가진 소울의 양을 수정
         _soulCount.text = $"X {_data._soulCount}";
+        _playerData._soulCount = _data._soulCount;
     }
 
     public override void EditMapData()
