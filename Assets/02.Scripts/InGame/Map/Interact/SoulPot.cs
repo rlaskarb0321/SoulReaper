@@ -9,6 +9,7 @@ public class SoulPot : MonoBehaviour, IInteractable, IYOrNSelectOption
     [SerializeField] private string _interactName;
     [SerializeField] private Transform _floatUIPos;
 
+    private BuffProvider _buffProvider;
     private PlayableDirector _playable;
     private PlayerData _playerData;
     private bool _isInteract;
@@ -17,6 +18,7 @@ public class SoulPot : MonoBehaviour, IInteractable, IYOrNSelectOption
     private void Awake()
     {
         _playable = GetComponent<PlayableDirector>();
+        _buffProvider = GetComponent<BuffProvider>();
     }
 
     public void Interact()
@@ -82,8 +84,10 @@ public class SoulPot : MonoBehaviour, IInteractable, IYOrNSelectOption
             }
             else
             {
-                UIScene._instance.UpdateSoulCount(-1 * ConstData.SHRINE_COST);
                 // 버프 주기
+                PlayerBuff buff = _buffProvider.GenerateBuffInstance();
+                UIScene._instance.UpdateSoulCount(-1 * ConstData.SHRINE_COST);
+                UIScene._instance.BuffPlayer(buff);
                 return;
             }
         }

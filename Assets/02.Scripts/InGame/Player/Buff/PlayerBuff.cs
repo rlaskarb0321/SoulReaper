@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,9 +12,8 @@ public abstract class PlayerBuff
     public string BuffName { get { return _buffName; } }
     public float RemainBuffDur { get { return _remainBuffDur; } }
 
-    public PlayerBuff(string buffName, float buffDur)
+    public PlayerBuff(float buffDur)
     {
-        _buffName = buffName;
         _buffDur = buffDur;
 
         _remainBuffDur = _buffDur;
@@ -54,8 +54,10 @@ public class HPMPBuff : PlayerBuff
     private float _hpIncrease;
     private float _mpIncrease;
 
-    public HPMPBuff(string buffName, float buffDur, float hpIncrease, float mpIncrease) : base(buffName, buffDur) 
+    public HPMPBuff(float buffDur, float hpIncrease, float mpIncrease) : base(buffDur) 
     {
+        _buffName = ConstData.HPMP_BUFF_NAME;
+
         _hpIncrease = hpIncrease;
         _mpIncrease = mpIncrease;
     }
@@ -101,8 +103,9 @@ public class DamageBuff : PlayerBuff
 {
     private float _atkIncrease;
 
-    public DamageBuff(string buffName, float buffDur, float atkIncrease) : base(buffName, buffDur)
+    public DamageBuff(float buffDur, float atkIncrease) : base(buffDur)
     {
+        _buffName = ConstData.DAMAGE_BUFF_NAME;
         _atkIncrease = atkIncrease;
     }
 

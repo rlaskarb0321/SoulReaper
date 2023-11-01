@@ -46675,6 +46675,7 @@ GameObject:
   - component: {fileID: 1000987012}
   - component: {fileID: 1000987011}
   - component: {fileID: 1000987010}
+  - component: {fileID: 1000987015}
   m_Layer: 15
   m_Name: Pot_Interact
   m_TagString: Untagged
@@ -46786,6 +46787,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 3.72
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1000987015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000987008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c92b5173fd2b8c4192fa480a09249ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1001281348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89133,6 +89146,7 @@ GameObject:
   - component: {fileID: 1734570695}
   - component: {fileID: 1734570699}
   - component: {fileID: 1734570698}
+  - component: {fileID: 1734570700}
   m_Layer: 15
   m_Name: Pot_Interact
   m_TagString: Untagged
@@ -89240,6 +89254,18 @@ MonoBehaviour:
     _speaker: {fileID: 1559026917}
     _context: {fileID: 1344355134}
     _selectionContent: {fileID: 1558614471}
+--- !u!114 &1734570700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734570693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d48a85c2d56a34a98f653ad763d518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1734893624
 PrefabInstance:
   m_ObjectHideFlags: 0
