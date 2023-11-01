@@ -28,7 +28,7 @@ public class SceneTeleport : MonoBehaviour, IInteractable
 
         // 여기서 CharacterDataPackage._characterData 의 값을 가져와서 hp, mp 등을 유지하고
         // 다음 씬의 이름에따라 플레이어의 위치와 회전값만 바꿔주고, CharacterDataPackage._characterData 를 갱신시키자
-        CharacterData.CData data = CharacterDataPackage._characterData._characterData;
+        CharacterData.CData data = CharacterDataPackage._cDataInstance._characterData;
         switch (_nextMap)
         {
             case "Castle_Map":
@@ -49,8 +49,8 @@ public class SceneTeleport : MonoBehaviour, IInteractable
         data._currMP = _playerData._currMP;
         data._maxMP = _playerData._maxMP;
 
-        CharacterDataPackage._characterData._characterData = data;
-        DataManage.SaveCData(CharacterDataPackage._characterData, "TestCData");
+        CharacterDataPackage._cDataInstance._characterData = data;
+        DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
         StartCoroutine(TeleportScene());
     }
 

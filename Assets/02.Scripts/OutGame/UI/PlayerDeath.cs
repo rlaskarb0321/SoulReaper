@@ -46,7 +46,7 @@ public class PlayerDeath : MonoBehaviour
     // 사망 연출 애니메이션의 마지막에 델리게이트로 달아놓을 메서드
     public void LoadBeforeDeathData()
     {
-        LoadingScene.LoadScene(CharacterDataPackage._characterData._characterData._mapName);
+        LoadingScene.LoadScene(CharacterDataPackage._cDataInstance._characterData._mapName);
     }
 
     private void MagnifyCam()

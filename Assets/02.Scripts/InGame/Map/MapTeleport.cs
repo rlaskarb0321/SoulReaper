@@ -35,11 +35,11 @@ public class MapTeleport : MonoBehaviour
     {
         print("character teleport data save");
 
-        CharacterData.CData data = CharacterDataPackage._characterData._characterData;
+        CharacterData.CData data = CharacterDataPackage._cDataInstance._characterData;
         data._pos = _nextPos.transform.position;
         data._rot = _playerMove.transform.rotation;
 
-        CharacterDataPackage._characterData._characterData = data;
-        DataManage.SaveCData(CharacterDataPackage._characterData, "TestCData");
+        CharacterDataPackage._cDataInstance._characterData = data;
+        DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
     }
 }

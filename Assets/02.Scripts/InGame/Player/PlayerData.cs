@@ -12,6 +12,9 @@ public class PlayerData : MonoBehaviour
     public float _maxMP;
     public float _currMP;
 
+    [Header("=== Basic Atk Power ===")]
+    public float _basicAtkDamage;
+
     [Header("=== Health Seed Count ===")]
     public int _healthSeedCount;
 

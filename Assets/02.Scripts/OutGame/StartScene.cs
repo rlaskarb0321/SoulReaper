@@ -73,7 +73,7 @@ public class StartScene : MonoBehaviour
 
         // 데이터에 저장된 현재 플레이어의 위치(맵)에 맞는 씬을 불러옴
         CharacterData cDataPack = DataManage.LoadCData("TestCData");
-        CharacterDataPackage._characterData = cDataPack;
+        CharacterDataPackage._cDataInstance = cDataPack;
         LoadingScene.LoadScene(cDataPack._characterData._mapName);
     }
 

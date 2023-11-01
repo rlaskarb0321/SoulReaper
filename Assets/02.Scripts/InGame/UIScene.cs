@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class UIScene : MonoBehaviour
 {
@@ -20,14 +21,12 @@ public class UIScene : MonoBehaviour
     [Header("=== Seed UI ===")]
     public SeedUI _seedUI;
 
-
     [Header("=== Player ===")]
     [SerializeField]
     private PlayerData _stat;
 
     [SerializeField]
     private PlayerDeath _playerDeath;
-
 
     [Header("=== Hp & Mp ===")]
     [SerializeField] 
@@ -43,16 +42,13 @@ public class UIScene : MonoBehaviour
     private TMP_Text _mpText;
     public enum ePercentageStat { HP, MP, }
 
-
     [Header("=== Soul Count ===")]
     [SerializeField]
     private SoulCountUI _soulCount;
 
-
     [Header("=== Scene Change ===")]
     [SerializeField] 
     private TMP_Text _mapName;
-
 
     [Header("=== Interact ===")]
     public GameObject _interactUI; // 인게임에서 상호작용 가능한 물체 가까이 갔을 때 뜨게 할 텍스트 UI
@@ -63,6 +59,8 @@ public class UIScene : MonoBehaviour
     [SerializeField]
     private DataApply _apply;
 
+    [Header("=== Buff List ===")]
+    private List<PlayerBuff> _buffList;
 
     private void Awake()
     {
@@ -71,10 +69,13 @@ public class UIScene : MonoBehaviour
         _currOpenPanel = new List<GameObject>();
         _rect = _interactUI.GetComponent<RectTransform>();
         _mapName.text = EditMapName();
+        _buffList = new List<PlayerBuff>();
     }
 
     private void Update()
     {
+        print(_buffList.Count);
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             PausePanel();
@@ -93,9 +94,17 @@ public class UIScene : MonoBehaviour
         }
 
         // 테스트 용 플레이어에게 체력마나 버프 부여
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            PlayerBuff hpmpBuff = new HPMPBuff("endure", 5.0f, 50.0f, 50.0f);
+            BuffPlayer(hpmpBuff);
+        }
+
+        // 테스트 용 플레이어에게 공격력 버프 부여
         if (Input.GetKeyDown(KeyCode.B))
         {
-            AddBuff();
+            PlayerBuff damageBuff = new DamageBuff("rage", 5.0f, 20.0f);
+            BuffPlayer(damageBuff);
         }
     }
 
@@ -128,10 +137,10 @@ public class UIScene : MonoBehaviour
     {
         _soulCount.StartCount
             (
-            CharacterDataPackage._characterData._characterData._soulCount + amount,
-            CharacterDataPackage._characterData._characterData._soulCount
+            CharacterDataPackage._cDataInstance._characterData._soulCount + amount,
+            CharacterDataPackage._cDataInstance._characterData._soulCount
             );
-        _stat._soulCount = (int)CharacterDataPackage._characterData._characterData._soulCount + (int)amount;
+        _stat._soulCount = (int)CharacterDataPackage._cDataInstance._characterData._soulCount + (int)amount;
         _apply.EditMapData();
     }
 
@@ -161,6 +170,11 @@ public class UIScene : MonoBehaviour
         {
             _apply.EditMapData();
         }
+    }
+
+    public void UpdatePlayerDamage(float amount)
+    {
+        _stat._basicAtkDamage = amount;
     }
 
     // 씬 옮기면서 보여줄 맵 네임값을 수정
@@ -216,10 +230,41 @@ public class UIScene : MonoBehaviour
         _playerDeath.AnnouncePlayerDeath();
     }
 
-    public void AddBuff()
+    public void BuffPlayer(PlayerBuff buff)
     {
-        PlayerBuff hpmpBuff = new HPMPBuff("endure", 3.0f, 50.0f, 50.0f);
-        hpmpBuff.BuffPlayer();
-        StartCoroutine(hpmpBuff.DecreaseBuffDur());
+        bool isAlreadyBuff = CheckAlreadyBuff(buff.BuffName);
+        if (isAlreadyBuff)
+        {
+            print("이미 " + buff.BuffName + "버프는 걸려 있습니다");
+            return;
+        }
+
+        buff.BuffPlayer();
+        StartCoroutine(buff.DecreaseBuffDur());
+        StartCoroutine(ManageBuff(buff));
+    }
+
+    private bool CheckAlreadyBuff(string buffName)
+    {
+        for (int i = 0; i < _buffList.Count; i++)
+        {
+            string buff = _buffList[i].BuffName;
+
+            if (buff.Equals(buffName))
+                return true;
+        }
+
+        return false;
+    }
+
+    private IEnumerator ManageBuff(PlayerBuff buff)
+    {
+        _buffList.Add(buff);
+        _apply.EditMapData();
+
+        yield return new WaitForSeconds(buff.RemainBuffDur + 0.1f);
+
+        _buffList.Remove(buff);
+        _apply.EditMapData();
     }
 }

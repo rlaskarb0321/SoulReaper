@@ -19,7 +19,8 @@ public class CharacterData
             float currMp,                                                                   // 현재 남은 mp
             float maxMp,                                                                    // 최대 mp
             int seedCount,                                                                  // 씨앗을 몇개 갖고있는지
-            int soulCount                                                                   // 플레이어가 가지고 있는 영혼
+            int soulCount,                                                                  // 플레이어가 가지고 있는 영혼
+            float basicAtkDamage                                                            // 플레이어의 맨 몸 공격력
             )
         {
             _pos = pos;
@@ -31,6 +32,7 @@ public class CharacterData
             _maxMP = maxMp;
             _seedCount = seedCount;
             _soulCount = soulCount;
+            _basicAtkDamage = basicAtkDamage;
         }
 
         public Vector3 _pos;
@@ -42,13 +44,14 @@ public class CharacterData
         public float _maxMP;
         public int _seedCount;
         public int _soulCount;
+        public float _basicAtkDamage;
     }
 
     public CData _characterData;
 
     public CharacterData()
     {
-        _characterData = new CData(new Vector3(-116.14f, -4.67f, -65.99f), Quaternion.identity, "LittleForest_Map", 100, 100, 50, 50, 5, 10);
+        _characterData = new CData(new Vector3(-116.14f, -4.67f, -65.99f), Quaternion.identity, "LittleForest_Map", 100, 100, 50, 50, 5, 10, 0.0f);
     }
 
     public CharacterData(CData cData)

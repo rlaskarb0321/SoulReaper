@@ -17,7 +17,7 @@ public class CharacterDataPackage : DataApply, IDataApply
     public TMP_Text _soulCount;
 
     [HideInInspector]
-    public static CharacterData _characterData; // 저장된 플레이어 데이터를 이곳에 입력시킴
+    public static CharacterData _cDataInstance; // 저장된 플레이어 데이터를 이곳에 입력시킴
 
     // Field
     private CharacterData.CData _data;
@@ -26,7 +26,7 @@ public class CharacterDataPackage : DataApply, IDataApply
 
     private void Awake()
     {
-        _data = _characterData._characterData;
+        _data = _cDataInstance._characterData;
         _playerData = _playerBody[0].GetComponent<PlayerData>();
         _playerMove = _playerBody[0].GetComponent<PlayerMove_1>();
 
@@ -63,9 +63,10 @@ public class CharacterDataPackage : DataApply, IDataApply
         _data._currMP = _playerData._currMP;
         _data._maxMP = _playerData._maxMP;
         _data._soulCount = _playerData._soulCount;
+        _data._basicAtkDamage = _playerData._basicAtkDamage;
 
         // 변경한 데이터들 저장
-        _characterData._characterData = _data;
-        DataManage.SaveCData(_characterData, "TestCData");
+        _cDataInstance._characterData = _data;
+        DataManage.SaveCData(_cDataInstance, "TestCData");
     }
 }

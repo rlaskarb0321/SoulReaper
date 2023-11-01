@@ -9,7 +9,6 @@ public class PlayerCombat : MonoBehaviour
     public GameObject _followCamObj;
 
     [Header("Attack")]
-    public float _attackAdvancedDist; // 공격시 전진거리
     public float _needChargingTime; // 원거리 공격 사용하는데 필요한 차징 시간
     [HideInInspector] public float _curLongRangeChargingTime; // 현재 원거리 공격 충전시간
     public float _fallAttackSpeed; // 낙하공격시 떨어지는 속도
