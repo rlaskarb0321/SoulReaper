@@ -26,7 +26,6 @@ public class CharacterDataPackage : DataApply, IDataApply
 
     private void Awake()
     {
-        _characterData = DataManage.LoadCData("TestCData");
         _data = _characterData._characterData;
         _playerData = _playerBody[0].GetComponent<PlayerData>();
         _playerMove = _playerBody[0].GetComponent<PlayerMove_1>();

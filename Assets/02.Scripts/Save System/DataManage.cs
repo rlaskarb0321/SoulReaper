@@ -6,7 +6,7 @@ public static class DataManage
 {
     public static string SavePath => Application.persistentDataPath + "/saves/";
 
-    // Save Method
+    #region Save Data Method
     public static void SaveMData(MapData data, string saveFileName)
     {
         if (!Directory.Exists(SavePath))
@@ -34,8 +34,9 @@ public static class DataManage
 
         File.WriteAllText(saveFilePath, saveJson);
     }
+    #endregion Save Data Method
 
-    // Load Method
+    #region Load Data Method
     public static MapData LoadMData(string saveFileName)
     {
         string saveFilePath = SavePath + saveFileName + ".json";
@@ -67,4 +68,5 @@ public static class DataManage
 
         return saveData;
     }
+    #endregion Load Data Method
 }

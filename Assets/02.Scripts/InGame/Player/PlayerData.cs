@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
-    [Header("Health Value")]
+    [Header("=== Health Value ===")]
     public float _maxHP;
     public float _currHP;
 
-    [Header("Mana Value")]
+    [Header("=== Mana Value ===")]
     public float _maxMP;
     public float _currMP;
 
-    [Header("Health Seed Count")]
+    [Header("=== Health Seed Count ===")]
     public int _healthSeedCount;
 
-    [Header("Soul Total Count")]
+    [Header("=== Soul Total Count ===")]
     public int _soulCount;
 
     PlayerFSM _fsm;

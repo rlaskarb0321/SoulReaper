@@ -80,14 +80,22 @@ public class UIScene : MonoBehaviour
             PausePanel();
         }
 
+        // 테스트 용 소울 에너지 20 증가
         if (Input.GetKeyDown(KeyCode.C))
         {
             UpdateSoulCount(20.0f);
         }
 
+        // 테스트 용 소울 에너지 20 감소
         if (Input.GetKeyDown(KeyCode.V))
         {
             UpdateSoulCount(-20.0f);
+        }
+
+        // 테스트 용 플레이어에게 체력마나 버프 부여
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            AddBuff();
         }
     }
 
@@ -129,6 +137,9 @@ public class UIScene : MonoBehaviour
 
     public void UpdateHPMP(ePercentageStat stat, float currValue, float maxValue, bool isDataEdit = true)
     {
+        if (currValue > maxValue)
+            currValue = maxValue;
+
         switch (stat)
         {
             case ePercentageStat.HP:
@@ -153,7 +164,7 @@ public class UIScene : MonoBehaviour
     }
 
     // 씬 옮기면서 보여줄 맵 네임값을 수정
-    public string EditMapName()
+    private string EditMapName()
     {
         string mapName;
         int sceneCount = SceneManager.sceneCount;
@@ -203,5 +214,12 @@ public class UIScene : MonoBehaviour
     {
         // 플레이어 죽었을때 패널띄우고 최근에 저장했던 위치로 피 마나 다 채우고 옮기기 (씬 다시 불러오기)
         _playerDeath.AnnouncePlayerDeath();
+    }
+
+    public void AddBuff()
+    {
+        PlayerBuff hpmpBuff = new HPMPBuff("endure", 3.0f, 50.0f, 50.0f);
+        hpmpBuff.BuffPlayer();
+        StartCoroutine(hpmpBuff.DecreaseBuffDur());
     }
 }
