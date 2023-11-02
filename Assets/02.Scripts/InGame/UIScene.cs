@@ -102,7 +102,7 @@ public class UIScene : MonoBehaviour
         // 테스트 용 플레이어에게 공격력 버프 부여
         if (Input.GetKeyDown(KeyCode.B))
         {
-            PlayerBuff damageBuff = new DamageBuff(5.0f, 20.0f);
+            PlayerBuff damageBuff = new DamageBuff(5.0f, 10.0f);
             BuffPlayer(damageBuff);
         }
     }

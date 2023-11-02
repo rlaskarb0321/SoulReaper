@@ -46,8 +46,6 @@ public abstract class PlayerBuff
     {
         while (_remainBuffDur > 0.0f)
         {
-            _buffDurText.text = _remainBuffDur.ToString();
-
             yield return _ws;
             _remainBuffDur -= 1.0f;
             Debug.Log(_buffName + "의 지속시간 : " + _remainBuffDur + " 남음");

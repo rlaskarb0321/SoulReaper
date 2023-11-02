@@ -40,7 +40,7 @@ public static class ConstData
     // 공 버프
     public const string DAMAGE_BUFF_NAME = "분노";
     public const float DAMAGE_BUFF_DURATION = 10.0f;
-    public const float DAMAGE_BUFF_AMOUNT = 20.0f;
+    public const float DAMAGE_BUFF_AMOUNT = 10.0f;
 
     // 체력, 마나 뻥튀기 버프
     public const string HPMP_BUFF_NAME = "강인함";

@@ -337,17 +337,17 @@ public class PlayerCombat : MonoBehaviour
     // 낙하, 대쉬공격에 따른 데미지배율계산
     public float CalcDamage()
     {
-        float damage = 0.0f;
+        float damage = _stat._basicAtkDamage;
         switch (_attackStyle)
         {
             case eAttackStyle.Normal:
-                damage = _weapon._atkPower * 1.0f;
+                damage += _weapon._atkPower * 1.0f;
                 break;
             case eAttackStyle.DodgeAttack:
-                damage = _weapon._atkPower * 3.0f;
+                damage += _weapon._atkPower * 3.0f;
                 break;
             case eAttackStyle.FallAttack:
-                damage = _weapon._atkPower * 4.0f;
+                damage += _weapon._atkPower * 4.0f;
                 break;
         }
 
