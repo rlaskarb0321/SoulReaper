@@ -54,5 +54,7 @@ public class HPMPBuff : PlayerBuff
 
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, data._currHP, originMaxHP, false);
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, data._currMP, originMaxMP, false);
+
+        _remainBuffDur = _buffDur;
     }
 }

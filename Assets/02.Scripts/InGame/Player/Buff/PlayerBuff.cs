@@ -21,7 +21,8 @@ public abstract class PlayerBuff : ScriptableObject
 
     public Sprite BuffImg { get { return _buffImg; } set { _buffImg = value; } }
     public string BuffName { get { return _buffName; } }
-    public float RemainBuffDur { get { return _remainBuffDur; } }
+    public float RemainBuffDur { get { return _remainBuffDur; } set { _remainBuffDur = value; } }
+    public float BuffDur { get { return _buffDur; } }
 
     public PlayerBuff()
     {
@@ -54,10 +55,9 @@ public abstract class PlayerBuff : ScriptableObject
         }
 
         text.text = _remainBuffDur.ToString();
-        if (_remainBuffDur <= 0.0f)
-        {
-            ResetBuff();
-            _remainBuffDur = _buffDur;
-        }
+        //if (_remainBuffDur <= 0.0f)
+        //{
+        //    ResetBuff();
+        //}
     }
 }

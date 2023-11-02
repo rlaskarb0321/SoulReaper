@@ -31,5 +31,7 @@ public class DamageBuff : PlayerBuff
             originDamage = 0.0f;
 
         UIScene._instance.UpdatePlayerDamage(originDamage);
+
+        _remainBuffDur = _buffDur;
     }
 }

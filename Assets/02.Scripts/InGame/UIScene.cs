@@ -237,26 +237,33 @@ public class UIScene : MonoBehaviour
 
     public void BuffPlayer(PlayerBuff buff)
     {
-        BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
+        PlayerBuff alreadyBuff = CheckAlreadyBuff(buff.BuffName);
+        if (alreadyBuff != null)
+        {
+            alreadyBuff.RemainBuffDur = alreadyBuff.BuffDur;
+            return;
+        }
 
+        BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
         buffICon._buffImamge.sprite = buff.BuffImg; // 버프 아이콘 바꾸기
         buff.BuffPlayer(); // 버프 주기
-
         StartCoroutine(buff.DecreaseBuffDur(buffICon._durationText)); // 버프 지속시간 텍스트 바꾸기
         StartCoroutine(ManageBuff(buff, buffICon)); // 버프 리스트로 관리하기
     }
 
-    public bool CheckAlreadyBuff(string buffName)
+    public PlayerBuff CheckAlreadyBuff(string buffName)
     {
         for (int i = 0; i < _buffList.Count; i++)
         {
             string buff = _buffList[i].BuffName;
 
             if (buff.Equals(buffName))
-                return true;
+            {
+                return _buffList[i];
+            }
         }
 
-        return false;
+        return null;
     }
 
     private IEnumerator ManageBuff(PlayerBuff buff, BuffICon icon)
@@ -264,10 +271,12 @@ public class UIScene : MonoBehaviour
         _buffList.Add(buff);
         _apply.EditMapData();
 
-        yield return new WaitForSeconds(buff.RemainBuffDur + 0.1f);
+        //yield return new WaitForSeconds(buff.RemainBuffDur + 0.1f);
+        yield return new WaitUntil(() => (int)buff.RemainBuffDur <= 0);
 
         Destroy(icon.gameObject);
         _buffList.Remove(buff);
+        buff.ResetBuff();
         _apply.EditMapData();
     }
 }
