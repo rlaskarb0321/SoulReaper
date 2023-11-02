@@ -60,6 +60,7 @@ public class UIScene : MonoBehaviour
     private DataApply _apply;
 
     [Header("=== Buff List ===")]
+    public BuffUI _buffUI;
     private List<PlayerBuff> _buffList;
 
     private void Awake()
@@ -230,19 +231,12 @@ public class UIScene : MonoBehaviour
 
     public void BuffPlayer(PlayerBuff buff)
     {
-        bool isAlreadyBuff = CheckAlreadyBuff(buff.BuffName);
-        if (isAlreadyBuff)
-        {
-            print("이미 " + buff.BuffName + "버프는 걸려 있습니다");
-            return;
-        }
-
         buff.BuffPlayer();
         StartCoroutine(buff.DecreaseBuffDur());
         StartCoroutine(ManageBuff(buff));
     }
 
-    private bool CheckAlreadyBuff(string buffName)
+    public bool CheckAlreadyBuff(string buffName)
     {
         for (int i = 0; i < _buffList.Count; i++)
         {

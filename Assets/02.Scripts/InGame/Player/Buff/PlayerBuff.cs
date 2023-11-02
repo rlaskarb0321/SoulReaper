@@ -1,9 +1,17 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public abstract class PlayerBuff
 {
+    [SerializeField]
+    private Image _buffImg;
+
+    [SerializeField]
+    private TMP_Text _buffDurText;
+
     protected string _buffName;
     protected float _buffDur;
     protected float _remainBuffDur;
@@ -38,8 +46,9 @@ public abstract class PlayerBuff
     {
         while (_remainBuffDur > 0.0f)
         {
-            yield return _ws;
+            _buffDurText.text = _remainBuffDur.ToString();
 
+            yield return _ws;
             _remainBuffDur -= 1.0f;
             Debug.Log(_buffName + "의 지속시간 : " + _remainBuffDur + " 남음");
         }
@@ -49,6 +58,7 @@ public abstract class PlayerBuff
     }
 }
 
+[Serializable]
 public class HPMPBuff : PlayerBuff
 {
     private float _hpIncrease;
@@ -99,6 +109,7 @@ public class HPMPBuff : PlayerBuff
     }
 }
 
+[Serializable]
 public class DamageBuff : PlayerBuff
 {
     private float _atkIncrease;
