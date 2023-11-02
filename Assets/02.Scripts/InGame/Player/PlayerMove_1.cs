@@ -392,7 +392,7 @@ public class PlayerMove_1 : MonoBehaviour
 
         _v = Input.GetAxisRaw("Vertical");
         _rbody.isKinematic = true;
-        _rbody.position += new Vector3(0.0f, _v * (Time.fixedDeltaTime * _ladderSpeed), 0.0f);
+        _rbody.position += new Vector3(0.0f, _v * (Time.deltaTime * _ladderSpeed), 0.0f);
         _animator.SetBool(_hashLadderInput, _v != 0);
         _animator.SetFloat(_hashClimbSpeed, _v);
     }

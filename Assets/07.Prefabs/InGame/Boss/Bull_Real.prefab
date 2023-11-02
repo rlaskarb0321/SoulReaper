@@ -2829,7 +2829,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waveMaster: {fileID: 0}
   _dissolveMat: {fileID: 2100000, guid: 91b7c517aabcc0048a409f90482bdbcc, type: 2}
-  _dissolveAmount: 0.000685
+  _dissolveAmount: 0.21
   _monsterBase: {fileID: 4617458899977045247}
 --- !u!1 &7025579733498966971
 GameObject:

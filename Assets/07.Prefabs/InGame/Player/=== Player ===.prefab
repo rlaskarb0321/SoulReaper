@@ -2060,7 +2060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movSpeed: 6.2
   _rotSpeed: 15
-  _ladderSpeed: 0.288
+  _ladderSpeed: 0.9
   _dir: {x: 0, y: 0, z: 0}
   _grounded: {fileID: 3272357121810576997}
   _isGrounded: 0
@@ -3573,12 +3573,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0190d3179854b4bb0a950e9246b203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ui: {fileID: 0}
   _maxHP: 20000
   _currHP: 0
   _maxMP: 10000
   _currMP: 0
+  _basicAtkDamage: 0
   _healthSeedCount: 5
+  _soulCount: 0
 --- !u!114 &3272357121288171837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3592,7 +3593,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followCamObj: {fileID: 3272357121646028776}
-  _attackAdvancedDist: 0
   _needChargingTime: 0.6
   _curLongRangeChargingTime: 0
   _fallAttackSpeed: 25

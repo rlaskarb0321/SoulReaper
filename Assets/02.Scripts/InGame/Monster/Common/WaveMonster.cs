@@ -74,7 +74,7 @@ public class WaveMonster : MonsterType
 
         while (dissolveAmount >= 0.0f)
         {
-            dissolveAmount -= _dissolveAmount;
+            dissolveAmount -= _dissolveAmount * Time.deltaTime;
             if (dissolveAmount <= 0.0f)
             {
                 dissolveAmount = 0.0f;
