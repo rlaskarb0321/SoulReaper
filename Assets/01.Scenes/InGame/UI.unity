@@ -5304,6 +5304,7 @@ GameObject:
   - component: {fileID: 1320289524}
   - component: {fileID: 1320289523}
   - component: {fileID: 1320289525}
+  - component: {fileID: 1320289526}
   m_Layer: 5
   m_Name: UI Canvas
   m_TagString: Untagged
@@ -5434,9 +5435,7 @@ MonoBehaviour:
   _interactUI: {fileID: 1982097677}
   _objName: {fileID: 1513717612}
   _apply: {fileID: 1320289525}
-  _buffContainer: {fileID: 534539289}
-  _buffICon: {fileID: 8465811054396627242, guid: 580b567acb87a9d439ae1cb208daa0c6,
-    type: 3}
+  _buffMgr: {fileID: 1320289526}
 --- !u!95 &1320289524
 Animator:
   serializedVersion: 4
@@ -5479,6 +5478,21 @@ MonoBehaviour:
   _seedCount: {fileID: 306963737}
   _mapName: {fileID: 1790706889}
   _soulCount: {fileID: 924985853}
+--- !u!114 &1320289526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320289518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b672eabbffd1e6641b0857aa0af3aa3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buffContainer: {fileID: 534539289}
+  _buffICon: {fileID: 8465811054396627242, guid: 580b567acb87a9d439ae1cb208daa0c6,
+    type: 3}
 --- !u!1 &1346922954
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// 캐릭터에 대한 정보를 담고있는 객체
+/// </summary>
 [Serializable]
 public class CharacterData
 {
+    /// <summary>
+    /// 캐릭터에 관한 정보를 저장하는 구조체
+    /// </summary>
     [Serializable]
     public struct CData
     {
@@ -49,11 +55,18 @@ public class CharacterData
 
     public CData _characterData;
 
+    /// <summary>
+    /// 매개변수 없이 선언되면 기본값으로 CData 초기화
+    /// </summary>
     public CharacterData()
     {
         _characterData = new CData(new Vector3(-116.14f, -4.67f, -65.99f), Quaternion.identity, "LittleForest_Map", 100, 100, 50, 50, 5, 10, 0.0f);
     }
 
+    /// <summary>
+    /// 매개변수 있으면 있는값으로 CData 초기화
+    /// </summary>
+    /// <param name="cData"></param>
     public CharacterData(CData cData)
     {
         _characterData = cData;

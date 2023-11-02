@@ -59,15 +59,18 @@ public class UIScene : MonoBehaviour
     [SerializeField]
     private DataApply _apply;
 
-    [Header("=== Buff List ===")]
-    [SerializeField]
-    private Transform _buffContainer;
+    [Header("=== Buff ===")]
+    public BuffDataPackage _buffMgr;
 
-    [SerializeField]
-    private BuffICon _buffICon;
+    //[Header("=== Buff List ===")]
+    //[SerializeField]
+    //private Transform _buffContainer;
 
-    // Field
-    private List<PlayerBuff> _buffList;
+    //[SerializeField]
+    //private BuffICon _buffICon;
+
+    //// Field
+    //private List<PlayerBuff> _buffList;
 
     private void Awake()
     {
@@ -76,7 +79,7 @@ public class UIScene : MonoBehaviour
         _currOpenPanel = new List<GameObject>();
         _rect = _interactUI.GetComponent<RectTransform>();
         _mapName.text = EditMapName();
-        _buffList = new List<PlayerBuff>();
+        //_buffList = new List<PlayerBuff>();
     }
 
     private void Update()
@@ -97,20 +100,6 @@ public class UIScene : MonoBehaviour
         {
             UpdateSoulCount(-20.0f);
         }
-
-        // 테스트 용 플레이어에게 체력마나 버프 부여
-        //if (Input.GetKeyDown(KeyCode.N))
-        //{
-        //    PlayerBuff hpmpBuff = new HPMPBuff(5.0f, 50.0f, 50.0f);
-        //    BuffPlayer(hpmpBuff);
-        //}
-
-        //// 테스트 용 플레이어에게 공격력 버프 부여
-        //if (Input.GetKeyDown(KeyCode.B))
-        //{
-        //    PlayerBuff damageBuff = new DamageBuff(5.0f, 10.0f);
-        //    BuffPlayer(damageBuff);
-        //}
     }
 
     #region UI Panel
@@ -235,48 +224,48 @@ public class UIScene : MonoBehaviour
         _playerDeath.AnnouncePlayerDeath();
     }
 
-    public void BuffPlayer(PlayerBuff buff)
-    {
-        PlayerBuff alreadyBuff = CheckAlreadyBuff(buff.BuffName);
-        if (alreadyBuff != null)
-        {
-            alreadyBuff.RemainBuffDur = alreadyBuff.BuffDur;
-            return;
-        }
+    //public void BuffPlayer(PlayerBuff buff)
+    //{
+    //    // 이미 같은 버프가 걸려있는지 확인 후, 걸려있으면 시간만 초기값으로 갱신시켜줌
+    //    PlayerBuff alreadyBuff = CheckAlreadyBuff(buff.BuffName);
+    //    if (alreadyBuff != null)
+    //    {
+    //        alreadyBuff.RemainBuffDur = alreadyBuff.BuffDur;
+    //        return;
+    //    }
 
-        BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
-        buffICon._buffImamge.sprite = buff.BuffImg; // 버프 아이콘 바꾸기
-        buff.BuffPlayer(); // 버프 주기
-        StartCoroutine(buff.DecreaseBuffDur(buffICon._durationText)); // 버프 지속시간 텍스트 바꾸기
-        StartCoroutine(ManageBuff(buff, buffICon)); // 버프 리스트로 관리하기
-    }
+    //    BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
+    //    buffICon._buffImamge.sprite = buff.BuffImg; // 버프 아이콘 바꾸기
+    //    buff.BuffPlayer(); // 버프 주기
+    //    StartCoroutine(buff.DecreaseBuffDur(buffICon._durationText)); // 버프 지속시간 텍스트 바꾸기
+    //    StartCoroutine(ManageBuff(buff, buffICon)); // 버프 리스트로 관리하기
+    //}
 
-    public PlayerBuff CheckAlreadyBuff(string buffName)
-    {
-        for (int i = 0; i < _buffList.Count; i++)
-        {
-            string buff = _buffList[i].BuffName;
+    //private PlayerBuff CheckAlreadyBuff(string buffName)
+    //{
+    //    for (int i = 0; i < _buffList.Count; i++)
+    //    {
+    //        string buff = _buffList[i].BuffName;
 
-            if (buff.Equals(buffName))
-            {
-                return _buffList[i];
-            }
-        }
+    //        if (buff.Equals(buffName))
+    //        {
+    //            return _buffList[i];
+    //        }
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
-    private IEnumerator ManageBuff(PlayerBuff buff, BuffICon icon)
-    {
-        _buffList.Add(buff);
-        _apply.EditMapData();
+    //private IEnumerator ManageBuff(PlayerBuff buff, BuffICon icon)
+    //{
+    //    _buffList.Add(buff);
+    //    _apply.EditMapData();
 
-        //yield return new WaitForSeconds(buff.RemainBuffDur + 0.1f);
-        yield return new WaitUntil(() => (int)buff.RemainBuffDur <= 0);
+    //    yield return new WaitUntil(() => (int)buff.RemainBuffDur <= 0);
 
-        Destroy(icon.gameObject);
-        _buffList.Remove(buff);
-        buff.ResetBuff();
-        _apply.EditMapData();
-    }
+    //    Destroy(icon.gameObject);
+    //    _buffList.Remove(buff);
+    //    buff.ResetBuff();
+    //    _apply.EditMapData();
+    //}
 }

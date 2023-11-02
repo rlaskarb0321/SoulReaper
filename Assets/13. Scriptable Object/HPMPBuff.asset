@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: HPMPBuff
   m_EditorClassIdentifier: 
   _buffImg: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
-  _buffDurText: {fileID: 0}
   _buffName: "\uAC15\uC778\uD568"
-  _buffDur: 60
-  _remainBuffDur: 0
+  _buffDur: 20
+  _remainBuffDur: 20
   _hpIncrease: 50
   _mpIncrease: 50

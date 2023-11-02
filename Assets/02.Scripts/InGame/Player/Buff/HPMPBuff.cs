@@ -12,14 +12,6 @@ public class HPMPBuff : PlayerBuff
     [SerializeField]
     private float _mpIncrease;
 
-    //public HPMPBuff(float buffDur, float hpIncrease, float mpIncrease) : base(buffDur) 
-    //{
-    //    _buffName = ConstData.HPMP_BUFF_NAME;
-
-    //    _hpIncrease = hpIncrease;
-    //    _mpIncrease = mpIncrease;
-    //}
-
     public override void BuffPlayer()
     {
         CharacterData.CData data = CharacterDataPackage._cDataInstance._characterData;

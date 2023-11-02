@@ -55,9 +55,5 @@ public abstract class PlayerBuff : ScriptableObject
         }
 
         text.text = _remainBuffDur.ToString();
-        //if (_remainBuffDur <= 0.0f)
-        //{
-        //    ResetBuff();
-        //}
     }
 }

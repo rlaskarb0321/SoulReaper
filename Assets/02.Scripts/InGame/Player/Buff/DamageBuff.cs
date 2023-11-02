@@ -9,12 +9,6 @@ public class DamageBuff : PlayerBuff
     [SerializeField]
     private float _atkIncrease;
 
-    //public DamageBuff(float buffDur, float atkIncrease)
-    //{
-    //    _buffName = ConstData.DAMAGE_BUFF_NAME;
-    //    _atkIncrease = atkIncrease;
-    //}
-
     public override void BuffPlayer()
     {
         CharacterData.CData data = CharacterDataPackage._cDataInstance._characterData;
