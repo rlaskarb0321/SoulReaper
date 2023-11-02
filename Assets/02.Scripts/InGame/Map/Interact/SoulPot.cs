@@ -26,6 +26,7 @@ public class SoulPot : MonoBehaviour, IInteractable, IYOrNSelectOption
         if (_isInteract)
             return;
 
+        _isInteract = true;
         ProductionMgr.StartProduction(_playable);
     }
 
@@ -87,6 +88,9 @@ public class SoulPot : MonoBehaviour, IInteractable, IYOrNSelectOption
                 // 버프 주기
                 PlayerBuff buff = _buffProvider.GenerateBuffInstance();
                 bool isAlreadyBuff = UIScene._instance.CheckAlreadyBuff(buff.BuffName);
+                _isInteract = false;
+
+                // 이미 버프가 걸려있는 경우
                 if (isAlreadyBuff)
                 {
                     print("사당에서 이미 " + buff.BuffName + "버프를 걸었습니다");

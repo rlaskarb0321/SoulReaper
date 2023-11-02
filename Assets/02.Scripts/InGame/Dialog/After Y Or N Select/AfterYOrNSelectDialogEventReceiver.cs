@@ -46,7 +46,6 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
             selectNum = marker._dialogCSVFile.Length - 1;
         if (marker._dialogCSVFile[selectNum] == null)
         {
-            print("null is stop");
             _yesOrNo.CheckAnswer(false);
             return;
         }

@@ -60,7 +60,13 @@ public class UIScene : MonoBehaviour
     private DataApply _apply;
 
     [Header("=== Buff List ===")]
-    public BuffUI _buffUI;
+    [SerializeField]
+    private Transform _buffContainer;
+
+    [SerializeField]
+    private BuffICon _buffICon;
+
+    // Field
     private List<PlayerBuff> _buffList;
 
     private void Awake()
@@ -93,18 +99,18 @@ public class UIScene : MonoBehaviour
         }
 
         // 테스트 용 플레이어에게 체력마나 버프 부여
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            PlayerBuff hpmpBuff = new HPMPBuff(5.0f, 50.0f, 50.0f);
-            BuffPlayer(hpmpBuff);
-        }
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    PlayerBuff hpmpBuff = new HPMPBuff(5.0f, 50.0f, 50.0f);
+        //    BuffPlayer(hpmpBuff);
+        //}
 
-        // 테스트 용 플레이어에게 공격력 버프 부여
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            PlayerBuff damageBuff = new DamageBuff(5.0f, 10.0f);
-            BuffPlayer(damageBuff);
-        }
+        //// 테스트 용 플레이어에게 공격력 버프 부여
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    PlayerBuff damageBuff = new DamageBuff(5.0f, 10.0f);
+        //    BuffPlayer(damageBuff);
+        //}
     }
 
     #region UI Panel
@@ -231,9 +237,13 @@ public class UIScene : MonoBehaviour
 
     public void BuffPlayer(PlayerBuff buff)
     {
-        buff.BuffPlayer();
-        StartCoroutine(buff.DecreaseBuffDur());
-        StartCoroutine(ManageBuff(buff));
+        BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
+
+        buffICon._buffImamge.sprite = buff.BuffImg; // 버프 아이콘 바꾸기
+        buff.BuffPlayer(); // 버프 주기
+
+        StartCoroutine(buff.DecreaseBuffDur(buffICon._durationText)); // 버프 지속시간 텍스트 바꾸기
+        StartCoroutine(ManageBuff(buff, buffICon)); // 버프 리스트로 관리하기
     }
 
     public bool CheckAlreadyBuff(string buffName)
@@ -249,13 +259,14 @@ public class UIScene : MonoBehaviour
         return false;
     }
 
-    private IEnumerator ManageBuff(PlayerBuff buff)
+    private IEnumerator ManageBuff(PlayerBuff buff, BuffICon icon)
     {
         _buffList.Add(buff);
         _apply.EditMapData();
 
         yield return new WaitForSeconds(buff.RemainBuffDur + 0.1f);
 
+        Destroy(icon.gameObject);
         _buffList.Remove(buff);
         _apply.EditMapData();
     }
