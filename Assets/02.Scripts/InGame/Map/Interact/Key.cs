@@ -56,7 +56,7 @@ public class Key : MonoBehaviour, IInteractable
 
         SetActiveInteractUI(false);
         _keyObj.gameObject.SetActive(false);
-        _apply.EditMapData();
+        _apply.EditData();
     }
 
     public void SetActiveInteractUI(bool value)

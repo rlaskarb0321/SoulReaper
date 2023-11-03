@@ -112,7 +112,7 @@ public class CastleARoomDataApply : DataApply, IDataApply
         }
     }
 
-    public override void EditMapData()
+    public override void EditData()
     {
         print("Castle A Data Apply");
 

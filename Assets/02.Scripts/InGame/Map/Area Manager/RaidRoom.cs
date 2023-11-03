@@ -29,7 +29,7 @@ public class RaidRoom : QuestRoom
 
             if (_apply != null)
             {
-                _apply.EditMapData();
+                _apply.EditData();
             }
             return;
         }

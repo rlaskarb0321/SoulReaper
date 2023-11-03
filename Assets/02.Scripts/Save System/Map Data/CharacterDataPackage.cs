@@ -53,7 +53,7 @@ public class CharacterDataPackage : DataApply, IDataApply
         _playerData._soulCount = _data._soulCount;
     }
 
-    public override void EditMapData()
+    public override void EditData()
     {
         print("Edit Character Data");
 
@@ -62,7 +62,6 @@ public class CharacterDataPackage : DataApply, IDataApply
         _data._maxHP = _playerData._maxHP;
         _data._currMP = _playerData._currMP;
         _data._maxMP = _playerData._maxMP;
-        _data._soulCount = _playerData._soulCount;
         _data._basicAtkDamage = _playerData._basicAtkDamage;
 
         // 변경한 데이터들 저장

@@ -21,6 +21,6 @@ public class TimelineTrigger : MonoBehaviour
 
         ProductionMgr.StartProduction(_playableDirector);
         gameObject.GetComponent<BoxCollider>().enabled = false;
-        _data.EditMapData();
+        _data.EditData();
     }
 }

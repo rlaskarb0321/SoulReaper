@@ -62,16 +62,6 @@ public class UIScene : MonoBehaviour
     [Header("=== Buff ===")]
     public BuffDataPackage _buffMgr;
 
-    //[Header("=== Buff List ===")]
-    //[SerializeField]
-    //private Transform _buffContainer;
-
-    //[SerializeField]
-    //private BuffICon _buffICon;
-
-    //// Field
-    //private List<PlayerBuff> _buffList;
-
     private void Awake()
     {
         _instance = this;
@@ -79,7 +69,6 @@ public class UIScene : MonoBehaviour
         _currOpenPanel = new List<GameObject>();
         _rect = _interactUI.GetComponent<RectTransform>();
         _mapName.text = EditMapName();
-        //_buffList = new List<PlayerBuff>();
     }
 
     private void Update()
@@ -129,13 +118,16 @@ public class UIScene : MonoBehaviour
 
     public void UpdateSoulCount(float amount)
     {
+        print("Edit Soul Data");
+
         _soulCount.StartCount
             (
             CharacterDataPackage._cDataInstance._characterData._soulCount + amount,
             CharacterDataPackage._cDataInstance._characterData._soulCount
             );
         _stat._soulCount = (int)CharacterDataPackage._cDataInstance._characterData._soulCount + (int)amount;
-        _apply.EditMapData();
+        CharacterDataPackage._cDataInstance._characterData._soulCount = _stat._soulCount;
+        DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
     }
 
     public void UpdateHPMP(ePercentageStat stat, float currValue, float maxValue, bool isDataEdit = true)
@@ -162,7 +154,7 @@ public class UIScene : MonoBehaviour
 
         if (isDataEdit)
         {
-            _apply.EditMapData();
+            _apply.EditData();
         }
     }
 
@@ -223,49 +215,4 @@ public class UIScene : MonoBehaviour
         // 플레이어 죽었을때 패널띄우고 최근에 저장했던 위치로 피 마나 다 채우고 옮기기 (씬 다시 불러오기)
         _playerDeath.AnnouncePlayerDeath();
     }
-
-    //public void BuffPlayer(PlayerBuff buff)
-    //{
-    //    // 이미 같은 버프가 걸려있는지 확인 후, 걸려있으면 시간만 초기값으로 갱신시켜줌
-    //    PlayerBuff alreadyBuff = CheckAlreadyBuff(buff.BuffName);
-    //    if (alreadyBuff != null)
-    //    {
-    //        alreadyBuff.RemainBuffDur = alreadyBuff.BuffDur;
-    //        return;
-    //    }
-
-    //    BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
-    //    buffICon._buffImamge.sprite = buff.BuffImg; // 버프 아이콘 바꾸기
-    //    buff.BuffPlayer(); // 버프 주기
-    //    StartCoroutine(buff.DecreaseBuffDur(buffICon._durationText)); // 버프 지속시간 텍스트 바꾸기
-    //    StartCoroutine(ManageBuff(buff, buffICon)); // 버프 리스트로 관리하기
-    //}
-
-    //private PlayerBuff CheckAlreadyBuff(string buffName)
-    //{
-    //    for (int i = 0; i < _buffList.Count; i++)
-    //    {
-    //        string buff = _buffList[i].BuffName;
-
-    //        if (buff.Equals(buffName))
-    //        {
-    //            return _buffList[i];
-    //        }
-    //    }
-
-    //    return null;
-    //}
-
-    //private IEnumerator ManageBuff(PlayerBuff buff, BuffICon icon)
-    //{
-    //    _buffList.Add(buff);
-    //    _apply.EditMapData();
-
-    //    yield return new WaitUntil(() => (int)buff.RemainBuffDur <= 0);
-
-    //    Destroy(icon.gameObject);
-    //    _buffList.Remove(buff);
-    //    buff.ResetBuff();
-    //    _apply.EditMapData();
-    //}
 }

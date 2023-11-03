@@ -55,6 +55,6 @@ public class Flammable : MonoBehaviour
         if (_roomMgr != null)
             _roomMgr.SolveQuest();
         if (_apply != null)
-            _apply.EditMapData();
+            _apply.EditData();
     }
 }

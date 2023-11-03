@@ -21,7 +21,7 @@ public class HealthPlant : MonoBehaviour, IInteractable
             _flowerState = value;
             if (_flowerState != eFlowerState.Growing)
             {
-                _apply.EditMapData();
+                _apply.EditData();
             }
         }
     }

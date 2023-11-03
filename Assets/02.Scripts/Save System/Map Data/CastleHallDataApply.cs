@@ -64,7 +64,7 @@ public class CastleHallDataApply : DataApply, IDataApply
         }
     }
 
-    public override void EditMapData()
+    public override void EditData()
     {
         print("Hall Data Apply");
 

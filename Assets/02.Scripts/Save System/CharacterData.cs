@@ -53,8 +53,6 @@ public class CharacterData
         public float _basicAtkDamage;
     }
 
-    public CData _characterData;
-
     /// <summary>
     /// 매개변수 없이 선언되면 기본값으로 CData 초기화
     /// </summary>
@@ -71,5 +69,35 @@ public class CharacterData
     {
         _characterData = cData;
     }
+
+    public CData _characterData;
 }
 
+[Serializable]
+public class BuffData
+{
+    [Serializable]
+    public struct BData
+    {
+        public BData(PlayerBuff buff, int duration)
+        {
+            _buff = buff;
+            _duration = duration;
+        }
+
+        public PlayerBuff _buff;
+        public int _duration;
+    }
+
+    public BuffData()
+    {
+        _dataList = new List<BData>();
+    }
+
+    public BuffData(List<BData> dataList)
+    {
+        _dataList = dataList;
+    }
+
+    public List<BData> _dataList;
+}

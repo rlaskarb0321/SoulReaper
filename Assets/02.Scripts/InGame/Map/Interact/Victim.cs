@@ -148,6 +148,6 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
 
     public void EditDataSignal()
     {
-        _apply.EditMapData();
+        _apply.EditData();
     }
 }

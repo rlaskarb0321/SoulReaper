@@ -35,7 +35,7 @@ public class SpiderWeb : Flammable
         }
 
         gameObject.GetComponent<BoxCollider>().enabled = false;
-        _apply.EditMapData();
+        _apply.EditData();
     }
 
     private IEnumerator FadeDownWeb(Material mat, MeshRenderer mesh)

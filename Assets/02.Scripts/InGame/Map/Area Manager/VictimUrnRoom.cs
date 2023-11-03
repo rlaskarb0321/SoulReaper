@@ -26,7 +26,7 @@ public class VictimUrnRoom : QuestRoom
             _portal.gameObject.SetActive(true);
 
             if (_apply != null)
-                _apply.EditMapData();
+                _apply.EditData();
         }
     }
 }

@@ -56,6 +56,7 @@ public class StartScene : MonoBehaviour
     {
         string mapFilePath = DataManage.SavePath + "TestMData" + ".json";
         string characterFilePath = DataManage.SavePath + "TestCData" + ".json";
+        string buffFilePath = DataManage.SavePath + "TestBData" + ".json";
 
         if (!File.Exists(mapFilePath))
         {
@@ -69,6 +70,13 @@ public class StartScene : MonoBehaviour
             print("캐릭 데이터 없어서 새로 생성");
             CharacterData characterData = new CharacterData();
             DataManage.SaveCData(characterData, "TestCData");
+        }
+
+        if (!File.Exists(buffFilePath))
+        {
+            print("버프 데이터 없어서 새로 생성");
+            BuffData buffData = new BuffData();
+            DataManage.SaveBData(buffData, "TestBData");
         }
 
         // 데이터에 저장된 현재 플레이어의 위치(맵)에 맞는 씬을 불러옴

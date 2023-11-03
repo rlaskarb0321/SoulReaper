@@ -46,7 +46,7 @@ public class ForestDataApply : DataApply, IDataApply
         }
     }
 
-    public override void EditMapData()
+    public override void EditData()
     {
         print("Forest Data Apply");
 

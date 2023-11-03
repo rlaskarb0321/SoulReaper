@@ -27,7 +27,7 @@ public class LetterScroll : MonoBehaviour, IInteractable
         GetComponent<SphereCollider>().enabled = false;
 
         // 여기서 데이터 변동
-        _apply.EditMapData();
+        _apply.EditData();
     }
 
     public void SetActiveInteractUI(bool value)
