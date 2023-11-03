@@ -38,22 +38,4 @@ public abstract class PlayerBuff : ScriptableObject
     /// 플레이어에게 적영된 버프를 적용되기 전으로 돌리는 함수
     /// </summary>
     public abstract void ResetBuff();
-
-    /// <summary>
-    /// 현재 적용된 버프의 지속시간을 깎는 함수
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator DecreaseBuffDur(TMP_Text text)
-    {
-        text.text = _remainBuffDur.ToString();
-
-        while (_remainBuffDur > 0.0f)
-        {
-            yield return _ws;
-            _remainBuffDur -= 1.0f;
-            text.text = _remainBuffDur.ToString();
-        }
-
-        text.text = _remainBuffDur.ToString();
-    }
 }

@@ -82,6 +82,14 @@ public class BuffDataPackage : DataApply, IDataApply
         _localBuffData.Add(buff);
         EditData();
 
+        int testNum = 10;
+        while (testNum > 0)
+        {
+            print((int)buff._duration);
+            testNum--;
+            yield return _ws;
+        }
+
         yield return new WaitUntil(() => (int)buff._duration <= 0);
 
         Destroy(icon.gameObject);
