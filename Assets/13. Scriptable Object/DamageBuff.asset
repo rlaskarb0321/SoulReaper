@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buffImg: {fileID: 21300000, guid: e7b392354bb9bad4a9a19ea7f9aa7535, type: 3}
   _buffName: "\uBD84\uB178"
-  _buffDur: 10
-  _remainBuffDur: 10
+  _buffDur: 200
+  _remainBuffDur: 200
   _atkIncrease: 10

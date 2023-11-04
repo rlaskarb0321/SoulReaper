@@ -15,13 +15,11 @@ public class BuffDataPackage : DataApply, IDataApply
     // Field
     private BuffData _serverBuffData; // 게임에서 저장된 버프 데이터를 불러옴
     private List<BuffData.BData> _localBuffData;
-    private PlayerData _playerData;
     private WaitForSeconds _ws;
     private bool _testBool;
 
     private void Awake()
     {
-        _playerData = GetComponent<PlayerData>();
         _serverBuffData = DataManage.LoadBData("TestBData");
 
         _ws = new WaitForSeconds(1.0f);

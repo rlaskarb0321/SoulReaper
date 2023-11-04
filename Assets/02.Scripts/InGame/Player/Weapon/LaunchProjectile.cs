@@ -42,6 +42,8 @@ public class LaunchProjectile : MonoBehaviour
         Boom();
     }
 
+    public void SetArrwInform(float damage) => _dmg = damage; 
+
     public void UpgradeFire()
     {
         float speed = _movSpeed * 0.5f;

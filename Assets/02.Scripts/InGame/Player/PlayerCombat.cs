@@ -301,12 +301,9 @@ public class PlayerCombat : MonoBehaviour
     // 애니메이션 delegate로 원거리공격
     public void LaunchProjectile()
     {
-        //bool isMpZero = _stat.DecreaseMP(10.0f); // 코스트 지정해서 가져와야 함
-        //if (isMpZero)
-        //    return;
-
         _stat.DecreaseMP(10.0f);
-        Instantiate(_longRangeProjectile, _firePos.position, transform.rotation);
+        GameObject arrow = Instantiate(_longRangeProjectile, _firePos.position, transform.rotation) as GameObject;
+        arrow.GetComponent<LaunchProjectile>().SetArrwInform(_stat._basicAtkDamage + 10);
     }
 
     #endregion 애니메이션 Delegate용 함수들

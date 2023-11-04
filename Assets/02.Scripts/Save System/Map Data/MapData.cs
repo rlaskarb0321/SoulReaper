@@ -162,17 +162,20 @@ public class CastleHall
             (
             bool isWebDestruct = false,                                                         // 입구를 막는 거미줄을 파괴했는지
             bool[] bossEncounterPhase = null,                                                   // 보스 조우단계
-            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None                // 홀에있는 화분의 상태
+            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None,               // 홀에있는 화분의 상태
+            bool isUnlock = false                                                               // B 룸으로 가는 문을 열었는지
             )
         {
             _isWebDestruct = isWebDestruct;
             _bossEncounterPhase = bossEncounterPhase;
             _flowerState = flowerState;
+            _isUnlock = isUnlock;
         }
 
         public bool _isWebDestruct;
         public bool[] _bossEncounterPhase;
         public HealthPlant.eFlowerState _flowerState;
+        public bool _isUnlock;
     }
 
     public RoomData _data;

@@ -21,6 +21,9 @@ public class CastleHallDataApply : DataApply, IDataApply
     [SerializeField]
     private HealthPlant _healthPlant;
 
+    [SerializeField]
+    private BoxCollider _bRoomKey;
+
     // Field
     private CastleHall.RoomData _data;
 
@@ -62,6 +65,11 @@ public class CastleHallDataApply : DataApply, IDataApply
                 _healthPlant.HarvestPlant();
                 break;
         }
+
+        if (_data._isUnlock)
+        {
+            _bRoomKey.gameObject.SetActive(false);
+        }
     }
 
     public override void EditData()
@@ -85,6 +93,11 @@ public class CastleHallDataApply : DataApply, IDataApply
 
         // 회복 화분의 상태를 데이터에 저장
         _data._flowerState = _healthPlant.FlowerState;
+
+        if (!_bRoomKey.enabled)
+        {
+            _data._isUnlock = true;
+        }
 
         // 데이터 수정후 Json에 저장하는 작업
         MapDataPackage._mapData._castleHall._data = _data;
