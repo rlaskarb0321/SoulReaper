@@ -12,23 +12,33 @@ public class HPMPBuff : PlayerBuff
     [SerializeField]
     private float _mpIncrease;
 
+    private float _originCurrHP;
+    private float _originMaxHP;
+    private float _originCurrMP;
+    private float _originMaxMP;
+
     public override void BuffPlayer()
     {
         CharacterData.CData data = CharacterDataPackage._cDataInstance._characterData;
 
-        float upgradeCurrHP = data._currHP + _hpIncrease;
-        float upgradeMaxHP = data._maxHP + _hpIncrease;
-        float upgradeCurrMP = data._currMP + _mpIncrease;
-        float upgradeMaxMP = data._maxMP + _mpIncrease;
+        _originCurrHP = data._currHP;
+        _originMaxHP = data._maxHP;
+        _originCurrMP = data._currMP;
+        _originMaxMP = data._maxMP;
 
-        data._maxHP = upgradeMaxHP;
-        data._currHP = upgradeCurrHP;
+        //float upgradeCurrHP = data._currHP + _hpIncrease;
+        //float upgradeMaxHP = data._maxHP + _hpIncrease;
+        //float upgradeCurrMP = data._currMP + _mpIncrease;
+        //float upgradeMaxMP = data._maxMP + _mpIncrease;
 
-        data._maxMP = upgradeMaxMP;
-        data._currMP = upgradeCurrMP;
+        //data._maxHP = upgradeMaxHP;
+        //data._currHP = upgradeCurrHP;
 
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, upgradeCurrHP, upgradeMaxHP, false);
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, upgradeCurrMP, upgradeMaxMP, false);
+        //data._maxMP = upgradeMaxMP;
+        //data._currMP = upgradeCurrMP;
+
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, _originCurrHP + _hpIncrease, _originMaxHP + _hpIncrease, false);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, _originCurrMP + _mpIncrease, _originMaxMP + _mpIncrease, false);
 
         // 여기에 버프 데이터를 적용, 캐릭터 데이터 아님
 
@@ -36,16 +46,19 @@ public class HPMPBuff : PlayerBuff
 
     public override void ResetBuff()
     {
-        CharacterData.CData data = CharacterDataPackage._cDataInstance._characterData;
+        //CharacterData.CData data = CharacterDataPackage._cDataInstance._characterData;
 
-        float originMaxHP = data._maxHP - _hpIncrease;
-        float originMaxMP = data._maxMP - _mpIncrease;
+        //float originMaxHP = data._maxHP - _hpIncrease;
+        //float originMaxMP = data._maxMP - _mpIncrease;
 
-        data._maxHP = originMaxHP;
-        data._maxMP = originMaxMP;
+        //data._maxHP = originMaxHP;
+        //data._maxMP = originMaxMP;
 
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, data._currHP, originMaxHP, false);
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, data._currMP, originMaxMP, false);
+        //UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, data._currHP, originMaxHP, false);
+        //UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, data._currMP, originMaxMP, false);
+
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, _originCurrHP, _originMaxHP, false);
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, _originCurrMP, _originMaxMP, false);
 
         _remainBuffDur = _buffDur;
     }

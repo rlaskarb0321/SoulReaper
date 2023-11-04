@@ -118,7 +118,7 @@ public class UIScene : MonoBehaviour
 
     public void UpdateSoulCount(float amount)
     {
-        print("Edit Soul Data");
+        // print("Edit Soul Data");
 
         _soulCount.StartCount
             (
