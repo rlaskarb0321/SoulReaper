@@ -15,6 +15,9 @@ public class JailWall : MonoBehaviour, IInteractable
     [SerializeField]
     private GameObject[] _torqueObj;
 
+    [SerializeField]
+    private AudioClip[] _audioResource;
+
     [Header("=== Data ===")]
     [SerializeField]
     private DataApply _data;
@@ -22,6 +25,7 @@ public class JailWall : MonoBehaviour, IInteractable
     // Field
     private AudioSource _audio;
     private bool _isInteract;
+    private enum eAudio { Can_Unlock, Cant_Unlock }
 
     private void Awake()
     {
@@ -32,9 +36,11 @@ public class JailWall : MonoBehaviour, IInteractable
     {
         if (_isInteract)
             return;
+
+        _isInteract = true;
         if (!MapDataPackage._mapData._castleA._data._isYellowKeyGet)
         {
-            print("Å° ¾øÀ½");
+            _audio.PlayOneShot(_audioResource[(int)eAudio.Cant_Unlock]);
             _isInteract = false;
             return;
         }
@@ -58,7 +64,7 @@ public class JailWall : MonoBehaviour, IInteractable
             rbody.AddTorque(randomTorque * 5.0f, ForceMode.Impulse);
         }
 
-        _audio.PlayOneShot(_audio.clip);
+        _audio.PlayOneShot(_audioResource[(int)eAudio.Can_Unlock]);
         StartCoroutine(DeactiveObj());
     }
 
@@ -82,7 +88,6 @@ public class JailWall : MonoBehaviour, IInteractable
         if (Input.GetKeyDown(KeyCode.F))
         {
             Interact();
-            _isInteract = true;
             return;
         }
 

@@ -119,19 +119,16 @@ public class CastleBRoom
         public RoomData
             (
             bool isB1RoomClear = false,                                                         // B1 방 클리어 여부
-            bool isB2RoomClear = false,                                                         // B2 방 클리어 여부
             HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None,               // B2 방 화분의 상태
             bool isVictimYes = false                                                            // 희생자와 대화에서 봉인 해제 승낙여부
             )
         {
             _isB1RoomClear = isB1RoomClear;
-            _isB2RoomClear = isB2RoomClear;
             _flowerState = flowerState;
             _isVictimYes = isVictimYes;
         }
 
         public bool _isB1RoomClear;
-        public bool _isB2RoomClear;
         public HealthPlant.eFlowerState _flowerState;
         public bool _isVictimYes;
     }

@@ -52,12 +52,12 @@ public class PlayerMove_1 : MonoBehaviour
     private CinemachineFramingTransposer _vcamOption;
 
     // Anim Params
-    private Animator _animator;
+    [HideInInspector] public Animator _animator;
     readonly int _hashMove = Animator.StringToHash("isMove");
     readonly int _hashRoll = Animator.StringToHash("isRoll");
     readonly int _hashFall = Animator.StringToHash("isFall");
     readonly int _hashIsLadder = Animator.StringToHash("isLadder");
-    readonly int _hashLadderInput = Animator.StringToHash("isLadderInput");
+    public readonly int _hashLadderInput = Animator.StringToHash("isLadderInput");
     readonly int _hashClimbSpeed = Animator.StringToHash("ClimbSpeed");
     readonly int _hashReachTop = Animator.StringToHash("ReachTop");
 
