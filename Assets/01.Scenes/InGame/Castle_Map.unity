@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 47a857b17c53e3341be9ead35d3d25d1,
+  m_LightingDataAsset: {fileID: 112000000, guid: 280e443bee6f4b24a9ece27804a9341c,
     type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
@@ -6811,6 +6811,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1043548907}
     m_Modifications:
+    - target: {fileID: 5673547959623412976, guid: 223b322eb1337f242851f344e4d64e87,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 14b877a4294c4f74a83781fd24da0114, type: 2}
     - target: {fileID: 6177955446382480677, guid: 223b322eb1337f242851f344e4d64e87,
         type: 3}
       propertyPath: m_Name
@@ -86117,12 +86122,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactName: "\uC7A0\uAE08 \uD574\uC81C"
   _floatUIPos: {fileID: 827109585}
-  _torqueObj:
-  - {fileID: 638738677}
-  - {fileID: 1815463209}
-  _audioResource:
+  _torqueObj: {fileID: 638738677}
+  _jailWall: {fileID: 1815463209}
+  _lockAudio:
   - {fileID: 8300000, guid: af74f03dc29d1a842a3e74eb4e7c826c, type: 3}
   - {fileID: 8300000, guid: caa005a6695dec74e93c39031673b4ec, type: 3}
+  _jailAudio: {fileID: 8300000, guid: 5499b44fb1b4d44478bf052803b7868b, type: 3}
   _data: {fileID: 816757357}
 --- !u!1001 &1690923609
 PrefabInstance:
@@ -91666,6 +91671,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.0007086, y: 3.8836782, z: 0.108845584}
   m_Center: {x: 0.0003517867, y: 1.9500467, z: 0.003915846}
+--- !u!95 &1815463215
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815463209}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6bf330ac619b1324f9b01143ffdfa0c8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1816755983
 GameObject:
   m_ObjectHideFlags: 0

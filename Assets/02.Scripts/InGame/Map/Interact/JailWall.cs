@@ -13,10 +13,16 @@ public class JailWall : MonoBehaviour, IInteractable
 
     [Header("=== Lock Obj ===")]
     [SerializeField]
-    private GameObject[] _torqueObj;
+    private GameObject _torqueObj;
 
     [SerializeField]
-    private AudioClip[] _audioResource;
+    private GameObject _jailWall;
+
+    [SerializeField]
+    private AudioClip[] _lockAudio;
+
+    [SerializeField]
+    private AudioClip _jailAudio;
 
     [Header("=== Data ===")]
     [SerializeField]
@@ -40,7 +46,7 @@ public class JailWall : MonoBehaviour, IInteractable
         _isInteract = true;
         if (!MapDataPackage._mapData._castleA._data._isYellowKeyGet)
         {
-            _audio.PlayOneShot(_audioResource[(int)eAudio.Cant_Unlock]);
+            _audio.PlayOneShot(_lockAudio[(int)eAudio.Cant_Unlock]);
             _isInteract = false;
             return;
         }
@@ -51,26 +57,29 @@ public class JailWall : MonoBehaviour, IInteractable
 
     private void Unlock()
     {
+        Rigidbody rbody = _torqueObj.GetComponent<Rigidbody>();
+        BoxCollider coll = _torqueObj.GetComponent<BoxCollider>();
+        Vector3 randomTorque = (Random.insideUnitSphere - _torqueObj.transform.position).normalized;
+
+        coll.isTrigger = true;
+        rbody.isKinematic = false;
+        rbody.AddTorque(randomTorque * 9.0f, ForceMode.Impulse);
+
+        _audio.PlayOneShot(_lockAudio[(int)eAudio.Can_Unlock]);
         this.GetComponent<BoxCollider>().enabled = false;
         SetActiveInteractUI(false);
-        for (int i = 0; i < _torqueObj.Length; i++)
-        {
-            Rigidbody rbody = _torqueObj[i].GetComponent<Rigidbody>();
-            BoxCollider coll = _torqueObj[i].GetComponent<BoxCollider>();
-            Vector3 randomTorque = (Random.insideUnitSphere - _torqueObj[i].transform.position).normalized;
-
-            coll.isTrigger = true;
-            rbody.isKinematic = false;
-            rbody.AddTorque(randomTorque * 5.0f, ForceMode.Impulse);
-        }
-
-        _audio.PlayOneShot(_audioResource[(int)eAudio.Can_Unlock]);
         StartCoroutine(DeactiveObj());
     }
 
     private IEnumerator DeactiveObj()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.0f);
+
+        Animator jailWall = _jailWall.GetComponent<Animator>();
+        jailWall.enabled = true;
+        _audio.PlayOneShot(_jailAudio);
+
+        yield return new WaitForSeconds(4.0f);
 
         gameObject.SetActive(false);
     }

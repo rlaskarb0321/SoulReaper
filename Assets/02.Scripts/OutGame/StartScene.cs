@@ -11,49 +11,30 @@ public class StartScene : MonoBehaviour
     [Range(0.0f, 3.0f)] public float _buttonShowDelay;
     [Range(0.0f, 3.0f)] public float _loadNextSceneDelay;
 
-    private WaitForSeconds _waitbtnShow;
-    private WaitForSeconds _waitLoadNextScene;
-    private bool _isAnyKeyInput;
+    private bool _isAlreadyInput;
+    private AudioSource _audio;
 
     private void Awake()
     {
-        _waitbtnShow = new WaitForSeconds(_buttonShowDelay);
-        _waitLoadNextScene = new WaitForSeconds(_loadNextSceneDelay);
-    }
-
-    private void Start()
-    {
-        StartCoroutine(ShowAnyKeyText());
-    }
-
-    private void Update()
-    {
-        if (Input.anyKeyDown && _pressAnyKey.activeSelf && !_isAnyKeyInput)
-        {
-            StartCoroutine(OnPressAnyKey());
-        }
-    }
-
-    private IEnumerator ShowAnyKeyText()
-    {
-        yield return _waitbtnShow;
-
-        _pressAnyKey.SetActive(true);
-    }
-
-    private IEnumerator OnPressAnyKey()
-    {
-        _isAnyKeyInput = true;
-        _pressAnyKey.SetActive(false);
-
-        yield return _waitLoadNextScene;
-
-        _gameBtnGroup.SetActive(true);
-        _firstSelecBtn.Select();
+        _audio = GetComponent<AudioSource>();
     }
 
     public void OnStartBtnClick()
     {
+        if (_isAlreadyInput)
+            return;
+
+        _isAlreadyInput = true;
+        StartCoroutine(EventOnStartBtnClick());
+    }
+
+    private IEnumerator EventOnStartBtnClick()
+    {
+        AudioClip audio = _firstSelecBtn.GetComponent<ButtonUI>()._onClickSound;
+
+        _audio.PlayOneShot(audio);
+        yield return new WaitForSeconds(1.5f);
+
         string mapFilePath = DataManage.SavePath + "TestMData" + ".json";
         string characterFilePath = DataManage.SavePath + "TestCData" + ".json";
         string buffFilePath = DataManage.SavePath + "TestBData" + ".json";

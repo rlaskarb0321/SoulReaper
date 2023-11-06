@@ -7,6 +7,7 @@ public class ButtonUI : UIInteractBase
     public Color _selectedColor;
     public Color _originColor;
     public AudioClip _onPointerSound;
+    public AudioClip _onClickSound;
 
     private AudioSource _audio;
     private TMP_Text _text;
