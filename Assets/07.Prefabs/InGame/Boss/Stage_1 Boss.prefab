@@ -1171,7 +1171,6 @@ GameObject:
   - component: {fileID: 4690700100741926350}
   - component: {fileID: 344745177812665053}
   - component: {fileID: 344745177812665054}
-  - component: {fileID: 344745177812665051}
   m_Layer: 12
   m_Name: Stage_1 Boss
   m_TagString: Untagged
@@ -1261,23 +1260,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &344745177812665051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4690700100732583528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c6a3dba101152f40afbd4ff75aa47dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  _traceCollObj: {fileID: 344745179063749230}
-  _navAgent: {fileID: 0}
-  _rbody: {fileID: 0}
-  _monster: {fileID: 0}
 --- !u!1 &4690700100732583532
 GameObject:
   m_ObjectHideFlags: 0

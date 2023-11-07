@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 public class StartScene : MonoBehaviour
 {
-    public GameObject _pressAnyKey;
     public GameObject _gameBtnGroup;
     public Button _firstSelecBtn;
-    [Range(0.0f, 3.0f)] public float _buttonShowDelay;
-    [Range(0.0f, 3.0f)] public float _loadNextSceneDelay;
 
+    // Field
     private bool _isAlreadyInput;
     private AudioSource _audio;
 
@@ -25,6 +23,11 @@ public class StartScene : MonoBehaviour
             return;
 
         _isAlreadyInput = true;
+        AudioSource[] buttonAudio = _gameBtnGroup.transform.GetComponentsInChildren<AudioSource>();
+        for (int i = 0; i < buttonAudio.Length; i++)
+        {
+            buttonAudio[i].enabled = false;
+        }
         StartCoroutine(EventOnStartBtnClick());
     }
 
