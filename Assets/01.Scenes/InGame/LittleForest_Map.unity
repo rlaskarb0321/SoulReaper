@@ -31242,7 +31242,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1884843835}
-  m_RootOrder: 345
+  m_RootOrder: 323
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1203912372
 MeshCollider:
@@ -31989,7 +31989,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b67e39d6330d97142abb8981e2ca1ff2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6419dc5f8dae08c44bbbfe67069e4463, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -31998,7 +31998,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -47572,6 +47572,7 @@ Transform:
   - {fileID: 574805573}
   - {fileID: 406557095}
   - {fileID: 673732898}
+  - {fileID: 1203912371}
   - {fileID: 54224879}
   - {fileID: 2121832291}
   - {fileID: 877694573}
@@ -47594,7 +47595,6 @@ Transform:
   - {fileID: 151922962}
   - {fileID: 748265293}
   - {fileID: 1815415429}
-  - {fileID: 1203912371}
   - {fileID: 35975379}
   - {fileID: 147360974}
   - {fileID: 126030522}
