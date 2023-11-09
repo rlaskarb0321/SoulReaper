@@ -30,6 +30,7 @@ public class PlayerCombat : MonoBehaviour
     Transform _player;
     Animator _animator;
     Rigidbody _rbody;
+    private IOnOffSwitchSkill _onOffSkill;
 
     // Weapon
     private BoxCollider _weaponColl;
@@ -131,6 +132,7 @@ public class PlayerCombat : MonoBehaviour
         // 차징타임에따라 원거리공격을 하거나 취소를 결정
         else if (Input.GetMouseButtonUp(1))
         {
+            
             // 원거리공격 발사or취소
             if (_curLongRangeChargingTime > _needChargingTime)
             {
@@ -302,8 +304,16 @@ public class PlayerCombat : MonoBehaviour
     public void LaunchProjectile()
     {
         _stat.DecreaseMP(10.0f);
-        GameObject arrow = Instantiate(_longRangeProjectile, _firePos.position, transform.rotation) as GameObject;
-        arrow.GetComponent<LaunchProjectile>().SetArrwInform(_stat._basicAtkDamage + 10);
+        GameObject arrowObj = Instantiate(_longRangeProjectile, _firePos.position, transform.rotation) as GameObject;
+        LaunchProjectile arrow = arrowObj.GetComponent<LaunchProjectile>();
+
+        if (_onOffSkill != null)
+        {
+            _onOffSkill.UseOnOffSkill();
+            arrow.UpgradeFire();
+        }
+
+        arrow.SetArrwInform(_stat._basicAtkDamage + 10);
     }
 
     #endregion 애니메이션 Delegate용 함수들
@@ -349,5 +359,18 @@ public class PlayerCombat : MonoBehaviour
         }
 
         return damage;
+    }
+
+    public void ActiveFireArrow(FireArrowSkill.eSkillActiveState activeState, IOnOffSwitchSkill skill)
+    {
+        bool isActive = (activeState == FireArrowSkill.eSkillActiveState.Active);
+        if (isActive)
+        {
+            _onOffSkill = skill;
+        }
+        else
+        {
+            _onOffSkill = null;
+        }
     }
 }   

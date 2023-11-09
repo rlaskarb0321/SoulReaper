@@ -28,7 +28,7 @@ public class SkillList : MonoBehaviour
             {
                 if (_skillList[i] == null)
                 {
-                    print(i + "번째에는 스킬이 비어있습니다");
+                    print((i + 1) + "번째에는 스킬이 비어있습니다");
                     return;
                 }
 
@@ -45,7 +45,7 @@ public class SkillList : MonoBehaviour
         // 스킬 리스트의 자식들 중 PlayerSkill 이 있으면 추가, 아니면 null 추가
         for (int i = 0; i < _skillsParentObj.transform.childCount; i++)
         {
-            PlayerSkill skill = _skillsParentObj.transform.GetChild(i).GetComponent<PlayerSkill>();
+            PlayerSkill skill = _skillsParentObj.transform.GetChild(i).GetComponentInChildren<PlayerSkill>();
             if (skill == null)
             {
                 _skillList.Add(null);
@@ -55,18 +55,5 @@ public class SkillList : MonoBehaviour
                 _skillList.Add(skill);
             }
         }
-
-        //// 확인
-        //for (int i = 0; i < _skillList.Count; i++)
-        //{
-        //    if(_skillList[i] == null)
-        //    {
-        //        print(i + " null");
-        //    }
-        //    else
-        //    {
-        //        print(i + " " + _skillList[i].GetType());
-        //    }
-        //}
     }
 }

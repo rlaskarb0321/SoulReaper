@@ -7,7 +7,7 @@ public interface IOnOffSwitchSkill
     /// <summary>
     /// 온, 오프 전환 가능한 스킬일 때 스킬을 온, 오프로 전환
     /// </summary>
-    public void SwitchActive();
+    public void SwitchActive(bool isAudioPlay);
 
     /// <summary>
     /// 온, 오프 스킬을 진짜로 사용하게 하는 함수
