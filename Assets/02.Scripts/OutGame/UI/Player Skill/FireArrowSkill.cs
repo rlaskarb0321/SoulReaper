@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class FireArrowSkill : PlayerSkill, IOnOffSwitchSkill
 {
@@ -27,22 +26,18 @@ public class FireArrowSkill : PlayerSkill, IOnOffSwitchSkill
         _audio = GetComponent<AudioSource>();
     }
 
+    private void Start()
+    {
+        _currCoolDown = _coolDown;
+        _coolDownText.text = ((int)_currCoolDown).ToString();
+    }
+
     private void Update()
     {
-        // 여기에 쿨타임 돌리기 해야 함
+        CoolDownSkill();
     }
 
-    public override void OnMouseDown()
-    {
-
-    }
-
-    public override void OnMouseOver()
-    {
-
-    }
-
-    public void SwitchActive(bool isAudioPlay)
+    public void SwitchSkillActive(bool isAudioPlay)
     {
         // 스킬의 On Off 상태를 바꿈
         _skillActiveState++;
@@ -58,12 +53,54 @@ public class FireArrowSkill : PlayerSkill, IOnOffSwitchSkill
 
     public override void UseSkill()
     {
-        SwitchActive(true);
+        if (_isCoolDown)
+        {
+            print("is cool down");
+            return;
+        }
+
+        SwitchSkillActive(true);
     }
 
     public void UseOnOffSkill()
     {
-        print("hi");
-        SwitchActive(false);
+        SwitchSkillActive(false);
+
+        _isCoolDown = true;
+        _coolDownPanel.gameObject.SetActive(true);
+    }
+
+    private void CoolDownSkill()
+    {
+        if (!_isCoolDown)
+            return;
+
+        if (_currCoolDown <= 0.0f)
+        {
+            _coolDownPanel.gameObject.SetActive(false);
+            _coolDownPanel.fillAmount = 1.0f;
+
+            _coolDownText.text = ((int)_currCoolDown).ToString();
+            _coolDownText.gameObject.SetActive(false);
+
+            _currCoolDown = _coolDown;
+            _isCoolDown = false;
+            return;
+        }
+
+        _coolDownText.gameObject.SetActive(true);
+        _currCoolDown -= Time.deltaTime;
+        _coolDownText.text = _currCoolDown <= 1.0f ? _currCoolDown.ToString("0.0") : ((int)_currCoolDown).ToString();
+        _coolDownPanel.fillAmount = (_currCoolDown / _coolDown);
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        // print("Show Skill Inform");
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        // print("Hide Skill Inform");
     }
 }

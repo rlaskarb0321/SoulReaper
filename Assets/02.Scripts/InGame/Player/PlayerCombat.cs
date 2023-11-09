@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+using UnityEngine.EventSystems;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -96,6 +96,10 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && 
             (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move))
         {
+            // UI 클릭시 공격 막기
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
             // 근거리 공격
             _state.State = PlayerFSM.eState.Attack;
             RotateToClickDir();
@@ -111,6 +115,10 @@ public class PlayerCombat : MonoBehaviour
             (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move
             || _state.State == PlayerFSM.eState.Charging))
         {
+            // UI 클릭시 공격 막기
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
             if (_stat._currMP - 10.0f < 0.0f)
             {
                 print("마나가 부족");
