@@ -9,6 +9,9 @@ TagManager:
   - Stairs
   - Slope
   - Fire
+  - Skill
+  - Player Skill
+  - Dummy Skill
   layers:
   - Default
   - TransparentFX
