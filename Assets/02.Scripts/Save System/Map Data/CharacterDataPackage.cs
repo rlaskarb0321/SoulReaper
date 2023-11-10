@@ -15,7 +15,8 @@ public class CharacterDataPackage : DataApply, IDataApply
     public TMP_Text _seedCount;
     public TMP_Text _mapName;
     public TMP_Text _soulCount;
-    public Image[] _skillBlank;
+    public SkillList _skillMgr;
+    public GameObject[] _skills;
 
     [HideInInspector]
     public static CharacterData _cDataInstance; // 저장된 플레이어 데이터를 이곳에 입력시킴
@@ -55,10 +56,21 @@ public class CharacterDataPackage : DataApply, IDataApply
 
         for (int i = 0; i < _data._skillArray.Length; i++)
         {
+            if (_data._skillArray[i] == null)
+                continue;
             if (_data._skillArray[i].Equals(""))
                 continue;
 
             // 데이터가 있음
+            GameObject skill = null;
+            switch (_data._skillArray[i])
+            {
+                case ConstData.FIREBALL_ID:
+                    skill = Instantiate(_skills[0]);
+                    break;
+            }
+
+            _skillMgr.AddSkill(skill, i);
         }
     }
 

@@ -6232,10 +6232,10 @@ MonoBehaviour:
   _seedCount: {fileID: 306963737}
   _mapName: {fileID: 1790706889}
   _soulCount: {fileID: 924985853}
-  _skillBlank:
-  - {fileID: 1278961519}
-  - {fileID: 393559283}
-  - {fileID: 429412177}
+  _skillMgr: {fileID: 1872782960}
+  _skills:
+  - {fileID: 6961584805174108412, guid: 08b02a06f27750447bb126a657723578, type: 3}
+  - {fileID: 8897270047207092986, guid: aea81f3f54c3cf540be2afed3eb7af34, type: 3}
 --- !u!114 &1320289526
 MonoBehaviour:
   m_ObjectHideFlags: 0

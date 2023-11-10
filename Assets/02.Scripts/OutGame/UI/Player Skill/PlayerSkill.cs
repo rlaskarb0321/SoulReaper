@@ -24,6 +24,9 @@ public abstract class PlayerSkill : MonoBehaviour
     [SerializeField]
     protected GameObject _uiInform;
 
+    [HideInInspector]
+    public string _skillID;
+
     [Header("=== Cool Down ===")]
     [SerializeField]
     protected TMP_Text _coolDownText;

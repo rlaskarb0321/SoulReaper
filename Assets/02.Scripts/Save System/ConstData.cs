@@ -39,4 +39,8 @@ public static class ConstData
 
     // 스킬 UI 의 항목 개수
     public const int SKILL_UI_COUNT = 3;
+
+    // 스킬 ID
+    public const string FIREBALL_ID = "Fire Ball";
+    public const string TEST_ID = "Test Skill";
 }

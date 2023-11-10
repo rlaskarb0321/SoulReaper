@@ -459,16 +459,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiInform: {fileID: 0}
+  _skillID: 
   _coolDownText: {fileID: 8897270047210332091}
   _coolDownPanel: {fileID: 8897270047145926682}
   _coolDown: 10
   _currCoolDown: 0
+  _player: {fileID: 0}
   _skillActiveState: 0
   _onOffSwitchSound:
   - {fileID: 8300000, guid: 72127805eb2bc4e7fbf2e02eca266cfa, type: 3}
   - {fileID: 8300000, guid: b6428d4edb06344ba829da4edd9967c1, type: 3}
   _selectBorder: {fileID: 8897270047073805462}
-  _player: {fileID: 0}
 --- !u!1 &8897270047210332089
 GameObject:
   m_ObjectHideFlags: 0

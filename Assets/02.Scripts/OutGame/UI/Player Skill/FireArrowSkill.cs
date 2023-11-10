@@ -20,6 +20,7 @@ public class FireArrowSkill : PlayerSkill, IOnOffSwitchSkill
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
+        _skillID = ConstData.FIREBALL_ID;
     }
 
     private void Start()

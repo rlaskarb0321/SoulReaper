@@ -23,11 +23,14 @@ public class SkillList : MonoBehaviour, IPointerClickHandler
 
     private KeyCode[] _keyCode = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3 };
     private List<PlayerSkill> _skillList;
+    private string[] _skillDataList;
     private DummySkill _grabbedSkill;
 
     private void Awake()
     {
         InitSkillList();
+
+        
     }
 
     private void Update()
@@ -60,9 +63,13 @@ public class SkillList : MonoBehaviour, IPointerClickHandler
 
     private void InitSkillList()
     {
-        _skillList = new List<PlayerSkill>();
+        if (_skillDataList == null)
+            _skillDataList = new string[ConstData.SKILL_UI_COUNT];
+        if (_skillList == null)
+            _skillList = new List<PlayerSkill>();
 
         // Skills 게임 오브젝트의 하위에 PlayerSkill 이 있는지 여부에 따른 작업
+        _skillList.Clear();
         for (int i = 0; i < _skills.Length; i++)
         {
             PlayerSkill skill = _skills[i].GetComponentInChildren<PlayerSkill>();
@@ -71,21 +78,20 @@ public class SkillList : MonoBehaviour, IPointerClickHandler
             if (skill == null)
             {
                 _skillList.Add(null);
+                _skillDataList[i] = "";
                 _skills[i].raycastTarget = true;
                 continue;
             }
 
             // 스킬이 있다면, 스킬 UI 바닥의 raycast를 꺼서, 스킬이 클릭될 수 있도록 함
             _skillList.Add(skill);
+            _skillDataList[i] = skill._skillID;
             _skills[i].raycastTarget = false;
         }
 
-        // 데이터에 적용, 캐릭터 로컬 데이터에있는 스킬리스트를 가져와서 이 스크립트에있는 skillList 를 대입시키고 저장시키자
-        // 일단 CData에 리스트를 추가해야뎀
-        // CharacterDataPackage._cDataInstance._characterData._soulCount = _stat._soulCount;
-        // DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
-        // 위에 있는것처럼
-        // 그리고 data.apply 적고 data(CharacterDataPackage)에 가서 
+        // 데이터 적용
+        CharacterDataPackage._cDataInstance._characterData._skillArray = _skillDataList;
+        DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
     }
 
     /// <summary>
@@ -166,8 +172,22 @@ public class SkillList : MonoBehaviour, IPointerClickHandler
         _grabbedSkill = dummySkill;
     }
 
-    public void AddSkill(GameObject addSkill)
+    public void AddSkill(GameObject addSkill, int index = -1)
     {
+        if (index != -1)
+        {
+            GameObject skill = Instantiate(addSkill);
+
+            skill.transform.SetParent(_skills[index].transform);
+            skill.transform.SetParent(_skills[index].transform);
+            skill.transform.SetAsFirstSibling();
+            skill.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            skill.GetComponent<PlayerSkill>().Player = _player;
+
+            InitSkillList();
+            return;
+        }
+
         for (int i = 0; i < _skillList.Count; i++)
         {
             if (_skillList[i] == null)
