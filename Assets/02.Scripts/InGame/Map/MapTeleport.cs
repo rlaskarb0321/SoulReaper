@@ -6,11 +6,15 @@ using Cinemachine;
 public class MapTeleport : MonoBehaviour
 {
     [Header("=== From ===")]
-    [SerializeField] private GameObject _enterPos;
-    [SerializeField] private GameObject _exitPos;
+    [SerializeField] 
+    private GameObject _enterPos;
+
+    [SerializeField] 
+    private GameObject _exitPos;
 
     [Header("=== To ===")]
-    [SerializeField] private GameObject _nextPos;
+    [SerializeField]
+    private GameObject _nextPos;
 
     // Field
     private PlayerMove_1 _playerMove;

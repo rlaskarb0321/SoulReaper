@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 오브젝트가 낼 수 있는 audioClip, 그 외 정보를 묶어주는 구조체
+[System.Serializable]
+public struct SFXs
+{
+    public string name;
+    public AudioClip sfx;
+    public bool isLoop;
+    public bool isPlayOnAwake;
+}
+
 // bgm과 ui 관련 효과음을 제외한, 인 게임내 오브젝트들의 효과음 관련 스크립트
 
 public class SoundEffects : MonoBehaviour

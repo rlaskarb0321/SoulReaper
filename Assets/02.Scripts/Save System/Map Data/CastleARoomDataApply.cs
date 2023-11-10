@@ -9,6 +9,8 @@ public class CastleARoomDataApply : DataApply, IDataApply
     public Flammable[] _braziers;
     public GameObject _yelloKeyMesh;
     public Key _yelloKey;
+    public GameObject _toShrine;
+    public GameObject _shelf;
 
     [Header("=== A3 Room ===")]
     public VictimUrnRoom _a3Room;
@@ -46,7 +48,8 @@ public class CastleARoomDataApply : DataApply, IDataApply
         if (_data._isA1RoomClear)
         {
             _braziers[(int)eRoomNumber.A1].Ignite();
-            // Shrine 입구 열기
+            _toShrine.SetActive(true);
+            _shelf.GetComponent<Animator>().enabled = true;
         }
 
         // 불러온 데이터, A2의 화로의 상태에따라 씬 Obj 바꾸기
