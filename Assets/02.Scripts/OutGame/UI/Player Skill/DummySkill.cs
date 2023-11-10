@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class DummySkill : MonoBehaviour
 {
+    [Header("=== Grab / Abandon Sound Clip ===")]
+    [SerializeField]
+    private AudioClip[] _grabSound;
+
     [HideInInspector]
     public Transform _originParent;
 
+    private enum eGrabSound { Grab, Abandon, Swap, Count, }
     private bool _isFollow;
     private RectTransform _originParentRect;
     private RectTransform _rect;
+    private AudioSource _audio;
 
     private void Awake()
     {
+        _audio = GetComponent<AudioSource>();
         _rect = GetComponent<RectTransform>();
         _originParent = transform.parent;
         _originParentRect = _originParent.GetComponent<RectTransform>();
@@ -32,6 +39,7 @@ public class DummySkill : MonoBehaviour
         }
 
         _isFollow = true;
+        _audio.PlayOneShot(_grabSound[(int)eGrabSound.Grab]);
         transform.SetParent(parent);
     }
 
@@ -41,11 +49,13 @@ public class DummySkill : MonoBehaviour
         _originParent.SetAsFirstSibling();
         _originParentRect.anchoredPosition = Vector2.zero;
         _rect.anchoredPosition = Vector2.zero;
+        _audio.PlayOneShot(_grabSound[(int)eGrabSound.Swap]);
     }
 
     public void ToOriginPos()
     {
         _isFollow = false;
+        _audio.PlayOneShot(_grabSound[(int)eGrabSound.Abandon]);
         transform.SetParent(_originParent);
         transform.SetAsFirstSibling();
     }

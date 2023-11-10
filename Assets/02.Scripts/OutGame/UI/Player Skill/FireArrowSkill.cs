@@ -6,7 +6,7 @@ public class FireArrowSkill : PlayerSkill, IOnOffSwitchSkill
     public enum eSkillActiveState { DeActive, Active, Count, }
     public eSkillActiveState _skillActiveState;
 
-    [Header("=== Sound Clip ===")]
+    [Header("=== On/Off Sound Clip ===")]
     [SerializeField]
     private AudioClip[] _onOffSwitchSound;
 
