@@ -146,6 +146,12 @@ public class Victim : MonoBehaviour, IInteractable, IYOrNSelectOption
         }
     }
 
+    public void AddSkill(GameObject addSkill)
+    {
+        UIScene._instance._skillMgr.AddSkill(addSkill);
+        print("victim give skill");
+    }
+
     public void EditDataSignal()
     {
         _apply.EditData();

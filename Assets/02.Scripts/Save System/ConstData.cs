@@ -36,4 +36,7 @@ public static class ConstData
 
     // 사당에 바치는 영혼의 수
     public const int SHRINE_COST = 20;
+
+    // 스킬 UI 의 항목 개수
+    public const int SKILL_UI_COUNT = 3;
 }

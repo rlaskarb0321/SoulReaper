@@ -55,12 +55,15 @@ public class UIScene : MonoBehaviour
     public TMP_Text _objName;
     private RectTransform _rect;
 
+    [Header("=== Buff ===")]
+    public BuffDataPackage _buffMgr;
+
+    [Header("=== Skill ===")]
+    public SkillList _skillMgr;
+
     [Header("=== Data ===")]
     [SerializeField]
     private DataApply _apply;
-
-    [Header("=== Buff ===")]
-    public BuffDataPackage _buffMgr;
 
     private void Awake()
     {
@@ -118,13 +121,12 @@ public class UIScene : MonoBehaviour
 
     public void UpdateSoulCount(float amount)
     {
-        // print("Edit Soul Data");
-
         _soulCount.StartCount
             (
             CharacterDataPackage._cDataInstance._characterData._soulCount + amount,
             CharacterDataPackage._cDataInstance._characterData._soulCount
             );
+
         _stat._soulCount = (int)CharacterDataPackage._cDataInstance._characterData._soulCount + (int)amount;
         CharacterDataPackage._cDataInstance._characterData._soulCount = _stat._soulCount;
         DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
@@ -215,4 +217,15 @@ public class UIScene : MonoBehaviour
         // 플레이어 죽었을때 패널띄우고 최근에 저장했던 위치로 피 마나 다 채우고 옮기기 (씬 다시 불러오기)
         _playerDeath.AnnouncePlayerDeath();
     }
+
+        //for (int i = 0; i < _skillArray.Length; i++)
+        //{
+        //    PlayerSkill skill = _skillArray[i].GetComponentInChildren<PlayerSkill>();
+        //    if (skill == null)
+        //    {
+        //        addSkill.transform.SetParent(_skillArray[i].transform);
+        //        addSkill.transform.SetAsFirstSibling();
+        //        addSkill.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        //    }
+        //}
 }

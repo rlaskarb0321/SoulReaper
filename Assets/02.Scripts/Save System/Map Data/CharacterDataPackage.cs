@@ -15,6 +15,7 @@ public class CharacterDataPackage : DataApply, IDataApply
     public TMP_Text _seedCount;
     public TMP_Text _mapName;
     public TMP_Text _soulCount;
+    public Image[] _skillBlank;
 
     [HideInInspector]
     public static CharacterData _cDataInstance; // 저장된 플레이어 데이터를 이곳에 입력시킴
@@ -51,6 +52,14 @@ public class CharacterDataPackage : DataApply, IDataApply
         // 데이터에 적혀있던 대로 가진 소울의 양을 수정
         _soulCount.text = $"X {_data._soulCount}";
         _playerData._soulCount = _data._soulCount;
+
+        for (int i = 0; i < _data._skillArray.Length; i++)
+        {
+            if (_data._skillArray[i].Equals(""))
+                continue;
+
+            // 데이터가 있음
+        }
     }
 
     public override void EditData()

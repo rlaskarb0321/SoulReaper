@@ -37,6 +37,11 @@ public abstract class PlayerSkill : MonoBehaviour
     [SerializeField]
     protected float _currCoolDown;
 
+    [Header("=== Player Character ===")]
+    [SerializeField]
+    protected PlayerCombat _player;
+    public PlayerCombat Player { set { _player = value; } }
+
     protected bool _isCoolDown;
 
     public virtual void OnPointerEnter(PointerEventData eventData) { }

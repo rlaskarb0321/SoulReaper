@@ -6,11 +6,20 @@ using UnityEngine.EventSystems;
 
 public class SkillList : MonoBehaviour, IPointerClickHandler
 {
+    [Header("=== Skill ===")]
     [SerializeField]
     private Image[] _skills;
 
     [SerializeField]
     private GraphicRaycaster _gr;
+
+    [Header("=== Data ===")]
+    [SerializeField]
+    private DataApply _data;
+
+    [Header("=== Player ===")]
+    [SerializeField]
+    private PlayerCombat _player;
 
     private KeyCode[] _keyCode = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3 };
     private List<PlayerSkill> _skillList;
@@ -26,6 +35,9 @@ public class SkillList : MonoBehaviour, IPointerClickHandler
         UseSkillInTheSkillList();
     }
 
+    /// <summary>
+    /// 인덱스에 있는 스킬을 사용
+    /// </summary>
     private void UseSkillInTheSkillList()
     {
         if (!Input.anyKeyDown)
@@ -67,6 +79,13 @@ public class SkillList : MonoBehaviour, IPointerClickHandler
             _skillList.Add(skill);
             _skills[i].raycastTarget = false;
         }
+
+        // 데이터에 적용, 캐릭터 로컬 데이터에있는 스킬리스트를 가져와서 이 스크립트에있는 skillList 를 대입시키고 저장시키자
+        // 일단 CData에 리스트를 추가해야뎀
+        // CharacterDataPackage._cDataInstance._characterData._soulCount = _stat._soulCount;
+        // DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
+        // 위에 있는것처럼
+        // 그리고 data.apply 적고 data(CharacterDataPackage)에 가서 
     }
 
     /// <summary>
@@ -145,5 +164,26 @@ public class SkillList : MonoBehaviour, IPointerClickHandler
 
         dummySkill.FollowMouse(this.transform);
         _grabbedSkill = dummySkill;
+    }
+
+    public void AddSkill(GameObject addSkill)
+    {
+        for (int i = 0; i < _skillList.Count; i++)
+        {
+            if (_skillList[i] == null)
+            {
+                GameObject skill = Instantiate(addSkill);
+
+                skill.transform.SetParent(_skills[i].transform);
+                skill.transform.SetParent(_skills[i].transform);
+                skill.transform.SetAsFirstSibling();
+                skill.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                skill.GetComponent<PlayerSkill>().Player = _player;
+
+                InitSkillList();
+                return;
+            }
+        }
+
     }
 }

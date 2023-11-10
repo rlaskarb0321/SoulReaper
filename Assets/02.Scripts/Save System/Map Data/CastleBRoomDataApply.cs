@@ -55,14 +55,6 @@ public class CastleBRoomDataApply : DataApply, IDataApply
             _seal.SetActive(false);
         }
 
-        //// 데이터 상으로 b2 방 클리어 했을 때
-        //if (_data._isB2RoomClear)
-        //{
-        //    // 트리거끄고 사다리키기
-        //    _b2EntryTrigger.enabled = false;
-        //    _b2Ladder.SetActive(true);
-        //}
-
         // 희생자와 대화에서 Yes를 선택했을 때
         if (_data._isVictimYes)
         {
@@ -93,12 +85,6 @@ public class CastleBRoomDataApply : DataApply, IDataApply
         {
             _data._isB1RoomClear = true;
         }
-
-        //// b2룸에 사다리가 켜져있으면 b2룸 클리어 인정 후 저장
-        //if (_b2Ladder.activeSelf)
-        //{
-        //    _data._isB2RoomClear = true;
-        //}
 
         // b2룸에 있는 꽃의 상태를 저장
         _data._flowerState = _healthPlant.FlowerState;

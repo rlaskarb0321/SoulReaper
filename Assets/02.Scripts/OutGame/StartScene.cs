@@ -7,7 +7,7 @@ public class StartScene : MonoBehaviour
 {
     public GameObject _gameBtnGroup;
     public Button _firstSelecBtn;
-
+    
     // Field
     private bool _isAlreadyInput;
     private AudioSource _audio;

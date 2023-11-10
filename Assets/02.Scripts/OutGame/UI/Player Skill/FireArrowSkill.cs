@@ -14,10 +14,6 @@ public class FireArrowSkill : PlayerSkill, IOnOffSwitchSkill
     [SerializeField]
     private GameObject _selectBorder;
 
-    [Header("=== Player Character ===")]
-    [SerializeField]
-    private PlayerCombat _player;
-
     // Field
     private AudioSource _audio;
 
