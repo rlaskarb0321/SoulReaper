@@ -1105,6 +1105,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1471409561}
     m_Modifications:
+    - target: {fileID: 1878817968765893851, guid: e9b8b657e7e723243bab60f10d5e66b2,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8312964977247040739, guid: e9b8b657e7e723243bab60f10d5e66b2,
         type: 3}
       propertyPath: m_Name
@@ -10851,6 +10856,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1471409561}
     m_Modifications:
+    - target: {fileID: 1878817968765893851, guid: e9b8b657e7e723243bab60f10d5e66b2,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8312964977247040739, guid: e9b8b657e7e723243bab60f10d5e66b2,
         type: 3}
       propertyPath: m_Name
@@ -11367,6 +11377,11 @@ PrefabInstance:
       propertyPath: _projectilePool
       value: 
       objectReference: {fileID: 1614562247}
+    - target: {fileID: 4109077098165902515, guid: 4be61539dbcf62444afa7cf89005f120,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5257809214769901429, guid: 4be61539dbcf62444afa7cf89005f120,
         type: 3}
       propertyPath: m_Name
@@ -11467,6 +11482,11 @@ PrefabInstance:
       propertyPath: _projectilePool
       value: 
       objectReference: {fileID: 1614562247}
+    - target: {fileID: 4109077098165902515, guid: 4be61539dbcf62444afa7cf89005f120,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5257809214769901429, guid: 4be61539dbcf62444afa7cf89005f120,
         type: 3}
       propertyPath: m_Name
@@ -11573,6 +11593,11 @@ PrefabInstance:
       propertyPath: _projectilePool
       value: 
       objectReference: {fileID: 1614562247}
+    - target: {fileID: 4109077098165902515, guid: 4be61539dbcf62444afa7cf89005f120,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5257809214769901429, guid: 4be61539dbcf62444afa7cf89005f120,
         type: 3}
       propertyPath: m_Name
@@ -13485,6 +13510,11 @@ PrefabInstance:
       propertyPath: _projectilePool
       value: 
       objectReference: {fileID: 1614562247}
+    - target: {fileID: 4109077098165902515, guid: 4be61539dbcf62444afa7cf89005f120,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5257809214769901429, guid: 4be61539dbcf62444afa7cf89005f120,
         type: 3}
       propertyPath: m_Name
@@ -14359,6 +14389,11 @@ PrefabInstance:
       propertyPath: _projectilePool
       value: 
       objectReference: {fileID: 1614562247}
+    - target: {fileID: 4109077098165902515, guid: 4be61539dbcf62444afa7cf89005f120,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5257809214769901429, guid: 4be61539dbcf62444afa7cf89005f120,
         type: 3}
       propertyPath: m_Name
@@ -19840,6 +19875,11 @@ PrefabInstance:
       propertyPath: _projectilePool
       value: 
       objectReference: {fileID: 1614562247}
+    - target: {fileID: 4109077098165902515, guid: 4be61539dbcf62444afa7cf89005f120,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5257809214769901429, guid: 4be61539dbcf62444afa7cf89005f120,
         type: 3}
       propertyPath: m_Name
@@ -22690,6 +22730,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1471409561}
     m_Modifications:
+    - target: {fileID: 1878817968765893851, guid: e9b8b657e7e723243bab60f10d5e66b2,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8312964977247040739, guid: e9b8b657e7e723243bab60f10d5e66b2,
         type: 3}
       propertyPath: m_Name
@@ -26622,6 +26667,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1471409561}
     m_Modifications:
+    - target: {fileID: 1878817968765893851, guid: e9b8b657e7e723243bab60f10d5e66b2,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8312964977247040739, guid: e9b8b657e7e723243bab60f10d5e66b2,
         type: 3}
       propertyPath: m_Name
@@ -31008,6 +31058,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1471409561}
     m_Modifications:
+    - target: {fileID: 1878817968765893851, guid: e9b8b657e7e723243bab60f10d5e66b2,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8312964977247040739, guid: e9b8b657e7e723243bab60f10d5e66b2,
         type: 3}
       propertyPath: m_Name
@@ -31242,7 +31297,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1884843835}
-  m_RootOrder: 323
+  m_RootOrder: 260
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1203912372
 MeshCollider:
@@ -31972,6 +32027,7 @@ GameObject:
   - component: {fileID: 1223063333}
   - component: {fileID: 1223063332}
   - component: {fileID: 1223063334}
+  - component: {fileID: 1223063335}
   m_Layer: 0
   m_Name: Scene Mgr
   m_TagString: Untagged
@@ -31990,7 +32046,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6419dc5f8dae08c44bbbfe67069e4463, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -32106,6 +32162,18 @@ MonoBehaviour:
   _scrollObj: {fileID: 936478503}
   _sparrow: {fileID: 6788538757269683693}
   _healthFlower: {fileID: 1205052620}
+--- !u!114 &1223063335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223063331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aa154771229c8e48b6e8d711739a135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1228176423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33290,6 +33358,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1471409561}
     m_Modifications:
+    - target: {fileID: 1878817968765893851, guid: e9b8b657e7e723243bab60f10d5e66b2,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8312964977247040739, guid: e9b8b657e7e723243bab60f10d5e66b2,
         type: 3}
       propertyPath: m_Name
@@ -47509,6 +47582,7 @@ Transform:
   - {fileID: 365015608}
   - {fileID: 599307553}
   - {fileID: 476885070}
+  - {fileID: 1203912371}
   - {fileID: 2030509469}
   - {fileID: 1605654240}
   - {fileID: 1652070213}
@@ -47572,7 +47646,6 @@ Transform:
   - {fileID: 574805573}
   - {fileID: 406557095}
   - {fileID: 673732898}
-  - {fileID: 1203912371}
   - {fileID: 54224879}
   - {fileID: 2121832291}
   - {fileID: 877694573}
@@ -49001,6 +49074,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1471409561}
     m_Modifications:
+    - target: {fileID: 1878817968765893851, guid: e9b8b657e7e723243bab60f10d5e66b2,
+        type: 3}
+      propertyPath: _combatBGM
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8312964977247040739, guid: e9b8b657e7e723243bab60f10d5e66b2,
         type: 3}
       propertyPath: m_Name

@@ -15,8 +15,20 @@ public class RaidRoom : QuestRoom
     public RaidWave[] _waves;
     public int _currWave = 0;
 
+    [Header("=== BGM Changer ===")]
+    [SerializeField]
+    private BGMChanger _bgmChanger;
+
+    [SerializeField]
+    private AudioClip[] _bgm;
+
+    [SerializeField]
+    private float _fadeTime;
+
     [Header("=== apply ===")]
     public DataApply _apply;
+
+    private enum eCombatBGM { Common, Combat, }
 
     // 웨이브 격퇴를 기록, 웨이브를 진행시키며 모든 웨이브가 격퇴되면 해당 방의 퀘스트 완료
     public override void SolveQuest()
@@ -26,6 +38,7 @@ public class RaidRoom : QuestRoom
         {
             _ladder.gameObject.SetActive(true);
             _entranceBlockObj.SetActive(false);
+            _bgmChanger.ChangeDirectly(_bgm[(int)eCombatBGM.Combat], _fadeTime);
 
             if (_apply != null)
             {
@@ -46,8 +59,10 @@ public class RaidRoom : QuestRoom
             return;
         }
 
+        // _bgmChanger.ChangeDirectly(_bgm[(int)eCombatBGM.Combat], _fadeTime);
         _entranceBlockObj.SetActive(true);
         gameObject.GetComponent<BoxCollider>().enabled = false;
         SolveQuest();
+        StartCoroutine(_bgmChanger.FadeOutClip(_bgm[(int)eCombatBGM.Combat], _fadeTime));
     }
 }

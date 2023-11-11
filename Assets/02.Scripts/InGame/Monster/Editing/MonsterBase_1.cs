@@ -36,7 +36,6 @@ public class MonsterBase_1 : MonoBehaviour
 
     public readonly int _hashMove = Animator.StringToHash("Move");
     public readonly int _hashDead = Animator.StringToHash("Dead");
-
     [HideInInspector] public NavMeshAgent _nav;
     [HideInInspector] public SkinnedMeshRenderer _mesh;
     [HideInInspector] public Animator _animator;
