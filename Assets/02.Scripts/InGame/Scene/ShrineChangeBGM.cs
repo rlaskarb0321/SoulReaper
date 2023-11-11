@@ -20,7 +20,6 @@ public class ShrineChangeBGM : MonoBehaviour
         if (!other.gameObject.tag.Equals("Player"))
             return;
 
-        print("enter");
         _bgmChanger.ChangeBGM(_bgm[(int)eShrineBGM.InBGM]);
     }
 
@@ -31,7 +30,6 @@ public class ShrineChangeBGM : MonoBehaviour
         if (!other.gameObject.tag.Equals("Player"))
             return;
 
-        print("out");
         _bgmChanger.ChangeBGM(_bgm[(int)eShrineBGM.OutBGM]);
     }
 }
