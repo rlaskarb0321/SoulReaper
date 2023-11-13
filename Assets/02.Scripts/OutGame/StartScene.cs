@@ -35,8 +35,8 @@ public class StartScene : MonoBehaviour
     {
         AudioClip audio = _firstSelecBtn.GetComponent<ButtonUI>()._onClickSound;
 
-        _audio.PlayOneShot(audio);
-        yield return new WaitForSeconds(1.5f);
+        _audio.PlayOneShot(audio, 1.0f);
+        yield return new WaitForSeconds(4.0f);
 
         string mapFilePath = DataManage.SavePath + "TestMData" + ".json";
         string characterFilePath = DataManage.SavePath + "TestCData" + ".json";

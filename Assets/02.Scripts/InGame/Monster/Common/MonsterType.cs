@@ -9,5 +9,8 @@ public class MonsterType : MonoBehaviour
     /// </summary>
     public virtual GameObject SearchTarget() { return null; }
 
+    /// <summary>
+    /// 적을 쫓아가기
+    /// </summary>
     public virtual void Trace() { }
 }

@@ -67,6 +67,10 @@ public class WaveMonster : MonsterType
         _waveMaster.DecreaseMonsterCount();
     }
 
+    /// <summary>
+    /// Dissolve 를 이용해서 등장하기
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator DissolveAppear()
     {
         Material newMat = Instantiate(_dissolveMat);
@@ -85,7 +89,5 @@ public class WaveMonster : MonsterType
             _monsterBase._mesh.material = newMat;
             yield return null;
         }
-
-        
     }
 }

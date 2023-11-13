@@ -300,7 +300,7 @@ MonoBehaviour:
   _selectedColor: {r: 1, g: 0, b: 0, a: 1}
   _originColor: {r: 1, g: 1, b: 1, a: 1}
   _onPointerSound: {fileID: 8300000, guid: 2f65fd0a518d74c4fb159fb1d0718fc4, type: 3}
-  _onClickSound: {fileID: 8300000, guid: da396a16a7f24f64cbb0054f5a56b46a, type: 3}
+  _onClickSound: {fileID: 8300000, guid: 440f9b0cd95281047ace200706f1fb5a, type: 3}
 --- !u!114 &40345409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,13 +1198,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e4f620fc3aaffa344a38106d297116fa, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 153
   DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500

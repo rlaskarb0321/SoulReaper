@@ -13,7 +13,15 @@ public class Bull_1 : MeleeRange
     [Header("=== Boss Sound ===")]
     [SerializeField]
     private AudioClip[] _bossSound;
-    private enum eBossSound { Walk_1, Walk_2, }
+
+    [Header("=== Cam Shake ===")]
+    [SerializeField]
+    private float _camShakeAmount;
+
+    [SerializeField]
+    private float _camShakeDur;
+
+    private enum eBossSound { Walk_1, Walk_2, Dead, Roar_1, Roar_2 }
 
     protected override void Start() => base.Start();
 
@@ -126,6 +134,7 @@ public class Bull_1 : MeleeRange
         }
 
         GetComponent<CapsuleCollider>().enabled = false;
+        _audio.PlayOneShot(_bossSound[(int)eBossSound.Dead]);
         _nav.enabled = false;
         _currHp = 0.0f;
         _animator.SetTrigger(_hashDead);
@@ -138,6 +147,19 @@ public class Bull_1 : MeleeRange
     public void PlayRunSound()
     {
         int randomSound = Random.Range(0, 2);
-        _audio.PlayOneShot(_bossSound[randomSound], 0.3f);
+        _audio.PlayOneShot(_bossSound[randomSound], 0.2f);
+    }
+
+    // 애니메이션 델리게이트, 3단 공격 후, 포효 소리
+    public void Roar()
+    {
+        int randomSound = Random.Range((int)eBossSound.Roar_1, (int)eBossSound.Roar_2 + 1);
+        _audio.PlayOneShot(_bossSound[randomSound]);
+    }
+
+    // 애니메이션 델리게이트, 3단 공격이 땅에 닿았을 때 흔들림
+    public void ShakeCam()
+    {
+        StartCoroutine(FollowCamera._instance.ShakeCamera(_camShakeAmount, _camShakeDur));
     }
 }
