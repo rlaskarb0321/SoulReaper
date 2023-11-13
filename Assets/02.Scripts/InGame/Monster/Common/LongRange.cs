@@ -77,6 +77,7 @@ public class LongRange : MonsterBase_1
 
         projectile.gameObject.SetActive(true);
         projectile.SetPoolData(launchData);
+        _audio.PlayOneShot(_sound[(int)eSound.Attack]);
     }
 
     public void EndAttack()

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class RaidRoom : QuestRoom
 {
-    // 잡몹, 미니보스들의 공세가 시작되는 방
-    // 1. 비지엠 바꾸기
-
     [Header("=== Alarm ===")]
     public GameObject _entranceBlockObj;
     public GameObject _ladder;
@@ -38,7 +35,7 @@ public class RaidRoom : QuestRoom
         {
             _ladder.gameObject.SetActive(true);
             _entranceBlockObj.SetActive(false);
-            _bgmChanger.ChangeDirectly(_bgm[(int)eCombatBGM.Combat], _fadeTime);
+            StartCoroutine(_bgmChanger.FadeOutClip(_bgm[(int)eCombatBGM.Common], _fadeTime));
 
             if (_apply != null)
             {

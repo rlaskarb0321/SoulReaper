@@ -9,7 +9,11 @@ public class Bull_1 : MeleeRange
 
     private readonly int _hashAtkCombo = Animator.StringToHash("AtkCombo");
     private readonly int _hashIdle = Animator.StringToHash("Idle");
-    
+
+    [Header("=== Boss Sound ===")]
+    [SerializeField]
+    private AudioClip[] _bossSound;
+    private enum eBossSound { Walk_1, Walk_2, }
 
     protected override void Start() => base.Start();
 
@@ -128,5 +132,12 @@ public class Bull_1 : MeleeRange
         _state = eMonsterState.Dead;
 
         StartCoroutine(OnMonsterDead());
+    }
+
+    // 애니메이션 델리게이트, 달리는 소리
+    public void PlayRunSound()
+    {
+        int randomSound = Random.Range(0, 2);
+        _audio.PlayOneShot(_bossSound[randomSound], 0.3f);
     }
 }

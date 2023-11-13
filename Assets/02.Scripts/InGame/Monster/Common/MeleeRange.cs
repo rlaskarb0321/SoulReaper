@@ -11,6 +11,7 @@ public class MeleeRange : MonsterBase_1
     protected float _originDelay;
     protected readonly int _hashAttack = Animator.StringToHash("Attack");
 
+
     protected override void Start()
     {
         base.Start();
@@ -65,7 +66,12 @@ public class MeleeRange : MonsterBase_1
 
     public override void SwitchNeedAiming(int value) => _needAiming = value == 1 ? true : false;
 
-    public void ExecuteAtk() => _attackCollObj.enabled = !_attackCollObj.enabled;
+    public void ExecuteAtk()
+    {
+        _attackCollObj.enabled = !_attackCollObj.enabled;
+        if (_attackCollObj.enabled)
+            _audio.PlayOneShot(_sound[(int)eSound.Attack]);
+    }
 
     public void EndAttack()
     {

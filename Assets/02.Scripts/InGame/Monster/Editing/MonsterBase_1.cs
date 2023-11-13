@@ -34,12 +34,20 @@ public class MonsterBase_1 : MonoBehaviour
     [Header("=== Monster Type ===")]
     public MonsterType _monsterType;
 
+    [Header("=== Sound Clip ===")]
+    [SerializeField]
+    protected AudioClip[] _sound;
+
+    protected enum eSound { Attack, Die }
+
     public readonly int _hashMove = Animator.StringToHash("Move");
     public readonly int _hashDead = Animator.StringToHash("Dead");
     [HideInInspector] public NavMeshAgent _nav;
     [HideInInspector] public SkinnedMeshRenderer _mesh;
     [HideInInspector] public Animator _animator;
     [HideInInspector] public NavMeshPath _path;
+    protected AudioSource _audio;
+
 
     protected virtual void Awake()
     {
@@ -52,6 +60,7 @@ public class MonsterBase_1 : MonoBehaviour
         _nav = GetComponent<NavMeshAgent>();
         _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
         _animator = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
         _path = new NavMeshPath();
     }
 
@@ -135,6 +144,7 @@ public class MonsterBase_1 : MonoBehaviour
         _nav.baseOffset = 0.0f;
         _nav.enabled = false;
         _animator.SetTrigger(_hashDead);
+        _audio.PlayOneShot(_sound[(int)eSound.Die]);
 
         UIScene._instance.UpdateSoulCount(_stat.soul);
         StartCoroutine(OnMonsterDead());

@@ -36,12 +36,11 @@ public class BGMChanger : MonoBehaviour
 
     public IEnumerator FadeOutClip(AudioClip changeBGM, float fadeTime)
     {
-        float framePerFadeTime = fadeTime / Time.deltaTime;
-        float amount = 1.0f / framePerFadeTime;
-
+        float originFadeTime = fadeTime;
         while (_audio.volume > 0.0f)
         {
-            _audio.volume -= amount;
+            _audio.volume = fadeTime / originFadeTime;
+            fadeTime -= Time.deltaTime;
             yield return null;
         }
 
@@ -49,17 +48,16 @@ public class BGMChanger : MonoBehaviour
         _audio.volume = 0.0f;
         _audio.Play();
 
-        StartCoroutine(FadeInClip(fadeTime));
+        StartCoroutine(FadeInClip(originFadeTime * 0.5f));
     }
 
     private IEnumerator FadeInClip(float fadeTime)
     {
-        float framePerFadeTime = fadeTime / Time.deltaTime;
-        float amount = 1.0f / framePerFadeTime;
-
-        while (_audio.volume < 1.0f)
+        float temp = 0.0f;
+        while (temp < fadeTime)
         {
-            _audio.volume += amount;
+            _audio.volume = temp / fadeTime;
+            temp += Time.deltaTime;
             yield return null;
         }
     }
