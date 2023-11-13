@@ -23,7 +23,7 @@ public class DialogMgr
     // Party
     public static bool _isPartySelect;
     public static bool _isSelectPartyYes;
-
+    
     public string[] ParsingCSVLine(TextAsset textAsset)
     {
         return textAsset.text.Split('\n');

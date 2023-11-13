@@ -56,7 +56,6 @@ public class RaidRoom : QuestRoom
             return;
         }
 
-        // _bgmChanger.ChangeDirectly(_bgm[(int)eCombatBGM.Combat], _fadeTime);
         _entranceBlockObj.SetActive(true);
         gameObject.GetComponent<BoxCollider>().enabled = false;
         SolveQuest();
