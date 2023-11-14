@@ -19,7 +19,9 @@ public class PartyMonster : MonsterBase_1
     public enum ePhase { Phase_1, Phase_2, Phase_3, Count, }
     public ePhase Phase { get { return _ePhase; } set { _ePhase = value; } }
 
+    // Field
     private PartyMonsterCombat _monsterCombat;
+    private bool _needAiming;
 
     protected override void Awake()
     {
@@ -47,6 +49,29 @@ public class PartyMonster : MonsterBase_1
     {
         base.DecreaseHP(amount);
         ChangePhase();
+    }
+
+    public override void SwitchNeedAiming(int value) => _needAiming = value == 1 ? true : false;
+
+    public override void AimingTarget(Vector3 target, float rotMulti)
+    {
+        if (_needAiming)
+        {
+            if (_nav != null)
+            {
+                _nav.updatePosition = false;
+            }
+            Vector3 dir = target - transform.position;
+            transform.rotation =
+                Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * rotMulti * Time.deltaTime);
+        }
+        else
+        {
+            if (_nav != null)
+            {
+                _nav.updatePosition = true;
+            }
+        }
     }
 
     private void ChangePhase()

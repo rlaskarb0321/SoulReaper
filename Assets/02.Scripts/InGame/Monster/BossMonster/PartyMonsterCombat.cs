@@ -112,6 +112,7 @@ public class PartyMonsterCombat : MonoBehaviour
                     break;
 
                 case MonsterBase_1.eMonsterState.Attack:
+                    _monsterBase.AimingTarget(_target.transform.position, 2.0f);
                     break;
 
                 case MonsterBase_1.eMonsterState.Delay:
