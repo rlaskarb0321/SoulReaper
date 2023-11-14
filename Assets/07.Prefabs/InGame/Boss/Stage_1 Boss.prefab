@@ -937,72 +937,72 @@ MonoBehaviour:
   _normalStateSkills:
   - _canUse: 0
     _id: Summon Mini Boss
-    _skillCondition: 1
-    _skillUpgrade: 0
+    _eSkillCondition: 1
+    _eSkillUpgrade: 0
     _priority: 0
     _coolTime: 0
     _currCoolTime: 0
   - _canUse: 0
     _id: Drop Kick
-    _skillCondition: 3
-    _skillUpgrade: 0
+    _eSkillCondition: 3
+    _eSkillUpgrade: 0
     _priority: 0
     _coolTime: 0
     _currCoolTime: 0
   - _canUse: 0
     _id: Summon Normal Monster
-    _skillCondition: 1
-    _skillUpgrade: 0
+    _eSkillCondition: 1
+    _eSkillUpgrade: 0
     _priority: 1
     _coolTime: 0
     _currCoolTime: 0
   - _canUse: 0
     _id: Blink
-    _skillCondition: 1
-    _skillUpgrade: 0
+    _eSkillCondition: 2
+    _eSkillUpgrade: 0
     _priority: 2
     _coolTime: 0
     _currCoolTime: 0
-  - _canUse: 0
+  - _canUse: 1
     _id: Sliding
-    _skillCondition: 0
-    _skillUpgrade: 1
+    _eSkillCondition: 0
+    _eSkillUpgrade: 1
     _priority: 3
     _coolTime: 0
     _currCoolTime: 0
-  - _canUse: 0
+  - _canUse: 1
     _id: Jump
-    _skillCondition: 0
-    _skillUpgrade: 1
+    _eSkillCondition: 0
+    _eSkillUpgrade: 1
     _priority: 4
     _coolTime: 0
     _currCoolTime: 0
-  - _canUse: 0
+  - _canUse: 1
     _id: Fist
-    _skillCondition: 0
-    _skillUpgrade: 0
+    _eSkillCondition: 0
+    _eSkillUpgrade: 0
     _priority: 5
     _coolTime: 0
     _currCoolTime: 0
-  - _canUse: 0
+  - _canUse: 1
     _id: Push
-    _skillCondition: 0
-    _skillUpgrade: 0
+    _eSkillCondition: 0
+    _eSkillUpgrade: 0
     _priority: 6
     _coolTime: 0
     _currCoolTime: 0
   _tiredStateSkills:
   - _canUse: 1
     _id: Rest
-    _skillCondition: 0
-    _skillUpgrade: 0
+    _eSkillCondition: 0
+    _eSkillUpgrade: 0
     _priority: 0
     _coolTime: 5
     _currCoolTime: 5
   - _canUse: 1
     _id: Run
-    _skillCondition: 0
-    _skillUpgrade: 0
+    _eSkillCondition: 0
+    _eSkillUpgrade: 0
     _priority: 1
     _coolTime: 0
     _currCoolTime: 0

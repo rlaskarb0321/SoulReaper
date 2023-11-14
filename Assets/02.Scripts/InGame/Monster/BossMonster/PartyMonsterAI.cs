@@ -9,11 +9,6 @@ public class PartyMonsterAI : WaveMonster
         base.Awake();
     }
 
-    protected override void Update()
-    {
-
-    }
-
     public override GameObject SearchTarget()
     {
         Collider[] colls = Physics.OverlapSphere(transform.position, _monsterBase._stat.traceDist, 1 << LayerMask.NameToLayer("PlayerTeam"));
