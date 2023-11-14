@@ -33,8 +33,11 @@ public class RaidRoom : QuestRoom
         // 모든 웨이브 클리어 시
         if (_currWave >= _waves.Length)
         {
-            _ladder.gameObject.SetActive(true);
-            _entranceBlockObj.SetActive(false);
+            if (_ladder != null)
+                _ladder.gameObject.SetActive(true);
+            if (_entranceBlockObj != null)
+                _entranceBlockObj.SetActive(false);
+
             StartCoroutine(_bgmChanger.FadeOutClip(_bgm[(int)eCombatBGM.Common], _fadeTime));
 
             if (_apply != null)

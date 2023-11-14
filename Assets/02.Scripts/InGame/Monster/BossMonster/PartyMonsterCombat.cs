@@ -15,23 +15,18 @@ public class PartyMonsterSkill
     public string _id;
 
     // 해당 스킬이 사용될 특수한 상황
-    [HideInInspector]
     public eSkillUseCondition _eSkillCondition;
 
     // 해당 스킬이 페이즈에 따라 업그레이드 혹은 다운그레이드되는지의 여부
-    [HideInInspector]
     public eSkillUpgrade _eSkillUpgrade;
 
     // 해당 스킬의 우선순위
-    [HideInInspector]
     public int _priority;
 
     // 해당 스킬의 쿨타임 값
-    [HideInInspector]
     public float _coolTime;
 
     // 현재 쿨다운 중인 시간
-    [HideInInspector]
     public float _currCoolTime;
 
     // 스킬의 사용 가능 여부를 체크하는 델리게이트
@@ -71,10 +66,24 @@ public class PartyMonsterCombat : MonoBehaviour
     // Field
     private PartyMonster _monsterBase;
     private GameObject _target;
+    private PartyBossPattern _pattern;
+    private enum ePartyBossSkill 
+    {
+        Summon_Mini_Boss,
+        Drop_Kick,
+        Summon_Normal_Monster,
+        Blink,
+        Sliding,
+        Jump,
+        Fist,
+        Push,
+        Count,
+    }
 
     private void Awake()
     {
         _monsterBase = GetComponent<PartyMonster>();
+        _pattern = GetComponent<PartyBossPattern>();
         _target = _monsterBase._target;
 
         CheckSkill();
@@ -82,12 +91,133 @@ public class PartyMonsterCombat : MonoBehaviour
 
     private void Update()
     {
+        if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
+            return;
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             CheckSkill();
         }
+
+        if (!_isBossTired)
+        {
+            switch (_monsterBase._state)
+            {
+                case MonsterBase_1.eMonsterState.Idle:
+                    string skillID = SelectSkill(_normalStateSkills);
+                    DoSkill(skillID);
+                    break;
+
+                case MonsterBase_1.eMonsterState.Trace:
+                    break;
+
+                case MonsterBase_1.eMonsterState.Attack:
+                    break;
+
+                case MonsterBase_1.eMonsterState.Delay:
+                    break;
+            }
+        }
+        else
+        {
+            switch (_monsterBase._state)
+            {
+                case MonsterBase_1.eMonsterState.Idle:
+                    string skillID = SelectSkill(_tiredStateSkills);
+                    print(skillID);
+                    break;
+
+                case MonsterBase_1.eMonsterState.Trace:
+                    break;
+
+                case MonsterBase_1.eMonsterState.Attack:
+                    break;
+
+                case MonsterBase_1.eMonsterState.Delay:
+                    break;
+            }
+        }
+
     }
 
+    /// <summary>
+    /// 스킬리스트에서 사용 가능하고 우선순위가 높은 스킬을 고름
+    /// </summary>
+    private string SelectSkill(PartyMonsterSkill[] skillPack)
+    {
+        string skillID = "";
+        for (int i = 0; i < skillPack.Length; i++)
+        {
+            if (!skillPack[i]._canUse)
+                continue;
+            if (skillPack[i]._currCoolTime != skillPack[i]._coolTime)
+                continue;
+
+            skillID = skillPack[i]._id;
+            return skillID;
+        }
+
+        return skillID;
+    }
+
+    /// <summary>
+    /// 사용할 스킬의 ID 를 받고, 실제로 실행하게 하는 함수
+    /// </summary>
+    /// <param name="skillID"></param>
+    private void DoSkill(string skillID)
+    {
+        //// 쓸 수 있는 스킬이 없는 상태
+        //if (skillID == null || skillID == "")
+        //{
+        //}
+
+        int skillIndex = int.Parse(skillID.Split('_')[0]);
+        ePartyBossSkill bossSkill = (ePartyBossSkill)skillIndex;
+        _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
+        switch (bossSkill)
+        {
+            case ePartyBossSkill.Summon_Mini_Boss:
+                _pattern.SummonMiniBoss();
+                break;
+
+            case ePartyBossSkill.Drop_Kick:
+                _pattern.DropKick();
+                break;
+
+            case ePartyBossSkill.Summon_Normal_Monster:
+                _pattern.SummonNormalMonster();
+                break;
+
+            case ePartyBossSkill.Blink:
+                _pattern.Blink();
+                break;
+
+            case ePartyBossSkill.Sliding:
+                _pattern.Sliding();
+                break;
+
+            case ePartyBossSkill.Jump:
+                _pattern.Jump();
+                break;
+
+            case ePartyBossSkill.Fist:
+                _pattern.Fist();
+                break;
+
+            case ePartyBossSkill.Push:
+                _pattern.Push();
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 스킬을 시전한 후, 애니메이션 마지막에 등록시킬 메서드
+    /// </summary>
+    public void ExitAttackState() => _monsterBase._state = MonsterBase_1.eMonsterState.Delay;
+
+    /// <summary>
+    /// 델리게이트 호출하는 메서드를 외부에서 부르기 쉽게하기 위해 선언한 메서드
+    /// </summary>
     public void CheckSkill()
     {
         print("Check Skill");
@@ -95,6 +225,9 @@ public class PartyMonsterCombat : MonoBehaviour
             EditSkillCondition(_normalStateSkills[i], _normalStateSkills[i]._eSkillCondition, _normalStateSkills[i]._eSkillUpgrade);
     }
 
+    /// <summary>
+    /// 스킬들의 사용 가능 여부를 재탐색하게 하는 델리게이트를 호출
+    /// </summary>
     private void EditSkillCondition
         (PartyMonsterSkill skill, PartyMonsterSkill.eSkillUseCondition useCondition, PartyMonsterSkill.eSkillUpgrade upgradeCondition)
     {
@@ -142,6 +275,8 @@ public class PartyMonsterCombat : MonoBehaviour
 
     }
 
+    #region 스킬의 CanUSe 를 조작하기 위한 Delegate 메서드들
+
     public bool isPlayerBehind()
     {
         float angle = Vector3.SignedAngle(transform.forward, _target.transform.position - transform.position, transform.up);
@@ -162,4 +297,6 @@ public class PartyMonsterCombat : MonoBehaviour
     {
         return _monsterBase.Phase == PartyMonster.ePhase.Phase_3;
     }
+
+    #endregion 스킬의 CanUSe 를 조작하기 위한 Delegate 메서드들
 }

@@ -6,6 +6,4 @@ using UnityEngine;
 public class QuestRoom : MonoBehaviour
 {
     public virtual void SolveQuest() { }
-
-    //public virtual void RewardQuest() { }
 }
