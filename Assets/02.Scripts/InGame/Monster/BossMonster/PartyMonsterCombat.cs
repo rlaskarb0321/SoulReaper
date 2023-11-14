@@ -15,6 +15,7 @@ public class PartyMonsterSkill
     public string _id;
 
     // 해당 스킬이 사용될 특수한 상황
+    [HideInInspector]
     public eSkillUseCondition _eSkillCondition;
 
     // 해당 스킬이 페이즈에 따라 업그레이드 혹은 다운그레이드되는지의 여부
@@ -43,6 +44,7 @@ public class PartyMonsterSkill
     { 
         None,       // 해당 스킬은 사용 가능에 조건이 없음
         Phase2,     // 해당 스킬은 phase2 때 부터 사용 가능
+        Phase3,     // 해당 스킬은 phase3 때 부터 사용 가능
         Long,       // 해당 스킬은 플레이어가 매우 멀리 있을 때 사용 가능해짐
         Behind,     // 해당 스킬은 플레이어가 자신의 뒤에 있을 때 사용 가능해짐
     }
@@ -55,6 +57,8 @@ public class PartyMonsterSkill
         None,           // 해당 스킬은 페이즈 변환 때 업그레이드 혹은 다운그레이드 되지 않음
         Phase2_Up,      // 해당 스킬은 페이즈 2때 업그레이드 됨
         Phase2_Down,    // 해당 스킬은 페이즈 2때 다운그레이드 됨
+        Phase3_Up,      // 해당 스킬은 페이즈 3때 업그레이드 됨                                              
+        Phase3_Down,    // 해당 스킬은 페이즈 3때 다운그레이드 됨
     }
 }
 
@@ -65,12 +69,12 @@ public class PartyMonsterCombat : MonoBehaviour
     public bool _isBossTired;
 
     // Field
-    private MonsterBase_1 _monsterBase;
+    private PartyMonster _monsterBase;
     private GameObject _target;
 
     private void Awake()
     {
-        _monsterBase = GetComponent<MonsterBase_1>();
+        _monsterBase = GetComponent<PartyMonster>();
         _target = _monsterBase._target;
 
         CheckSkill();
@@ -84,8 +88,9 @@ public class PartyMonsterCombat : MonoBehaviour
         }
     }
 
-    private void CheckSkill()
+    public void CheckSkill()
     {
+        print("Check Skill");
         for (int i = 0; i < _normalStateSkills.Length; i++)
             EditSkillCondition(_normalStateSkills[i], _normalStateSkills[i]._eSkillCondition, _normalStateSkills[i]._eSkillUpgrade);
     }
@@ -99,6 +104,13 @@ public class PartyMonsterCombat : MonoBehaviour
             case PartyMonsterSkill.eSkillUseCondition.Phase2:
                 PartyMonsterSkill._editCanUseDelegate -= isPhaseTwo;
                 PartyMonsterSkill._editCanUseDelegate += isPhaseTwo;
+
+                skill._canUse = PartyMonsterSkill._editCanUseDelegate();
+                break;
+
+            case PartyMonsterSkill.eSkillUseCondition.Phase3:
+                PartyMonsterSkill._editCanUseDelegate -= isPhaseThree;
+                PartyMonsterSkill._editCanUseDelegate += isPhaseThree;
 
                 skill._canUse = PartyMonsterSkill._editCanUseDelegate();
                 break;
@@ -132,7 +144,8 @@ public class PartyMonsterCombat : MonoBehaviour
 
     public bool isPlayerBehind()
     {
-        return false;
+        float angle = Vector3.SignedAngle(transform.forward, _target.transform.position - transform.position, transform.up);
+        return Mathf.Abs(angle) >= 100.0f;
     }
 
     public bool isPlayerFar()
@@ -142,6 +155,11 @@ public class PartyMonsterCombat : MonoBehaviour
 
     public bool isPhaseTwo()
     {
-        return true;
+        return _monsterBase.Phase == PartyMonster.ePhase.Phase_2;
+    }
+
+    public bool isPhaseThree()
+    {
+        return _monsterBase.Phase == PartyMonster.ePhase.Phase_3;
     }
 }
