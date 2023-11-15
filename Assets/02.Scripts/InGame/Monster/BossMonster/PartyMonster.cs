@@ -61,7 +61,9 @@ public class PartyMonster : MonsterBase_1
             {
                 _nav.updatePosition = false;
             }
+
             Vector3 dir = target - transform.position;
+            dir = Vector3.ProjectOnPlane(dir, Vector3.up);
             transform.rotation =
                 Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), _stat.rotSpeed * rotMulti * Time.deltaTime);
         }

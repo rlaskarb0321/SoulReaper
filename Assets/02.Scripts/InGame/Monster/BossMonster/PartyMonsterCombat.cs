@@ -85,6 +85,7 @@ public class PartyMonsterCombat : MonoBehaviour
     private float _originActDelay;
     private enum ePartyBossSkill 
     {
+        // Normal State
         Summon_Mini_Boss,
         Drop_Kick,
         Summon_Normal_Monster,
@@ -93,6 +94,10 @@ public class PartyMonsterCombat : MonoBehaviour
         Jump,
         Fist,
         Push,
+
+        // Tired State
+        Rest,
+        Run,
         Count,
     }
 
@@ -136,7 +141,7 @@ public class PartyMonsterCombat : MonoBehaviour
                     break;
 
                 case MonsterBase_1.eMonsterState.Attack:
-                    _monsterBase.AimingTarget(_target.transform.position, 12.0f);
+                    _monsterBase.AimingTarget(_target.transform.position, 2.0f);
                     break;
 
                 // 공격이 끝난 후 약간의 딜레이 가지기
@@ -220,6 +225,8 @@ public class PartyMonsterCombat : MonoBehaviour
         _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
         switch (bossSkill)
         {
+            #region 일반적인 상태일 때
+
             case ePartyBossSkill.Summon_Mini_Boss:
                 _pattern.SummonMiniBoss();
                 break;
@@ -251,6 +258,18 @@ public class PartyMonsterCombat : MonoBehaviour
             case ePartyBossSkill.Push:
                 _pattern.Push();
                 break;
+
+            #endregion 일반적인 상태일 때
+
+            #region 지친 상태일 때
+            case ePartyBossSkill.Rest:
+                _pattern.Rest();
+                break;
+
+            case ePartyBossSkill.Run:
+                _pattern.Run();
+                break;
+            #endregion 지친 상태일 때
         }
     }
 
