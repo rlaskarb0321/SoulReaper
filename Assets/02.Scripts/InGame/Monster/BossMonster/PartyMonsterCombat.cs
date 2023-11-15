@@ -346,12 +346,12 @@ public class PartyMonsterCombat : MonoBehaviour
         float angle = Vector3.SignedAngle(transform.forward, _target.transform.position - transform.position, transform.up);
         float distance = Vector3.Distance(transform.position, _target.transform.position);
 
-        return Mathf.Abs(angle) >= 100.0f && distance <= 1.0f;
+        return Mathf.Abs(angle) >= 100.0f && distance <= 2.5f;
     }
 
     public bool isPlayerFar()
     {
-        return Vector3.Distance(_target.transform.position, transform.position) >= 2.0f;
+        return Vector3.Distance(_target.transform.position, transform.position) >= 3.0f;
     }
 
     public bool isPhaseTwo()

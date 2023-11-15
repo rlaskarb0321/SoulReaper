@@ -60736,15 +60736,8 @@ AnimationClip:
     functionName: AddRush
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 180
-    intParameter: 35
-    messageOptions: 0
-  - time: 0.5
-    functionName: AddRushToTarget
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 20
-    intParameter: 0
+    floatParameter: 0.2
+    intParameter: 5
     messageOptions: 0
   - time: 2
     functionName: ExitAttackState

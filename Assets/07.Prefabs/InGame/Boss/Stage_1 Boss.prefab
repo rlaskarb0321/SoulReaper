@@ -912,9 +912,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4080401250968833242}
   serializedVersion: 2
-  m_Mass: 10
+  m_Mass: 100
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.01
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -1015,8 +1015,8 @@ MonoBehaviour:
     _eSkillCondition: 4
     _eSkillUpgrade: 0
     _priority: 0
-    _coolTime: 0
-    _currCoolTime: 0
+    _coolTime: 6
+    _currCoolTime: 6
   - _canUse: 0
     _id: 2_Summon Normal Monster
     _eSkillCondition: 1
@@ -1029,22 +1029,22 @@ MonoBehaviour:
     _eSkillCondition: 3
     _eSkillUpgrade: 0
     _priority: 2
-    _coolTime: 7
-    _currCoolTime: 7
+    _coolTime: 0
+    _currCoolTime: 0
   - _canUse: 1
     _id: 4_Sliding
     _eSkillCondition: 0
     _eSkillUpgrade: 1
     _priority: 3
-    _coolTime: 0
-    _currCoolTime: 0
+    _coolTime: 8.5
+    _currCoolTime: 8.5
   - _canUse: 1
     _id: 5_Jump
     _eSkillCondition: 0
     _eSkillUpgrade: 1
     _priority: 4
-    _coolTime: 10
-    _currCoolTime: 10
+    _coolTime: 7
+    _currCoolTime: 7
   - _canUse: 1
     _id: 6_Fist
     _eSkillCondition: 0
@@ -1087,7 +1087,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 370beb6ace37b4c4eacbd6ca2d360d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stoneHit: {fileID: 0}
+  _stoneHit:
+  - {fileID: 0}
   _blinkOffset: 2.8
   _jumpForce: 200
   _groundRayPos: {fileID: 9213610376756425479}

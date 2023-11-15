@@ -10,7 +10,7 @@ public class PartyBossPattern : MonoBehaviour
     [Header("=== Blink Particle ===")]
     [SerializeField]
     [Tooltip("블링크 할 때 & 블링크 후 커질때 나오는 이펙트")]
-    private GameObject _stoneHit;
+    private GameObject[] _stoneHit;
 
     [SerializeField]
     [Tooltip("블링크로 뒤에서 나타날때 플레이어와 이격할 거리")]
@@ -29,7 +29,7 @@ public class PartyBossPattern : MonoBehaviour
     [Tooltip("발 밑 레이의 길이")]
     private float _rayDist;
 
-    // 이 곳에 phase 여부를 달아놓아도 될듯
+    // 이 곳에 phase 여부를 달아놓아도 될듯, 페이즈에 따라 스킬을 강화또는 약화 하기 위해
 
     // Field
     private GameObject _target;
@@ -43,6 +43,7 @@ public class PartyBossPattern : MonoBehaviour
     private readonly int _hashJumpEnd = Animator.StringToHash("Jump End");
     private readonly int _hashFist = Animator.StringToHash("Fist Trigger");
     private readonly int _hashPush = Animator.StringToHash("Push Trigger");
+    private readonly int _hashDropKick = Animator.StringToHash("Drop Kick Trigger");
 
     private void Awake()
     {
@@ -57,9 +58,14 @@ public class PartyBossPattern : MonoBehaviour
         JudgeGrounded();
     }
 
-    #region 공격에 돌진이 필요할 때 사용하는 공통적인 메서드
+    #region Anim 여러개에 공통적으로 쓰이는 메서드
 
+    #region 1. 공격에 돌진이 필요할 때 사용하는 공통적인 메서드
 
+    /// <summary>
+    /// 이 메서드를 호출하는 순간부터 돌진을 한다. 정수형 변수는 돌진할 목표까지의 거리고, 실수형 변수는 거리까지 가는데 걸리게 할 시간값이다.
+    /// </summary>
+    /// <param name="myEvent"></param>
     public void AddRush(AnimationEvent myEvent)
     {
         int dist = myEvent.intParameter;
@@ -68,6 +74,9 @@ public class PartyBossPattern : MonoBehaviour
         StartCoroutine(RushToTarget(target, time));
     }
 
+    /// <summary>
+    /// 목표까지 시간값 내로 돌진
+    /// </summary>
     private IEnumerator RushToTarget(Vector3 target, float time)
     {
         Vector3 refVector = Vector3.zero;
@@ -80,13 +89,25 @@ public class PartyBossPattern : MonoBehaviour
         transform.position = target;
     }
 
-    #endregion 공격에 돌진이 필요할 때 사용하는 공통적인 메서드
+    #endregion 1. 공격에 돌진이 필요할 때 사용하는 공통적인 메서드
+
+    #region 2. 공격할 때 콜리더를 키고 끄는 메서드
+
+    public void SetAttackCollActive(AnimationEvent myEvent)
+    {
+        GameObject coll = myEvent.objectReferenceParameter as GameObject;
+        bool activeValue = myEvent.intParameter == 1 ? true : false;
+
+        coll.gameObject.SetActive(activeValue);
+    }
+
+    #endregion 2. 공격할 때 콜리더를 키고 끄는 메서드
+
+    #endregion Anim 여러개에 공통적으로 쓰이는 메서드
 
     #region 일반적인 상태일 때 보스의 스킬들
 
     #region 블링크 공격
-
-    // 블링크 후 나오면서 주먹 찌르기 할 때 전진시켜야 함
 
     public void Blink()
     {
@@ -101,10 +122,10 @@ public class PartyBossPattern : MonoBehaviour
     /// <summary>
     /// 블링크 할 때 나오는 파티클 이펙트를 켜주는 애니메이션 델리게이트
     /// </summary>
-    public void ActiveBlinkParticle()
+    public void ActiveBlinkParticle(int index)
     {
-        _stoneHit.transform.position = transform.position + Vector3.up * 2.0f;
-        _stoneHit.SetActive(true);
+        _stoneHit[index].transform.position = transform.position + Vector3.up * 2.0f;
+        _stoneHit[index].SetActive(true);
     }
 
     public void MoveToTargetBehind()
@@ -129,7 +150,7 @@ public class PartyBossPattern : MonoBehaviour
 
     public void DropKick()
     {
-        print("드랍 킥 얍");
+        _animator.SetTrigger(_hashDropKick);
     }
 
     #endregion 드랍킥 공격
