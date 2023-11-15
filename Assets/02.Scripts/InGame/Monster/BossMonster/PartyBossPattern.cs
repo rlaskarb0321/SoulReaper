@@ -17,11 +17,14 @@ public class PartyBossPattern : MonoBehaviour
     [SerializeField]
     private float _blinkOffset;
 
+    // 이 곳에 phase 여부를 달아놓아도 될듯
+
     // Field
     private Animator _animator;
     private MonsterBase_1 _monsterBase;
     private readonly int _hashBlink = Animator.StringToHash("Blink Trigger");
     private readonly int _hashBlinkBack = Animator.StringToHash("Blink Back Pos");
+    private readonly int _hashSliding = Animator.StringToHash("Sliding Trigger");
 
     private void Awake()
     {
@@ -47,14 +50,14 @@ public class PartyBossPattern : MonoBehaviour
     /// </summary>
     public void ActiveBlinkParticle()
     {
-        _stoneHit.transform.position = transform.position;
+        _stoneHit.transform.position = transform.position + Vector3.up * 2.0f;
         _stoneHit.SetActive(true);
     }
 
     public void MoveToTargetBehind()
     {
         Vector3 blinkPos = _target.transform.position + (_target.transform.forward * -_blinkOffset);
-        transform.forward = (_target.transform.forward - transform.position).normalized;
+        transform.forward = (_target.transform.position - blinkPos).normalized;
         transform.position = blinkPos;
     }
 
@@ -75,10 +78,14 @@ public class PartyBossPattern : MonoBehaviour
         print("노말 몹 소환 얍");
     }
 
+    #region 슬라이딩 공격
+
     public void Sliding()
     {
-        print("슬라이딩 공격 얍");
+        _animator.SetTrigger(_hashSliding);
     }
+
+    #endregion 슬라이딩 공격
 
     public void Jump()
     {

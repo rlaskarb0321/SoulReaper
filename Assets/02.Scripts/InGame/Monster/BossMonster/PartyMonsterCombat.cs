@@ -6,7 +6,7 @@ using System;
 public delegate bool EditCanUseDelegate();
 
 [Serializable]
-public class PartyMonsterSkill
+public class BossMonsterSkill
 {
     // 해당 스킬을 사용할 수 있음의 여부
     public bool _canUse;
@@ -55,18 +55,34 @@ public class PartyMonsterSkill
         Phase3_Up,      // 해당 스킬은 페이즈 3때 업그레이드 됨                                              
         Phase3_Down,    // 해당 스킬은 페이즈 3때 다운그레이드 됨
     }
+
+    /// <summary>
+    /// 해당 스킬의 쿨다운 돌리기
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator CoolDown()
+    {
+        while (_currCoolTime >= 0.0f)
+        {
+            _currCoolTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        _currCoolTime = _coolTime;
+    }
 }
 
 public class PartyMonsterCombat : MonoBehaviour
 {
-    public PartyMonsterSkill[] _normalStateSkills;
-    public PartyMonsterSkill[] _tiredStateSkills;
+    public BossMonsterSkill[] _normalStateSkills;
+    public BossMonsterSkill[] _tiredStateSkills;
     public bool _isBossTired;
 
     // Field
     private PartyMonster _monsterBase;
     private GameObject _target;
     private PartyBossPattern _pattern;
+    private float _originActDelay;
     private enum ePartyBossSkill 
     {
         Summon_Mini_Boss,
@@ -89,6 +105,11 @@ public class PartyMonsterCombat : MonoBehaviour
         CheckSkill();
     }
 
+    private void Start()
+    {
+        _originActDelay = _monsterBase._stat.actDelay;
+    }
+
     private void Update()
     {
         if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
@@ -99,10 +120,13 @@ public class PartyMonsterCombat : MonoBehaviour
             CheckSkill();
         }
 
+        print(_monsterBase._state);
+
         if (!_isBossTired)
         {
             switch (_monsterBase._state)
             {
+                // 다음에 행할 스킬을 고르고 실행함
                 case MonsterBase_1.eMonsterState.Idle:
                     string skillID = SelectSkill(_normalStateSkills);
                     DoSkill(skillID);
@@ -112,10 +136,19 @@ public class PartyMonsterCombat : MonoBehaviour
                     break;
 
                 case MonsterBase_1.eMonsterState.Attack:
-                    _monsterBase.AimingTarget(_target.transform.position, 2.0f);
+                    _monsterBase.AimingTarget(_target.transform.position, 12.0f);
                     break;
 
+                // 공격이 끝난 후 약간의 딜레이 가지기
                 case MonsterBase_1.eMonsterState.Delay:
+                    if (_monsterBase._stat.actDelay <= 0.0f)
+                    {
+                        _monsterBase._stat.actDelay = _originActDelay;
+                        _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
+                        return;
+                    }
+                     
+                    _monsterBase._stat.actDelay -= Time.deltaTime;
                     break;
             }
         }
@@ -144,17 +177,27 @@ public class PartyMonsterCombat : MonoBehaviour
     /// <summary>
     /// 스킬리스트에서 사용 가능하고 우선순위가 높은 스킬을 고름
     /// </summary>
-    private string SelectSkill(PartyMonsterSkill[] skillPack)
+    private string SelectSkill(BossMonsterSkill[] skillPack)
     {
         string skillID = "";
+
+        // 우선순위는 이미 인스펙터 창에 skillPack 만들 때 정렬해서 만들었음
         for (int i = 0; i < skillPack.Length; i++)
         {
             if (!skillPack[i]._canUse)
+            {
+                //print(skillPack[i]._id + " 사용 불가능");
                 continue;
+            }
             if (skillPack[i]._currCoolTime != skillPack[i]._coolTime)
+            {
+                //print(skillPack[i]._id + " 쿨타임이 안 돌아있음");
                 continue;
+            }
 
+            //print(skillPack[i]._id + " 로 결정");
             skillID = skillPack[i]._id;
+            StartCoroutine(skillPack[i].CoolDown());
             return skillID;
         }
 
@@ -212,7 +255,7 @@ public class PartyMonsterCombat : MonoBehaviour
     }
 
     /// <summary>
-    /// 스킬을 시전한 후, 애니메이션 마지막에 등록시킬 메서드
+    /// 스킬을 시전한 후, 애니메이션 마지막에 등록시킬 메서드, 딜레이 상태로 만들어 준다.
     /// </summary>
     public void ExitAttackState() => _monsterBase._state = MonsterBase_1.eMonsterState.Delay;
 
@@ -230,63 +273,66 @@ public class PartyMonsterCombat : MonoBehaviour
     /// 스킬들의 사용 가능 여부를 재탐색하게 하는 델리게이트를 호출
     /// </summary>
     private void EditSkillCondition
-        (PartyMonsterSkill skill, PartyMonsterSkill.eSkillUseCondition useCondition, PartyMonsterSkill.eSkillUpgrade upgradeCondition)
+        (BossMonsterSkill skill, BossMonsterSkill.eSkillUseCondition useCondition, BossMonsterSkill.eSkillUpgrade upgradeCondition)
     {
         switch (useCondition)
         {
             // 페이즈 2때 사용 가능하도록 열어 주기
-            case PartyMonsterSkill.eSkillUseCondition.Phase2:
-                PartyMonsterSkill._editCanUseDelegate -= isPhaseTwo;
-                PartyMonsterSkill._editCanUseDelegate += isPhaseTwo;
+            case BossMonsterSkill.eSkillUseCondition.Phase2:
+                BossMonsterSkill._editCanUseDelegate -= isPhaseTwo;
+                BossMonsterSkill._editCanUseDelegate += isPhaseTwo;
 
-                skill._canUse = PartyMonsterSkill._editCanUseDelegate();
+                skill._canUse = BossMonsterSkill._editCanUseDelegate();
                 break;
 
-            case PartyMonsterSkill.eSkillUseCondition.Phase3:
-                PartyMonsterSkill._editCanUseDelegate -= isPhaseThree;
-                PartyMonsterSkill._editCanUseDelegate += isPhaseThree;
+            case BossMonsterSkill.eSkillUseCondition.Phase3:
+                BossMonsterSkill._editCanUseDelegate -= isPhaseThree;
+                BossMonsterSkill._editCanUseDelegate += isPhaseThree;
 
-                skill._canUse = PartyMonsterSkill._editCanUseDelegate();
+                skill._canUse = BossMonsterSkill._editCanUseDelegate();
                 break;
 
             // 멀리있는지 체크 후 사용 가능하도록 열어 주기
-            case PartyMonsterSkill.eSkillUseCondition.Long:
-                PartyMonsterSkill._editCanUseDelegate -= isPlayerFar;
-                PartyMonsterSkill._editCanUseDelegate += isPlayerFar;
+            case BossMonsterSkill.eSkillUseCondition.Long:
+                BossMonsterSkill._editCanUseDelegate -= isPlayerFar;
+                BossMonsterSkill._editCanUseDelegate += isPlayerFar;
 
-                skill._canUse = PartyMonsterSkill._editCanUseDelegate();
+                skill._canUse = BossMonsterSkill._editCanUseDelegate();
                 break;
 
             // 플레이어가 뒤에있는지 체크 후 사용 가능하도록 열어 주기
-            case PartyMonsterSkill.eSkillUseCondition.Behind:
-                PartyMonsterSkill._editCanUseDelegate -= isPlayerBehind;
-                PartyMonsterSkill._editCanUseDelegate += isPlayerBehind;
+            case BossMonsterSkill.eSkillUseCondition.Behind:
+                BossMonsterSkill._editCanUseDelegate -= isPlayerBehind;
+                BossMonsterSkill._editCanUseDelegate += isPlayerBehind;
 
-                skill._canUse = PartyMonsterSkill._editCanUseDelegate();
+                skill._canUse = BossMonsterSkill._editCanUseDelegate();
                 break;
         }
 
         switch (upgradeCondition)
         { 
-            case PartyMonsterSkill.eSkillUpgrade.Phase2_Up:
+            case BossMonsterSkill.eSkillUpgrade.Phase2_Up:
                 break;
-            case PartyMonsterSkill.eSkillUpgrade.Phase2_Down:
+            case BossMonsterSkill.eSkillUpgrade.Phase2_Down:
                 break;
         }
 
     }
 
-    #region 스킬의 CanUSe 를 조작하기 위한 Delegate 메서드들
+    #region 스킬의 CanUSe 를 조작하기 위해 스킬의 Delegate 에 달아놓는 메서드들
 
     public bool isPlayerBehind()
     {
+        // 뒤에있고 가까이에 있는지
         float angle = Vector3.SignedAngle(transform.forward, _target.transform.position - transform.position, transform.up);
-        return Mathf.Abs(angle) >= 100.0f;
+        float distance = Vector3.Distance(transform.position, _target.transform.position);
+
+        return Mathf.Abs(angle) >= 100.0f && distance <= 1.0f;
     }
 
     public bool isPlayerFar()
     {
-        return Vector3.Distance(_target.transform.position, transform.position) >= 10.0f;
+        return Vector3.Distance(_target.transform.position, transform.position) >= 2.0f;
     }
 
     public bool isPhaseTwo()
@@ -299,5 +345,5 @@ public class PartyMonsterCombat : MonoBehaviour
         return _monsterBase.Phase == PartyMonster.ePhase.Phase_3;
     }
 
-    #endregion 스킬의 CanUSe 를 조작하기 위한 Delegate 메서드들
+    #endregion 스킬의 CanUSe 를 조작하기 위해 스킬의 Delegate 에 달아놓는 메서드들
 }
