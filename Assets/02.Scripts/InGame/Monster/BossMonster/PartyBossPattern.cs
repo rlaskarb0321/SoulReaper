@@ -94,6 +94,8 @@ public class PartyBossPattern : MonoBehaviour
 
         // 미니 보스 소환할때만 실행
         GoSummonCastPos();
+
+        _dialogCanvas.transform.forward = -Camera.main.transform.forward;
     }
 
     #region Anim 여러개에 공통적으로 쓰이는 메서드
