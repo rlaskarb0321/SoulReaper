@@ -13,7 +13,7 @@ public class BossMonsterSkill
 
     // 스킬끼리 구분하기 위한 이름
     public string _id;
-
+    
     // 해당 스킬이 사용될 특수한 상황
     public eSkillUseCondition _eSkillCondition;
 

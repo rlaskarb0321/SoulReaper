@@ -119,6 +119,7 @@ public class SentryMonster : MonsterType
             _isSetPatrolPos = true;
         }
 
+        // 목적지 도착 확인
         float distance = Vector3.Distance(transform.position, _movPos);
         if (distance <= _monsterBase._nav.stoppingDistance + _monsterBase._nav.baseOffset)
         {

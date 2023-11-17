@@ -25,6 +25,8 @@ public class PartyMonster : MonsterBase_1
 
     protected override void Awake()
     {
+        base.Awake();
+
         _meshRenderes = GetComponentsInChildren<SkinnedMeshRenderer>();
         _monsterCombat = GetComponent<PartyMonsterCombat>();
     }

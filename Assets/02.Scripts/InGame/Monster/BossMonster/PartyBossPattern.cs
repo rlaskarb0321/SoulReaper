@@ -7,6 +7,16 @@ using UnityEngine;
 /// </summary>
 public class PartyBossPattern : MonoBehaviour
 {
+    [Header("=== Dialog Ballon ===")]
+    [SerializeField]
+    private TextAsset _dialogFile;
+
+    [SerializeField]
+    private GameObject _dialogCanvas;
+
+    [SerializeField]
+    private float _floatTime;
+
     [Header("=== Blink Particle ===")]
     [SerializeField]
     [Tooltip("블링크 할 때 & 블링크 후 커질때 나오는 이펙트")]
@@ -29,6 +39,11 @@ public class PartyBossPattern : MonoBehaviour
     [Tooltip("발 밑 레이의 길이")]
     private float _rayDist;
 
+    [Header("=== Mini Boss Summon ===")]
+    [SerializeField]
+    [Tooltip("미니 보스 소환 의식을 하는 위치 = 제단")]
+    private Transform[] _summonCastPos;
+
     // 이 곳에 phase 여부를 달아놓아도 될듯, 페이즈에 따라 스킬을 강화또는 약화 하기 위해
 
     // Field
@@ -36,6 +51,21 @@ public class PartyBossPattern : MonoBehaviour
     private Animator _animator;
     private MonsterBase_1 _monsterBase;
     private Rigidbody _rbody;
+    private bool _isMiniBossSummon; // 보스가 미니 보스 소환중인지
+    private int _summonPosIndex; // 제단으로 위치 이동용 인덱스
+    private BossDialog _bossDialog;
+    private Dictionary<string, List<string>> _dialogDict; // 상황을 key로, 대화 내용 list를 value로 갖는 보스의 말풍선 텍스트 참조용 딕셔너리
+    private enum eDialogSituation 
+    { 
+        SummonPlace,            // 미니 보스 소환 장소로 이동하면서
+        StartSummon,            // 미니 보스 소환을 시작할 때
+        Summoning,              // 미니 보스 소환 중
+        Complete_Summon,        // 미니 보스 소환 완료
+        Run_Shy,                // 도망가기 or 약올리기
+        Take_a_Breath,          // 숨돌리기
+    }
+    
+    // Anim Params
     private readonly int _hashBlink = Animator.StringToHash("Blink Trigger");
     private readonly int _hashBlinkBack = Animator.StringToHash("Blink Back Pos");
     private readonly int _hashSliding = Animator.StringToHash("Sliding Trigger");
@@ -44,18 +74,26 @@ public class PartyBossPattern : MonoBehaviour
     private readonly int _hashFist = Animator.StringToHash("Fist Trigger");
     private readonly int _hashPush = Animator.StringToHash("Push Trigger");
     private readonly int _hashDropKick = Animator.StringToHash("Drop Kick Trigger");
+    private readonly int _hashCeremony = Animator.StringToHash("Ceremony Trigger");
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _monsterBase = GetComponent<MonsterBase_1>();
         _rbody = GetComponent<Rigidbody>();
+        _bossDialog = new BossDialog();
+
         _target = _monsterBase._target;
+        _dialogDict = _bossDialog.Parsing(_dialogFile);
     }
 
     private void Update()
     {
+        // 점프 중일때만 실행
         JudgeGrounded();
+
+        // 미니 보스 소환할때만 실행
+        GoSummonCastPos();
     }
 
     #region Anim 여러개에 공통적으로 쓰이는 메서드
@@ -103,6 +141,12 @@ public class PartyBossPattern : MonoBehaviour
 
     #endregion 2. 공격할 때 콜리더를 키고 끄는 메서드
 
+    #region 3. 말풍선
+
+
+
+    #endregion 3. 말풍선
+
     #endregion Anim 여러개에 공통적으로 쓰이는 메서드
 
     #region 일반적인 상태일 때 보스의 스킬들
@@ -141,7 +185,37 @@ public class PartyBossPattern : MonoBehaviour
 
     public void SummonMiniBoss()
     {
-        print("미니보스 소환 얍");
+        _isMiniBossSummon = true;
+    }
+
+    /// <summary>
+    /// 미니 보스 소환지역으로 이동 & 소환 의식 시작
+    /// </summary>
+    private void GoSummonCastPos()
+    {
+        if (!_isMiniBossSummon)
+            return;
+
+        float dist = Vector3.Distance(transform.position, _summonCastPos[_summonPosIndex].position);
+        if (dist <= _monsterBase._nav.stoppingDistance + _monsterBase._nav.baseOffset * 0.5f)
+        {
+            transform.position = _summonCastPos[_summonPosIndex].position;
+            switch (_summonPosIndex)
+            {
+                case 0:
+                    _summonPosIndex++;
+                    return;
+
+                case 1:
+                    _monsterBase._animator.SetBool(_monsterBase._hashMove, false);
+
+                    // 여기서 말풍선띄우고 사라지면 의식 시작
+                    //_animator.SetTrigger(_hashCeremony);
+                    return;
+            }
+        }
+
+        _monsterBase.Move(_summonCastPos[_summonPosIndex].position, _monsterBase._stat.movSpeed / (_summonPosIndex + 1));
     }
 
     #endregion 미니 보스 소환하기
