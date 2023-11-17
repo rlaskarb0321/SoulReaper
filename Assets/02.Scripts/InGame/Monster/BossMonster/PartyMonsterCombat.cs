@@ -125,8 +125,6 @@ public class PartyMonsterCombat : MonoBehaviour
             CheckSkill();
         }
 
-        print(_monsterBase._state);
-
         if (!_isBossTired)
         {
             switch (_monsterBase._state)
@@ -283,7 +281,6 @@ public class PartyMonsterCombat : MonoBehaviour
     /// </summary>
     public void CheckSkill()
     {
-        print("Check Skill");
         for (int i = 0; i < _normalStateSkills.Length; i++)
             EditSkillCondition(_normalStateSkills[i], _normalStateSkills[i]._eSkillCondition, _normalStateSkills[i]._eSkillUpgrade);
     }

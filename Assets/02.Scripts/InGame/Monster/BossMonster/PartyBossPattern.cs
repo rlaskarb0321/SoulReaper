@@ -28,10 +28,6 @@ public class PartyBossPattern : MonoBehaviour
 
     [Header("=== Jump Attack ===")]
     [SerializeField]
-    [Tooltip("점프 파워")]
-    private float _jumpForce;
-
-    [SerializeField]
     [Tooltip("점프 후 체공중일 때 땅에 닿음을 판단하기 위한 발 밑 레이의 위치")]
     private Transform _groundRayPos;
 
@@ -39,22 +35,40 @@ public class PartyBossPattern : MonoBehaviour
     [Tooltip("발 밑 레이의 길이")]
     private float _rayDist;
 
+    [SerializeField]
+    [Tooltip("Slerp T 값")]
+    private float _jumpSpeedTimes;
+
+    [SerializeField]
+    [Tooltip("점프 가속 값")]
+    private float _jumpAccel;
+
+    [SerializeField]
+    [Tooltip("점프 높이")]
+    private float _jumpHeight;
+
+    private bool _isJump;
+    private Vector3 _endPos;
+    private Vector3 _startPos;
+
     [Header("=== Mini Boss Summon ===")]
     [SerializeField]
     [Tooltip("미니 보스 소환 의식을 하는 위치 = 제단")]
     private Transform[] _summonCastPos;
 
+    private bool _isMiniBossSummon; // 보스가 미니 보스 소환중인지
+    private int _summonPosIndex; // 제단으로 위치 이동용 인덱스
+    
     // 이 곳에 phase 여부를 달아놓아도 될듯, 페이즈에 따라 스킬을 강화또는 약화 하기 위해
 
     // Field
     private GameObject _target;
+    private Rigidbody _rbody;
     private Animator _animator;
     private MonsterBase_1 _monsterBase;
-    private Rigidbody _rbody;
-    private bool _isMiniBossSummon; // 보스가 미니 보스 소환중인지
-    private int _summonPosIndex; // 제단으로 위치 이동용 인덱스
     private BossDialog _bossDialog;
-    private Dictionary<string, List<string>> _dialogDict; // 상황을 key로, 대화 내용 list를 value로 갖는 보스의 말풍선 텍스트 참조용 딕셔너리
+    private List<IndexingDict> _dialogData;
+    // private Dictionary<string, List<string>> _dialogDict; // 상황을 key로, 대화 내용 list를 value로 갖는 보스의 말풍선 텍스트 참조용 딕셔너리
     private enum eDialogSituation 
     { 
         SummonPlace,            // 미니 보스 소환 장소로 이동하면서
@@ -64,7 +78,7 @@ public class PartyBossPattern : MonoBehaviour
         Run_Shy,                // 도망가기 or 약올리기
         Take_a_Breath,          // 숨돌리기
     }
-    
+
     // Anim Params
     private readonly int _hashBlink = Animator.StringToHash("Blink Trigger");
     private readonly int _hashBlinkBack = Animator.StringToHash("Blink Back Pos");
@@ -80,17 +94,16 @@ public class PartyBossPattern : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _monsterBase = GetComponent<MonsterBase_1>();
-        _rbody = GetComponent<Rigidbody>();
         _bossDialog = new BossDialog();
-
+        _rbody = GetComponent<Rigidbody>();
         _target = _monsterBase._target;
-        _dialogDict = _bossDialog.Parsing(_dialogFile);
+        _dialogData = _bossDialog.DialogParsing(_dialogFile); // 테스트 해봐야 함
     }
 
     private void Update()
     {
-        // 점프 중일때만 실행
-        JudgeGrounded();
+        // 점프 중일 때
+        JumpParbola();
 
         // 미니 보스 소환할때만 실행
         GoSummonCastPos();
@@ -145,7 +158,10 @@ public class PartyBossPattern : MonoBehaviour
 
     #region 3. 말풍선
 
+    private void ShowDialog(eDialogSituation situation)
+    {
 
+    }
 
     #endregion 3. 말풍선
 
@@ -242,8 +258,6 @@ public class PartyBossPattern : MonoBehaviour
 
     #region 슬라이딩 공격
 
-    // 앞으로 나아가며 슬라이딩 공격하게 해야 함
-
     public void Sliding()
     {
         _animator.SetTrigger(_hashSliding);
@@ -255,12 +269,13 @@ public class PartyBossPattern : MonoBehaviour
 
     // 점프 후 내려찍힐 곳을 알려주는 그림자 오브젝트와
     // 내려찍힐 곳으로 이동하는 기능이 필요
-    // 점프의 속도도 빠르게
+    // 점프의 속도도 빠르게, 점프 착지 지점에 플레이어가 있으면 어케하지
 
     public void Jump()
     {
-        _animator.ResetTrigger(_hashJumpEnd);
+        _animator.SetBool(_hashJumpEnd, false);
         _animator.SetTrigger(_hashJump);
+        _isJump = false;
     }
 
     /// <summary>
@@ -268,30 +283,38 @@ public class PartyBossPattern : MonoBehaviour
     /// </summary>
     public void JumpStart()
     {
-        _rbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-    }
-
-    /// <summary>
-    /// 점프 중 or 땅에 닿음 상태로 만드는 메서드
-    /// </summary>
-    /// <param name="value"></param>
-    public void SetJumpState(int value)
-    {
-        bool setValue = value == 1 ? true : false;
-        _groundRayPos.gameObject.SetActive(setValue);
+        _isJump = true;
+        _startPos = transform.position;
+        _endPos = _target.transform.position;
+        _jumpSpeedTimes = 0.0f;
     }
 
     /// <summary>
     /// Update 에서 점프후 체공중일 때 땅에 닿음 여부를 판단하는 메서드
     /// </summary>
-    private void JudgeGrounded()
+    private void JumpParbola()
     {
-        if (!_groundRayPos.gameObject.activeSelf)
+        if (!_isJump)
             return;
 
-        if (Physics.Raycast(_groundRayPos.position, -_groundRayPos.up, _rayDist, 1 << LayerMask.NameToLayer("Ground")))
+        Vector3 startPos = _startPos;
+        Vector3 endPos = _endPos;
+        Vector3 center = (startPos + endPos) * 0.5f;
+
+        center = new Vector3(center.x, center.y - _jumpHeight, center.z);
+        startPos = startPos - center;
+        endPos = endPos - center;
+
+        transform.position = Vector3.Slerp(startPos, endPos, _jumpSpeedTimes);
+        center.y += _jumpHeight * Mathf.Sin(Mathf.PI * _jumpSpeedTimes);
+        transform.position += center;
+
+        _jumpSpeedTimes += Time.deltaTime * _jumpAccel;
+        _animator.SetBool(_hashJumpEnd, _jumpSpeedTimes >= 0.9f);
+        if (_jumpSpeedTimes >= 1.0f)
         {
-            _animator.SetTrigger(_hashJumpEnd);
+            _isJump = false;
+            _jumpSpeedTimes = 1.0f;
         }
     }
 
