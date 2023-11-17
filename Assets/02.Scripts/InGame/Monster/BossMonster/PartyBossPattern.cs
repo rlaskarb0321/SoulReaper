@@ -121,25 +121,21 @@ public class PartyBossPattern : MonoBehaviour
     /// <param name="myEvent"></param>
     public void AddRush(AnimationEvent myEvent)
     {
-        int dist = myEvent.intParameter;
+        int y0 = myEvent.intParameter;
         float time = myEvent.floatParameter;
-        Vector3 target = transform.position + transform.forward * dist;
-        StartCoroutine(RushToTarget(target, time));
+
+        StartCoroutine(Rush(y0, time));
     }
 
-    /// <summary>
-    /// 목표까지 시간값 내로 돌진
-    /// </summary>
-    private IEnumerator RushToTarget(Vector3 target, float time)
+    private IEnumerator Rush(int y0, float time)
     {
-        Vector3 refVector = Vector3.zero;
-        while (Vector3.Distance(transform.position, target) >= 0.1f)
+        int count = (int)(time / Time.fixedDeltaTime);
+        for (int i = 0; i < count; i++)
         {
-            transform.position = Vector3.SmoothDamp(transform.position, target, ref refVector, time); // 블링크 펀치는 0.08, 슬라이딩은 조금 높게
-            yield return null;
+            float force = -(y0 / count) * i + y0;
+            _rbody.AddForce(force * transform.forward, ForceMode.Impulse);
+            yield return new WaitForFixedUpdate();
         }
-
-        transform.position = target;
     }
 
     #endregion 1. 공격에 돌진이 필요할 때 사용하는 공통적인 메서드
