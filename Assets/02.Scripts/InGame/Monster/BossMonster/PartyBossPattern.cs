@@ -15,7 +15,12 @@ public class PartyBossPattern : MonoBehaviour
     private Transform _floatPos;
 
     [SerializeField]
+    [Tooltip("=== 말풍선 띄울 지속시간 ===")]
     private float _floatTime;
+
+    private float _currFloatTime;
+    private bool _isTalking;
+    private string _text;
 
     [Header("=== Blink Particle ===")]
     [SerializeField]
@@ -101,14 +106,12 @@ public class PartyBossPattern : MonoBehaviour
         // 미니 보스 소환할때만 실행
         GoSummonCastPos();
 
+        // 말풍선 띄우고 유지시키기
+        MaintainDialog();
+
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ShowDialog(eDialogSituation.SummonPlace, true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            ShowDialog(eDialogSituation.SummonPlace, false);
+            ShowDialog(eDialogSituation.Take_a_Breath, true);
         }
     }
 
@@ -155,10 +158,39 @@ public class PartyBossPattern : MonoBehaviour
 
     #region 3. 말풍선
 
-    private void ShowDialog(eDialogSituation situation, bool value)
+    /// <summary>
+    /// 말을 하게하는 메서드
+    /// </summary>
+    private void ShowDialog(eDialogSituation situation, bool turnOn)
     {
+        int randomText = Random.Range(0, _dialogData[(int)situation]._dialogs.Count);
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatPos.position);
-        UIScene._instance.FloatGameObjectUI(UIScene._instance._dialogBallon, value, pos, "test");
+
+        _isTalking = turnOn;
+        _currFloatTime = _floatTime;
+        _text = _dialogData[(int)situation]._dialogs[randomText];
+
+        UIScene._instance.FloatGameObjectUI(UIScene._instance._dialogBallon, turnOn, pos, _text);
+    }
+
+    /// <summary>
+    /// 말을 할 시, UI 를 띄우게 하는 메서드
+    /// </summary>
+    private void MaintainDialog()
+    {
+        if (!_isTalking)
+            return;
+        if (_currFloatTime <= 0.0f)
+        {
+            _currFloatTime = _floatTime;
+            _isTalking = false;
+            UIScene._instance.FloatGameObjectUI(UIScene._instance._dialogBallon, false, Vector3.zero, _text);
+            return;
+        }
+
+        Vector3 pos = Camera.main.WorldToScreenPoint(_floatPos.position);
+        UIScene._instance.FloatGameObjectUI(UIScene._instance._dialogBallon, true, pos, _text);
+        _currFloatTime -= Time.deltaTime;
     }
 
     #endregion 3. 말풍선
