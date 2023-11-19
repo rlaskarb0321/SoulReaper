@@ -62,7 +62,7 @@ public class Key : MonoBehaviour, IInteractable
     public void SetActiveInteractUI(bool value)
     {
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
-        UIScene._instance.FloatInteractUI(value, pos, _interactName);
+        UIScene._instance.FloatGameObjectUI(UIScene._instance._interactUI, value, pos, _interactName);
     }
 
     private void OnTriggerStay(Collider other)

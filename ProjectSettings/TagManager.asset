@@ -12,6 +12,8 @@ TagManager:
   - Skill
   - Player Skill
   - Dummy Skill
+  - Boss Dialog UI
+  - Interact UI
   layers:
   - Default
   - TransparentFX

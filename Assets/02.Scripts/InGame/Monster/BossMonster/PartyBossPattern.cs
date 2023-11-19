@@ -12,7 +12,7 @@ public class PartyBossPattern : MonoBehaviour
     private TextAsset _dialogFile;
 
     [SerializeField]
-    private GameObject _dialogCanvas;
+    private Transform _floatPos;
 
     [SerializeField]
     private float _floatTime;
@@ -28,16 +28,8 @@ public class PartyBossPattern : MonoBehaviour
 
     [Header("=== Jump Attack ===")]
     [SerializeField]
-    [Tooltip("점프 후 체공중일 때 땅에 닿음을 판단하기 위한 발 밑 레이의 위치")]
-    private Transform _groundRayPos;
-
-    [SerializeField]
     [Tooltip("발 밑 레이의 길이")]
     private float _rayDist;
-
-    [SerializeField]
-    [Tooltip("Slerp T 값")]
-    private float _jumpSpeedTimes;
 
     [SerializeField]
     [Tooltip("점프 가속 값")]
@@ -47,6 +39,7 @@ public class PartyBossPattern : MonoBehaviour
     [Tooltip("점프 높이")]
     private float _jumpHeight;
 
+    private float _jumpSpeedTimes;
     private bool _isJump;
     private Vector3 _endPos;
     private Vector3 _startPos;
@@ -68,7 +61,7 @@ public class PartyBossPattern : MonoBehaviour
     private MonsterBase_1 _monsterBase;
     private BossDialog _bossDialog;
     private List<IndexingDict> _dialogData;
-    // private Dictionary<string, List<string>> _dialogDict; // 상황을 key로, 대화 내용 list를 value로 갖는 보스의 말풍선 텍스트 참조용 딕셔너리
+
     private enum eDialogSituation 
     { 
         SummonPlace,            // 미니 보스 소환 장소로 이동하면서
@@ -108,7 +101,15 @@ public class PartyBossPattern : MonoBehaviour
         // 미니 보스 소환할때만 실행
         GoSummonCastPos();
 
-        _dialogCanvas.transform.forward = -Camera.main.transform.forward;
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ShowDialog(eDialogSituation.SummonPlace, true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            ShowDialog(eDialogSituation.SummonPlace, false);
+        }
     }
 
     #region Anim 여러개에 공통적으로 쓰이는 메서드
@@ -154,9 +155,10 @@ public class PartyBossPattern : MonoBehaviour
 
     #region 3. 말풍선
 
-    private void ShowDialog(eDialogSituation situation)
+    private void ShowDialog(eDialogSituation situation, bool value)
     {
-
+        Vector3 pos = Camera.main.WorldToScreenPoint(_floatPos.position);
+        UIScene._instance.FloatGameObjectUI(UIScene._instance._dialogBallon, value, pos, "test");
     }
 
     #endregion 3. 말풍선
@@ -263,9 +265,7 @@ public class PartyBossPattern : MonoBehaviour
 
     #region 점프 공격
 
-    // 점프 후 내려찍힐 곳을 알려주는 그림자 오브젝트와
-    // 내려찍힐 곳으로 이동하는 기능이 필요
-    // 점프의 속도도 빠르게, 점프 착지 지점에 플레이어가 있으면 어케하지
+    // 점프 후 내려찍힐 곳을 알려주는 그림자 오브젝트가 필요
 
     public void Jump()
     {

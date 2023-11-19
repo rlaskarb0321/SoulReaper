@@ -50,10 +50,11 @@ public class UIScene : MonoBehaviour
     [SerializeField] 
     private TMP_Text _mapName;
 
-    [Header("=== Interact ===")]
-    public GameObject _interactUI; // 인게임에서 상호작용 가능한 물체 가까이 갔을 때 뜨게 할 텍스트 UI
-    public TMP_Text _objName;
-    private RectTransform _rect;
+    [Header("=== Float UI ===")]
+    public RectTransform _interactUI; // 인게임에서 상호작용 가능한 물체 가까이 갔을 때 뜨게 할 텍스트 UI
+    public RectTransform _dialogBallon; // 보스가 띄울 말풍선 UI
+    private string _uiTag; // 최근에 띄운 UI의 태그를 저장, 만일 저장한 값과 새로 들어온 UI의 태그가 다르다면 _context 를 새로 getcomponent 
+    private TMP_Text _context;
 
     [Header("=== Buff ===")]
     public BuffDataPackage _buffMgr;
@@ -70,7 +71,6 @@ public class UIScene : MonoBehaviour
         _instance = this;
 
         _currOpenPanel = new List<GameObject>();
-        _rect = _interactUI.GetComponent<RectTransform>();
         _mapName.text = EditMapName();
     }
 
@@ -193,23 +193,29 @@ public class UIScene : MonoBehaviour
         return "";
     }
 
-    public void FloatInteractUI(bool turnOn, Vector3 pos, string text)
+    public void FloatGameObjectUI(RectTransform target, bool turnOn, Vector3 pos, string text)
     {
         if (!turnOn)
         {
-            _interactUI.SetActive(false);
+            target.gameObject.SetActive(false);
             return;
         }
 
-        if (!_objName.text.Equals(text))
+        if (_uiTag != target.tag)
         {
-            _objName.text = text;
+            _context = target.GetComponentInChildren<TMP_Text>();
+            _uiTag = target.tag;
+        }
+
+        if (!_context.text.Equals(text))
+        {
+            _context.text = text;
             return;
         }
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate(_rect);
-        _interactUI.transform.position = pos;
-        _interactUI.SetActive(true);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(target);
+        target.transform.position = pos;
+        target.gameObject.SetActive(true);
     }
 
     public void DeadPlayer()
@@ -217,15 +223,4 @@ public class UIScene : MonoBehaviour
         // 플레이어 죽었을때 패널띄우고 최근에 저장했던 위치로 피 마나 다 채우고 옮기기 (씬 다시 불러오기)
         _playerDeath.AnnouncePlayerDeath();
     }
-
-        //for (int i = 0; i < _skillArray.Length; i++)
-        //{
-        //    PlayerSkill skill = _skillArray[i].GetComponentInChildren<PlayerSkill>();
-        //    if (skill == null)
-        //    {
-        //        addSkill.transform.SetParent(_skillArray[i].transform);
-        //        addSkill.transform.SetAsFirstSibling();
-        //        addSkill.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        //    }
-        //}
 }
