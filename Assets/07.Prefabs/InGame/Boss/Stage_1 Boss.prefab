@@ -1032,8 +1032,8 @@ MonoBehaviour:
     _eSkillCondition: 1
     _eSkillUpgrade: 0
     _priority: 0
-    _coolTime: 200
-    _currCoolTime: 200
+    _coolTime: 0
+    _currCoolTime: 0
   - _canUse: 0
     _id: 1_Drop Kick
     _eSkillCondition: 4

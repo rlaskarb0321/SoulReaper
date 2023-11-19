@@ -21,7 +21,7 @@ public class PartyBossPattern : MonoBehaviour
 
     private float _currFloatTime;
     private bool _isTalking;
-    private string _text;
+    private bool _stopLettering;
 
     [Header("=== Blink Particle ===")]
     [SerializeField]
@@ -225,8 +225,11 @@ public class PartyBossPattern : MonoBehaviour
         ShowDialog("", false);
         while (index < text.Length)
         {
-            if (!_isTalking)
+            if (_stopLettering)
+            {
+                _stopLettering = false;
                 break;
+            }
 
             // 도중에 불에 맞으면
             if (_isFireHit)
@@ -326,6 +329,8 @@ public class PartyBossPattern : MonoBehaviour
                     _monsterBase._animator.SetBool(_monsterBase._hashMove, false);
                     _monsterBase._nav.enabled = false;
                     _animator.SetTrigger(_hashCeremony);
+                    _animator.ResetTrigger(_hashIsFireHit);
+                    _animator.SetInteger(_hashFireHitCount, _fireHitCount);
                     _summonReady = false;
                     ShowDialog(text, true);
                     return;
@@ -356,15 +361,23 @@ public class PartyBossPattern : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 소환 도중 불화살 맞을때 관련 함수
+    /// </summary>
     public void HitFireDuringSummon()
     {
         _isFireHit = true;
         _fireHitCount++;
-        if (_fireHitCount == _stopSummonCount)
-            SummonStart(0);
-
         _animator.SetInteger(_hashFireHitCount, _fireHitCount);
         _animator.SetTrigger(_hashIsFireHit);
+
+        if (_fireHitCount == _stopSummonCount)
+        {
+            _fireHitCount = 0;
+            _isFireHit = false;
+            _stopLettering = true;
+            SummonStart(0);
+        }
     }
 
     #endregion 미니 보스 소환하기
