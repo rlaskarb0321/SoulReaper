@@ -78,8 +78,8 @@ public class PartyBossPattern : MonoBehaviour
     private WaitForSeconds _ws;
     private bool _summonReady; // 보스가 미니 보스 소환 준비 중인지
     private int _summonPosIndex; // 제단으로 위치 이동용 인덱스
-    private bool _isFireHit;
-    private int _fireHitCount;
+    private bool _isFireHit; // 불 맞았는지
+    private int _fireHitCount; // 불 맞은 횟수
     
     // 이 곳에 phase 여부를 달아놓아도 될듯, 페이즈에 따라 스킬을 강화또는 약화 하기 위해
 
@@ -337,7 +337,7 @@ public class PartyBossPattern : MonoBehaviour
             }
         }
 
-        _monsterBase.Move(_summonCastPos[_summonPosIndex].position, _monsterBase._stat.movSpeed / (_summonPosIndex + 1));
+        _monsterBase.Move(_summonCastPos[_summonPosIndex].position, (_monsterBase._stat.movSpeed / (_summonPosIndex + 1)) + _summonPosIndex);
     }
 
     /// <summary>
