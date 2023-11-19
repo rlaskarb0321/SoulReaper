@@ -1032,8 +1032,8 @@ MonoBehaviour:
     _eSkillCondition: 1
     _eSkillUpgrade: 0
     _priority: 0
-    _coolTime: 0
-    _currCoolTime: 0
+    _coolTime: 200
+    _currCoolTime: 200
   - _canUse: 0
     _id: 1_Drop Kick
     _eSkillCondition: 4
@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dialogFile: {fileID: 4900000, guid: f5973addd8f0a9345a1f87d04e33507d, type: 3}
   _floatPos: {fileID: 3384986916066240778}
-  _floatTime: 4
+  _floatTime: 3
   _stoneHit:
   - {fileID: 0}
   _blinkOffset: 2.8
@@ -1122,6 +1122,14 @@ MonoBehaviour:
   _jumpHeight: 8
   _summonCastPos:
   - {fileID: 0}
+  _summoningEffect: {fileID: 0}
+  _letteringSpeed: 0.6
+  _isSummonStart: 0
+  _fireHitReaction:
+  - " \uCEE5! "
+  - " \uD06C\uD5C9! "
+  - " \uC6B1! "
+  _stopSummonCount: 2
 --- !u!1 &4080401250968833244
 GameObject:
   m_ObjectHideFlags: 0

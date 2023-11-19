@@ -101,7 +101,7 @@ public class MonsterBase_1 : MonoBehaviour
     /// 몬스터의 currHp 를 amount 만큼 깎음
     /// </summary>
     /// <param name="amount">hp를 깎을 양</param>
-    public virtual void DecreaseHP(float amount)
+    public virtual void DecreaseHP(float amount, ArrowState state = ArrowState.Normal)
     {
         if (_currHp <= 0.0f)
             return;

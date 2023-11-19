@@ -21,6 +21,7 @@ public class PartyMonster : MonsterBase_1
 
     // Field
     private PartyMonsterCombat _monsterCombat;
+    private PartyBossPattern _pattern;
     private bool _needAiming;
 
     protected override void Awake()
@@ -29,6 +30,7 @@ public class PartyMonster : MonsterBase_1
 
         _meshRenderes = GetComponentsInChildren<SkinnedMeshRenderer>();
         _monsterCombat = GetComponent<PartyMonsterCombat>();
+        _pattern = GetComponent<PartyBossPattern>();
     }
 
     public override IEnumerator OnHitEvent()
@@ -47,9 +49,16 @@ public class PartyMonster : MonsterBase_1
             _meshRenderes[i].material = newMats[i];
     }
 
-    public override void DecreaseHP(float amount)
+    public override void DecreaseHP(float amount, ArrowState state = ArrowState.Normal)
     {
         base.DecreaseHP(amount);
+        if (_pattern._isSummonStart)
+        {
+            if (state == ArrowState.Fire)
+            {
+                _pattern.HitFireDuringSummon();
+            }
+        }
         ChangePhase();
     }
 

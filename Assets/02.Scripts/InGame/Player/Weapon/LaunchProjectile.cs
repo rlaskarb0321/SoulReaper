@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-// 추후에 enemyprojectile과 관련해서 object pool을 적용하자
+public enum ArrowState { Normal, Fire, }
 
 public class LaunchProjectile : MonoBehaviour
 {
-    public enum ArrowState { Normal, Fire, }
     public ArrowState _arrowState;
     public GameObject _explodeEffect;
     public GameObject _fireEffect;
@@ -36,7 +34,7 @@ public class LaunchProjectile : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             MonsterBase_1 monster = other.GetComponent<MonsterBase_1>();
-            monster.DecreaseHP(_dmg);
+            monster.DecreaseHP(_dmg, _arrowState);
         }
 
         Boom();

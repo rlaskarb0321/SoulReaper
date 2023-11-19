@@ -74,7 +74,7 @@ public class BossGate : MonoBehaviour, IInteractable
         }
 
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
-        UIScene._instance.FloatGameObjectUI(UIScene._instance._interactUI, value, pos, _interactName);
+        UIScene._instance.FloatTextUI(UIScene._instance._interactUI, value, pos, _interactName);
     }
 
     private void OnTriggerStay(Collider other)

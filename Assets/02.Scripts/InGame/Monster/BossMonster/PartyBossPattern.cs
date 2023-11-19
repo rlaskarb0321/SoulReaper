@@ -1,3 +1,4 @@
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,8 +55,31 @@ public class PartyBossPattern : MonoBehaviour
     [Tooltip("미니 보스 소환 의식을 하는 위치 = 제단")]
     private Transform[] _summonCastPos;
 
-    private bool _isMiniBossSummon; // 보스가 미니 보스 소환중인지
+    [SerializeField]
+    [Tooltip("소환하기 전 이펙트")]
+    private GameObject _summoningEffect;
+
+    [SerializeField]
+    [Tooltip("소환 캐스팅 중일 때 레터링 스피드")]
+    private float _letteringSpeed;
+
+    [HideInInspector]
+    [Tooltip("소환을 시작했는지")]
+    public bool _isSummonStart;
+
+    [SerializeField]
+    [Tooltip("소환중 불 맞았을때 리액션 대사")]
+    public string[] _fireHitReaction;
+
+    [SerializeField]
+    [Tooltip("소환 도중 불화살로 끊기 가능한 횟수")]
+    private int _stopSummonCount;
+
+    private WaitForSeconds _ws;
+    private bool _summonReady; // 보스가 미니 보스 소환 준비 중인지
     private int _summonPosIndex; // 제단으로 위치 이동용 인덱스
+    private bool _isFireHit;
+    private int _fireHitCount;
     
     // 이 곳에 phase 여부를 달아놓아도 될듯, 페이즈에 따라 스킬을 강화또는 약화 하기 위해
 
@@ -87,6 +111,8 @@ public class PartyBossPattern : MonoBehaviour
     private readonly int _hashPush = Animator.StringToHash("Push Trigger");
     private readonly int _hashDropKick = Animator.StringToHash("Drop Kick Trigger");
     private readonly int _hashCeremony = Animator.StringToHash("Ceremony Trigger");
+    private readonly int _hashFireHitCount = Animator.StringToHash("FireHitCount");
+    private readonly int _hashIsFireHit = Animator.StringToHash("isFireHit");
 
     private void Awake()
     {
@@ -95,7 +121,8 @@ public class PartyBossPattern : MonoBehaviour
         _bossDialog = new BossDialog();
         _rbody = GetComponent<Rigidbody>();
         _target = _monsterBase._target;
-        _dialogData = _bossDialog.DialogParsing(_dialogFile); // 테스트 해봐야 함
+        _dialogData = _bossDialog.DialogParsing(_dialogFile);
+        _ws = new WaitForSeconds(_letteringSpeed);
     }
 
     private void Update()
@@ -108,11 +135,6 @@ public class PartyBossPattern : MonoBehaviour
 
         // 말풍선 띄우고 유지시키기
         MaintainDialog();
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ShowDialog(eDialogSituation.Take_a_Breath, true);
-        }
     }
 
     #region Anim 여러개에 공통적으로 쓰이는 메서드
@@ -161,16 +183,13 @@ public class PartyBossPattern : MonoBehaviour
     /// <summary>
     /// 말을 하게하는 메서드
     /// </summary>
-    private void ShowDialog(eDialogSituation situation, bool turnOn)
+    private void ShowDialog(string text, bool turnOn)
     {
-        int randomText = Random.Range(0, _dialogData[(int)situation]._dialogs.Count);
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatPos.position);
 
         _isTalking = turnOn;
         _currFloatTime = _floatTime;
-        _text = _dialogData[(int)situation]._dialogs[randomText];
-
-        UIScene._instance.FloatGameObjectUI(UIScene._instance._dialogBallon, turnOn, pos, _text);
+        UIScene._instance.FloatTextUI(UIScene._instance._dialogBallon, turnOn, pos, text);
     }
 
     /// <summary>
@@ -184,13 +203,53 @@ public class PartyBossPattern : MonoBehaviour
         {
             _currFloatTime = _floatTime;
             _isTalking = false;
-            UIScene._instance.FloatGameObjectUI(UIScene._instance._dialogBallon, false, Vector3.zero, _text);
+            UIScene._instance.FloatTextUI(UIScene._instance._dialogBallon, false, Vector3.zero, "");
             return;
         }
 
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatPos.position);
-        UIScene._instance.FloatGameObjectUI(UIScene._instance._dialogBallon, true, pos, _text);
+        UIScene._instance.FloatTextUI(UIScene._instance._dialogBallon, true, pos, "");
         _currFloatTime -= Time.deltaTime;
+    }
+
+    /// <summary>
+    /// 한글자씩 대화문을 띄워줌
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    private IEnumerator LetteringDialog(string text)
+    {
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+
+        ShowDialog("", false);
+        while (index < text.Length)
+        {
+            if (!_isTalking)
+                break;
+
+            // 도중에 불에 맞으면
+            if (_isFireHit)
+            {
+                int randomValue = Random.Range(0, _fireHitReaction.Length);
+                string reaction = _fireHitReaction[randomValue];
+
+                _isFireHit = false;
+                sb.Append(reaction);
+                ShowDialog(sb.ToString(), true);
+                index++;
+
+                continue;
+            }
+
+            sb.Append(text[index]);
+            ShowDialog(sb.ToString(), true);
+            index++;
+
+            yield return _ws;
+        }
+
+        ShowDialog("", false);
     }
 
     #endregion 3. 말풍선
@@ -233,7 +292,12 @@ public class PartyBossPattern : MonoBehaviour
 
     public void SummonMiniBoss()
     {
-        _isMiniBossSummon = true;
+        int randomValue = Random.Range(0, _dialogData[(int)eDialogSituation.SummonPlace]._dialogs.Count);
+        string text = _dialogData[(int)eDialogSituation.SummonPlace]._dialogs[randomValue];
+
+        _summonReady = true;
+        _monsterBase._nav.enabled = true;
+        ShowDialog(text, true);
     }
 
     /// <summary>
@@ -241,11 +305,11 @@ public class PartyBossPattern : MonoBehaviour
     /// </summary>
     private void GoSummonCastPos()
     {
-        if (!_isMiniBossSummon)
+        if (!_summonReady)
             return;
 
         float dist = Vector3.Distance(transform.position, _summonCastPos[_summonPosIndex].position);
-        if (dist <= _monsterBase._nav.stoppingDistance + _monsterBase._nav.baseOffset * 0.5f)
+        if (dist <= _monsterBase._nav.radius * 0.5f)
         {
             transform.position = _summonCastPos[_summonPosIndex].position;
             switch (_summonPosIndex)
@@ -254,16 +318,53 @@ public class PartyBossPattern : MonoBehaviour
                     _summonPosIndex++;
                     return;
 
+                // 소환 의식 시작
                 case 1:
-                    _monsterBase._animator.SetBool(_monsterBase._hashMove, false);
+                    int randomValue = Random.Range(0, _dialogData[(int)eDialogSituation.StartSummon]._dialogs.Count);
+                    string text = _dialogData[(int)eDialogSituation.StartSummon]._dialogs[randomValue];
 
-                    // 여기서 말풍선띄우고 사라지면 의식 시작
-                    //_animator.SetTrigger(_hashCeremony);
+                    _monsterBase._animator.SetBool(_monsterBase._hashMove, false);
+                    _monsterBase._nav.enabled = false;
+                    _animator.SetTrigger(_hashCeremony);
+                    _summonReady = false;
+                    ShowDialog(text, true);
                     return;
             }
         }
 
         _monsterBase.Move(_summonCastPos[_summonPosIndex].position, _monsterBase._stat.movSpeed / (_summonPosIndex + 1));
+    }
+
+    /// <summary>
+    /// 의식 시작 애니메이션의 마지막 프레임에 달아놓는 animation event
+    /// </summary>
+    public void SummonStart(int value)
+    {
+        bool isContinue = value == 1 ? true : false;
+        _isSummonStart = isContinue;
+        _summoningEffect.SetActive(isContinue);
+
+        if (isContinue)
+        {
+            StartCoroutine(LetteringDialog(_dialogData[(int)eDialogSituation.Summoning]._dialogs[0]));
+        }
+        else
+        {
+            _currFloatTime = _floatTime;
+            _isTalking = false;
+            UIScene._instance.FloatTextUI(UIScene._instance._dialogBallon, false, Vector3.zero, "");
+        }
+    }
+
+    public void HitFireDuringSummon()
+    {
+        _isFireHit = true;
+        _fireHitCount++;
+        if (_fireHitCount == _stopSummonCount)
+            SummonStart(0);
+
+        _animator.SetInteger(_hashFireHitCount, _fireHitCount);
+        _animator.SetTrigger(_hashIsFireHit);
     }
 
     #endregion 미니 보스 소환하기

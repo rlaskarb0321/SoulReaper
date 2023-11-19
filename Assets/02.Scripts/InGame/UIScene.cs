@@ -193,7 +193,7 @@ public class UIScene : MonoBehaviour
         return "";
     }
 
-    public void FloatGameObjectUI(RectTransform target, bool turnOn, Vector3 pos, string text)
+    public void FloatTextUI(RectTransform target, bool turnOn, Vector3 pos, string text)
     {
         if (!turnOn)
         {
@@ -207,7 +207,7 @@ public class UIScene : MonoBehaviour
             _uiTag = target.tag;
         }
 
-        if (!_context.text.Equals(text))
+        if (!_context.text.Equals(text) && !text.Equals(""))
         {
             _context.text = text;
             return;

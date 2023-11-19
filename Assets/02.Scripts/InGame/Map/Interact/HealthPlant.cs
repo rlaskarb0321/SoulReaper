@@ -67,7 +67,7 @@ public class HealthPlant : MonoBehaviour, IInteractable
             value = false;
 
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
-        UIScene._instance.FloatGameObjectUI(UIScene._instance._interactUI, value, pos, _interactName);
+        UIScene._instance.FloatTextUI(UIScene._instance._interactUI, value, pos, _interactName);
     }
     #endregion Interface IInteractable Method
 
