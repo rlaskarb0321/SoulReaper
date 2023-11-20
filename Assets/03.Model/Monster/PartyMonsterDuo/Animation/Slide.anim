@@ -60739,6 +60739,20 @@ AnimationClip:
     floatParameter: 0.36
     intParameter: 30
     messageOptions: 0
+  - time: 0.53333336
+    functionName: SetAttackCollActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 4
+    messageOptions: 0
+  - time: 1.1333333
+    functionName: SetAttackCollActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 4
+    messageOptions: 0
   - time: 2
     functionName: ExitAttackState
     data: 

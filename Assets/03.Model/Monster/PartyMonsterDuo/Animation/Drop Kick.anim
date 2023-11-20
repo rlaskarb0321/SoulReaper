@@ -53654,12 +53654,33 @@ AnimationClip:
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
-  - time: 0.26666668
+  - time: 0.3
+    functionName: AddRush
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0.12
+    intParameter: 32
+    messageOptions: 0
+  - time: 0.33333334
     functionName: SwitchNeedAiming
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
+    messageOptions: 0
+  - time: 0.46666667
+    functionName: SetAttackCollActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 3
+    messageOptions: 0
+  - time: 0.73333335
+    functionName: SetAttackCollActive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 3
     messageOptions: 0
   - time: 1.1
     functionName: ExitAttackState

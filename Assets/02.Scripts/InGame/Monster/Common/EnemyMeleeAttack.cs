@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class EnemyMeleeAttack : MonoBehaviour
 {
-    float _damage;
+    private float _damage;
 
     void Start()
     {
         _damage = GetComponentInParent<MonsterBase_1>()._stat.damage;
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {

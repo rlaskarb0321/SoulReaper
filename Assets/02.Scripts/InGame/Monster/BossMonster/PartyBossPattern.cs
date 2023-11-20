@@ -13,15 +13,22 @@ public class PartyBossPattern : MonoBehaviour
     private TextAsset _dialogFile;
 
     [SerializeField]
+    [Tooltip("말풍선 띄울 위치")]
     private Transform _floatPos;
 
     [SerializeField]
-    [Tooltip("=== 말풍선 띄울 지속시간 ===")]
+    [Tooltip("말풍선 띄울 지속시간")]
     private float _floatTime;
 
     private float _currFloatTime;
     private bool _isTalking;
     private bool _stopLettering;
+
+    [Header("=== Attack Coll Arr ===")]
+    [SerializeField]
+    private GameObject[] _attackColls;
+
+    private enum eAttackColl { Left, Right, Left_Right, Foot, Head, Drop_Kick, }
 
     [Header("=== Blink Particle ===")]
     [SerializeField]
@@ -181,7 +188,7 @@ public class PartyBossPattern : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             float force = -(y0 / count) * i + y0;
-            _rbody.AddForce(force * transform.forward, ForceMode.Impulse);
+            _rbody.AddForce(force * transform.forward, ForceMode.VelocityChange);
             yield return new WaitForFixedUpdate();
         }
     }
@@ -190,12 +197,22 @@ public class PartyBossPattern : MonoBehaviour
 
     #region 2. 공격할 때 콜리더를 키고 끄는 메서드
 
-    public void SetAttackCollActive(AnimationEvent myEvent)
+    // index 번째의 게임오브젝트가 꺼져있으면 켜주고, 켜져있으면 꺼주기
+    public void SetAttackCollActive(int collIndex)
     {
-        GameObject coll = myEvent.objectReferenceParameter as GameObject;
-        bool activeValue = myEvent.intParameter == 1 ? true : false;
+        switch ((eAttackColl)collIndex)
+        {
+            case eAttackColl.Left_Right:
+                bool leftEnable = _attackColls[(int)eAttackColl.Left].activeSelf;
+                bool rightEnable = _attackColls[(int)eAttackColl.Right].activeSelf;
 
-        coll.gameObject.SetActive(activeValue);
+                _attackColls[(int)eAttackColl.Left].SetActive(!leftEnable);
+                _attackColls[(int)eAttackColl.Right].SetActive(!rightEnable);
+                return;
+        }
+
+        bool activeSelf = _attackColls[collIndex].activeSelf;
+        _attackColls[collIndex].SetActive(!activeSelf);
     }
 
     #endregion 2. 공격할 때 콜리더를 키고 끄는 메서드
