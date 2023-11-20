@@ -53,8 +53,16 @@ public class UIScene : MonoBehaviour
     [Header("=== Float UI ===")]
     public RectTransform _interactUI; // 인게임에서 상호작용 가능한 물체 가까이 갔을 때 뜨게 할 텍스트 UI
     public RectTransform _dialogBallon; // 보스가 띄울 말풍선 UI
+
+    [SerializeField]
+    private GameObject _gaugeObj;
+
+    [SerializeField]
+    private Image _gaugeFill;
+
     private string _uiTag; // 최근에 띄운 UI의 태그를 저장, 만일 저장한 값과 새로 들어온 UI의 태그가 다르다면 _context 를 새로 getcomponent 
     private TMP_Text _context;
+    private Vector3 _originGaugePos;
 
     [Header("=== Buff ===")]
     public BuffDataPackage _buffMgr;
@@ -72,6 +80,11 @@ public class UIScene : MonoBehaviour
 
         _currOpenPanel = new List<GameObject>();
         _mapName.text = EditMapName();
+    }
+
+    private void Start()
+    {
+        _originGaugePos = _gaugeObj.transform.position;
     }
 
     private void Update()
@@ -216,6 +229,37 @@ public class UIScene : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(target);
         target.transform.position = pos;
         target.gameObject.SetActive(true);
+    }
+
+    public void SetGaugeUI(bool activeValue) => _gaugeObj.SetActive(activeValue);
+
+    public void SetGaugeFill(float curr, float total) => _gaugeFill.fillAmount = curr / total;
+
+    public IEnumerator ChangeGaugeColor(string htmlString)
+    {
+        Color originColor = _gaugeFill.color;
+        Color changeColor;
+        ColorUtility.TryParseHtmlString(htmlString, out changeColor);
+        _gaugeFill.color = changeColor;
+
+        yield return new WaitForSeconds(Time.deltaTime * 10.0f);
+
+        _gaugeFill.color = originColor;
+    }
+
+    public IEnumerator ShakeGaugeUI(float amount, float dur)
+    {
+        Vector3 originPos = _originGaugePos;
+        while (dur > 0.0f)
+        {
+            Vector3 shakePos = Random.insideUnitCircle * amount;
+
+            _gaugeObj.transform.position += shakePos;
+            dur -= Time.deltaTime;
+            yield return null;
+        }
+
+        _gaugeObj.transform.position = originPos;
     }
 
     public void DeadPlayer()

@@ -78,9 +78,9 @@ public class PartyBossPattern : MonoBehaviour
     [Tooltip("소환 하기위해 필요한 시간 = (주문의 글자 수 x 레터링 스피드 값)")]
     private float _castingTime;
 
-    [SerializeField]
+    [HideInInspector]
     [Tooltip("현재 캐스팅 된 시간값")]
-    private float _currCastingTime;
+    public float _currCastingTime;
 
     [HideInInspector]
     [Tooltip("소환을 시작했는지")]
@@ -88,7 +88,13 @@ public class PartyBossPattern : MonoBehaviour
 
     [SerializeField]
     [Tooltip("소환중 불 맞았을때 리액션 대사")]
-    public string[] _fireHitReaction;
+    private string[] _fireHitReaction;
+
+    [SerializeField]
+    private float[] _gaugeShakeAmount;
+
+    [SerializeField]
+    private float[] _gaugeShakeDur;
 
     [SerializeField]
     [Tooltip("소환 도중 불화살로 끊기 가능한 횟수")]
@@ -262,12 +268,19 @@ public class PartyBossPattern : MonoBehaviour
         int index = 0;
 
         ShowDialog("", false);
-        while (index < text.Length)
+        while (true)
         {
             if (_stopLettering)
             {
                 _stopLettering = false;
                 break;
+            }
+
+            if (index >= text.Length)
+            {
+                ShowDialog("", false);
+                index = 0;
+                sb.Clear();
             }
 
             // 도중에 불에 맞으면
@@ -386,6 +399,7 @@ public class PartyBossPattern : MonoBehaviour
         _isSummonStart = isContinue;
         _summoningEffect.SetActive(isContinue);
 
+        UIScene._instance.SetGaugeUI(isContinue);
         if (value != 1 && value != 0)
             return;
 
@@ -401,6 +415,9 @@ public class PartyBossPattern : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 소환 진행중일때 호출하는 메서드
+    /// </summary>
     private void Summon()
     {
         if (!_isSummonStart)
@@ -416,6 +433,7 @@ public class PartyBossPattern : MonoBehaviour
         }
 
         _currCastingTime += Time.deltaTime;
+        UIScene._instance.SetGaugeFill(_currCastingTime, _castingTime);
     }
 
     /// <summary>
@@ -440,14 +458,44 @@ public class PartyBossPattern : MonoBehaviour
         }
     }
 
+    public void HitDuringSummon(ArrowState attackType)
+    {
+        float decreaseCasting = 0.0f;
+        float shakeAmount = _gaugeShakeAmount[(int)attackType];
+        float shakeDur = _gaugeShakeDur[(int)attackType];
+
+        switch (attackType)
+        {
+            case ArrowState.Normal:
+                decreaseCasting = Time.deltaTime * 50.0f;
+                break;
+
+            case ArrowState.Fire:
+                decreaseCasting = Time.deltaTime * 100.0f;
+                break;
+        }
+
+        _currCastingTime -= decreaseCasting;
+        StartCoroutine(UIScene._instance.ChangeGaugeColor("FFFFFF"));
+        StartCoroutine(UIScene._instance.ShakeGaugeUI(shakeAmount, shakeDur));
+    }
+
+    /// <summary>
+    /// 소환 완료시 호출하는 메서드
+    /// </summary>
     private void CompleteSummonMiniBoss()
     {
+        int randomValue = Random.Range(0, _dialogData[(int)eDialogSituation.Complete_Summon]._dialogs.Count);
+        string text = _dialogData[(int)eDialogSituation.Complete_Summon]._dialogs[randomValue];
+
         _animator.SetTrigger(_hashCompleteSummon);
         _currCastingTime = 0.0f;
         _fireHitCount = 0;
+        _stopLettering = true;
         _isFireHit = false;
         _summonObj.SetActive(true);
 
+        ShowDialog(text, true);
         SummonStart(-1);
     }
 

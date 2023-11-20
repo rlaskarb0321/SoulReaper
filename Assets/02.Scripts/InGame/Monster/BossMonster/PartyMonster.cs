@@ -51,14 +51,10 @@ public class PartyMonster : MonsterBase_1
 
     public override void DecreaseHP(float amount, ArrowState state = ArrowState.Normal)
     {
-        base.DecreaseHP(amount);
         if (_pattern._isSummonStart)
-        {
-            if (state == ArrowState.Fire)
-            {
-                _pattern.HitFireDuringSummon();
-            }
-        }
+            _pattern.HitDuringSummon(state);
+            
+        base.DecreaseHP(amount);
         ChangePhase();
     }
 
