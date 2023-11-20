@@ -161,16 +161,11 @@ public class PartyMonsterCombat : MonoBehaviour
             {
                 case MonsterBase_1.eMonsterState.Idle:
                     string skillID = SelectSkill(_tiredStateSkills);
-                    print(skillID);
-                    break;
-
-                case MonsterBase_1.eMonsterState.Trace:
-                    break;
-
-                case MonsterBase_1.eMonsterState.Attack:
+                    DoSkill(skillID);
                     break;
 
                 case MonsterBase_1.eMonsterState.Delay:
+                    _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
                     break;
             }
         }
@@ -223,7 +218,7 @@ public class PartyMonsterCombat : MonoBehaviour
         _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
         switch (bossSkill)
         {
-            #region 일반적인 상태일 때
+            #region 보스가 지치지 않은 상태일 때 사용가능한 스킬들
 
             case ePartyBossSkill.Summon_Mini_Boss:
                 _pattern.SummonMiniBoss();
@@ -257,9 +252,10 @@ public class PartyMonsterCombat : MonoBehaviour
                 _pattern.Push();
                 break;
 
-            #endregion 일반적인 상태일 때
+            #endregion 보스가 지치지 않은 상태일 때 사용가능한 스킬들
 
-            #region 지친 상태일 때
+            #region 보스가 지친 상태일 때 사용가능한 스킬들
+
             case ePartyBossSkill.Rest:
                 _pattern.Rest();
                 break;
@@ -267,7 +263,8 @@ public class PartyMonsterCombat : MonoBehaviour
             case ePartyBossSkill.Run:
                 _pattern.Run();
                 break;
-            #endregion 지친 상태일 때
+
+            #endregion 보스가 지친 상태일 때 사용가능한 스킬들
         }
     }
 
@@ -334,6 +331,11 @@ public class PartyMonsterCombat : MonoBehaviour
         }
 
     }
+
+    /// <summary>
+    /// 미니 보스 소환완료 후 지치게 만들기
+    /// </summary>
+    public void Tired() => _isBossTired = true;
 
     #region 스킬의 CanUSe 를 조작하기 위해 스킬의 Delegate 에 달아놓는 메서드들
 

@@ -138,6 +138,8 @@ public class Bull_1 : MeleeRange
         _nav.enabled = false;
         _currHp = 0.0f;
         _animator.SetTrigger(_hashDead);
+        _animator.SetInteger(_hashAtkCombo, 0);
+        _animator.SetBool(_hashAttack, false);
         _state = eMonsterState.Dead;
 
         StartCoroutine(OnMonsterDead());

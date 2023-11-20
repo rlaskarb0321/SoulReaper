@@ -60,10 +60,16 @@ public class WaveMonster : MonsterType
         _monsterBase.Move(_monsterBase._target.transform.position, _monsterBase._stat.movSpeed);
     }
 
-    // 해당 몬스터가 포함된 웨이브 관리하는 Obj에게 본인이 죽었음을 알림
+    // 본인이 죽었음을 알림
     public void AlertDead()
     {
         _isAlert = true;
+        if (_waveMaster == null)
+        {
+            print("wave master is null");
+            return;
+        }
+
         _waveMaster.DecreaseMonsterCount();
     }
 

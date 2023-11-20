@@ -1085,14 +1085,14 @@ MonoBehaviour:
     _currCoolTime: 4
   _tiredStateSkills:
   - _canUse: 1
-    _id: Rest
+    _id: 8_Rest
     _eSkillCondition: 0
     _eSkillUpgrade: 0
     _priority: 0
-    _coolTime: 5
-    _currCoolTime: 5
+    _coolTime: 3.5
+    _currCoolTime: 3.5
   - _canUse: 1
-    _id: Run
+    _id: 9_Run
     _eSkillCondition: 0
     _eSkillUpgrade: 0
     _priority: 1
@@ -1123,7 +1123,9 @@ MonoBehaviour:
   _summonCastPos:
   - {fileID: 0}
   _summoningEffect: {fileID: 0}
-  _letteringSpeed: 0.6
+  _letteringSpeed: 0.45
+  _castingTime: 0
+  _currCastingTime: 0
   _isSummonStart: 0
   _fireHitReaction:
   - " \uCEE5! "

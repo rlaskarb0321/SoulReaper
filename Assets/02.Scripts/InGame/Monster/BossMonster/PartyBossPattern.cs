@@ -60,8 +60,20 @@ public class PartyBossPattern : MonoBehaviour
     private GameObject _summoningEffect;
 
     [SerializeField]
+    [Tooltip("소환물")]
+    private GameObject _summonObj;
+
+    [SerializeField]
     [Tooltip("소환 캐스팅 중일 때 레터링 스피드")]
     private float _letteringSpeed;
+
+    [SerializeField]
+    [Tooltip("소환 하기위해 필요한 시간 = (주문의 글자 수 x 레터링 스피드 값)")]
+    private float _castingTime;
+
+    [SerializeField]
+    [Tooltip("현재 캐스팅 된 시간값")]
+    private float _currCastingTime;
 
     [HideInInspector]
     [Tooltip("소환을 시작했는지")]
@@ -113,6 +125,7 @@ public class PartyBossPattern : MonoBehaviour
     private readonly int _hashCeremony = Animator.StringToHash("Ceremony Trigger");
     private readonly int _hashFireHitCount = Animator.StringToHash("FireHitCount");
     private readonly int _hashIsFireHit = Animator.StringToHash("isFireHit");
+    private readonly int _hashCompleteSummon = Animator.StringToHash("Complete Summon");
 
     private void Awake()
     {
@@ -125,6 +138,12 @@ public class PartyBossPattern : MonoBehaviour
         _ws = new WaitForSeconds(_letteringSpeed);
     }
 
+    private void Start()
+    {
+        _castingTime = (_dialogData[(int)eDialogSituation.Summoning]._dialogs[0].Length * _letteringSpeed);
+        _currCastingTime = 0.0f;
+    }
+
     private void Update()
     {
         // 점프 중일 때
@@ -132,6 +151,9 @@ public class PartyBossPattern : MonoBehaviour
 
         // 미니 보스 소환할때만 실행
         GoSummonCastPos();
+
+        // 미니 보스 소환중
+        Summon();
 
         // 말풍선 띄우고 유지시키기
         MaintainDialog();
@@ -251,8 +273,6 @@ public class PartyBossPattern : MonoBehaviour
 
             yield return _ws;
         }
-
-        ShowDialog("", false);
     }
 
     #endregion 3. 말풍선
@@ -349,6 +369,9 @@ public class PartyBossPattern : MonoBehaviour
         _isSummonStart = isContinue;
         _summoningEffect.SetActive(isContinue);
 
+        if (value != 1 && value != 0)
+            return;
+
         if (isContinue)
         {
             StartCoroutine(LetteringDialog(_dialogData[(int)eDialogSituation.Summoning]._dialogs[0]));
@@ -361,11 +384,31 @@ public class PartyBossPattern : MonoBehaviour
         }
     }
 
+    private void Summon()
+    {
+        if (!_isSummonStart)
+        {
+            _currCastingTime = 0.0f;
+            return;
+        }
+
+        if (_currCastingTime >= _castingTime)
+        {
+            CompleteSummonMiniBoss();
+            return;
+        }
+
+        _currCastingTime += Time.deltaTime;
+    }
+
     /// <summary>
     /// 소환 도중 불화살 맞을때 관련 함수
     /// </summary>
     public void HitFireDuringSummon()
     {
+        if (!_isSummonStart)
+            return;
+
         _isFireHit = true;
         _fireHitCount++;
         _animator.SetInteger(_hashFireHitCount, _fireHitCount);
@@ -378,6 +421,17 @@ public class PartyBossPattern : MonoBehaviour
             _stopLettering = true;
             SummonStart(0);
         }
+    }
+
+    private void CompleteSummonMiniBoss()
+    {
+        _animator.SetTrigger(_hashCompleteSummon);
+        _currCastingTime = 0.0f;
+        _fireHitCount = 0;
+        _isFireHit = false;
+        _summonObj.SetActive(true);
+
+        SummonStart(-1);
     }
 
     #endregion 미니 보스 소환하기
@@ -500,7 +554,7 @@ public class PartyBossPattern : MonoBehaviour
         print("도망쳐~");
     }
 
-    #endregion 휴식 하기
+    #endregion 도망 치기
 
     #endregion 지친 상태일 때 보스의 스킬들
 }
