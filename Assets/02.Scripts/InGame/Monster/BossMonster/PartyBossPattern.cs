@@ -78,7 +78,6 @@ public class PartyBossPattern : MonoBehaviour
     [Tooltip("소환 하기위해 필요한 시간 = (주문의 글자 수 x 레터링 스피드 값)")]
     private float _castingTime;
 
-    [HideInInspector]
     [Tooltip("현재 캐스팅 된 시간값")]
     public float _currCastingTime;
 
@@ -91,9 +90,15 @@ public class PartyBossPattern : MonoBehaviour
     private string[] _fireHitReaction;
 
     [SerializeField]
+    [Tooltip("소환중 맞았을 때 깎을 게이지 량")]
+    private float[] _gaugeDecreaseAmount;
+
+    [SerializeField]
+    [Tooltip("소환중 맞았을 때 게이지를 흔들 세기")]
     private float[] _gaugeShakeAmount;
 
     [SerializeField]
+    [Tooltip("소환중 맞았을 때 게이지 흔드는 지속 시간")]
     private float[] _gaugeShakeDur;
 
     [SerializeField]
@@ -136,9 +141,9 @@ public class PartyBossPattern : MonoBehaviour
     private readonly int _hashPush = Animator.StringToHash("Push Trigger");
     private readonly int _hashDropKick = Animator.StringToHash("Drop Kick Trigger");
     private readonly int _hashCeremony = Animator.StringToHash("Ceremony Trigger");
-    private readonly int _hashFireHitCount = Animator.StringToHash("FireHitCount");
     private readonly int _hashIsFireHit = Animator.StringToHash("isFireHit");
     private readonly int _hashCompleteSummon = Animator.StringToHash("Complete Summon");
+    private readonly int _hashFailSummon = Animator.StringToHash("Failed Summon");
 
     private void Awake()
     {
@@ -149,12 +154,6 @@ public class PartyBossPattern : MonoBehaviour
         _target = _monsterBase._target;
         _dialogData = _bossDialog.DialogParsing(_dialogFile);
         _ws = new WaitForSeconds(_letteringSpeed);
-    }
-
-    private void Start()
-    {
-        _castingTime = (_dialogData[(int)eDialogSituation.Summoning]._dialogs[0].Length * _letteringSpeed);
-        _currCastingTime = 0.0f;
     }
 
     private void Update()
@@ -350,6 +349,7 @@ public class PartyBossPattern : MonoBehaviour
 
         _summonReady = true;
         _monsterBase._nav.enabled = true;
+        _animator.SetBool(_hashFailSummon, false);
         ShowDialog(text, true);
     }
 
@@ -380,7 +380,6 @@ public class PartyBossPattern : MonoBehaviour
                     _monsterBase._nav.enabled = false;
                     _animator.SetTrigger(_hashCeremony);
                     _animator.ResetTrigger(_hashIsFireHit);
-                    _animator.SetInteger(_hashFireHitCount, _fireHitCount);
                     _summonReady = false;
                     ShowDialog(text, true);
                     return;
@@ -437,45 +436,35 @@ public class PartyBossPattern : MonoBehaviour
     }
 
     /// <summary>
-    /// 소환 도중 불화살 맞을때 관련 함수
+    /// 소환 도중 맞을때 관련 함수
     /// </summary>
-    public void HitFireDuringSummon()
-    {
-        if (!_isSummonStart)
-            return;
-
-        _isFireHit = true;
-        _fireHitCount++;
-        _animator.SetInteger(_hashFireHitCount, _fireHitCount);
-        _animator.SetTrigger(_hashIsFireHit);
-
-        if (_fireHitCount == _stopSummonCount)
-        {
-            _fireHitCount = 0;
-            _isFireHit = false;
-            _stopLettering = true;
-            SummonStart(0);
-        }
-    }
-
     public void HitDuringSummon(ArrowState attackType)
     {
-        float decreaseCasting = 0.0f;
+        float decreaseCasting = _gaugeDecreaseAmount[(int)attackType];
         float shakeAmount = _gaugeShakeAmount[(int)attackType];
         float shakeDur = _gaugeShakeDur[(int)attackType];
 
         switch (attackType)
         {
-            case ArrowState.Normal:
-                decreaseCasting = Time.deltaTime * 50.0f;
-                break;
-
             case ArrowState.Fire:
-                decreaseCasting = Time.deltaTime * 100.0f;
+                // 화상에 대한 적용이 필요
+
+                _animator.SetTrigger(_hashIsFireHit);
+                _isFireHit = true;
                 break;
         }
 
-        _currCastingTime -= decreaseCasting;
+        _currCastingTime -= decreaseCasting * Time.deltaTime;
+        if (_currCastingTime < 0.0f)
+        {
+            _animator.SetBool(_hashFailSummon, true);
+            _isFireHit = false;
+            _stopLettering = true;
+            _currCastingTime = 0.0f;
+            SummonStart(0);
+            return;
+        }
+
         StartCoroutine(UIScene._instance.ChangeGaugeColor("FFFFFF"));
         StartCoroutine(UIScene._instance.ShakeGaugeUI(shakeAmount, shakeDur));
     }

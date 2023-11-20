@@ -60,9 +60,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 6
-    m_ConditionEvent: FireHitCount
-    m_EventTreshold: 2
+  - m_ConditionMode: 1
+    m_ConditionEvent: Failed Summon
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1080230432564456596}
   m_Solo: 0
@@ -839,12 +839,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: FireHitCount
-    m_Type: 3
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   - m_Name: isFireHit
     m_Type: 9
     m_DefaultFloat: 0
@@ -852,6 +846,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: Complete Summon
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: Failed Summon
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1129,12 +1129,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: isFireHit
     m_EventTreshold: 0
-  - m_ConditionMode: 3
-    m_ConditionEvent: FireHitCount
-    m_EventTreshold: 0
-  - m_ConditionMode: 4
-    m_ConditionEvent: FireHitCount
-    m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4787238542659948207}
   m_Solo: 0

@@ -1032,8 +1032,8 @@ MonoBehaviour:
     _eSkillCondition: 1
     _eSkillUpgrade: 0
     _priority: 0
-    _coolTime: 200
-    _currCoolTime: 200
+    _coolTime: 0
+    _currCoolTime: 0
   - _canUse: 0
     _id: 1_Drop Kick
     _eSkillCondition: 4
@@ -1132,13 +1132,16 @@ MonoBehaviour:
   _summoningEffect: {fileID: 0}
   _summonObj: {fileID: 0}
   _letteringSpeed: 0.45
-  _castingTime: 0
+  _castingTime: 9
   _currCastingTime: 0
   _isSummonStart: 0
   _fireHitReaction:
   - " \uCEE5! "
   - " \uD06C\uD5C9! "
   - " \uC6B1! "
+  _gaugeDecreaseAmount:
+  - 15
+  - 25
   _gaugeShakeAmount:
   - 1
   - 2.5
@@ -2932,7 +2935,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e6c4e27510e2d164d86c33ef2069b47a, type: 2}
+  - {fileID: 2100000, guid: 77f9d05530537b84a9eea7bce9222167, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
