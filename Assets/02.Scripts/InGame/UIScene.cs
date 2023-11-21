@@ -60,6 +60,7 @@ public class UIScene : MonoBehaviour
     [SerializeField]
     private Image _gaugeFill;
 
+    private Color _originColor;
     private string _uiTag; // 최근에 띄운 UI의 태그를 저장, 만일 저장한 값과 새로 들어온 UI의 태그가 다르다면 _context 를 새로 getcomponent 
     private TMP_Text _context;
     private Vector3 _originGaugePos;
@@ -85,6 +86,7 @@ public class UIScene : MonoBehaviour
     private void Start()
     {
         _originGaugePos = _gaugeObj.transform.position;
+        _originColor = _gaugeFill.color;
     }
 
     private void Update()
@@ -237,14 +239,13 @@ public class UIScene : MonoBehaviour
 
     public IEnumerator ChangeGaugeColor(string htmlString)
     {
-        Color originColor = _gaugeFill.color;
         Color changeColor;
         ColorUtility.TryParseHtmlString(htmlString, out changeColor);
         _gaugeFill.color = changeColor;
 
-        yield return new WaitForSeconds(Time.deltaTime * 10.0f);
+        yield return new WaitForSeconds(Time.deltaTime * 4.0f);
 
-        _gaugeFill.color = originColor;
+        _gaugeFill.color = _originColor;
     }
 
     public IEnumerator ShakeGaugeUI(float amount, float dur)

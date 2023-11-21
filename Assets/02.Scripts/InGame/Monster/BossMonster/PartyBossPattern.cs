@@ -437,29 +437,26 @@ public class PartyBossPattern : MonoBehaviour
     /// <summary>
     /// 소환 도중 맞을때 관련 함수
     /// </summary>
-    public void HitDuringSummon(BurnDotDamage burn)
+    public void HitDuringSummon(bool isFire, float decreaseCasting)
     {
-        float decreseCasting;
         float shakeAmount;
         float shakeDur;
 
-        if (burn == null)
+        if (isFire)
         {
-            decreseCasting = _gaugeDecreaseAmount[(int)eArrowState.Normal];
-            shakeAmount = _gaugeShakeAmount[(int)eArrowState.Normal];
-            shakeDur = _gaugeShakeDur[(int)eArrowState.Normal];
-        }
-        else
-        {
-            decreseCasting = _gaugeDecreaseAmount[(int)eArrowState.Fire];
             shakeAmount = _gaugeShakeAmount[(int)eArrowState.Fire];
             shakeDur = _gaugeShakeDur[(int)eArrowState.Fire];
 
             _animator.SetTrigger(_hashIsFireHit);
             _isFireHit = true;
         }
+        else
+        {
+            shakeAmount = _gaugeShakeAmount[(int)eArrowState.Normal];
+            shakeDur = _gaugeShakeDur[(int)eArrowState.Normal];
+        }
 
-        _currCastingTime -= decreseCasting * Time.deltaTime;
+        _currCastingTime -= decreaseCasting * Time.deltaTime;
         if (_currCastingTime < 0.0f)
         {
             _animator.SetBool(_hashFailSummon, true);

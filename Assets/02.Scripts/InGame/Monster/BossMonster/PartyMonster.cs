@@ -41,19 +41,6 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
 
     public override IEnumerator OnHitEvent()
     {
-        //Material[] originMats = new Material[_meshRenderes.Length];
-        //for (int i = 0; i < _meshRenderes.Length; i++)
-        //{
-        //    originMats[i] = _meshRenderes[i].material;
-        //    _meshRenderes[i].material = _hitMats[1];
-        //}
-
-        //yield return new WaitForSeconds(Time.deltaTime * 5.0f);
-        //for (int i = 0; i < _meshRenderes.Length; i++)
-        //{
-        //    _meshRenderes[i].material = originMats[i];
-        //}
-
         Material[] originMats = new Material[_meshRenderes.Length];
         for (int i = 0; i < _meshRenderes.Length; i++)
         {
@@ -77,10 +64,15 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
 
     public override void DecreaseHP(float amount, BurnDotDamage burn = null)
     {
+        print(amount);
+
         if (_pattern._isSummonStart)
-            _pattern.HitDuringSummon(burn);
+            _pattern.HitDuringSummon(_burnStack > 0, amount + (20.0f * _burnStack));
         if (burn != null)
+        {
             StartCoroutine(DotDamaged(burn));
+            ControlDebuffStack(1);
+        }
         if (_currHp <= 0.0f)
             return;
 
@@ -156,13 +148,14 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
         {
             yield return ws;
 
-            DecreaseHP(dotDamage._dotDamamge, null);
+            DecreaseHP(dotDamage._dotDamamge + (0.5f * _burnStack));
             duration -= dotDamage._dotInterval;
         }
+        ControlDebuffStack(-1);
     }
 
     public void ControlDebuffStack(int count)
     {
-
+        _burnStack += count;
     }
 }

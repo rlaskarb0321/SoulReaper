@@ -1135,7 +1135,7 @@ MonoBehaviour:
   _summoningEffect: {fileID: 0}
   _summonObj: {fileID: 0}
   _letteringSpeed: 0.45
-  _castingTime: 9
+  _castingTime: 12
   _currCastingTime: 0
   _isSummonStart: 0
   _fireHitReaction:
