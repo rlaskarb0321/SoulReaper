@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Burn
   m_EditorClassIdentifier: 
   _debuffDur: 5
-  _dotDamamge: 5
+  _dotDamamge: 1
   _dotInterval: 1
   _maxStackCount: 3

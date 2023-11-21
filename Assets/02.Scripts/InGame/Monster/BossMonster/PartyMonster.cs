@@ -64,8 +64,6 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
 
     public override void DecreaseHP(float amount, BurnDotDamage burn = null)
     {
-        print(amount);
-
         if (_pattern._isSummonStart)
             _pattern.HitDuringSummon(_burnStack > 0, amount + (20.0f * _burnStack));
         if (burn != null)

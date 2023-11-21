@@ -61,7 +61,7 @@ public class WaveMonster : MonsterType
     }
 
     // 본인이 죽었음을 알림
-    public void AlertDead()
+    public virtual void AlertDead()
     {
         _isAlert = true;
         if (_waveMaster == null)

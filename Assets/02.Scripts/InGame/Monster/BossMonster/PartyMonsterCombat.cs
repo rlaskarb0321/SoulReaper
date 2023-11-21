@@ -37,11 +37,11 @@ public class BossMonsterSkill
     /// </summary>
     public enum eSkillUseCondition 
     { 
-        None,       // 해당 스킬은 사용 가능에 조건이 없음
-        Phase2,     // 해당 스킬은 phase2 때 부터 사용 가능
-        Phase3,     // 해당 스킬은 phase3 때 부터 사용 가능
-        Long,       // 해당 스킬은 플레이어가 매우 멀리 있을 때 사용 가능해짐
-        Behind,     // 해당 스킬은 플레이어가 자신의 뒤에 있을 때 사용 가능해짐
+        None,           // 해당 스킬은 사용 가능에 조건이 없음
+        Phase2,         // 해당 스킬은 phase2 때 부터 사용 가능
+        Phase3,         // 해당 스킬은 phase3 때 부터 사용 가능
+        Long,           // 해당 스킬은 플레이어가 매우 멀리 있을 때 사용 가능해짐
+        Behind,         // 해당 스킬은 플레이어가 자신의 뒤에 있을 때 사용 가능해짐
     }
 
     /// <summary>
@@ -77,6 +77,7 @@ public class PartyMonsterCombat : MonoBehaviour
     public BossMonsterSkill[] _normalStateSkills;
     public BossMonsterSkill[] _tiredStateSkills;
     public bool _isBossTired;
+    public GameObject _bull;
 
     // Field
     private PartyMonster _monsterBase;
@@ -221,6 +222,14 @@ public class PartyMonsterCombat : MonoBehaviour
             #region 보스가 지치지 않은 상태일 때 사용가능한 스킬들
 
             case ePartyBossSkill.Summon_Mini_Boss:
+                if (_bull.activeSelf)
+                {
+                    print("이미 소환되어있어서 안됨");
+                    _monsterBase._state = MonsterBase_1.eMonsterState.Delay;
+                    CheckSkill();
+                    return;
+                }
+
                 _pattern.SummonMiniBoss();
                 break;
 
