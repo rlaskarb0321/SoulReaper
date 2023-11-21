@@ -29,12 +29,12 @@ public class Flammable : MonoBehaviour
         // 트리거된 화살의 상태와 본인의 상태에 따른 결과값 진행
         switch (projectile._arrowState)
         {
-            case ArrowState.Normal:
+            case eArrowState.Normal:
                 if (_fireState == eFireState.Fire) projectile.UpgradeFire();
                 else projectile.Boom();
                 break;
 
-            case ArrowState.Fire:
+            case eArrowState.Fire:
                 if (_fireState == eFireState.Normal) IgniteSelf(); 
                 else projectile.Boom(); 
                 break;

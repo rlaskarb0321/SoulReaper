@@ -37,4 +37,9 @@ public class HPMPBuff : PlayerBuff
 
         _remainBuffDur = _buffDur;
     }
+
+    public void TEst()
+    {
+        throw new NotImplementedException();
+    }
 }

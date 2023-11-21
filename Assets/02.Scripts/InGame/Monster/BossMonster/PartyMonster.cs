@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartyMonster : MonsterBase_1
+public class PartyMonster : MonsterBase_1, IDotDebuff
 {
     [Header("------ Boss_Party Monster ------")]
     [Header("=== Mesh ===")]
@@ -15,6 +15,9 @@ public class PartyMonster : MonsterBase_1
 
     [SerializeField]
     private ePhase _ePhase;
+
+    [SerializeField]
+    private int _burnStack;
 
     public enum ePhase { Phase_1, Phase_2, Phase_3, Count, }
     public ePhase Phase { get { return _ePhase; } set { _ePhase = value; } }
@@ -35,27 +38,40 @@ public class PartyMonster : MonsterBase_1
 
     public override IEnumerator OnHitEvent()
     {
-        Material[] newMats = new Material[_meshRenderes.Length];
-
+        Material[] originMats = new Material[_meshRenderes.Length];
         for (int i = 0; i < _meshRenderes.Length; i++)
         {
-            newMats[i] = _meshRenderes[i].material;
+            originMats[i] = _meshRenderes[i].material;
             _meshRenderes[i].material = _hitMats[1];
         }
 
         yield return new WaitForSeconds(Time.deltaTime * 6.0f);
 
         for (int i = 0; i < _meshRenderes.Length; i++)
-            _meshRenderes[i].material = newMats[i];
+        {
+            _meshRenderes[i].material = originMats[i];
+        }
     }
 
-    public override void DecreaseHP(float amount, ArrowState state = ArrowState.Normal)
+    public override void DecreaseHP(float amount, BurnDotDamage burn = null)
     {
         if (_pattern._isSummonStart)
-            _pattern.HitDuringSummon(state);
-            
-        base.DecreaseHP(amount);
+            _pattern.HitDuringSummon(burn);
+        if (burn != null)
+            StartCoroutine(DotDamaged(burn));
+        if (_currHp <= 0.0f)
+            return;
+
+        _currHp -= amount;
+        StartCoroutine(OnHitEvent());
         ChangePhase();
+        print(_currHp);
+
+        if (_currHp <= 0.0f)
+        {
+            _currHp = 0.0f;
+            Dead();
+        }
     }
 
     public override void SwitchNeedAiming(int value) => _needAiming = value == 1 ? true : false;
@@ -108,5 +124,25 @@ public class PartyMonster : MonsterBase_1
 
             _ePhase = ePhase.Phase_1;
         }
+    }
+
+    public IEnumerator DotDamaged(BurnDotDamage dotDamage)
+    {
+        float duration = dotDamage._debuffDur;
+        WaitForSeconds ws = new WaitForSeconds(dotDamage._dotInterval);
+
+        while (duration > 0.0f)
+        {
+            DecreaseHP(dotDamage._dotDamamge, null);
+            print("fire");
+            yield return ws;
+
+            duration -= dotDamage._dotInterval;
+        }
+    }
+
+    public void ControlDebuffStack(int count)
+    {
+
     }
 }

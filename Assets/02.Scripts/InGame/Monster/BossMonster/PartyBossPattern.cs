@@ -109,7 +109,6 @@ public class PartyBossPattern : MonoBehaviour
     private bool _summonReady; // 보스가 미니 보스 소환 준비 중인지
     private int _summonPosIndex; // 제단으로 위치 이동용 인덱스
     private bool _isFireHit; // 불 맞았는지
-    private int _fireHitCount; // 불 맞은 횟수
     
     // 이 곳에 phase 여부를 달아놓아도 될듯, 페이즈에 따라 스킬을 강화또는 약화 하기 위해
 
@@ -438,23 +437,29 @@ public class PartyBossPattern : MonoBehaviour
     /// <summary>
     /// 소환 도중 맞을때 관련 함수
     /// </summary>
-    public void HitDuringSummon(ArrowState attackType)
+    public void HitDuringSummon(BurnDotDamage burn)
     {
-        float decreaseCasting = _gaugeDecreaseAmount[(int)attackType];
-        float shakeAmount = _gaugeShakeAmount[(int)attackType];
-        float shakeDur = _gaugeShakeDur[(int)attackType];
+        float decreseCasting;
+        float shakeAmount;
+        float shakeDur;
 
-        switch (attackType)
+        if (burn == null)
         {
-            case ArrowState.Fire:
-                // 화상에 대한 적용이 필요
+            decreseCasting = _gaugeDecreaseAmount[(int)eArrowState.Normal];
+            shakeAmount = _gaugeShakeAmount[(int)eArrowState.Normal];
+            shakeDur = _gaugeShakeDur[(int)eArrowState.Normal];
+        }
+        else
+        {
+            decreseCasting = _gaugeDecreaseAmount[(int)eArrowState.Fire];
+            shakeAmount = _gaugeShakeAmount[(int)eArrowState.Fire];
+            shakeDur = _gaugeShakeDur[(int)eArrowState.Fire];
 
-                _animator.SetTrigger(_hashIsFireHit);
-                _isFireHit = true;
-                break;
+            _animator.SetTrigger(_hashIsFireHit);
+            _isFireHit = true;
         }
 
-        _currCastingTime -= decreaseCasting * Time.deltaTime;
+        _currCastingTime -= decreseCasting * Time.deltaTime;
         if (_currCastingTime < 0.0f)
         {
             _animator.SetBool(_hashFailSummon, true);
@@ -479,7 +484,6 @@ public class PartyBossPattern : MonoBehaviour
 
         _animator.SetTrigger(_hashCompleteSummon);
         _currCastingTime = 0.0f;
-        _fireHitCount = 0;
         _stopLettering = true;
         _isFireHit = false;
         _summonObj.SetActive(true);

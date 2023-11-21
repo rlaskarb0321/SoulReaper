@@ -71,6 +71,7 @@ MonoBehaviour:
   _movSpeed: 60
   _lifeTime: 0
   _dmg: 10
+  _burn: {fileID: 11400000, guid: b87ec79cb47e5f44d8b8b4c8b6dd74a6, type: 2}
 --- !u!65 &6939982488212984673
 BoxCollider:
   m_ObjectHideFlags: 0
