@@ -29,6 +29,9 @@ public class BossMonsterSkill
     // 현재 쿨다운 중인 시간
     public float _currCoolTime;
 
+    // 공격을 하기 위해 목표에 접근하게 시킬 거리값, 0 이하이면 접근하지 않아도 되는 스킬이란 뜻
+    public float _attackRange;
+
     // 스킬의 사용 가능 여부를 체크하는 델리게이트
     public static EditCanUseDelegate _editCanUseDelegate;
 
@@ -80,10 +83,12 @@ public class PartyMonsterCombat : MonoBehaviour
     public GameObject _bull;
 
     // Field
+    private BossMonsterSkill _selectedSkill;
     private PartyMonster _monsterBase;
     private GameObject _target;
     private PartyBossPattern _pattern;
     private float _originActDelay;
+    private BossWave _bossWave;
     private enum ePartyBossSkill 
     {
         // Normal State
@@ -106,6 +111,7 @@ public class PartyMonsterCombat : MonoBehaviour
     {
         _monsterBase = GetComponent<PartyMonster>();
         _pattern = GetComponent<PartyBossPattern>();
+        _bossWave = GetComponent<BossWave>();
         _target = _monsterBase._target;
 
         CheckSkill();
@@ -121,19 +127,22 @@ public class PartyMonsterCombat : MonoBehaviour
         if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
             return;
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            CheckSkill();
-        }
-
         if (!_isBossTired)
         {
             switch (_monsterBase._state)
             {
                 // 다음에 행할 스킬을 고르고 실행함
                 case MonsterBase_1.eMonsterState.Idle:
-                    string skillID = SelectSkill(_normalStateSkills);
-                    DoSkill(skillID);
+                    float dist = Vector3.Distance(_monsterBase._target.transform.position, transform.position);
+                    if (_selectedSkill == null)
+                        _selectedSkill = SelectSkill(_normalStateSkills);
+                    if (_selectedSkill._attackRange > 0.0f && dist > _selectedSkill._attackRange)
+                    {
+                        Trace();
+                        return;
+                    }
+
+                    DoSkill(_selectedSkill);
                     break;
 
                 case MonsterBase_1.eMonsterState.Trace:
@@ -149,6 +158,7 @@ public class PartyMonsterCombat : MonoBehaviour
                     {
                         _monsterBase._stat.actDelay = _originActDelay;
                         _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
+                        _selectedSkill = null;
                         return;
                     }
                      
@@ -161,8 +171,10 @@ public class PartyMonsterCombat : MonoBehaviour
             switch (_monsterBase._state)
             {
                 case MonsterBase_1.eMonsterState.Idle:
-                    string skillID = SelectSkill(_tiredStateSkills);
-                    DoSkill(skillID);
+                    if (_selectedSkill == null)
+                        _selectedSkill = SelectSkill(_normalStateSkills);
+
+                    DoSkill(_selectedSkill);
                     break;
 
                 case MonsterBase_1.eMonsterState.Delay:
@@ -170,53 +182,54 @@ public class PartyMonsterCombat : MonoBehaviour
                     break;
             }
         }
-
     }
 
     /// <summary>
     /// 스킬리스트에서 사용 가능하고 우선순위가 높은 스킬을 고름
     /// </summary>
-    private string SelectSkill(BossMonsterSkill[] skillPack)
+    private BossMonsterSkill SelectSkill(BossMonsterSkill[] skillPack)
     {
-        string skillID = "";
-
         // 우선순위는 이미 인스펙터 창에 skillPack 만들 때 정렬해서 만들었음
         for (int i = 0; i < skillPack.Length; i++)
         {
             if (!skillPack[i]._canUse)
             {
-                //print(skillPack[i]._id + " 사용 불가능");
+                //print(skillPack[i] + " 사용 불가능");
                 continue;
             }
             if (skillPack[i]._currCoolTime != skillPack[i]._coolTime)
             {
-                //print(skillPack[i]._id + " 쿨타임이 안 돌아있음");
+                //print(skillPack[i] + " 쿨타임이 안 돌아있음");
                 continue;
             }
 
-            //print(skillPack[i]._id + " 로 결정");
-            skillID = skillPack[i]._id;
-            StartCoroutine(skillPack[i].CoolDown());
-            return skillID;
+            //print(skillPack[i] + " 로 결정");
+            return skillPack[i];
         }
 
-        return skillID;
+        return null;
     }
 
     /// <summary>
     /// 사용할 스킬의 ID 를 받고, 실제로 실행하게 하는 함수
     /// </summary>
     /// <param name="skillID"></param>
-    private void DoSkill(string skillID)
+    private void DoSkill(BossMonsterSkill skill)
     {
         //// 쓸 수 있는 스킬이 없는 상태
         //if (skillID == null || skillID == "")
         //{
         //}
 
+        string skillID = skill._id;
         int skillIndex = int.Parse(skillID.Split('_')[0]);
         ePartyBossSkill bossSkill = (ePartyBossSkill)skillIndex;
+
+        _monsterBase._animator.SetBool(_monsterBase._hashMove, false);
+        _monsterBase._nav.enabled = false;
         _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
+        
+        StartCoroutine(skill.CoolDown());
         switch (bossSkill)
         {
             #region 보스가 지치지 않은 상태일 때 사용가능한 스킬들
@@ -224,7 +237,6 @@ public class PartyMonsterCombat : MonoBehaviour
             case ePartyBossSkill.Summon_Mini_Boss:
                 if (_bull.activeSelf)
                 {
-                    print("이미 소환되어있어서 안됨");
                     _monsterBase._state = MonsterBase_1.eMonsterState.Delay;
                     CheckSkill();
                     return;
@@ -277,10 +289,26 @@ public class PartyMonsterCombat : MonoBehaviour
         }
     }
 
+    private void Trace()
+    {
+        _monsterBase._nav.enabled = true;
+        _bossWave.Trace();
+    }
+
+
     /// <summary>
     /// 스킬을 시전한 후, 애니메이션 마지막에 등록시킬 메서드, 딜레이 상태로 만들어 준다.
     /// </summary>
-    public void ExitAttackState() => _monsterBase._state = MonsterBase_1.eMonsterState.Delay;
+    public void ExitAttackState(float amount)
+    {
+        if (amount == 0.0f)
+            amount = 1.0f;
+        if (amount < 0.0f)
+            amount = 0.0f;
+
+        _monsterBase._stat.actDelay = amount;
+        _monsterBase._state = MonsterBase_1.eMonsterState.Delay;
+    }
 
     /// <summary>
     /// 델리게이트 호출하는 메서드를 외부에서 부르기 쉽게하기 위해 선언한 메서드

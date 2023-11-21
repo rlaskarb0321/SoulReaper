@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class PartyBossPattern : MonoBehaviour
 {
+    #region 말풍선 관련 전역 변수들
     [Header("=== Dialog Ballon ===")]
     [SerializeField]
     private TextAsset _dialogFile;
@@ -23,13 +24,17 @@ public class PartyBossPattern : MonoBehaviour
     private float _currFloatTime;
     private bool _isTalking;
     private bool _stopLettering;
+    #endregion 말풍선 관련 전역 변수들
 
+    #region 공격 콜라이더 관련 전역 변수들
     [Header("=== Attack Coll Arr ===")]
     [SerializeField]
     private GameObject[] _attackColls;
 
     private enum eAttackColl { Left, Right, Left_Right, Foot, Head, Drop_Kick, }
+    #endregion 공격 콜라이더 관련 전역 변수들
 
+    #region 블링크 공격 관련 전역 변수들
     [Header("=== Blink Particle ===")]
     [SerializeField]
     [Tooltip("블링크 할 때 & 블링크 후 커질때 나오는 이펙트")]
@@ -38,7 +43,9 @@ public class PartyBossPattern : MonoBehaviour
     [SerializeField]
     [Tooltip("블링크로 뒤에서 나타날때 플레이어와 이격할 거리")]
     private float _blinkOffset;
+    #endregion 블링크 공격 관련 전역 변수들
 
+    #region 점프 공격 관련 전역 변수들
     [Header("=== Jump Attack ===")]
     [SerializeField]
     [Tooltip("발 밑 레이의 길이")]
@@ -56,7 +63,9 @@ public class PartyBossPattern : MonoBehaviour
     private bool _isJump;
     private Vector3 _endPos;
     private Vector3 _startPos;
+    #endregion 점프 공격 관련 전역 변수들
 
+    #region 미니 보스 소환 관련 전역 변수들
     [Header("=== Mini Boss Summon ===")]
     [SerializeField]
     [Tooltip("미니 보스 소환 의식을 하는 위치 = 제단")]
@@ -109,7 +118,8 @@ public class PartyBossPattern : MonoBehaviour
     private bool _summonReady; // 보스가 미니 보스 소환 준비 중인지
     private int _summonPosIndex; // 제단으로 위치 이동용 인덱스
     private bool _isFireHit; // 불 맞았는지
-    
+    #endregion 미니 보스 소환 관련 전역 변수들
+
     // 이 곳에 phase 여부를 달아놓아도 될듯, 페이즈에 따라 스킬을 강화또는 약화 하기 위해
 
     // Field
@@ -304,6 +314,15 @@ public class PartyBossPattern : MonoBehaviour
     }
 
     #endregion 3. 말풍선
+
+    #region 4. 플레이어에게 이동하기
+
+    public void GoToTarget()
+    {
+
+    }
+
+    #endregion 4. 플레이어에게 이동하기
 
     #endregion Anim 여러개에 공통적으로 쓰이는 메서드
 
@@ -504,7 +523,7 @@ public class PartyBossPattern : MonoBehaviour
 
     public void SummonNormalMonster()
     {
-        print("노말 몹 소환 얍");
+
     }
 
     #endregion 일반 몬스터 소환하기

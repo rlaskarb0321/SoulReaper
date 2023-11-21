@@ -25,6 +25,6 @@ public class BossWave : WaveMonster
 
     public override void Trace()
     {
-
+        _monsterBase.Move(_monsterBase._target.transform.position, _monsterBase._stat.movSpeed);
     }
 }

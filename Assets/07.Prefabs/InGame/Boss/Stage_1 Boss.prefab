@@ -947,7 +947,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 12
+  m_Acceleration: 13
   avoidancePriority: 50
   m_AngularSpeed: 200
   m_StoppingDistance: 0
@@ -975,7 +975,7 @@ MonoBehaviour:
     damage: 1
     soul: 100
     rotSpeed: 3.8
-    movSpeed: 11
+    movSpeed: 12.5
     isInitiator: 0
     traceDist: 200
     attakDist: 0
@@ -1037,6 +1037,7 @@ MonoBehaviour:
     _priority: 0
     _coolTime: 0
     _currCoolTime: 0
+    _attackRange: 0
   - _canUse: 0
     _id: 1_Drop Kick
     _eSkillCondition: 4
@@ -1044,6 +1045,7 @@ MonoBehaviour:
     _priority: 0
     _coolTime: 6
     _currCoolTime: 6
+    _attackRange: 0
   - _canUse: 0
     _id: 2_Summon Normal Monster
     _eSkillCondition: 1
@@ -1051,6 +1053,7 @@ MonoBehaviour:
     _priority: 1
     _coolTime: 0
     _currCoolTime: 0
+    _attackRange: 0
   - _canUse: 0
     _id: 3_Blink
     _eSkillCondition: 3
@@ -1058,6 +1061,7 @@ MonoBehaviour:
     _priority: 2
     _coolTime: 15
     _currCoolTime: 15
+    _attackRange: 0
   - _canUse: 1
     _id: 4_Sliding
     _eSkillCondition: 0
@@ -1065,6 +1069,7 @@ MonoBehaviour:
     _priority: 3
     _coolTime: 8.5
     _currCoolTime: 8.5
+    _attackRange: 5.65
   - _canUse: 1
     _id: 5_Jump
     _eSkillCondition: 0
@@ -1072,6 +1077,7 @@ MonoBehaviour:
     _priority: 0
     _coolTime: 6
     _currCoolTime: 6
+    _attackRange: 0
   - _canUse: 1
     _id: 6_Fist
     _eSkillCondition: 0
@@ -1079,6 +1085,7 @@ MonoBehaviour:
     _priority: 5
     _coolTime: 4
     _currCoolTime: 4
+    _attackRange: 1.25
   - _canUse: 1
     _id: 7_Push
     _eSkillCondition: 0
@@ -1086,6 +1093,7 @@ MonoBehaviour:
     _priority: 6
     _coolTime: 4
     _currCoolTime: 4
+    _attackRange: 0.4
   _tiredStateSkills:
   - _canUse: 1
     _id: 8_Rest
@@ -1094,6 +1102,7 @@ MonoBehaviour:
     _priority: 0
     _coolTime: 3.5
     _currCoolTime: 3.5
+    _attackRange: 0
   - _canUse: 1
     _id: 9_Run
     _eSkillCondition: 0
@@ -1101,7 +1110,9 @@ MonoBehaviour:
     _priority: 1
     _coolTime: 0
     _currCoolTime: 0
+    _attackRange: 0
   _isBossTired: 0
+  _bull: {fileID: 0}
 --- !u!114 &-1774013577304352622
 MonoBehaviour:
   m_ObjectHideFlags: 0
