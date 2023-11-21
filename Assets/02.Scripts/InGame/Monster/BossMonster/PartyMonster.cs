@@ -9,6 +9,9 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     [SerializeField]
     private SkinnedMeshRenderer[] _meshRenderes;
 
+    [SerializeField]
+    private Material[] _originMats;
+
     [Header("=== Phase ===")]
     [SerializeField]
     private float[] _phaseCondition;
@@ -38,15 +41,34 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
 
     public override IEnumerator OnHitEvent()
     {
+        //Material[] originMats = new Material[_meshRenderes.Length];
+        //for (int i = 0; i < _meshRenderes.Length; i++)
+        //{
+        //    originMats[i] = _meshRenderes[i].material;
+        //    _meshRenderes[i].material = _hitMats[1];
+        //}
+
+        //yield return new WaitForSeconds(Time.deltaTime * 5.0f);
+        //for (int i = 0; i < _meshRenderes.Length; i++)
+        //{
+        //    _meshRenderes[i].material = originMats[i];
+        //}
+
         Material[] originMats = new Material[_meshRenderes.Length];
         for (int i = 0; i < _meshRenderes.Length; i++)
         {
-            originMats[i] = _meshRenderes[i].material;
-            _meshRenderes[i].material = _hitMats[1];
+            if (i == 0)
+            {
+                originMats[i] = _originMats[0];
+                _meshRenderes[i].material = _hitMats[0];
+                continue;
+            }
+
+            originMats[i] = _originMats[1];
+            _meshRenderes[i].material = _hitMats[0];
         }
 
-        yield return new WaitForSeconds(Time.deltaTime * 6.0f);
-
+        yield return new WaitForSeconds(Time.deltaTime * 5.0f);
         for (int i = 0; i < _meshRenderes.Length; i++)
         {
             _meshRenderes[i].material = originMats[i];
@@ -65,7 +87,6 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
         _currHp -= amount;
         StartCoroutine(OnHitEvent());
         ChangePhase();
-        print(_currHp);
 
         if (_currHp <= 0.0f)
         {
@@ -133,10 +154,9 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
 
         while (duration > 0.0f)
         {
-            DecreaseHP(dotDamage._dotDamamge, null);
-            print("fire");
             yield return ws;
 
+            DecreaseHP(dotDamage._dotDamamge, null);
             duration -= dotDamage._dotInterval;
         }
     }

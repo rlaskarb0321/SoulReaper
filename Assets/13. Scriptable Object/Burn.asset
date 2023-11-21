@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7d4c4a732d48340850489df37b8633, type: 3}
   m_Name: Burn
   m_EditorClassIdentifier: 
-  _debuffDur: 0
-  _dotDamamge: 0
-  _dotInterval: 0
-  _maxStackCount: 0
+  _debuffDur: 5
+  _dotDamamge: 5
+  _dotInterval: 1
+  _maxStackCount: 3

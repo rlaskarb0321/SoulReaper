@@ -984,7 +984,6 @@ MonoBehaviour:
   _state: 0
   _target: {fileID: 0}
   _hitMats:
-  - {fileID: 0}
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   _bodyBuryTime: 0
   _deadMat: {fileID: 0}
@@ -994,10 +993,14 @@ MonoBehaviour:
   _mesh: {fileID: 0}
   _animator: {fileID: 0}
   _meshRenderes: []
+  _originMats:
+  - {fileID: 2100000, guid: 77f9d05530537b84a9eea7bce9222167, type: 2}
+  - {fileID: 2100000, guid: e6c4e27510e2d164d86c33ef2069b47a, type: 2}
   _phaseCondition:
   - 0.999
   - 0.4
   _ePhase: 0
+  _burnStack: 0
 --- !u!114 &1623512702279696830
 MonoBehaviour:
   m_ObjectHideFlags: 0
