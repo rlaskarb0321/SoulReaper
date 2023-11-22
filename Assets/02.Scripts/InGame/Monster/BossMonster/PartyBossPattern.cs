@@ -134,8 +134,6 @@ public class PartyBossPattern : MonoBehaviour
     [Tooltip("랜덤으로 도망칠 곳 최대 범위")]
     private float _runRangeMax;
 
-    private bool _isRun;
-
     #endregion 도망치기 & 약올리기 관련 전역 변수들
 
     // Field
@@ -646,8 +644,6 @@ public class PartyBossPattern : MonoBehaviour
             ShowDialog(text, true);
         }
 
-        _isRun = false;
-        _monsterBase._nav.enabled = false;
         _animator.SetTrigger(_hashRest);
     }
 

@@ -80,6 +80,7 @@ public class PartyMonsterCombat : MonoBehaviour
     public BossMonsterSkill[] _normalStateSkills;
     public BossMonsterSkill[] _tiredStateSkills;
     public bool _isBossTired;
+    public float _tiredDuration;
     public GameObject _bull;
 
     // Field
@@ -88,6 +89,7 @@ public class PartyMonsterCombat : MonoBehaviour
     private GameObject _target;
     private PartyBossPattern _pattern;
     private float _originActDelay;
+    private float _originTiredDur;
     private BossWave _bossWave;
     private enum ePartyBossSkill 
     {
@@ -120,6 +122,7 @@ public class PartyMonsterCombat : MonoBehaviour
     private void Start()
     {
         _originActDelay = _monsterBase._stat.actDelay;
+        _originTiredDur = _tiredDuration;
     }
 
     private void Update()
@@ -165,6 +168,7 @@ public class PartyMonsterCombat : MonoBehaviour
         }
         else
         {
+            Recover();
             switch (_monsterBase._state)
             {
                 case MonsterBase_1.eMonsterState.Idle:
@@ -379,6 +383,22 @@ public class PartyMonsterCombat : MonoBehaviour
     /// 미니 보스 소환완료 후 지치게 만들기
     /// </summary>
     public void Tired() => _isBossTired = true;
+
+    private void Recover()
+    {
+        if (!_isBossTired)
+            return;
+
+        if (_tiredDuration <= 0.0f)
+        {
+            _tiredDuration = _originTiredDur;
+            _isBossTired = false;
+        }
+        else
+        {
+            _tiredDuration -= Time.deltaTime;
+        }
+    }
 
     #region 스킬의 CanUSe 를 조작하기 위해 스킬의 Delegate 에 달아놓는 메서드들
 
