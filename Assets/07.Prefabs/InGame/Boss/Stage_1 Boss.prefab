@@ -1142,8 +1142,8 @@ MonoBehaviour:
   - {fileID: 0}
   _blinkOffset: 2.8
   _rayDist: 1
-  _jumpAccel: 1.2
-  _jumpHeight: 8
+  _jumpAccel: 1.4
+  _jumpHeight: 6
   _summonCastPos:
   - {fileID: 0}
   _summoningEffect: {fileID: 0}

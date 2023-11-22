@@ -26,6 +26,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     public ePhase Phase { get { return _ePhase; } set { _ePhase = value; } }
 
     // Field
+    private readonly int _hashPhase = Animator.StringToHash("Phase Count");
     private PartyMonsterCombat _monsterCombat;
     private PartyBossPattern _pattern;
     private Color _originColor;
@@ -130,6 +131,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
                 return;
 
             _ePhase = ePhase.Phase_3;
+            _animator.SetInteger(_hashPhase, (int)_ePhase + 1);
             _monsterCombat.CheckSkill();
         }
         else if ((_currHp / _stat.health) <= _phaseCondition[(int)ePhase.Phase_1])
@@ -138,6 +140,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
                 return;
 
             _ePhase = ePhase.Phase_2;
+            _animator.SetInteger(_hashPhase, (int)_ePhase + 1);
             _monsterCombat.CheckSkill();
         }
         else
@@ -146,6 +149,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
                 return;
 
             _ePhase = ePhase.Phase_1;
+            _animator.SetInteger(_hashPhase, (int)_ePhase + 1);
         }
     }
 
