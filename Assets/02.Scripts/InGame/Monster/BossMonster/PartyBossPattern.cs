@@ -2,6 +2,7 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// 파티 몬스터의 공격 기술을 정의하는 함수
@@ -20,6 +21,16 @@ public class PartyBossPattern : MonoBehaviour
     [SerializeField]
     [Tooltip("말풍선 띄울 지속시간")]
     private float _floatTime;
+
+    [SerializeField]
+    [Tooltip("Rest 때 말 할 확률")]
+    [Range(0.0f, 1.0f)]
+    private float _restDialogPercentage;
+
+    [SerializeField]
+    [Tooltip("약올리기 도망가기때 말 할 확률")]
+    [Range(0.0f, 1.0f)]
+    private float _runShyDialogPercentage;
 
     private float _currFloatTime;
     private bool _isTalking;
@@ -99,10 +110,6 @@ public class PartyBossPattern : MonoBehaviour
     private string[] _fireHitReaction;
 
     [SerializeField]
-    [Tooltip("소환중 맞았을 때 깎을 게이지 량")]
-    private float[] _gaugeDecreaseAmount;
-
-    [SerializeField]
     [Tooltip("소환중 맞았을 때 게이지를 흔들 세기")]
     private float[] _gaugeShakeAmount;
 
@@ -110,17 +117,26 @@ public class PartyBossPattern : MonoBehaviour
     [Tooltip("소환중 맞았을 때 게이지 흔드는 지속 시간")]
     private float[] _gaugeShakeDur;
 
-    [SerializeField]
-    [Tooltip("소환 도중 불화살로 끊기 가능한 횟수")]
-    private int _stopSummonCount;
-
     private WaitForSeconds _ws;
     private bool _summonReady; // 보스가 미니 보스 소환 준비 중인지
     private int _summonPosIndex; // 제단으로 위치 이동용 인덱스
     private bool _isFireHit; // 불 맞았는지
     #endregion 미니 보스 소환 관련 전역 변수들
 
-    // 이 곳에 phase 여부를 달아놓아도 될듯, 페이즈에 따라 스킬을 강화또는 약화 하기 위해
+    #region 도망치기 & 약올리기 관련 전역 변수들
+
+    [Header("=== Run & shy ===")]
+    [SerializeField]
+    [Tooltip("랜덤으로 도망칠 곳 최소 범위")]
+    private float _runRangeMin;
+
+    [SerializeField]
+    [Tooltip("랜덤으로 도망칠 곳 최대 범위")]
+    private float _runRangeMax;
+
+    private bool _isRun;
+
+    #endregion 도망치기 & 약올리기 관련 전역 변수들
 
     // Field
     private GameObject _target;
@@ -153,6 +169,8 @@ public class PartyBossPattern : MonoBehaviour
     private readonly int _hashIsFireHit = Animator.StringToHash("isFireHit");
     private readonly int _hashCompleteSummon = Animator.StringToHash("Complete Summon");
     private readonly int _hashFailSummon = Animator.StringToHash("Failed Summon");
+    private readonly int _hashRest = Animator.StringToHash("Rest");
+    private readonly int _hashRun = Animator.StringToHash("Run");
 
     private void Awake()
     {
@@ -335,6 +353,9 @@ public class PartyBossPattern : MonoBehaviour
         _animator.SetTrigger(_hashBlink);
     }
 
+    /// <summary>
+    /// 블링크로 나타나는 애니메이션 전환용 트리거
+    /// </summary>
     public void BlinkAppear()
     {
         _animator.SetTrigger(_hashBlinkBack);
@@ -355,6 +376,8 @@ public class PartyBossPattern : MonoBehaviour
         transform.forward = (_target.transform.position - blinkPos).normalized;
         transform.position = blinkPos;
     }
+
+    
 
     #endregion 블링크 공격
 
@@ -616,7 +639,16 @@ public class PartyBossPattern : MonoBehaviour
 
     public void Rest()
     {
-        print("지쳤어 쉴래");
+        if (Random.Range(0.0f, 1.0f) <= _restDialogPercentage)
+        {
+            int randomValue = Random.Range(0, _dialogData[(int)eDialogSituation.Take_a_Breath]._dialogs.Count);
+            string text = _dialogData[(int)eDialogSituation.Take_a_Breath]._dialogs[randomValue];
+            ShowDialog(text, true);
+        }
+
+        _isRun = false;
+        _monsterBase._nav.enabled = false;
+        _animator.SetTrigger(_hashRest);
     }
 
     #endregion 휴식 하기
@@ -625,7 +657,29 @@ public class PartyBossPattern : MonoBehaviour
 
     public void Run()
     {
-        print("도망쳐~");
+        _animator.SetTrigger(_hashRun);
+    }
+
+    public void MoveToRandomPos()
+    {
+        float range = Random.Range(_runRangeMin, _runRangeMax);
+        Vector3 randomPos = transform.position + Random.insideUnitSphere * range;
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(randomPos, out hit, range, NavMesh.AllAreas))
+        {
+            transform.position = hit.position;
+            transform.forward = _monsterBase._target.transform.position - transform.position;
+        }
+    }
+
+    public void Say(int value)
+    {
+        int randomValue = Random.Range(0, _dialogData[(int)eDialogSituation.Run_Shy]._dialogs.Count);
+        string text = _dialogData[(int)eDialogSituation.Run_Shy]._dialogs[randomValue];
+        bool isOn = value == 1 ? true : false;
+
+        ShowDialog(text, isOn);
     }
 
     #endregion 도망 치기

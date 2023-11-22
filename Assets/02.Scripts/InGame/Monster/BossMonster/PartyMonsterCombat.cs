@@ -145,9 +145,6 @@ public class PartyMonsterCombat : MonoBehaviour
                     DoSkill(_selectedSkill);
                     break;
 
-                case MonsterBase_1.eMonsterState.Trace:
-                    break;
-
                 case MonsterBase_1.eMonsterState.Attack:
                     _monsterBase.AimingTarget(_target.transform.position, 2.0f);
                     break;
@@ -172,13 +169,21 @@ public class PartyMonsterCombat : MonoBehaviour
             {
                 case MonsterBase_1.eMonsterState.Idle:
                     if (_selectedSkill == null)
-                        _selectedSkill = SelectSkill(_normalStateSkills);
+                        _selectedSkill = SelectSkill(_tiredStateSkills);
 
                     DoSkill(_selectedSkill);
                     break;
 
                 case MonsterBase_1.eMonsterState.Delay:
-                    _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
+                    if (_monsterBase._stat.actDelay <= 0.0f)
+                    {
+                        _monsterBase._stat.actDelay = _originActDelay;
+                        _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
+                        _selectedSkill = null;
+                        return;
+                    }
+
+                    _monsterBase._stat.actDelay -= Time.deltaTime;
                     break;
             }
         }
@@ -216,10 +221,9 @@ public class PartyMonsterCombat : MonoBehaviour
     /// <param name="skillID"></param>
     private void DoSkill(BossMonsterSkill skill)
     {
-        //// 쓸 수 있는 스킬이 없는 상태
-        //if (skillID == null || skillID == "")
-        //{
-        //}
+        // 쓸 수 있는 스킬이 없는 상태
+        if (skill == null)
+            return;
 
         string skillID = skill._id;
         int skillIndex = int.Parse(skillID.Split('_')[0]);
@@ -289,6 +293,9 @@ public class PartyMonsterCombat : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 스킬 사용하기위해 거리를 좁히게하는 메서드
+    /// </summary>
     private void Trace()
     {
         _monsterBase._nav.enabled = true;
@@ -366,7 +373,6 @@ public class PartyMonsterCombat : MonoBehaviour
             case BossMonsterSkill.eSkillUpgrade.Phase2_Down:
                 break;
         }
-
     }
 
     /// <summary>
