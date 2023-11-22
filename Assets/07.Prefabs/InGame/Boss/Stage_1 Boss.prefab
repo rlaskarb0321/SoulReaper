@@ -1093,7 +1093,7 @@ MonoBehaviour:
     _priority: 6
     _coolTime: 4
     _currCoolTime: 4
-    _attackRange: 0.4
+    _attackRange: 1.4
   _tiredStateSkills:
   - _canUse: 1
     _id: 9_Run

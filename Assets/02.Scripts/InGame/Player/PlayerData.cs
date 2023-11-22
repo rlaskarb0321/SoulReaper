@@ -24,6 +24,7 @@ public class PlayerData : MonoBehaviour
     PlayerFSM _fsm;
     Animator _animator;
     PlayerCombat _combat;
+    PlayerMove_1 _move;
     readonly int _hashHit = Animator.StringToHash("Hit");
     readonly int _hashDead = Animator.StringToHash("Dead");
 
@@ -32,6 +33,7 @@ public class PlayerData : MonoBehaviour
         _fsm = GetComponent<PlayerFSM>();
         _animator = GetComponent<Animator>();
         _combat = GetComponent<PlayerCombat>();
+        _move = GetComponent<PlayerMove_1>();
     }
 
     public void DecreaseHP(Vector3 attackDir, float damage)
@@ -43,6 +45,8 @@ public class PlayerData : MonoBehaviour
             _currHP = 0.0f;
             _fsm.State = PlayerFSM.eState.Dead;
             _animator.SetTrigger(_hashDead);
+            GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<CapsuleCollider>().enabled = false;
             UIScene._instance.DeadPlayer();
         }
         else
@@ -54,6 +58,8 @@ public class PlayerData : MonoBehaviour
 
         StartCoroutine(FollowCamera._instance.ShakeCamera(_combat._hitCamShakeAmount, _combat._hitCamShakeDur));
         _combat.EndComboAtk();
+        _combat.InitChargingGauge();
+        _move._animator.SetBool(_move._hashRoll, false);
 
         attackDir = new Vector3(attackDir.x, 0.0f, attackDir.z);
         attackDir = attackDir.normalized;

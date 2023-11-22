@@ -169,6 +169,7 @@ public class PartyBossPattern : MonoBehaviour
     private readonly int _hashFailSummon = Animator.StringToHash("Failed Summon");
     private readonly int _hashRest = Animator.StringToHash("Rest");
     private readonly int _hashRun = Animator.StringToHash("Run");
+    private readonly int _hashNormalSummon = Animator.StringToHash("Normal Summon");
 
     private void Awake()
     {
@@ -544,7 +545,7 @@ public class PartyBossPattern : MonoBehaviour
 
     public void SummonNormalMonster()
     {
-
+        _animator.SetTrigger(_hashNormalSummon);
     }
 
     #endregion 일반 몬스터 소환하기

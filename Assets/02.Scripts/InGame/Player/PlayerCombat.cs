@@ -140,7 +140,6 @@ public class PlayerCombat : MonoBehaviour
         // 차징타임에따라 원거리공격을 하거나 취소를 결정
         else if (Input.GetMouseButtonUp(1))
         {
-            
             // 원거리공격 발사or취소
             if (_curLongRangeChargingTime > _needChargingTime)
             {

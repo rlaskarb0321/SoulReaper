@@ -54,7 +54,7 @@ public class PlayerMove_1 : MonoBehaviour
     // Anim Params
     [HideInInspector] public Animator _animator;
     readonly int _hashMove = Animator.StringToHash("isMove");
-    readonly int _hashRoll = Animator.StringToHash("isRoll");
+    [HideInInspector] public readonly int _hashRoll = Animator.StringToHash("isRoll");
     readonly int _hashFall = Animator.StringToHash("isFall");
     readonly int _hashIsLadder = Animator.StringToHash("isLadder");
     public readonly int _hashLadderInput = Animator.StringToHash("isLadderInput");

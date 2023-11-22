@@ -28,6 +28,8 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     // Field
     private PartyMonsterCombat _monsterCombat;
     private PartyBossPattern _pattern;
+    private Color _originColor;
+    private Material _originMatInstance;
     private bool _needAiming;
 
     protected override void Awake()
@@ -37,6 +39,14 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
         _meshRenderes = GetComponentsInChildren<SkinnedMeshRenderer>();
         _monsterCombat = GetComponent<PartyMonsterCombat>();
         _pattern = GetComponent<PartyBossPattern>();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        _originMatInstance = Instantiate(_originMats[0]);
+        _originColor = _originMats[0].color;
     }
 
     public override IEnumerator OnHitEvent()
@@ -75,9 +85,11 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
             return;
 
         _currHp -= amount;
+        _originMatInstance.color = Color.Lerp(_originColor, Color.red, 1 - (_currHp / _stat.health));
+        _originMats[0] = _originMatInstance;
+
         StartCoroutine(OnHitEvent());
         ChangePhase();
-
         if (_currHp <= 0.0f)
         {
             _currHp = 0.0f;
