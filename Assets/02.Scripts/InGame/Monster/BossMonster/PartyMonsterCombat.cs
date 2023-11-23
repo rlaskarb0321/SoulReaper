@@ -67,6 +67,7 @@ public class PartyMonsterCombat : MonoBehaviour
     public bool _isBossTired;
     public float _tiredDuration;
     public GameObject _bull;
+    public GameObject _sweating;
 
     // Field
     private BossMonsterSkill _selectedSkill;
@@ -359,7 +360,11 @@ public class PartyMonsterCombat : MonoBehaviour
     /// <summary>
     /// 미니 보스 소환완료 후 지치게 만들기
     /// </summary>
-    public void Tired() => _isBossTired = true;
+    public void Tired()
+    {
+        _sweating.gameObject.SetActive(true);
+        _isBossTired = true;
+    }
 
     private void Recover()
     {
@@ -370,6 +375,7 @@ public class PartyMonsterCombat : MonoBehaviour
         {
             _tiredDuration = _originTiredDur;
             _isBossTired = false;
+            _sweating.gameObject.SetActive(false);
         }
         else
         {
