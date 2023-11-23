@@ -17,9 +17,6 @@ public class BossMonsterSkill
     // 해당 스킬이 사용될 특수한 상황
     public eSkillUseCondition _eSkillCondition;
 
-    // 해당 스킬이 페이즈에 따라 업그레이드 혹은 다운그레이드되는지의 여부
-    public eSkillUpgrade _eSkillUpgrade;
-
     // 해당 스킬의 우선순위
     public int _priority;
 
@@ -45,18 +42,6 @@ public class BossMonsterSkill
         Phase3,         // 해당 스킬은 phase3 때 부터 사용 가능
         Long,           // 해당 스킬은 플레이어가 매우 멀리 있을 때 사용 가능해짐
         Behind,         // 해당 스킬은 플레이어가 자신의 뒤에 있을 때 사용 가능해짐
-    }
-
-    /// <summary>
-    /// 해당 스킬의 업그레이드 여부를 알려주는 enum
-    /// </summary>
-    public enum eSkillUpgrade
-    { 
-        None,           // 해당 스킬은 페이즈 변환 때 업그레이드 혹은 다운그레이드 되지 않음
-        Phase2_Up,      // 해당 스킬은 페이즈 2때 업그레이드 됨
-        Phase2_Down,    // 해당 스킬은 페이즈 2때 다운그레이드 됨
-        Phase3_Up,      // 해당 스킬은 페이즈 3때 업그레이드 됨                                              
-        Phase3_Down,    // 해당 스킬은 페이즈 3때 다운그레이드 됨
     }
 
     /// <summary>
@@ -245,7 +230,7 @@ public class PartyMonsterCombat : MonoBehaviour
             case ePartyBossSkill.Summon_Mini_Boss:
                 if (_bull.activeSelf)
                 {
-                    _monsterBase._state = MonsterBase_1.eMonsterState.Delay;
+                    ExitAttackState(1.0f);
                     CheckSkill();
                     return;
                 }
@@ -327,14 +312,14 @@ public class PartyMonsterCombat : MonoBehaviour
     public void CheckSkill()
     {
         for (int i = 0; i < _normalStateSkills.Length; i++)
-            EditSkillCondition(_normalStateSkills[i], _normalStateSkills[i]._eSkillCondition, _normalStateSkills[i]._eSkillUpgrade);
+            EditSkillCondition(_normalStateSkills[i], _normalStateSkills[i]._eSkillCondition);
     }
 
     /// <summary>
     /// 스킬들의 사용 가능 여부를 재탐색하게 하는 델리게이트를 호출
     /// </summary>
     private void EditSkillCondition
-        (BossMonsterSkill skill, BossMonsterSkill.eSkillUseCondition useCondition, BossMonsterSkill.eSkillUpgrade upgradeCondition)
+        (BossMonsterSkill skill, BossMonsterSkill.eSkillUseCondition useCondition)
     {
         switch (useCondition)
         {
@@ -367,14 +352,6 @@ public class PartyMonsterCombat : MonoBehaviour
                 BossMonsterSkill._editCanUseDelegate += isPlayerBehind;
 
                 skill._canUse = BossMonsterSkill._editCanUseDelegate();
-                break;
-        }
-
-        switch (upgradeCondition)
-        { 
-            case BossMonsterSkill.eSkillUpgrade.Phase2_Up:
-                break;
-            case BossMonsterSkill.eSkillUpgrade.Phase2_Down:
                 break;
         }
     }

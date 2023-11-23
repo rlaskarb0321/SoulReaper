@@ -113,7 +113,7 @@ public class MonsterBase_1 : MonoBehaviour
         if (_currHp <= 0.0f)
             return;
 
-        StartCoroutine(OnHitEvent());
+        // StartCoroutine(OnHitEvent());
         _currHp -= amount;
         if (_currHp <= 0.0f)
         {
@@ -126,7 +126,7 @@ public class MonsterBase_1 : MonoBehaviour
     /// 몬스터가 피격당했을 때, 피격 연출용 코루틴
     /// </summary>
     /// <returns></returns>
-    public virtual IEnumerator OnHitEvent()
+    public virtual IEnumerator OnHitEvent(eArrowState state = eArrowState.Normal)
     {
         Material newMat;
 

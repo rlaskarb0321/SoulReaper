@@ -107,6 +107,7 @@ public class EnemyProjectile : VFXPool
             {
                 MonsterBase_1 monster = other.GetComponent<MonsterBase_1>();
                 monster.DecreaseHP(_launchData.damage);
+                StartCoroutine(monster.OnHitEvent());
                 StartCoroutine(Explosion());
             }
             // ¶¥°ú Ãæµ¹

@@ -29,9 +29,9 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     private readonly int _hashPhase = Animator.StringToHash("Phase Count");
     private PartyMonsterCombat _monsterCombat;
     private PartyBossPattern _pattern;
-    private Color _originColor;
-    private Material _originMatInstance;
     private bool _needAiming;
+    private Outline _outline;
+    private Color _originOutlineColor;
 
     protected override void Awake()
     {
@@ -40,33 +40,28 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
         _meshRenderes = GetComponentsInChildren<SkinnedMeshRenderer>();
         _monsterCombat = GetComponent<PartyMonsterCombat>();
         _pattern = GetComponent<PartyBossPattern>();
+        _outline = GetComponent<Outline>();
     }
 
     protected override void Start()
     {
         base.Start();
 
-        _originMatInstance = Instantiate(_originMats[0]);
-        _originColor = _originMats[0].color;
+        _originOutlineColor = _outline.OutlineColor;
     }
 
-    public override IEnumerator OnHitEvent()
+    public override IEnumerator OnHitEvent(eArrowState state = eArrowState.Normal)
     {
         Material[] originMats = new Material[_meshRenderes.Length];
+        float duration = 5.0f + (3.0f * (int)state);
+
         for (int i = 0; i < _meshRenderes.Length; i++)
         {
-            if (i == 0)
-            {
-                originMats[i] = _originMats[0];
-                _meshRenderes[i].material = _hitMats[0];
-                continue;
-            }
-
-            originMats[i] = _originMats[1];
-            _meshRenderes[i].material = _hitMats[0];
+            originMats[i] = _originMats[0];
+            _meshRenderes[i].material = _hitMats[(int)state];
         }
+        yield return new WaitForSeconds(Time.deltaTime * duration);
 
-        yield return new WaitForSeconds(Time.deltaTime * 5.0f);
         for (int i = 0; i < _meshRenderes.Length; i++)
         {
             _meshRenderes[i].material = originMats[i];
@@ -76,7 +71,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     public override void DecreaseHP(float amount, BurnDotDamage burn = null)
     {
         if (_pattern._isSummonStart)
-            _pattern.HitDuringSummon(_burnStack > 0, amount + (20.0f * _burnStack));
+            _pattern.HitDuringSummon(_burnStack > 0, amount + (35.0f * _burnStack));
         if (burn != null)
         {
             StartCoroutine(DotDamaged(burn));
@@ -86,10 +81,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
             return;
 
         _currHp -= amount;
-        _originMatInstance.color = Color.Lerp(_originColor, Color.red, 1 - (_currHp / _stat.health));
-        _originMats[0] = _originMatInstance;
-
-        StartCoroutine(OnHitEvent());
+        ChangeOutLine();
         ChangePhase();
         if (_currHp <= 0.0f)
         {
@@ -121,6 +113,11 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
                 _nav.updatePosition = true;
             }
         }
+    }
+
+    private void ChangeOutLine()
+    {
+        _outline.OutlineColor = Color.Lerp(_originOutlineColor, Color.red, 1 - (_currHp / _stat.health));
     }
 
     private void ChangePhase()
@@ -163,6 +160,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
             yield return ws;
 
             DecreaseHP(dotDamage._dotDamamge + (0.5f * _burnStack));
+            StartCoroutine(OnHitEvent(eArrowState.Fire));
             duration -= dotDamage._dotInterval;
         }
         ControlDebuffStack(-1);

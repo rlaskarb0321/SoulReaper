@@ -858,6 +858,7 @@ GameObject:
   - component: {fileID: -3180445769165276166}
   - component: {fileID: 977442685200567868}
   - component: {fileID: -5835503265217978088}
+  - component: {fileID: 5909636028341211283}
   - component: {fileID: 5429197260667336943}
   - component: {fileID: 1623512702279696830}
   - component: {fileID: -2790834954052147412}
@@ -958,6 +959,24 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5909636028341211283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4080401250968833242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 0.13277555, g: 1, b: 0, a: 1}
+  outlineWidth: 0.35
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!114 &5429197260667336943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -985,6 +1004,7 @@ MonoBehaviour:
   _target: {fileID: 0}
   _hitMats:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fee8b5ef20788ba48aba4271821bc9f0, type: 2}
   _bodyBuryTime: 0
   _deadMat: {fileID: 0}
   _monsterType: {fileID: 1623512702279696830}
@@ -994,7 +1014,6 @@ MonoBehaviour:
   _animator: {fileID: 0}
   _meshRenderes: []
   _originMats:
-  - {fileID: 2100000, guid: 77f9d05530537b84a9eea7bce9222167, type: 2}
   - {fileID: 2100000, guid: e6c4e27510e2d164d86c33ef2069b47a, type: 2}
   _phaseCondition:
   - 0.999
@@ -1033,7 +1052,6 @@ MonoBehaviour:
   - _canUse: 0
     _id: 0_Summon Mini Boss
     _eSkillCondition: 1
-    _eSkillUpgrade: 0
     _priority: 0
     _coolTime: 250
     _currCoolTime: 250
@@ -1041,7 +1059,6 @@ MonoBehaviour:
   - _canUse: 0
     _id: 1_Drop Kick
     _eSkillCondition: 4
-    _eSkillUpgrade: 0
     _priority: 0
     _coolTime: 6
     _currCoolTime: 6
@@ -1049,7 +1066,6 @@ MonoBehaviour:
   - _canUse: 0
     _id: 2_Summon Normal Monster
     _eSkillCondition: 1
-    _eSkillUpgrade: 0
     _priority: 1
     _coolTime: 200
     _currCoolTime: 200
@@ -1057,7 +1073,6 @@ MonoBehaviour:
   - _canUse: 0
     _id: 3_Blink
     _eSkillCondition: 3
-    _eSkillUpgrade: 0
     _priority: 2
     _coolTime: 15
     _currCoolTime: 15
@@ -1065,7 +1080,6 @@ MonoBehaviour:
   - _canUse: 1
     _id: 4_Sliding
     _eSkillCondition: 0
-    _eSkillUpgrade: 1
     _priority: 3
     _coolTime: 8.5
     _currCoolTime: 8.5
@@ -1073,7 +1087,6 @@ MonoBehaviour:
   - _canUse: 1
     _id: 5_Jump
     _eSkillCondition: 0
-    _eSkillUpgrade: 1
     _priority: 0
     _coolTime: 6
     _currCoolTime: 6
@@ -1081,7 +1094,6 @@ MonoBehaviour:
   - _canUse: 1
     _id: 6_Fist
     _eSkillCondition: 0
-    _eSkillUpgrade: 0
     _priority: 5
     _coolTime: 4
     _currCoolTime: 4
@@ -1089,7 +1101,6 @@ MonoBehaviour:
   - _canUse: 1
     _id: 7_Push
     _eSkillCondition: 0
-    _eSkillUpgrade: 0
     _priority: 6
     _coolTime: 4
     _currCoolTime: 4
@@ -1098,7 +1109,6 @@ MonoBehaviour:
   - _canUse: 1
     _id: 9_Run
     _eSkillCondition: 0
-    _eSkillUpgrade: 0
     _priority: 0
     _coolTime: 13
     _currCoolTime: 13
@@ -1106,13 +1116,12 @@ MonoBehaviour:
   - _canUse: 1
     _id: 8_Rest
     _eSkillCondition: 0
-    _eSkillUpgrade: 0
     _priority: 1
     _coolTime: 0
     _currCoolTime: 0
     _attackRange: 0
   _isBossTired: 0
-  _tiredDuration: 10
+  _tiredDuration: 60
   _bull: {fileID: 0}
 --- !u!114 &-1774013577304352622
 MonoBehaviour:
@@ -1149,7 +1158,7 @@ MonoBehaviour:
   _summoningEffect: {fileID: 0}
   _summonObj: {fileID: 0}
   _letteringSpeed: 0.45
-  _castingTime: 1
+  _castingTime: 12
   _currCastingTime: 0
   _isSummonStart: 0
   _fireHitReaction:
@@ -2950,7 +2959,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 77f9d05530537b84a9eea7bce9222167, type: 2}
+  - {fileID: 2100000, guid: e6c4e27510e2d164d86c33ef2069b47a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

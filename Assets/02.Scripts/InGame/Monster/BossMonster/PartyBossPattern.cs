@@ -239,11 +239,14 @@ public class PartyBossPattern : MonoBehaviour
 
                 _attackColls[(int)eAttackColl.Left].SetActive(!leftEnable);
                 _attackColls[(int)eAttackColl.Right].SetActive(!rightEnable);
+
+                // print("lr active? : " + !leftEnable);
                 return;
         }
 
         bool activeSelf = _attackColls[collIndex].activeSelf;
         _attackColls[collIndex].SetActive(!activeSelf);
+        // print((eAttackColl)collIndex + " active? : " + !activeSelf);
     }
 
     #endregion 2. 공격할 때 콜리더를 키고 끄는 메서드

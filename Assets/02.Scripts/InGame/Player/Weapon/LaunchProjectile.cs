@@ -36,6 +36,7 @@ public class LaunchProjectile : MonoBehaviour
         {
             MonsterBase_1 monster = other.GetComponent<MonsterBase_1>();
             monster.DecreaseHP(_dmg, _arrowState == eArrowState.Fire ? _burn : null);
+            StartCoroutine(monster.OnHitEvent());
         }
 
         Boom();
@@ -56,6 +57,10 @@ public class LaunchProjectile : MonoBehaviour
     {
         GameObject effect = Instantiate(_explodeEffect, transform.position, transform.rotation) as GameObject;
         Destroy(effect, 1.5f);
-        Destroy(gameObject, 0.05f);
+
+        GetComponentInChildren<MeshRenderer>().enabled = false;
+        GetComponent<BoxCollider>().enabled = false;
+        _fireEffect.SetActive(false);
+        Destroy(gameObject, 1.05f);
     }
 }

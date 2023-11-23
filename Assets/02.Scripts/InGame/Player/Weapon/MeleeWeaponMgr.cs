@@ -93,6 +93,7 @@ public class MeleeWeaponMgr : MonoBehaviour
                     return;
 
                 monster.DecreaseHP(_combat.CalcDamage());
+                StartCoroutine(monster.OnHitEvent());
                 _hitEnemiesList.Remove(monster.gameObject);
             }
             else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
