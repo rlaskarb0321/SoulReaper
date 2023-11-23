@@ -88,7 +88,7 @@ public class PartyBossPattern : MonoBehaviour
 
     [SerializeField]
     [Tooltip("소환물")]
-    private GameObject _summonObj;
+    private MonsterSummon _summonObj;
 
     [SerializeField]
     [Tooltip("소환 캐스팅 중일 때 레터링 스피드")]
@@ -527,7 +527,7 @@ public class PartyBossPattern : MonoBehaviour
         _currCastingTime = 0.0f;
         _stopLettering = true;
         _isFireHit = false;
-        _summonObj.SetActive(true);
+        _summonObj.gameObject.SetActive(true); // 소환물이 있는 오브젝트의 부모 오브젝트를 켜주면 소환오오라의 애니메이터가 자동으로 돌아가고~ 소환됨
 
         ShowDialog(text, true);
         SummonStart(-1);

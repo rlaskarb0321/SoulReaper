@@ -2,7 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaveMonster : MonsterType
+public interface IDisolveEffect
+{
+    /// <summary>
+    /// Dissolve 를 이용해서 등장하기
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator DissolveAppear();
+
+    /// <summary>
+    /// Dissolve Appear 가 끝났을 때 관련 이펙트나 컴포넌트 설정
+    /// </summary>
+    public void CompleteDissloveAppear();
+}
+
+public class WaveMonster : MonsterType, IDisolveEffect
 {
     [Header("=== Wave ===")]
     public RaidWave _waveMaster;
@@ -73,15 +87,12 @@ public class WaveMonster : MonsterType
         _waveMaster.DecreaseMonsterCount();
     }
 
-    /// <summary>
-    /// Dissolve 를 이용해서 등장하기
-    /// </summary>
-    /// <returns></returns>
     public IEnumerator DissolveAppear()
     {
         Material newMat = Instantiate(_dissolveMat);
         float dissolveAmount = newMat.GetFloat("_DissolveAmount");
 
+        _monsterBase._animator.enabled = true;
         while (dissolveAmount >= 0.0f)
         {
             dissolveAmount -= _dissolveAmount * Time.deltaTime;
@@ -95,5 +106,12 @@ public class WaveMonster : MonsterType
             _monsterBase._mesh.material = newMat;
             yield return null;
         }
+    }
+
+    public void CompleteDissloveAppear()
+    {
+        _monsterBase._nav.enabled = true;
+        _monsterBase.GetComponent<CapsuleCollider>().enabled = true;
+        _monsterBase.GetComponentInChildren<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
 }
