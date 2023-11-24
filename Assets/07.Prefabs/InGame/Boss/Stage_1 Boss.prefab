@@ -1084,8 +1084,8 @@ MonoBehaviour:
     _id: 0_Summon Mini Boss
     _eSkillCondition: 1
     _priority: 0
-    _coolTime: 250
-    _currCoolTime: 250
+    _coolTime: 50
+    _currCoolTime: 50
     _attackRange: 0
   - _canUse: 0
     _id: 1_Drop Kick
@@ -1152,7 +1152,7 @@ MonoBehaviour:
     _currCoolTime: 0
     _attackRange: 0
   _isBossTired: 0
-  _tiredDuration: 60
+  _tiredDuration: 5
   _bull: {fileID: 0}
   _sweating: {fileID: 0}
 --- !u!114 &-1774013577304352622

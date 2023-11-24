@@ -49,6 +49,7 @@ public class MonsterBase_1 : MonoBehaviour
 
     public readonly int _hashMove = Animator.StringToHash("Move");
     public readonly int _hashDead = Animator.StringToHash("Dead");
+    public readonly int _hashRevive = Animator.StringToHash("Revive");
     [HideInInspector] public NavMeshAgent _nav;
     [HideInInspector] public SkinnedMeshRenderer _mesh;
     [HideInInspector] public Animator _animator;
@@ -177,6 +178,9 @@ public class MonsterBase_1 : MonoBehaviour
         }
 
         gameObject.SetActive(false);
+        _animator.enabled = true;
+        _animator.SetTrigger(_hashRevive);
+        _animator.enabled = false;
     }
 
     public virtual void Attack() { }

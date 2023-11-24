@@ -438,6 +438,7 @@ public class PartyBossPattern : MonoBehaviour
     public void SummonStart(int value)
     {
         bool isContinue = value == 1 ? true : false;
+        _summonPosIndex = 0;
         _isSummonStart = isContinue;
         _summoningEffect.SetActive(isContinue);
 

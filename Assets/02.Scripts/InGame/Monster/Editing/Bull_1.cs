@@ -142,6 +142,7 @@ public class Bull_1 : MeleeRange
         _animator.SetBool(_hashAttack, false);
         _state = eMonsterState.Dead;
 
+        UIScene._instance.UpdateSoulCount(_stat.soul);
         StartCoroutine(OnMonsterDead());
     }
 
