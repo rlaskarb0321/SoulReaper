@@ -528,7 +528,7 @@ public class PartyBossPattern : MonoBehaviour
         _currCastingTime = 0.0f;
         _stopLettering = true;
         _isFireHit = false;
-        _summonObj.gameObject.SetActive(true); // 소환물이 있는 오브젝트의 부모 오브젝트를 켜주면 소환오오라의 애니메이터가 자동으로 돌아가고~ 소환됨
+        _summonObj.gameObject.SetActive(true); // 소환오오라 오브젝트(MonsterSummon.cs)를 켜준다. 그럼 애니메이터가 자동으로 돌아가고~ 소환됨
 
         ShowDialog(text, true);
         SummonStart(-1);

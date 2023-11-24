@@ -1027,7 +1027,7 @@ MonoBehaviour:
     rotSpeed: 3.8
     movSpeed: 12.5
     isInitiator: 0
-    traceDist: 200
+    traceDist: 500
     attakDist: 0
     actDelay: 1
   _currHp: 0
@@ -1128,24 +1128,24 @@ MonoBehaviour:
     _priority: 5
     _coolTime: 4
     _currCoolTime: 4
-    _attackRange: 1.4
+    _attackRange: 2.4
   - _canUse: 1
     _id: 7_Push
     _eSkillCondition: 0
     _priority: 6
     _coolTime: 4
     _currCoolTime: 4
-    _attackRange: 1.4
+    _attackRange: 2.4
   _tiredStateSkills:
   - _canUse: 1
-    _id: 9_Run
+    _id: 8_Run
     _eSkillCondition: 0
     _priority: 0
     _coolTime: 13
     _currCoolTime: 13
     _attackRange: 0
   - _canUse: 1
-    _id: 8_Rest
+    _id: 9_Rest
     _eSkillCondition: 0
     _priority: 1
     _coolTime: 0

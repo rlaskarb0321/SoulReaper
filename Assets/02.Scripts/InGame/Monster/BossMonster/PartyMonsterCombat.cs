@@ -30,7 +30,7 @@ public class BossMonsterSkill
     public float _attackRange;
 
     // 스킬의 사용 가능 여부를 체크하는 델리게이트
-    public static EditCanUseDelegate _editCanUseDelegate;
+    public EditCanUseDelegate _editCanUseDelegate;
 
     /// <summary>
     /// 해당 스킬에 조건을 달아주는 enum
@@ -90,8 +90,8 @@ public class PartyMonsterCombat : MonoBehaviour
         Push,
 
         // Tired State
-        Rest,
         Run,
+        Rest,
         Count,
     }
 
@@ -100,15 +100,15 @@ public class PartyMonsterCombat : MonoBehaviour
         _monsterBase = GetComponent<PartyMonster>();
         _pattern = GetComponent<PartyBossPattern>();
         _bossWave = GetComponent<BossWave>();
-        _target = _monsterBase._target;
-
-        CheckSkill();
     }
 
     private void Start()
     {
         _originActDelay = _monsterBase._stat.actDelay;
         _originTiredDur = _tiredDuration;
+        _target = _bossWave._monsterBase._target;
+
+        CheckSkill();
     }
 
     private void Update()
@@ -271,12 +271,12 @@ public class PartyMonsterCombat : MonoBehaviour
 
             #region 보스가 지친 상태일 때 사용가능한 스킬들
 
-            case ePartyBossSkill.Rest:
-                _pattern.Rest();
-                break;
-
             case ePartyBossSkill.Run:
                 _pattern.Run();
+                break;
+
+            case ePartyBossSkill.Rest:
+                _pattern.Rest();
                 break;
 
             #endregion 보스가 지친 상태일 때 사용가능한 스킬들
@@ -326,33 +326,33 @@ public class PartyMonsterCombat : MonoBehaviour
         {
             // 페이즈 2때 사용 가능하도록 열어 주기
             case BossMonsterSkill.eSkillUseCondition.Phase2:
-                BossMonsterSkill._editCanUseDelegate -= isPhaseTwo;
-                BossMonsterSkill._editCanUseDelegate += isPhaseTwo;
+                skill._editCanUseDelegate -= isPhaseTwo;
+                skill._editCanUseDelegate += isPhaseTwo;
 
-                skill._canUse = BossMonsterSkill._editCanUseDelegate();
+                skill._canUse = skill._editCanUseDelegate();
                 break;
 
             case BossMonsterSkill.eSkillUseCondition.Phase3:
-                BossMonsterSkill._editCanUseDelegate -= isPhaseThree;
-                BossMonsterSkill._editCanUseDelegate += isPhaseThree;
+                skill._editCanUseDelegate -= isPhaseThree;
+                skill._editCanUseDelegate += isPhaseThree;
 
-                skill._canUse = BossMonsterSkill._editCanUseDelegate();
+                skill._canUse = skill._editCanUseDelegate();
                 break;
 
             // 멀리있는지 체크 후 사용 가능하도록 열어 주기
             case BossMonsterSkill.eSkillUseCondition.Long:
-                BossMonsterSkill._editCanUseDelegate -= isPlayerFar;
-                BossMonsterSkill._editCanUseDelegate += isPlayerFar;
+                skill._editCanUseDelegate -= isPlayerFar;
+                skill._editCanUseDelegate += isPlayerFar;
 
-                skill._canUse = BossMonsterSkill._editCanUseDelegate();
+                skill._canUse = skill._editCanUseDelegate();
                 break;
 
             // 플레이어가 뒤에있는지 체크 후 사용 가능하도록 열어 주기
             case BossMonsterSkill.eSkillUseCondition.Behind:
-                BossMonsterSkill._editCanUseDelegate -= isPlayerBehind;
-                BossMonsterSkill._editCanUseDelegate += isPlayerBehind;
+                skill._editCanUseDelegate -= isPlayerBehind;
+                skill._editCanUseDelegate += isPlayerBehind;
 
-                skill._canUse = BossMonsterSkill._editCanUseDelegate();
+                skill._canUse = skill._editCanUseDelegate();
                 break;
         }
     }

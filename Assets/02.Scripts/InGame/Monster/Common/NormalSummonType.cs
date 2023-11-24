@@ -43,6 +43,7 @@ public class NormalSummonType : MonsterType, IDisolveEffect, ISummonType
     public void InitUnitData()
     {
         // 여기에 일반몬스터를 재소환할떄 기본값으로 초기화하는 코드 작성
+
     }
 
     public override GameObject SearchTarget()
