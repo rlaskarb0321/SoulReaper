@@ -54,6 +54,7 @@ public class PlayerCombat : MonoBehaviour
     readonly int _hashChargingBurst = Animator.StringToHash("ChargingBurst");
     readonly int _hashFallAttack = Animator.StringToHash("FallAttack");
     readonly int _hashDodgeAttack = Animator.StringToHash("DodgeAttack");
+    readonly int _hashCancleCharge = Animator.StringToHash("Cancle Charge");
 
     void Awake()
     {
@@ -144,6 +145,10 @@ public class PlayerCombat : MonoBehaviour
             if (_curLongRangeChargingTime > _needChargingTime)
             {
                 _animator.SetTrigger(_hashChargingBurst);
+            }
+            else
+            {
+                _animator.SetTrigger(_hashCancleCharge);
             }
 
             InitChargingGauge();
