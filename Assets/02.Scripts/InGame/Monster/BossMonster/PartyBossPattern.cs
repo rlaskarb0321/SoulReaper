@@ -136,6 +136,18 @@ public class PartyBossPattern : MonoBehaviour
 
     #endregion 도망치기 & 약올리기 관련 전역 변수들
 
+    #region 일반 몬스터 소환 관련 전역 변수들
+
+    [Header("=== 일반 몬스터 소환 ===")]
+    [SerializeField]
+    private MonsterSummonPool _normalMonster;
+
+    [SerializeField]
+    [Tooltip("한번에 소환하는 일반 몬스터 수")]
+    private int _summonCount;
+
+    #endregion 일반 몬스터 소환 관련 전역 변수들
+
     // Field
     private GameObject _target;
     private Rigidbody _rbody;
@@ -550,6 +562,7 @@ public class PartyBossPattern : MonoBehaviour
     public void SummonNormalMonster()
     {
         _animator.SetTrigger(_hashNormalSummon);
+        _normalMonster.SummonMonster(_summonCount);
     }
 
     #endregion 일반 몬스터 소환하기

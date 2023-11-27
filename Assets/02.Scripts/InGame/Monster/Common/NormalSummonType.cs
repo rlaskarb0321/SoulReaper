@@ -17,6 +17,7 @@ public class NormalSummonType : MonsterType, IDisolveEffect, ISummonType
 {
     public Material _dissolveMat;
     public float _dissolveAmount;
+    public GameObject _aura;
 
     private MonsterBase_1 _monsterBase;
 
@@ -40,10 +41,31 @@ public class NormalSummonType : MonsterType, IDisolveEffect, ISummonType
         }
     }
 
+    /// <summary>
+    /// 소환 몬스터가 죽었을때 anim event로 등록
+    /// </summary>
+    public void DeadSummonObj()
+    {
+        if (_aura != null)
+            _aura.gameObject.SetActive(false);
+    }
+
     public void InitUnitData()
     {
         // 여기에 일반몬스터를 재소환할떄 기본값으로 초기화하는 코드 작성
+        Material newMat = Instantiate(_dissolveMat);
+        float dissolveAmount = newMat.GetFloat("_DissolveAmount");
+        newMat.SetFloat("_DissolveAmount", 1.0f);
 
+        transform.position = _aura.transform.position;
+        transform.localRotation = Quaternion.identity;
+        _monsterBase._animator.enabled = false;
+        _monsterBase._nav.enabled = false;
+        _monsterBase.GetComponent<CapsuleCollider>().enabled = false;
+        _monsterBase._currHp = _monsterBase._stat.health;
+        _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
+        _monsterBase.GetComponentInChildren<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        _monsterBase._mesh.material = newMat;
     }
 
     public override GameObject SearchTarget()

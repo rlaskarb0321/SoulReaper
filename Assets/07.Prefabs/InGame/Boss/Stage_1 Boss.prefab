@@ -1084,8 +1084,8 @@ MonoBehaviour:
     _id: 0_Summon Mini Boss
     _eSkillCondition: 1
     _priority: 0
-    _coolTime: 50
-    _currCoolTime: 50
+    _coolTime: 120
+    _currCoolTime: 120
     _attackRange: 0
   - _canUse: 0
     _id: 1_Drop Kick
@@ -1098,8 +1098,8 @@ MonoBehaviour:
     _id: 2_Summon Normal Monster
     _eSkillCondition: 1
     _priority: 1
-    _coolTime: 200
-    _currCoolTime: 200
+    _coolTime: 100
+    _currCoolTime: 100
     _attackRange: 0
   - _canUse: 0
     _id: 3_Blink
@@ -1152,7 +1152,7 @@ MonoBehaviour:
     _currCoolTime: 0
     _attackRange: 0
   _isBossTired: 0
-  _tiredDuration: 5
+  _tiredDuration: 40
   _bull: {fileID: 0}
   _sweating: {fileID: 0}
 --- !u!114 &-1774013577304352622
@@ -1190,7 +1190,7 @@ MonoBehaviour:
   _summoningEffect: {fileID: 0}
   _summonObj: {fileID: 0}
   _letteringSpeed: 0.45
-  _castingTime: 1
+  _castingTime: 12
   _currCastingTime: 0
   _isSummonStart: 0
   _fireHitReaction:
@@ -1205,6 +1205,8 @@ MonoBehaviour:
   - 0.2
   _runRangeMin: 11
   _runRangeMax: 15
+  _normalMonster: {fileID: 0}
+  _summonCount: 4
 --- !u!1 &4080401250968833244
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,8 +9,8 @@ public class MonsterSummon : MonoBehaviour
 {
     public GameObject _summonMonster;
 
-    private IDisolveEffect _dissolve;
-    private ISummonType _summonType;
+    private IDisolveEffect _dissolve; // SummonMonster 객체에 있는 IDisolveEffect 인터페이스를 할당
+    private ISummonType _summonType; // SummonMonster 객체에 있는 ISummonType 인터페이스를 할당
 
     private void OnEnable()
     {
@@ -22,6 +22,7 @@ public class MonsterSummon : MonoBehaviour
     {
         _dissolve = _summonMonster.GetComponent<IDisolveEffect>();
         _summonType = _summonMonster.GetComponent<ISummonType>();
+        _summonMonster.GetComponent<NormalSummonType>()._aura = this.gameObject;
     }
 
     public void SetMonsterAnimOn()
@@ -32,6 +33,5 @@ public class MonsterSummon : MonoBehaviour
     public void SetMonsterAIOn()
     {
         _dissolve.CompleteDissloveAppear();
-        gameObject.SetActive(false);
     }
 }
