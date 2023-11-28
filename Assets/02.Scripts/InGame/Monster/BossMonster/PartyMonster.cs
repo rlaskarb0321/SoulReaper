@@ -21,10 +21,10 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
 
     [Header("=== Debuff ===")]
     [SerializeField]
-    private GameObject[] _burnEffect;
+    private GameObject _burnEffect;
 
     [SerializeField]
-    private GameObject[] _burnPos;
+    private Transform _burnPos;
 
     [SerializeField]
     private float _burnDur;
@@ -166,6 +166,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
         float duration = burn._debuffDur;
 
         // 디버프 스택을 쌓아주고(큐에 들어감), 디버프 지속시간을 갱신시킴
+        _burnEffect.gameObject.SetActive(true);
         _debuffQueue.Enqueue(burn);
         _burnDur = duration;
 
@@ -181,7 +182,10 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     public void DotDamaged()
     {
         if (_debuffQueue.Count == 0)
+        {
+            _burnEffect.gameObject.SetActive(false);
             return;
+        }
         if (_burnDur <= 0.0f)
         {
             _burnDur = 0.0f;
@@ -200,6 +204,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
             StartCoroutine(OnHitEvent(eArrowState.Fire));
         }
 
+        _burnEffect.transform.position = _burnPos.position;
         _burnDur -= Time.deltaTime;
     }
 }
