@@ -1050,7 +1050,15 @@ MonoBehaviour:
   - 0.999
   - 0.4
   _ePhase: 0
-  _burnStack: 0
+  _burnEffect:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _burnPos:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _burnDur: 0
 --- !u!114 &1623512702279696830
 MonoBehaviour:
   m_ObjectHideFlags: 0

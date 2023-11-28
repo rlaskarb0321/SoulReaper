@@ -19,13 +19,21 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     [SerializeField]
     private ePhase _ePhase;
 
+    [Header("=== Debuff ===")]
     [SerializeField]
-    private int _burnStack;
+    private GameObject[] _burnEffect;
+
+    [SerializeField]
+    private GameObject[] _burnPos;
+
+    [SerializeField]
+    private float _burnDur;
 
     public enum ePhase { Phase_1, Phase_2, Phase_3, Count, }
     public ePhase Phase { get { return _ePhase; } set { _ePhase = value; } }
 
     // Field
+    private Queue<BurnDotDamage> _debuffQueue;
     private readonly int _hashPhase = Animator.StringToHash("Phase Count");
     private PartyMonsterCombat _monsterCombat;
     private PartyBossPattern _pattern;
@@ -41,6 +49,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
         _monsterCombat = GetComponent<PartyMonsterCombat>();
         _pattern = GetComponent<PartyBossPattern>();
         _outline = GetComponent<Outline>();
+        _debuffQueue = new Queue<BurnDotDamage>();
     }
 
     protected override void Start()
@@ -48,6 +57,11 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
         base.Start();
 
         _originOutlineColor = _outline.OutlineColor;
+    }
+
+    private void Update()
+    {
+        DotDamaged();
     }
 
     public override IEnumerator OnHitEvent(eArrowState state = eArrowState.Normal)
@@ -71,12 +85,9 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     public override void DecreaseHP(float amount, BurnDotDamage burn = null)
     {
         if (_pattern._isSummonStart)
-            _pattern.HitDuringSummon(_burnStack > 0, amount + (35.0f * _burnStack));
+            _pattern.HitDuringSummon(_debuffQueue.Count > 0, amount + (40.0f * _debuffQueue.Count));
         if (burn != null)
-        {
-            StartCoroutine(DotDamaged(burn));
-            ControlDebuffStack(1);
-        }
+            StartCoroutine(DecreaseDebuffDur(burn));
         if (_currHp <= 0.0f)
             return;
 
@@ -150,24 +161,45 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
         }
     }
 
-    public IEnumerator DotDamaged(BurnDotDamage dotDamage)
+    public IEnumerator DecreaseDebuffDur(BurnDotDamage burn)
     {
-        float duration = dotDamage._debuffDur;
-        WaitForSeconds ws = new WaitForSeconds(dotDamage._dotInterval);
+        float duration = burn._debuffDur;
 
+        // 디버프 스택을 쌓아주고(큐에 들어감), 디버프 지속시간을 갱신시킴
+        _debuffQueue.Enqueue(burn);
+        _burnDur = duration;
+
+        // 디버프 지속시간을 깎고, 0이되면 디버프 스택을 깎음(큐에서 나감)
         while (duration > 0.0f)
         {
-            yield return ws;
-
-            DecreaseHP(dotDamage._dotDamamge + (0.5f * _burnStack));
-            StartCoroutine(OnHitEvent(eArrowState.Fire));
-            duration -= dotDamage._dotInterval;
+            duration -= Time.deltaTime;
+            yield return null;
         }
-        ControlDebuffStack(-1);
+        _debuffQueue.Dequeue();
     }
 
-    public void ControlDebuffStack(int count)
+    public void DotDamaged()
     {
-        _burnStack += count;
+        if (_debuffQueue.Count == 0)
+            return;
+        if (_burnDur <= 0.0f)
+        {
+            _burnDur = 0.0f;
+            return;
+        }
+
+        // division 초마다 도트 데미지와 이펙트를 준다.
+        float division = _debuffQueue.Peek()._dotInterval;
+        float checkTime = (_burnDur - (int)_burnDur) % division;
+
+        // 수 A := N.xxxxxx - N.0 => 0.xxxxx
+        // A 를 division으로 나눈 나머지가 매우 작다면 원하는 수(dotInterval)에 근접했다고 판별함
+        if (0.0f <= checkTime && checkTime <= Time.deltaTime)
+        {
+            DecreaseHP(_debuffQueue.Peek()._dotDamamge + (0.5f * _debuffQueue.Count));
+            StartCoroutine(OnHitEvent(eArrowState.Fire));
+        }
+
+        _burnDur -= Time.deltaTime;
     }
 }

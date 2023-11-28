@@ -5,9 +5,9 @@ using UnityEngine.AI;
 
 public interface IDotDebuff
 {
-    public IEnumerator DotDamaged(BurnDotDamage dotDamage);
+    public IEnumerator DecreaseDebuffDur(BurnDotDamage dotDamage);
 
-    public void ControlDebuffStack(int count);
+    public void DotDamaged();
 }
 
 public class MonsterBase_1 : MonoBehaviour
