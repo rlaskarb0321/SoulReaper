@@ -10,20 +10,13 @@ public class MonsterSummonPool : MonoBehaviour
     public GameObject[] _monsterPrefabs;
     public ObjectPooling _projectilePool;
 
-    private int _childCount;
-
-    private void Start()
-    {
-        _childCount = transform.childCount;
-    }
-
     /// <summary>
     /// 몬스터를 소환할때 호출되는 함수
     /// </summary>
     /// <param name="count"></param>
     public void SummonMonster(int count)
     {
-        for (int i = 0; i < _childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             if (count == 0)
                 break;
@@ -46,7 +39,7 @@ public class MonsterSummonPool : MonoBehaviour
     /// <param name="count"></param>
     private void InstantiateRemain(int count)
     {
-        int childCount = _childCount;
+        int childCount = transform.childCount;
         for (int i = 0; i < childCount; i++)
         {
             if (count == 0)
@@ -58,7 +51,7 @@ public class MonsterSummonPool : MonoBehaviour
             Transform monsterTr = monster.GetComponent<Transform>();
 
             monster.gameObject.SetActive(false);
-            monsterTr.position = transform.GetChild(i).transform.position;
+            monsterTr.position = transform.GetChild(i % 4).transform.position;
             monsterTr.parent = this.transform;
             monsterTr.SetAsLastSibling();
 

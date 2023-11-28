@@ -1098,8 +1098,8 @@ MonoBehaviour:
     _id: 2_Summon Normal Monster
     _eSkillCondition: 1
     _priority: 1
-    _coolTime: 100
-    _currCoolTime: 100
+    _coolTime: 5
+    _currCoolTime: 5
     _attackRange: 0
   - _canUse: 0
     _id: 3_Blink
