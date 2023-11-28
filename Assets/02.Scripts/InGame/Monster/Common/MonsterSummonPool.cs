@@ -7,46 +7,30 @@ using UnityEngine;
 /// </summary>
 public class MonsterSummonPool : MonoBehaviour
 {
-    [Header("=== 하이러키 ===")]
-    [SerializeField]
-    private GameObject _effectParent;
+    public GameObject[] _monsterPrefabs;
+    public ObjectPooling _projectilePool;
 
-    [SerializeField]
-    private GameObject _monsterParent;
+    private int _childCount;
 
-    [SerializeField]
-    private ObjectPooling _projectilePool;
-
-    [Header("=== 재생성용 프리팹 ===")]
-    [SerializeField]
-    private GameObject _auraPrefab;
-
-    [SerializeField]
-    private GameObject[] _monsterPrefabs;
-
-    // Field
-    private List<MonsterSummon> _monsterPool;
-
-    private void Awake()
+    private void Start()
     {
-        _monsterPool = new List<MonsterSummon>();
-        for (int i = 0; i < _effectParent.transform.childCount; i++)
-        {
-            _monsterPool.Add(_effectParent.transform.GetChild(i).GetComponent<MonsterSummon>());
-        }
+        _childCount = transform.childCount;
     }
 
+    /// <summary>
+    /// 몬스터를 소환할때 호출되는 함수
+    /// </summary>
+    /// <param name="count"></param>
     public void SummonMonster(int count)
     {
-        for (int i = 0; i < _monsterPool.Count; i++)
+        for (int i = 0; i < _childCount; i++)
         {
             if (count == 0)
                 break;
-            if (_monsterPool[i].gameObject.activeSelf)
+            if (transform.GetChild(i).gameObject.activeSelf)
                 continue;
 
-            _monsterPool[i].gameObject.SetActive(false);
-            _monsterPool[i].gameObject.SetActive(true);
+            transform.GetChild(i).gameObject.SetActive(true);
             count--;
         }
 
@@ -56,42 +40,38 @@ public class MonsterSummonPool : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 비활성화된 자식 오브젝트로 가지고있던 몬스터보다 많은 양을 소환해야할때 호출하는 함수
+    /// </summary>
+    /// <param name="count"></param>
     private void InstantiateRemain(int count)
     {
-        for (int i = 0; i < _monsterPool.Count; i++)
+        int childCount = _childCount;
+        for (int i = 0; i < childCount; i++)
         {
             if (count == 0)
-                break;
+                return;
 
+            // 몬스터 오브젝트 생성
             int randomValue = Random.Range(0, 2);
+            GameObject monster = Instantiate(_monsterPrefabs[randomValue]);
 
-            MonsterSummon summonAura = Instantiate(_auraPrefab).GetComponent<MonsterSummon>();
-            NormalSummonType monster = Instantiate(_monsterPrefabs[randomValue]).GetComponent<NormalSummonType>();
+            // 몬스터 오브젝트 위치값 설정
+            Transform monsterTr = monster.GetComponent<Transform>();
 
-            // 오오라 오브젝트 생성과 초기화
-            summonAura.gameObject.SetActive(false);
-            summonAura._summonMonster = monster.gameObject;
-            summonAura.transform.position = _monsterPool[i].transform.position;
-            summonAura.transform.parent = _effectParent.transform;
-            summonAura.transform.SetAsLastSibling();
+            monsterTr.gameObject.SetActive(false);
+            monsterTr.position = transform.GetChild(i).transform.position;
+            monsterTr.parent = this.transform;
+            monsterTr.SetAsLastSibling();
 
-            // 몬스터 타입 선택 및 초기화
-            monster._aura = summonAura.gameObject;
-            monster.transform.position = summonAura.transform.position;
-            monster.transform.parent = _monsterParent.transform;
-            monster.transform.SetAsLastSibling();
+            // 몬스터가 원거리라면 발사체 오브젝트 풀링 적용
+            LongRange longRange = monster.GetComponentInChildren<LongRange>(true);
+            if (longRange != null)
+                longRange._projectilePool = _projectilePool;
 
-            // 투사체 풀 적용
-            LongRange longMonster = monster.GetComponent<LongRange>();
-            if (longMonster != null)
-                longMonster._projectilePool = _projectilePool;
-
-            // 몬스터 풀에 추가
-            _monsterPool.Add(summonAura);
+            // 몬스터 오브젝트 켜주면서 소환
             count--;
-
-            // 모든 초기화가 끝나고 활성화
-            summonAura.gameObject.SetActive(true);
+            monster.gameObject.SetActive(true);
         }
     }
 }

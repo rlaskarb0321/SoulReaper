@@ -46,8 +46,7 @@ public class NormalSummonType : MonsterType, IDisolveEffect, ISummonType
     /// </summary>
     public void DeadSummonObj()
     {
-        if (_aura != null)
-            _aura.gameObject.SetActive(false);
+        _aura.gameObject.SetActive(false);
     }
 
     public void InitUnitData()
@@ -57,7 +56,8 @@ public class NormalSummonType : MonsterType, IDisolveEffect, ISummonType
         float dissolveAmount = newMat.GetFloat("_DissolveAmount");
         newMat.SetFloat("_DissolveAmount", 1.0f);
 
-        transform.position = _aura.transform.position;
+        // transform.position = _aura.transform.position;
+        transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
         _monsterBase._animator.enabled = false;
         _monsterBase._nav.enabled = false;
