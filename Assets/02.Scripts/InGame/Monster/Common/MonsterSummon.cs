@@ -22,7 +22,6 @@ public class MonsterSummon : MonoBehaviour
     {
         _dissolve = _summonMonster.GetComponent<IDisolveEffect>();
         _summonType = _summonMonster.GetComponent<ISummonType>();
-        // _summonMonster.GetComponent<NormalSummonType>()._aura = this.gameObject;
     }
 
     public void SetMonsterAnimOn()

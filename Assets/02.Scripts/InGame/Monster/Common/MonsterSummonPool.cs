@@ -52,14 +52,12 @@ public class MonsterSummonPool : MonoBehaviour
             if (count == 0)
                 return;
 
-            // 몬스터 오브젝트 생성
+            // 몬스터 오브젝트 생성, 위치값 설정
             int randomValue = Random.Range(0, 2);
             GameObject monster = Instantiate(_monsterPrefabs[randomValue]);
-
-            // 몬스터 오브젝트 위치값 설정
             Transform monsterTr = monster.GetComponent<Transform>();
 
-            monsterTr.gameObject.SetActive(false);
+            monster.gameObject.SetActive(false);
             monsterTr.position = transform.GetChild(i).transform.position;
             monsterTr.parent = this.transform;
             monsterTr.SetAsLastSibling();

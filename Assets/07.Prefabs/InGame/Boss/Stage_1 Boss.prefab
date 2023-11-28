@@ -1206,7 +1206,7 @@ MonoBehaviour:
   _runRangeMin: 11
   _runRangeMax: 15
   _normalMonster: {fileID: 0}
-  _summonCount: 8
+  _summonCount: 4
 --- !u!1 &4080401250968833244
 GameObject:
   m_ObjectHideFlags: 0
