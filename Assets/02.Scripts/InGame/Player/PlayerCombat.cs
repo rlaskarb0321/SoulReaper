@@ -5,28 +5,29 @@ using UnityEngine.EventSystems;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [Header("Follow Cam")]
+    [Header("카메라")]
     public GameObject _followCamObj;
 
-    [Header("Attack")]
+    [Header("공격")]
     public float _needChargingTime; // 원거리 공격 사용하는데 필요한 차징 시간
     [HideInInspector] public float _curLongRangeChargingTime; // 현재 원거리 공격 충전시간
     public float _fallAttackSpeed; // 낙하공격시 떨어지는 속도
 
-    [Header("Cam Shake")]
+    [Header("카메라 흔들기")]
     public float _hitCamShakeAmount;
     public float _hitCamShakeDur;
     public float _fallAttackCamShakeAmount;
     public float _fallAttackCamShakeDur;
 
-    [Header("Weapon")]
+    [Header("무기")]
     public GameObject _meleeWeaponObj;
     public GameObject _longRangeProjectile;
     public Transform _firePos;
+    public Transform _bow;
     public enum eAttackStyle { NonCombat, Normal, DodgeAttack, FallAttack }
     public eAttackStyle _attackStyle;
 
-    [Header("Field")]
+    // field
     Transform _player;
     Animator _animator;
     Rigidbody _rbody;
@@ -134,6 +135,7 @@ public class PlayerCombat : MonoBehaviour
             }
 
             _state.State = PlayerFSM.eState.Charging;
+            _bow.gameObject.SetActive(true);
             RotateToClickDir();
             _followCam.CamState = FollowCamera.eCameraState.Charging;
         }
@@ -199,6 +201,7 @@ public class PlayerCombat : MonoBehaviour
     public void InitChargingGauge()
     {
         _curLongRangeChargingTime = 0.0f;
+        _bow.gameObject.SetActive(false);
         _animator.SetFloat(_hashChargingValue, _curLongRangeChargingTime);
     }
 
