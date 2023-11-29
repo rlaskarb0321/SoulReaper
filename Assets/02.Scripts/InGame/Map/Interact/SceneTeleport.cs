@@ -44,11 +44,13 @@ public class SceneTeleport : MonoBehaviour, IInteractable
                 break;
         }
 
+        // 저장시킬 데이터에 현재값들 대입
         data._currHP = _playerData._currHP;
         data._maxHP = _playerData._maxHP;
         data._currMP = _playerData._currMP;
         data._maxMP = _playerData._maxMP;
 
+        // 저장후 씬을 텔레포트 시킴
         CharacterDataPackage._cDataInstance._characterData = data;
         DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
         StartCoroutine(TeleportScene());

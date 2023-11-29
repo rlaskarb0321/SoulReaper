@@ -22,12 +22,14 @@ public class LoadingScene : MonoBehaviour
 
     private IEnumerator LoadSceneCor()
     {
+        // 비동기로 _nextScene을 불러온다.
         yield return null;
         AsyncOperation op = SceneManager.LoadSceneAsync(_nextScene);
         op.allowSceneActivation = false;
         float timer = 0.0f;
         while (!op.isDone)
         {
+            // 로딩바 채워주기
             yield return null;
             timer += Time.deltaTime;
             if (op.progress < 0.9f)
@@ -38,6 +40,8 @@ public class LoadingScene : MonoBehaviour
                     timer = 0f;
                 }
             }
+
+            // 로딩이 다 되었을때 추가적으로 UI씬도 같이 불러온다.
             else
             {
                 _loadingFillImg.fillAmount = Mathf.Lerp(_loadingFillImg.fillAmount, 1f, timer);

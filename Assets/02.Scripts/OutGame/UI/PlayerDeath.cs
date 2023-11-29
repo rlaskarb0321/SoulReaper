@@ -28,7 +28,15 @@ public class PlayerDeath : MonoBehaviour
             StartDeathProgress();
     }
 
-    public void AnnouncePlayerDeath() => _isPlayerDead = true; 
+    public void AnnouncePlayerDeath()
+    {
+        CharacterData.CData data = CharacterDataPackage._cDataInstance._characterData;
+
+        _isPlayerDead = true;
+        data._isPlayerDead = _isPlayerDead;
+        CharacterDataPackage._cDataInstance._characterData = data;
+        DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
+    }
 
     // 사망 후 연출 시작
     private void StartDeathProgress()

@@ -39,6 +39,10 @@ public class CharacterDataPackage : DataApply, IDataApply
     {
         yield return new WaitForSeconds(0.1f);
 
+        print("플레이어는 죽고 씬을 부른것인가? " + _data._isPlayerDead);
+        _data._isPlayerDead = false;
+        _cDataInstance._characterData = _data;
+
         // 플레이어와 쫓아다니는 캠 동시에 데이터에 적혀있던 위치로 옮기기
         _playerBody[0].rotation = _data._rot;
         _playerBody[0].position = new Vector3(_data._pos.x, _data._pos.y, _data._pos.z);

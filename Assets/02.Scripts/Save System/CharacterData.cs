@@ -27,7 +27,8 @@ public class CharacterData
             int seedCount,                                                                  // 씨앗을 몇개 갖고있는지
             int soulCount,                                                                  // 플레이어가 가지고 있는 영혼
             float basicAtkDamage,                                                           // 플레이어의 맨 몸 공격력
-            string[] skillList                                                              // 스킬 리스트
+            string[] skillList,                                                             // 스킬 리스트
+            bool isPlayerDead                                                               // 플레이어가 죽고 데이터를 불러오는지 여부
             )
         {
             _pos = pos;
@@ -41,6 +42,7 @@ public class CharacterData
             _soulCount = soulCount;
             _basicAtkDamage = basicAtkDamage;
             _skillArray = skillList;
+            _isPlayerDead = isPlayerDead;
         }
 
         public Vector3 _pos;
@@ -54,6 +56,7 @@ public class CharacterData
         public int _soulCount;
         public float _basicAtkDamage;
         public string[] _skillArray;
+        public bool _isPlayerDead;
     }
 
     /// <summary>
@@ -61,7 +64,7 @@ public class CharacterData
     /// </summary>
     public CharacterData()
     {
-        _characterData = new CData(new Vector3(-116.14f, -4.67f, -65.99f), Quaternion.identity, "LittleForest_Map", 100, 100, 50, 50, 5, 10, 0.0f, new string[ConstData.SKILL_UI_COUNT]);
+        _characterData = new CData(new Vector3(-116.14f, -4.67f, -65.99f), Quaternion.identity, "LittleForest_Map", 100, 100, 50, 50, 5, 10, 0.0f, new string[ConstData.SKILL_UI_COUNT], false);
     }
 
     /// <summary>
