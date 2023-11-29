@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class EnemyMeleeAttack : MonoBehaviour
 {
+    public AudioClip _hitSound;
+
+    private AudioSource _audio;
     private float _damage;
+
+    private void Awake()
+    {
+        _audio = GetComponent<AudioSource>();
+    }
 
     void Start()
     {
@@ -16,7 +24,7 @@ public class EnemyMeleeAttack : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             PlayerData player = other.GetComponent<PlayerData>();
-            player.DecreaseHP(transform.forward, _damage);
+            player.DecreaseHP(transform.forward, _damage, _hitSound);
         }
     }
 }

@@ -113,5 +113,6 @@ public class WaveMonster : MonsterType, IDisolveEffect
         _monsterBase._nav.enabled = true;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = true;
         _monsterBase.GetComponentInChildren<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        _monsterBase.GetComponent<AudioSource>().enabled = true;
     }
 }

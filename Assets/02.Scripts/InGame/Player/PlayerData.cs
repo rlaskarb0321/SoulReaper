@@ -25,6 +25,7 @@ public class PlayerData : MonoBehaviour
     Animator _animator;
     PlayerCombat _combat;
     PlayerMove_1 _move;
+    AudioSource _audio;
     readonly int _hashHit = Animator.StringToHash("Hit");
     readonly int _hashDead = Animator.StringToHash("Dead");
 
@@ -34,9 +35,10 @@ public class PlayerData : MonoBehaviour
         _animator = GetComponent<Animator>();
         _combat = GetComponent<PlayerCombat>();
         _move = GetComponent<PlayerMove_1>();
+        _audio = GetComponent<AudioSource>();
     }
 
-    public void DecreaseHP(Vector3 attackDir, float damage)
+    public void DecreaseHP(Vector3 attackDir, float damage, AudioClip hitSound)
     {
         if (_fsm.State == PlayerFSM.eState.Hit || _fsm.State == PlayerFSM.eState.Dead)
             return;
@@ -57,6 +59,7 @@ public class PlayerData : MonoBehaviour
         }
 
         StartCoroutine(FollowCamera._instance.ShakeCamera(_combat._hitCamShakeAmount, _combat._hitCamShakeDur));
+        _audio.PlayOneShot(hitSound, 0.6f);
         _combat.EndComboAtk();
         _combat.InitChargingGauge();
         _move._animator.SetBool(_move._hashRoll, false);

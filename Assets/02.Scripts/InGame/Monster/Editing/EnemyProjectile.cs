@@ -26,7 +26,9 @@ public class EnemyProjectile : VFXPool
     public float _lifeTime;
     public bool _isReflected;
     [HideInInspector] public LaunchData _launchData;
+    public AudioClip _hitSound;
 
+    private AudioSource _audio;
     private bool _isLaunch;
     private float _originLifeTime;
     private SphereCollider _coll;
@@ -36,6 +38,7 @@ public class EnemyProjectile : VFXPool
     {
         _rbody = GetComponent<Rigidbody>();
         _coll = GetComponent<SphereCollider>();
+        _audio = GetComponent<AudioSource>();
 
         _originLifeTime = _lifeTime;
     }
@@ -109,6 +112,8 @@ public class EnemyProjectile : VFXPool
                 monster.DecreaseHP(_launchData.damage);
                 StartCoroutine(monster.OnHitEvent());
                 StartCoroutine(Explosion());
+
+                _audio.PlayOneShot(_hitSound);
             }
             // ¶¥°ú Ãæµ¹
             else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
@@ -121,7 +126,10 @@ public class EnemyProjectile : VFXPool
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerTeam"))
         {
             PlayerData player = other.GetComponent<PlayerData>();
-            player.DecreaseHP(transform.forward, _launchData.damage);
+            if (player == null)
+                return;
+
+            player.DecreaseHP(transform.forward, _launchData.damage, _hitSound);
             StartCoroutine(Explosion());
         }
         // ¶¥°ú Ãæµ¹

@@ -631,7 +631,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -685,13 +685,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactName: "\uC528\uC557 \uC2EC\uAE30"
   _floatUIPos: {fileID: 7882320051345235327}
-  _flowerState: 0
   _healthFlower: {fileID: 678170553293368870}
   _leaves:
   - {fileID: 678170553323826429}
   - {fileID: 678170553323826427}
   - {fileID: 678170553323826425}
   - {fileID: 678170553323826423}
+  _apply: {fileID: 0}
 --- !u!1 &3562167741911138522
 GameObject:
   m_ObjectHideFlags: 0

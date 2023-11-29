@@ -21,7 +21,7 @@ public class Bull_1 : MeleeRange
     [SerializeField]
     private float _camShakeDur;
 
-    private enum eBossSound { Walk_1, Walk_2, Dead, Roar_1, Roar_2 }
+    private enum eBossSound { Step_1, Step_2, Dead, Roar_1, Roar_2, Attack_1, Attack_2, Attack_3, Walk }
 
     protected override void Start() => base.Start();
 
@@ -32,6 +32,14 @@ public class Bull_1 : MeleeRange
 
         switch (_state)
         {
+            case eMonsterState.Trace:
+                if (!_audio.isPlaying && _audio.enabled)
+                {
+                    _audio.clip = _bossSound[(int)eBossSound.Walk];
+                    _audio.Play();
+                }
+                break;
+
             case eMonsterState.Attack:
                 AimingTarget(_target.transform.position, 2.0f);
                 Attack();
@@ -164,5 +172,10 @@ public class Bull_1 : MeleeRange
     public void ShakeCam()
     {
         StartCoroutine(FollowCamera._instance.ShakeCamera(_camShakeAmount, _camShakeDur));
+    }
+
+    public void PlayAttackCry(int index)
+    {
+        _audio.PlayOneShot(_bossSound[(int)((eBossSound)index)]);
     }
 }

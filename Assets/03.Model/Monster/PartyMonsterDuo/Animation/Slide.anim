@@ -60746,7 +60746,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 4
     messageOptions: 0
-  - time: 1.1333333
+  - time: 0.8666667
     functionName: SetAttackCollActive
     data: 
     objectReferenceParameter: {fileID: 0}
