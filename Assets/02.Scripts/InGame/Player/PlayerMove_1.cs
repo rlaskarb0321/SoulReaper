@@ -63,6 +63,7 @@ public class PlayerMove_1 : MonoBehaviour
 
     // Component
     private SoundEffects _sfx;
+    private PlayerCombat _combat;
     private Rigidbody _rbody;
     private PlayerData _data;
     [HideInInspector] public PlayerFSM _state;
@@ -77,6 +78,7 @@ public class PlayerMove_1 : MonoBehaviour
         _animator = GetComponent<Animator>();
         _sfx = GetComponent<SoundEffects>();
         _data = GetComponent<PlayerData>();
+        _combat = GetComponent<PlayerCombat>();
 
         _vcamOption = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
         _originDamp = new Vector3(_vcamOption.m_XDamping, _vcamOption.m_YDamping, _vcamOption.m_ZDamping);
@@ -136,6 +138,7 @@ public class PlayerMove_1 : MonoBehaviour
                 _dodgeDir = _dir;
 
             _dodgeDir = _dodgeDir.normalized;
+            _combat.InitChargingGauge();
             _state.State = PlayerFSM.eState.Dodge;
             transform.forward = _dodgeDir;
             StartCoroutine(CoolDownDodge());

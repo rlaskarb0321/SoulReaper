@@ -115,7 +115,7 @@ public class PlayerCombat : MonoBehaviour
         // 차징모션으로 전환 관련
         else if (Input.GetMouseButton(1) &&
             (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move
-            || _state.State == PlayerFSM.eState.Charging))
+            || _state.State == PlayerFSM.eState.Charging) && _state.State != PlayerFSM.eState.Dodge)
         {
             // UI 클릭시 공격 막기
             if (EventSystem.current.IsPointerOverGameObject())
@@ -141,7 +141,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         // 차징타임에따라 원거리공격을 하거나 취소를 결정
-        else if (Input.GetMouseButtonUp(1))
+        else if (Input.GetMouseButtonUp(1) && _state.State != PlayerFSM.eState.Dodge)
         {
             // 원거리공격 발사or취소
             if (_curLongRangeChargingTime > _needChargingTime)
@@ -154,7 +154,6 @@ public class PlayerCombat : MonoBehaviour
             }
 
             InitChargingGauge();
-            _followCam.CamState = FollowCamera.eCameraState.Follow;
             _state.State = PlayerFSM.eState.Idle;
         }
 
@@ -203,6 +202,7 @@ public class PlayerCombat : MonoBehaviour
         _curLongRangeChargingTime = 0.0f;
         _bow.gameObject.SetActive(false);
         _animator.SetFloat(_hashChargingValue, _curLongRangeChargingTime);
+        _followCam.CamState = FollowCamera.eCameraState.Follow;
     }
 
     public IEnumerator ActFallAttack(Rigidbody rbody, Animator animator)
