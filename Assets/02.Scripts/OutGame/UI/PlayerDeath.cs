@@ -11,6 +11,12 @@ public class PlayerDeath : MonoBehaviour
     [SerializeField]
     private float _magnifyCamValue;
 
+    [SerializeField]
+    private SkinnedMeshRenderer _playerMesh;
+
+    [SerializeField]
+    private Material _playerFadeMat;
+
     // Field
     private CinemachineFramingTransposer _vCamOption;
     private bool _isPlayerDead;
@@ -47,6 +53,7 @@ public class PlayerDeath : MonoBehaviour
             return;
         }
 
+        StartCoroutine(FadeOutPlayerMat());
         _anim.enabled = true;
         _isPlayerDead = false;
     }
@@ -63,5 +70,19 @@ public class PlayerDeath : MonoBehaviour
             return;
 
         _vCamOption.m_CameraDistance -= Time.deltaTime * 2.0f;
+    }
+
+    private IEnumerator FadeOutPlayerMat()
+    {
+        Material fadeMat = Instantiate(_playerFadeMat);
+        Color color = fadeMat.color;
+
+        while (fadeMat.color.a >= 0.05f)
+        {
+            color.a -= Time.deltaTime * 0.5f;
+            fadeMat.color = color;
+            _playerMesh.material = fadeMat;
+            yield return null;
+        }
     }
 }

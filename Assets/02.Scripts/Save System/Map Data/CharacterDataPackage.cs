@@ -39,14 +39,25 @@ public class CharacterDataPackage : DataApply, IDataApply
     {
         yield return new WaitForSeconds(0.1f);
 
-        print("플레이어는 죽고 씬을 부른것인가? " + _data._isPlayerDead);
-        _data._isPlayerDead = false;
-        _cDataInstance._characterData = _data;
+        if (_data._isPlayerDead)
+        {
+            // 캐릭터가 사망해서 새로 씬을 불러온 경우
+            _playerBody[0].rotation = _data._rot;
+            _playerBody[0].position = new Vector3(_data._pos.x, _data._pos.y, _data._pos.z);
+            _playerMove.TeleportPlayer(_playerBody[0], false);
 
-        // 플레이어와 쫓아다니는 캠 동시에 데이터에 적혀있던 위치로 옮기기
-        _playerBody[0].rotation = _data._rot;
-        _playerBody[0].position = new Vector3(_data._pos.x, _data._pos.y, _data._pos.z);
-        _playerMove.TeleportPlayer(_playerBody[0], false);
+            // 관련 값 적용 후, 초기화
+            _data._isPlayerDead = false;
+            _cDataInstance._characterData = _data;
+        }
+        else
+        {
+            // 캐릭터가 사망하지않고 씬을 새로 불러온 경우
+            // 플레이어와 쫓아다니는 캠 동시에 데이터에 적혀있던 위치로 옮기기
+            _playerBody[0].rotation = _data._rot;
+            _playerBody[0].position = new Vector3(_data._pos.x, _data._pos.y, _data._pos.z);
+            _playerMove.TeleportPlayer(_playerBody[0], false);
+        }
 
         // 플레이어의 체력과 마나를 데이터에 적혀있던대로 수정
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, _data._currHP, _data._maxHP, false);

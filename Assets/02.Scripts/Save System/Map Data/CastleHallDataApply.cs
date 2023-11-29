@@ -5,7 +5,7 @@ using UnityEngine;
 // Castle 씬에 Hall 맵의 데이터 관리하는 스크립트
 public class CastleHallDataApply : DataApply, IDataApply
 {
-    [Header("=== Hierarchy ===")]
+    [Header("=== 하이러키 ===")]
     [SerializeField]
     private SpiderWeb _spiderWeb;
 
