@@ -106,4 +106,9 @@ public class MeleeWeaponMgr : MonoBehaviour
 
         _hitEnemiesList.Clear();
     }
+
+    public void ResetHitEnemy()
+    {
+        _hitEnemiesList.Clear();
+    }
 }

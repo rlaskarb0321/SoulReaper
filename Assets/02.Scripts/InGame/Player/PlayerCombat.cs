@@ -36,7 +36,7 @@ public class PlayerCombat : MonoBehaviour
     // Weapon
     private BoxCollider _weaponColl;
     private TrailRenderer _weaponTrail;
-    private MeleeWeaponMgr _weapon;
+    [HideInInspector] public MeleeWeaponMgr _weapon;
 
     int _combo;
     bool _unFreeze;

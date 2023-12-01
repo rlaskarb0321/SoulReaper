@@ -10,11 +10,7 @@ public class MiniBossAuraAnimCtrl : MonoBehaviour
     [SerializeField]
     private ParticleSystem[] _particles;
 
-    [SerializeField]
-    private AudioClip[] _soundClip;
-
     private enum eSoundClip { SummonLoop, SummonSuccess, SummonFail }
-    private AudioSource _audio;
     private Animator _animator;
     private bool _isReverse;
     private readonly int _hashSuccess = Animator.StringToHash("Success");
@@ -23,7 +19,6 @@ public class MiniBossAuraAnimCtrl : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _audio = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -67,31 +62,6 @@ public class MiniBossAuraAnimCtrl : MonoBehaviour
     public void SummonFail()
     {
         _animator.SetTrigger(_hashFail);
-    }
-
-    /// <summary>
-    /// 애니메이션 이벤트로 소리가 나게될 타이밍을 정함, 예외로 소환루프일땐 오디오 클립에 루프를 참으로 해주고 넣고 플레이
-    /// </summary>
-    /// <param name="index"></param>
-    public void PlayAuraSound(int index)
-    {
-        if (index == -1)
-        {
-            _audio.Stop();
-            return;
-        }
-
-        if (index == (int)eSoundClip.SummonLoop && !_audio.isPlaying)
-        {
-            _audio.clip = _soundClip[index];
-            _audio.loop = true;
-            _audio.Play();
-            return;
-        }
-
-        _audio.loop = false;
-        _audio.Stop();
-        _audio.PlayOneShot(_soundClip[index]);
     }
 
     /// <summary>

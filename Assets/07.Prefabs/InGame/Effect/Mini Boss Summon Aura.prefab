@@ -14815,6 +14815,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _summonMonster: {fileID: 0}
+  _soundClip:
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 4b64b3b0276f8b541ac73701aeb621ca, type: 3}
+  - {fileID: 8300000, guid: 46f988646734ecd4e899032786f09a2a, type: 3}
+  - {fileID: 8300000, guid: e2cf6e149bd364f47834df0d7cdc4a59, type: 3}
 --- !u!114 &7734827866904041591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14833,10 +14838,6 @@ MonoBehaviour:
   - {fileID: 5581118012717185221}
   - {fileID: 5581118011972899834}
   - {fileID: 5581118011987947999}
-  _soundClip:
-  - {fileID: 8300000, guid: 4b64b3b0276f8b541ac73701aeb621ca, type: 3}
-  - {fileID: 8300000, guid: 46f988646734ecd4e899032786f09a2a, type: 3}
-  - {fileID: 8300000, guid: e2cf6e149bd364f47834df0d7cdc4a59, type: 3}
 --- !u!1 &5581118012297940940
 GameObject:
   m_ObjectHideFlags: 0
