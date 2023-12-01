@@ -111,6 +111,9 @@ public class FollowCamera : MonoBehaviour
         silhouetteRay = new Ray(_vCam.transform.position, (_raySearchTarget.transform.position - _vCam.transform.position).normalized);
         silRayHits = Physics.RaycastAll(silhouetteRay, (_raySearchTarget.transform.position - _vCam.transform.position).magnitude);
         silRayHits.OrderBy(hit => (_vCam.transform.position - hit.transform.position).magnitude);
+
+        if (silRayHits.Length <= 0)
+            return;
         hitObj = silRayHits[0];
 
         if (hitObj.transform.gameObject.layer == LayerMask.NameToLayer("PlayerTeam") ||

@@ -22,8 +22,7 @@ public class UIScene : MonoBehaviour
     public SeedUI _seedUI;
 
     [Header("=== Player ===")]
-    [SerializeField]
-    private PlayerData _stat;
+    public PlayerData _stat;
 
     [SerializeField]
     private PlayerDeath _playerDeath;

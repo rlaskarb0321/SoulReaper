@@ -174,14 +174,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.016666668
-    functionName: PlayAuraSound
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.9166667
+  - time: 0.41666666
     functionName: PlayAuraSound
     data: 
     objectReferenceParameter: {fileID: 0}
