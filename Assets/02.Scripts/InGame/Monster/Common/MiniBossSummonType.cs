@@ -110,6 +110,7 @@ public class MiniBossSummonType : MonsterType, IDisolveEffect, ISummonType
         _monsterBase._animator.enabled = false;
         _monsterBase._nav.enabled = false;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = false;
+        _monsterBase.GetComponent<AudioSource>().enabled = false;
         _monsterBase._currHp = _monsterBase._stat.health;
         _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
         _monsterBase.GetComponentInChildren<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;

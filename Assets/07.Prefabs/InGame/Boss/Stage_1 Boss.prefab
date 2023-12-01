@@ -1100,8 +1100,8 @@ MonoBehaviour:
     _id: 2_Summon Normal Monster
     _eSkillCondition: 1
     _priority: 1
-    _coolTime: 100
-    _currCoolTime: 100
+    _coolTime: 200
+    _currCoolTime: 200
     _attackRange: 0
   - _canUse: 0
     _id: 3_Blink
@@ -1154,7 +1154,7 @@ MonoBehaviour:
     _currCoolTime: 0
     _attackRange: 0
   _isBossTired: 0
-  _tiredDuration: 40
+  _tiredDuration: 5
   _bull: {fileID: 0}
   _sweating: {fileID: 0}
 --- !u!114 &-1774013577304352622
@@ -1189,10 +1189,9 @@ MonoBehaviour:
   _jumpHeight: 6
   _summonCastPos:
   - {fileID: 0}
-  _summoningEffect: {fileID: 0}
   _summonObj: {fileID: 0}
   _letteringSpeed: 0.45
-  _castingTime: 12
+  _castingTime: 8
   _currCastingTime: 0
   _isSummonStart: 0
   _fireHitReaction:

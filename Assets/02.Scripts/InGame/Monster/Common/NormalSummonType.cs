@@ -17,7 +17,6 @@ public class NormalSummonType : MonsterType, IDisolveEffect, ISummonType
 {
     public Material _dissolveMat;
     public float _dissolveAmount;
-    public GameObject _aura;
 
     private MonsterBase_1 _monsterBase;
 
@@ -46,7 +45,7 @@ public class NormalSummonType : MonsterType, IDisolveEffect, ISummonType
     /// </summary>
     public void DeadSummonObj()
     {
-        _aura.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
     public void InitUnitData()
@@ -113,6 +112,7 @@ public class NormalSummonType : MonsterType, IDisolveEffect, ISummonType
     public void CompleteDissloveAppear()
     {
         _monsterBase._nav.enabled = true;
+        _monsterBase.GetComponent<AudioSource>().enabled = true;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = true;
         _monsterBase.GetComponentInChildren<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }

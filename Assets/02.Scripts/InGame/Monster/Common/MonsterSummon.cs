@@ -33,4 +33,9 @@ public class MonsterSummon : MonoBehaviour
     {
         _dissolve.CompleteDissloveAppear();
     }
+
+    public void SetMonsterOff()
+    {
+        _summonMonster.gameObject.SetActive(false);
+    }
 }

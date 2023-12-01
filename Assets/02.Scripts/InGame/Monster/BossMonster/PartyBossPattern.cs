@@ -83,10 +83,6 @@ public class PartyBossPattern : MonoBehaviour
     private Transform[] _summonCastPos;
 
     [SerializeField]
-    [Tooltip("소환하기 전 이펙트")]
-    private GameObject _summoningEffect;
-
-    [SerializeField]
     [Tooltip("소환물")]
     private MonsterSummon _summonObj;
 
@@ -118,6 +114,7 @@ public class PartyBossPattern : MonoBehaviour
     private float[] _gaugeShakeDur;
 
     private WaitForSeconds _ws;
+    private MiniBossAuraAnimCtrl _auraAnimCtrl;
     private bool _summonReady; // 보스가 미니 보스 소환 준비 중인지
     private int _summonPosIndex; // 제단으로 위치 이동용 인덱스
     private bool _isFireHit; // 불 맞았는지
@@ -191,6 +188,7 @@ public class PartyBossPattern : MonoBehaviour
         _rbody = GetComponent<Rigidbody>();
         _target = _monsterBase._target;
         _dialogData = _bossDialog.DialogParsing(_dialogFile);
+        _auraAnimCtrl = _summonObj.GetComponent<MiniBossAuraAnimCtrl>();
         _ws = new WaitForSeconds(_letteringSpeed);
     }
 
@@ -452,7 +450,7 @@ public class PartyBossPattern : MonoBehaviour
         bool isContinue = value == 1 ? true : false;
         _summonPosIndex = 0;
         _isSummonStart = isContinue;
-        _summoningEffect.SetActive(isContinue);
+        _summonObj.gameObject.SetActive(true); // 소환오오라 오브젝트(MonsterSummon.cs)를 켜준다. 그럼 애니메이터가 자동으로 돌아가고~ 소환됨
 
         UIScene._instance.SetGaugeUI(isContinue);
         if (value != 1 && value != 0)
@@ -514,12 +512,15 @@ public class PartyBossPattern : MonoBehaviour
         }
 
         _currCastingTime -= decreaseCasting * Time.deltaTime;
+        // 맞아서 소환이 끊어졌을 때
         if (_currCastingTime < 0.0f)
         {
             _animator.SetBool(_hashFailSummon, true);
             _isFireHit = false;
             _stopLettering = true;
             _currCastingTime = 0.0f;
+            _auraAnimCtrl.SummonFail();
+            _summonObj.SetMonsterOff();
             SummonStart(0);
             return;
         }
@@ -540,7 +541,8 @@ public class PartyBossPattern : MonoBehaviour
         _currCastingTime = 0.0f;
         _stopLettering = true;
         _isFireHit = false;
-        _summonObj.gameObject.SetActive(true); // 소환오오라 오브젝트(MonsterSummon.cs)를 켜준다. 그럼 애니메이터가 자동으로 돌아가고~ 소환됨
+        
+        _auraAnimCtrl.SummonSuccess();
 
         ShowDialog(text, true);
         SummonStart(-1);
