@@ -19,18 +19,14 @@ public class PlayerFSM : MonoBehaviour
     Rigidbody _rbody;
     PlayerMove_1 _move;
     PlayerCombat _combat;
-    FallBehaviour _fallBehaviour;
-
     readonly int _hashRoll = Animator.StringToHash("isRoll");
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
     readonly int _hashDodgeAttack = Animator.StringToHash("DodgeAttack");
     readonly int _hashGetUP = Animator.StringToHash("GetUP");
-    bool _isRoll;
-    int _atkCombo;
     Vector3 _atkDir;
     public Vector3 AtkDir { set { _atkDir = value; } }
     float _originHitDelayValue;
-
+    
     void Awake()
     {
         _state = eState.Idle;
@@ -39,14 +35,11 @@ public class PlayerFSM : MonoBehaviour
         _rbody = GetComponent<Rigidbody>();
         _combat = GetComponent<PlayerCombat>();
         _animator = GetComponent<Animator>();
-        _fallBehaviour = _animator.GetBehaviour<FallBehaviour>();
     }
 
     void Start()
     {
-        _isRoll = _animator.GetBool(_hashRoll);
         _originHitDelayValue = _hitDelay;
-        _atkCombo = _animator.GetInteger(_hashCombo);
     }
 
     void Update()
@@ -54,7 +47,7 @@ public class PlayerFSM : MonoBehaviour
         if (_state == eState.Dead || _state == eState.LadderOut)
             return;
 
-        if (_fallBehaviour._isFall)
+        if (!_move._isGrounded)
             Fall();
 
         if (_state == eState.Attack)
@@ -90,7 +83,6 @@ public class PlayerFSM : MonoBehaviour
     void Fall()
     {
         ResetPlayerAnimParams();
-
         _state = eState.Fall;
         if (Input.GetMouseButtonDown(0))
         {

@@ -49,7 +49,6 @@ public class CharacterDataPackage : DataApply, IDataApply
         {
             // 캐릭터 데이터 관리에선 캐릭터를 일단 끈다.
             _playerBody[0].gameObject.SetActive(false);
-            print("character off");
         }
 
         // 관련 값 초기화

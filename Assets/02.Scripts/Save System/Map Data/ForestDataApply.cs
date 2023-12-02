@@ -11,59 +11,19 @@ public class ForestDataApply : DataApply, IDataApply
     public HealthPlant _healthFlower;
 
     [Header("=== 부활 포인트 ===")]
-    public GameObject _revivePos;
-    public SkinnedMeshRenderer _dummyPlayer;
-    public Material _playerFadeMat;
+    public ReviveStone _reviveStone;
 
     // 상부 데이터 관리자에게 제출용 데이터 구조체
     private ForestMap.ForestData _data;
 
     private void Awake()
     {
-        CharacterData.CData cData = CharacterDataPackage._cDataInstance._characterData;
-        Material fadeMat = Instantiate(_playerFadeMat);
-        Color color = fadeMat.color;
-
-        // 더미 캐릭터는 사망시에만 페이드인 시키고 그 외에는 없는듯 보이게 한다
-        color.a = 0.0f;
-        fadeMat.color = color;
-        _dummyPlayer.material = fadeMat;
-
-        // 캐릭터가 죽어서 씬을 새로 불러온경우
-        if (cData._isPlayerDead)
-        {
-            // 캐릭터 데이터에 위치와 회전을 부활포지션 값으로 옮기기
-            cData._pos = _revivePos.transform.position;
-            cData._rot = _dummyPlayer.transform.rotation;
-            CharacterDataPackage._cDataInstance._characterData = cData;
-            DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
-
-            // 맵 데이터 관리에선 꺼진 캐릭터를 받고, 더미 캐릭터를 페이드 인 시킨다.
-            StartCoroutine(FadeInPlayer(fadeMat, cData));
-        }
+        // 플레이어 캐릭터 사망했을 시 부활
+        _reviveStone.Revive();
 
         // 게임 데이터 부여
         _data = MapDataPackage._mapData._forest._dataStruct;
         StartCoroutine(ApplyData());
-    }
-
-    private IEnumerator FadeInPlayer(Material fadeMat, CharacterData.CData cData)
-    {
-        Color color = fadeMat.color;
-        while (fadeMat.color.a < 1.0f)
-        {
-            color.a += Time.deltaTime * 0.5f;
-            fadeMat.color = color;
-            _dummyPlayer.material = fadeMat;
-            print("alpha fade in");
-            yield return null;
-        }
-
-        _dummyPlayer.gameObject.SetActive(false);
-        UIScene._instance._stat.gameObject.SetActive(true);
-        cData._isPlayerDead = false;
-        CharacterDataPackage._cDataInstance._characterData = cData;
-        DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
     }
 
     public IEnumerator ApplyData()
