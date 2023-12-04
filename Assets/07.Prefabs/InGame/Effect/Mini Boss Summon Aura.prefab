@@ -41,16 +41,16 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5581118011972899839}
   serializedVersion: 8
-  lengthInSec: 2.5
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 0
-  looping: 0
+  looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 1.4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4863,7 +4863,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -14833,11 +14833,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotSpeed: 40
-  _particles:
-  - {fileID: 5581118012297940939}
-  - {fileID: 5581118012717185221}
-  - {fileID: 5581118011972899834}
-  - {fileID: 5581118011987947999}
+  _particleObj:
+  - {fileID: 5581118012087639632}
+  - {fileID: 5581118012297940940}
+  - {fileID: 5581118012717185222}
+  - {fileID: 5581118011972899839}
+  - {fileID: 5581118011987947971}
 --- !u!1 &5581118012297940940
 GameObject:
   m_ObjectHideFlags: 0
@@ -14888,7 +14889,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 0
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -19709,7 +19710,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 0
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:

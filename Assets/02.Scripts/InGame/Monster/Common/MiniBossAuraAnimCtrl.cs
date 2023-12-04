@@ -8,10 +8,13 @@ public class MiniBossAuraAnimCtrl : MonoBehaviour
     private float _rotSpeed;
 
     [SerializeField]
-    private ParticleSystem[] _particles;
+    private GameObject _aura;
 
-    private enum eSoundClip { SummonLoop, SummonSuccess, SummonFail }
+    [SerializeField]
+    private GameObject[] _particleObj;
+
     private Animator _animator;
+    private ParticleSystem[] _particleComp;
     private bool _isReverse;
     private readonly int _hashSuccess = Animator.StringToHash("Success");
     private readonly int _hashFail = Animator.StringToHash("Fail");
@@ -19,6 +22,11 @@ public class MiniBossAuraAnimCtrl : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _particleComp = new ParticleSystem[_particleObj.Length];
+        for (int i = 0; i < _particleObj.Length; i++)
+        {
+            _particleComp[i] = _particleObj[i].GetComponent<ParticleSystem>();
+        }
     }
 
     private void Update()
@@ -37,23 +45,29 @@ public class MiniBossAuraAnimCtrl : MonoBehaviour
     }
 
     /// <summary>
-    /// 소환의 성공여부에 관계없이 애니메이션 마지막프레임 이벤트로 해당 오브젝트를 끔
+    /// 소환의 성공여부에 관계없이 애니메이션 마지막프레임 이벤트로 원래 상태로 돌려놓음
     /// </summary>
     public void EndAnim()
     {
-        gameObject.SetActive(false);
+        for (int i = 0; i < _particleObj.Length; i++)
+        {
+            var particleMain = _particleComp[i].main;
+            particleMain.loop = true;
+        }
     }
 
     /// <summary>
-    /// 소환에 성공, 파티클 재생시킴
+    /// 소환에 성공
     /// </summary>
     public void SummonSuccess()
     {
-        _animator.SetTrigger(_hashSuccess);
-        for (int i = 0; i < _particles.Length; i++)
+        for (int i = 0; i < _particleObj.Length; i++)
         {
-            _particles[i].Play();
+            var particleMain = _particleComp[i].main;
+            particleMain.loop = false;
         }
+
+        _animator.SetTrigger(_hashSuccess);
     }
 
     /// <summary>
@@ -70,6 +84,6 @@ public class MiniBossAuraAnimCtrl : MonoBehaviour
     private void RotateAura()
     {
         int reverse = _isReverse ? -2 : 1;
-        transform.Rotate(Vector3.up * (reverse * _rotSpeed) * Time.deltaTime);
+        _aura.transform.Rotate(Vector3.up * (reverse * _rotSpeed) * Time.deltaTime);
     }
 }

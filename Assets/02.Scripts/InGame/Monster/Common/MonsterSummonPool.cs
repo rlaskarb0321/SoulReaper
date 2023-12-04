@@ -24,6 +24,7 @@ public class MonsterSummonPool : MonoBehaviour
                 continue;
 
             transform.GetChild(i).gameObject.SetActive(true);
+            transform.GetChild(i).GetComponent<MonsterSummon>().StartSummon();
             count--;
         }
 

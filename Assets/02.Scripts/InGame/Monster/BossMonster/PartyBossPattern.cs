@@ -451,6 +451,7 @@ public class PartyBossPattern : MonoBehaviour
         _summonPosIndex = 0;
         _isSummonStart = isContinue;
         _summonObj.gameObject.SetActive(true); // 소환오오라 오브젝트(MonsterSummon.cs)를 켜준다. 그럼 애니메이터가 자동으로 돌아가고~ 소환됨
+        _summonObj.StartSummon();
 
         UIScene._instance.SetGaugeUI(isContinue);
         if (value != 1 && value != 0)

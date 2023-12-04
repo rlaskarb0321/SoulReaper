@@ -1086,8 +1086,8 @@ MonoBehaviour:
     _id: 0_Summon Mini Boss
     _eSkillCondition: 1
     _priority: 0
-    _coolTime: 120
-    _currCoolTime: 120
+    _coolTime: 5
+    _currCoolTime: 5
     _attackRange: 0
   - _canUse: 0
     _id: 1_Drop Kick

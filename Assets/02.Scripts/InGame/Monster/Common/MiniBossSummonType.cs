@@ -5,10 +5,9 @@ using UnityEngine;
 /// <summary>
 /// 미니 보스 (Bull) 소환형
 /// </summary>
-public class MiniBossSummonType : MonsterType, IDisolveEffect, ISummonType
+public class MiniBossSummonType : MonsterType, ISummonType
 {
-    public Material _dissolveMat;
-    public float _dissolveAmount;
+    public Material _originMat;
 
     private MonsterBase_1 _monsterBase;
     private Vector3 _originPos;
@@ -67,53 +66,35 @@ public class MiniBossSummonType : MonsterType, IDisolveEffect, ISummonType
         }
     }
 
-    public void CompleteDissloveAppear()
+    public void CompleteSummon()
     {
+        _monsterBase._animator.enabled = true;
         _monsterBase._nav.enabled = true;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = true;
-        _monsterBase.GetComponentInChildren<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         _monsterBase.GetComponent<AudioSource>().enabled = true;
-    }
-
-    public IEnumerator DissolveAppear()
-    {
-        Material newMat = Instantiate(_dissolveMat);
-        float dissolveAmount = newMat.GetFloat("_DissolveAmount");
-        newMat.SetFloat("_DissolveAmount", 1.0f);
-
-        _monsterBase._mesh.material = newMat; 
-        _monsterBase._animator.enabled = true;
-        while (dissolveAmount >= 0.0f)
-        {
-            dissolveAmount -= _dissolveAmount * Time.deltaTime;
-            if (dissolveAmount <= 0.0f)
-            {
-                dissolveAmount = 0.0f;
-                break;
-            }
-
-            newMat.SetFloat("_DissolveAmount", dissolveAmount);
-            _monsterBase._mesh.material = newMat;
-            yield return null;
-        }
     }
 
     public void InitUnitData()
     {
         // 여기에 미니보스(Bull)을 재소환할떄 기본값으로 초기화하는 코드 작성
-        Material newMat = Instantiate(_dissolveMat);
-        float dissolveAmount = newMat.GetFloat("_DissolveAmount");
-        newMat.SetFloat("_DissolveAmount", 1.0f);
+        Material newMat = Instantiate(_originMat);
+        Transform parent = transform.parent;
+
+        gameObject.SetActive(true);
+        transform.parent = null;
+        transform.localScale = Vector3.zero;
+        transform.parent = parent;
 
         transform.localPosition = _originPos;
         transform.localRotation = _originRot;
+
         _monsterBase._animator.enabled = false;
         _monsterBase._nav.enabled = false;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = false;
         _monsterBase.GetComponent<AudioSource>().enabled = false;
+
         _monsterBase._currHp = _monsterBase._stat.health;
         _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
-        _monsterBase.GetComponentInChildren<SkinnedMeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         _monsterBase._mesh.material = newMat;
     }
 }

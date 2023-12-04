@@ -1213,7 +1213,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7025579733498754549}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1225,7 +1225,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 91b7c517aabcc0048a409f90482bdbcc, type: 2}
+  - {fileID: 2100000, guid: 2adcd0740dbab9543950e17d5421900e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2910,7 +2910,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7025579733498964447}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 1cac1bc7c0b44384187d348774e300d4, type: 3}
   m_Controller: {fileID: 9100000, guid: dc8172aa0978a2842ac1a513ba1ad2f7, type: 2}
   m_CullingMode: 1
@@ -3133,8 +3133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ebac692970c8b43933aeef6b2e0d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dissolveMat: {fileID: 2100000, guid: 91b7c517aabcc0048a409f90482bdbcc, type: 2}
-  _dissolveAmount: 0.21
+  _originScale: {x: 3.5, y: 3.5, z: 3.5}
 --- !u!1 &7025579733498966971
 GameObject:
   m_ObjectHideFlags: 0

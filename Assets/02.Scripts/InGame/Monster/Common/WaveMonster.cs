@@ -13,7 +13,7 @@ public interface IDisolveEffect
     /// <summary>
     /// Dissolve Appear 가 끝났을 때 관련 이펙트나 컴포넌트 설정
     /// </summary>
-    public void CompleteDissloveAppear();
+    public void CompleteSummon();
 }
 
 public class WaveMonster : MonsterType, IDisolveEffect
@@ -108,7 +108,7 @@ public class WaveMonster : MonsterType, IDisolveEffect
         }
     }
 
-    public void CompleteDissloveAppear()
+    public void CompleteSummon()
     {
         _monsterBase._nav.enabled = true;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = true;

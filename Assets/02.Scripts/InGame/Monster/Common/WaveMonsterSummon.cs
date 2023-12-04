@@ -23,7 +23,7 @@ public class WaveMonsterSummon : MonoBehaviour
 
     public void SetMonsterAIOn()
     {
-        _dissolve.CompleteDissloveAppear();
+        _dissolve.CompleteSummon();
         gameObject.SetActive(false);
     }
 }
