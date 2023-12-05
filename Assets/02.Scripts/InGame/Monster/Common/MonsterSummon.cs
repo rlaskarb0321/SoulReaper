@@ -8,21 +8,32 @@ using UnityEngine;
 public class MonsterSummon : MonoBehaviour
 {
     public GameObject _summonMonster;
+    public GameObject _aura;
     public AudioClip[] _soundClip;
 
     private enum eSoundClip { SummonStart, SummonLoop, SummonSuccess, SummonFail }
     private AudioSource _audio;
+    private Animator _animator;
     private ISummonType _summonType; // SummonMonster 객체에 있는 ISummonType 인터페이스를 할당
 
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
+        _animator = GetComponent<Animator>();
         _summonType = _summonMonster.GetComponent<ISummonType>();
     }
 
+    /// <summary>
+    /// 외부에서 소환 시작할 때 호출하는 스크립트
+    /// </summary>
     public void StartSummon()
     {
         _summonType.InitUnitData();
+        _aura.gameObject.SetActive(true);
+
+        _animator.enabled = false;
+        _animator.Rebind();
+        _animator.enabled = true;
     }
 
     public void SetMonsterAIOn()

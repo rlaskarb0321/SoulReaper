@@ -7,6 +7,7 @@ public class StartScene : MonoBehaviour
 {
     public GameObject _gameBtnGroup;
     public Button _firstSelecBtn;
+    public bool _isDevelopMode;
     
     // Field
     private bool _isAlreadyInput;
@@ -28,6 +29,7 @@ public class StartScene : MonoBehaviour
         {
             buttonAudio[i].enabled = false;
         }
+
         StartCoroutine(EventOnStartBtnClick());
     }
 
@@ -36,7 +38,8 @@ public class StartScene : MonoBehaviour
         AudioClip audio = _firstSelecBtn.GetComponent<ButtonUI>()._onClickSound;
 
         _audio.PlayOneShot(audio, 1.0f);
-        yield return new WaitForSeconds(4.0f);
+        if (!_isDevelopMode)
+            yield return new WaitForSeconds(4.0f);
 
         string mapFilePath = DataManage.SavePath + "TestMData" + ".json";
         string characterFilePath = DataManage.SavePath + "TestCData" + ".json";

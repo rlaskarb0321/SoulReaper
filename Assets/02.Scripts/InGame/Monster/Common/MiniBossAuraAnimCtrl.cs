@@ -54,6 +54,8 @@ public class MiniBossAuraAnimCtrl : MonoBehaviour
             var particleMain = _particleComp[i].main;
             particleMain.loop = true;
         }
+
+        _aura.gameObject.SetActive(false);
     }
 
     /// <summary>

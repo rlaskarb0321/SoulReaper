@@ -45,7 +45,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3691972728091709212}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1279c4d0e9303eb4390443c0d4649121, type: 2}
   m_CullingMode: 0
@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _summonMonster: {fileID: 5927680669167014028}
+  _aura: {fileID: 9099691141864914536}
   _soundClip:
   - {fileID: 0}
   - {fileID: 8300000, guid: 4b64b3b0276f8b541ac73701aeb621ca, type: 3}
@@ -202,6 +203,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Mini Boss Summon Aura
+      objectReference: {fileID: 0}
+    - target: {fileID: 5581118012087639632, guid: 203bd93e41bb09e469d29ec3f98067d5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5581118012087639725, guid: 203bd93e41bb09e469d29ec3f98067d5,
         type: 3}

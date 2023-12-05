@@ -443,15 +443,22 @@ public class PartyBossPattern : MonoBehaviour
     }
 
     /// <summary>
+    /// 의식 시작 애니메이션의 마지막 프레임에 달아놓는 event
+    /// </summary>
+    public void StartMiniBossSummon()
+    {
+        _summonObj.StartSummon();
+        ContinueSummon(1);
+    }
+
+    /// <summary>
     /// 의식 시작 애니메이션의 마지막 프레임에 달아놓는 animation event
     /// </summary>
-    public void SummonStart(int value)
+    public void ContinueSummon(int value)
     {
         bool isContinue = value == 1 ? true : false;
         _summonPosIndex = 0;
         _isSummonStart = isContinue;
-        _summonObj.gameObject.SetActive(true); // 소환오오라 오브젝트(MonsterSummon.cs)를 켜준다. 그럼 애니메이터가 자동으로 돌아가고~ 소환됨
-        _summonObj.StartSummon();
 
         UIScene._instance.SetGaugeUI(isContinue);
         if (value != 1 && value != 0)
@@ -522,7 +529,7 @@ public class PartyBossPattern : MonoBehaviour
             _currCastingTime = 0.0f;
             _auraAnimCtrl.SummonFail();
             _summonObj.SetMonsterOff();
-            SummonStart(0);
+            ContinueSummon(0);
             return;
         }
 
@@ -546,7 +553,7 @@ public class PartyBossPattern : MonoBehaviour
         _auraAnimCtrl.SummonSuccess();
 
         ShowDialog(text, true);
-        SummonStart(-1);
+        ContinueSummon(-1);
     }
 
     #endregion 미니 보스 소환하기
