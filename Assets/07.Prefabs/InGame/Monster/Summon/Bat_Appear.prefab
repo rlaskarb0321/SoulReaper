@@ -26164,4 +26164,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _summonMonster: {fileID: 6416474852438314470}
+  _aura: {fileID: 182220578676502075}
   _soundClip: []

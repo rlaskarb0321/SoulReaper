@@ -842,8 +842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e12b9f009efe546bf1a64b5ffdd9c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dissolveMat: {fileID: 2100000, guid: ae5e5cf948487ed45bac6928bf37e4bf, type: 2}
-  _dissolveAmount: 0.3
+  _originMat: {fileID: 0}
 --- !u!1 &8550631330677689195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,7 +1244,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _monster: {fileID: 3856823152507141379}
-  _aura: {fileID: 8921122164496724493}
 --- !u!1 &9180735385953843585
 GameObject:
   m_ObjectHideFlags: 0
@@ -1357,12 +1355,6 @@ PrefabInstance:
 --- !u!4 &8832201723167335352 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8129672476191484267, guid: 473713d1c5894a0469ff1e49a8b5b9f4,
-    type: 3}
-  m_PrefabInstance: {fileID: 738641634862992083}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8921122164496724493 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8182512692572092638, guid: 473713d1c5894a0469ff1e49a8b5b9f4,
     type: 3}
   m_PrefabInstance: {fileID: 738641634862992083}
   m_PrefabAsset: {fileID: 0}
