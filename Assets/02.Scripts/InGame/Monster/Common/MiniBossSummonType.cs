@@ -69,17 +69,14 @@ public class MiniBossSummonType : MonsterType, ISummonType
 
     public void CompleteSummon()
     {
-        #region 1차 오오라 수정하면서 수정하기
-        _monsterBase._animator.enabled = true;
+        //_monsterBase._animator.enabled = true;
         _monsterBase._nav.enabled = true;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = true;
         _monsterBase.GetComponent<AudioSource>().enabled = true;
-        #endregion 1차 오오라 수정하면서 수정하기
     }
 
     public void InitUnitData()
     {
-        #region 1차 오오라 수정하면서 수정하기
         // 여기에 미니보스(Bull)을 재소환할떄 기본값으로 초기화하는 코드 작성
         Material newMat = Instantiate(_originMat);
         Transform parent = transform.parent;
@@ -92,7 +89,7 @@ public class MiniBossSummonType : MonsterType, ISummonType
         transform.localRotation = _originRot;
 
         gameObject.SetActive(true);
-        _monsterBase._animator.enabled = false;
+        _monsterBase._animator.enabled = true;
         _monsterBase._nav.enabled = false;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = false;
         _monsterBase.GetComponent<AudioSource>().enabled = false;
@@ -103,7 +100,5 @@ public class MiniBossSummonType : MonsterType, ISummonType
         {
             _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
         }
-        #endregion 1차 오오라 수정하면서 수정하기
-
     }
 }

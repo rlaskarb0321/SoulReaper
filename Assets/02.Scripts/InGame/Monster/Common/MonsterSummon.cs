@@ -47,6 +47,32 @@ public class MonsterSummon : MonoBehaviour
         _summonMonster.gameObject.SetActive(isOn);
     }
 
+    public void CrescSound() => StartCoroutine(FadeInSound());
+
+    public void DecrescSound() => StartCoroutine(FadeOutSound());
+
+    private IEnumerator FadeOutSound()
+    {
+        _audio.volume = 1.0f;
+        while (_audio.volume > 0.0f)
+        {
+            _audio.volume -= Time.deltaTime * 0.5f;
+            yield return null;
+        }
+        _audio.volume = 0.0f;
+    }
+
+    private IEnumerator FadeInSound()
+    {
+        _audio.volume = 0.0f;
+        while (_audio.volume < 1.0f)
+        {
+            _audio.volume += Time.deltaTime * 0.5f;
+            yield return null;
+        }
+        _audio.volume = 1.0f;
+    }
+
     public void PlayAuraSound(int index)
     {
         if (index == (int)eSoundClip.SummonLoop && !_audio.isPlaying)
@@ -57,6 +83,7 @@ public class MonsterSummon : MonoBehaviour
             return;
         }
 
+        _audio.volume = 1.0f;
         _audio.loop = false;
         _audio.Stop();
         _audio.PlayOneShot(_soundClip[index]);
