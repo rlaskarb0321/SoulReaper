@@ -109,7 +109,8 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
 
         _isEndDialog = true;
         _oneWayDialogUI._activateUI.gameObject.SetActive(false);
-        _interact.ResetInteract();
+        if (_interactObj != null)
+            _interact.ResetInteract(); 
         _playable.Resume();
     }
 }

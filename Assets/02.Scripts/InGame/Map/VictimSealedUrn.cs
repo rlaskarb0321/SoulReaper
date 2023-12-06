@@ -103,15 +103,6 @@ public class VictimSealedUrn : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (other.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile") || 
-        //    other.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
-        //{
-        //    Vector3 dir = transform.position - other.gameObject.transform.position;
-        //    dir = dir.normalized;
-
-        //    Explosion(dir);
-        //}
-
         if (other.gameObject.layer != LayerMask.NameToLayer("PlayerProjectile") &&
             other.gameObject.layer != LayerMask.NameToLayer("PlayerWeapon"))
             return;

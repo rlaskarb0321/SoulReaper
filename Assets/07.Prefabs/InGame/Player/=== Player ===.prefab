@@ -151,7 +151,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3272357120044942189}
   m_LocalRotation: {x: -0.17130929, y: 0.18552163, z: 0.7135279, w: 0.65353864}
-  m_LocalPosition: {x: 0.018119566, y: 0.36452866, z: 0.023123274}
+  m_LocalPosition: {x: -0.11695492, y: 0.29923582, z: 0.15565214}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1959,9 +1959,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.37
-  m_Height: 1.8
+  m_Height: 1.62
   m_Direction: 1
-  m_Center: {x: 0, y: 0.89, z: 0}
+  m_Center: {x: 0, y: 0.77, z: 0}
 --- !u!82 &4253002009017578560
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3619,6 +3619,7 @@ MonoBehaviour:
   _firePos: {fileID: 3272357120044942188}
   _bow: {fileID: 1944275077371135573}
   _attackStyle: 0
+  _weapon: {fileID: 0}
 --- !u!114 &3272357121288171838
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,18 +10,22 @@ public class UIScene : MonoBehaviour
     // Instance
     public static UIScene _instance;
 
-    [Header("=== UI ===")]
+    [Header("=== 패널 ===")]
     [SerializeField]
     private List<GameObject> _currOpenPanel;
 
     [SerializeField]
     private GameObject _pausePanel; // 일시정지
+
+    [SerializeField]
+    private GameObject _areYouSurePanel; // 진짜 게임종료할건지 묻는 패널
+
     public GameObject _letterPanel; // 전서구
 
-    [Header("=== Seed UI ===")]
+    [Header("=== 생명의 씨앗 UI ===")]
     public SeedUI _seedUI;
 
-    [Header("=== Player ===")]
+    [Header("=== 플레이어 ===")]
     public PlayerData _stat;
 
     [SerializeField]
@@ -41,15 +45,15 @@ public class UIScene : MonoBehaviour
     private TMP_Text _mpText;
     public enum ePercentageStat { HP, MP, }
 
-    [Header("=== Soul Count ===")]
+    [Header("=== 영혼 획득 카운트 ===")]
     [SerializeField]
     private SoulCountUI _soulCount;
 
-    [Header("=== Scene Change ===")]
+    [Header("=== 씬 바꾸기 ===")]
     [SerializeField] 
     private TMP_Text _mapName;
 
-    [Header("=== Float UI ===")]
+    [Header("=== 물체에 뜨게 할 UI ===")]
     public RectTransform _interactUI; // 인게임에서 상호작용 가능한 물체 가까이 갔을 때 뜨게 할 텍스트 UI
     public RectTransform _dialogBallon; // 보스가 띄울 말풍선 UI
 
@@ -64,13 +68,13 @@ public class UIScene : MonoBehaviour
     private TMP_Text _context;
     private Vector3 _originGaugePos;
 
-    [Header("=== Buff ===")]
+    [Header("=== 버프 ===")]
     public BuffDataPackage _buffMgr;
 
-    [Header("=== Skill ===")]
+    [Header("=== 스킬 ===")]
     public SkillList _skillMgr;
 
-    [Header("=== Data ===")]
+    [Header("=== 데이터 ===")]
     [SerializeField]
     private DataApply _apply;
 
@@ -108,13 +112,36 @@ public class UIScene : MonoBehaviour
         }
     }
 
-    #region UI Panel
     // UI패널을 키고, 켜져있는 ui들 리스트에 넣음
     public void SetUIPanelActive(GameObject panel)
     {
         panel.SetActive(!panel.activeSelf);
         _currOpenPanel.Add(panel);
     }
+
+    /// <summary>
+    /// UI 패널을 끄고, ui 리스트에서 뺌
+    /// </summary>
+    /// <param name="panel"></param>
+    public void SetUIPanelDeactive(GameObject panel)
+    {
+        if (!_currOpenPanel.Contains(panel))
+            return;
+
+        panel.SetActive(false);
+        _currOpenPanel.Remove(panel);
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit(); // 어플리케이션 종료
+#endif
+    }
+
+    #region UI Panel
 
     public void PausePanel()
     {

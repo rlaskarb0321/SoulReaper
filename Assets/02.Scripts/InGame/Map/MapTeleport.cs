@@ -15,7 +15,7 @@ public class MapTeleport : MonoBehaviour
     [Header("=== To ===")]
     [SerializeField]
     private GameObject _nextPos;
-
+    
     // Field
     private PlayerMove_1 _playerMove;
 

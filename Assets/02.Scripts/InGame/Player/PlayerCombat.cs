@@ -147,6 +147,7 @@ public class PlayerCombat : MonoBehaviour
             if (_curLongRangeChargingTime > _needChargingTime)
             {
                 _animator.SetTrigger(_hashChargingBurst);
+                UnityEditor.EditorApplication.isPaused = true;
             }
             else
             {
