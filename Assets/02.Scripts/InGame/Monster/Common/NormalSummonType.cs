@@ -41,14 +41,6 @@ public class NormalSummonType : MonsterType, ISummonType
         }
     }
 
-    /// <summary>
-    /// 소환 몬스터가 죽었을때 anim event로 등록
-    /// </summary>
-    public void DeadSummonObj()
-    {
-        this.gameObject.SetActive(false);
-    }
-
     public void InitUnitData()
     {
         // 여기에 일반몬스터를 재소환할떄 기본값으로 초기화하는 코드 작성
@@ -94,6 +86,7 @@ public class NormalSummonType : MonsterType, ISummonType
 
     public void CompleteSummon()
     {
+        _monsterBase._animator.enabled = true;
         _monsterBase._nav.enabled = true;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = true;
         _monsterBase.GetComponent<AudioSource>().enabled = true;

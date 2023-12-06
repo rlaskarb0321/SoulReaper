@@ -65029,6 +65029,7 @@ MonoBehaviour:
     _speaker: {fileID: 860322787}
     _context: {fileID: 429058451}
     _selectionContent: {fileID: 0}
+  _interactObj: {fileID: 9150480395876321770}
 --- !u!320 &9150480395876321774
 PlayableDirector:
   m_ObjectHideFlags: 0

@@ -7,7 +7,9 @@ using UnityEngine.Playables;
 public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
 {
     public DialogUI _oneWayDialogUI;
+    public GameObject _interactObj;
 
+    private IInteractNPC _interact;
     private PlayableDirector _playable;
     private DialogMgr _dialogMgr;
     private float _letteringSpeed;
@@ -23,6 +25,8 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
         _playable = GetComponent<PlayableDirector>();
         _dialogMgr = new DialogMgr();
         _endLineWU = new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || _lineEndTimer <= 0.0f);
+        if (_interactObj != null)
+            _interact = _interactObj.GetComponent<IInteractNPC>();
     }
 
     private void Update()
@@ -105,6 +109,7 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
 
         _isEndDialog = true;
         _oneWayDialogUI._activateUI.gameObject.SetActive(false);
+        _interact.ResetInteract();
         _playable.Resume();
     }
 }

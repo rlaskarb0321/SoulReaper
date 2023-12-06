@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class ReviveStone : MonoBehaviour, IInteractable
+public interface IInteractNPC
+{
+    public void ResetInteract();
+}
+
+public class ReviveStone : MonoBehaviour, IInteractable, IInteractNPC
 {
     [Header("=== 상호 작용 ===")]
     [SerializeField]
@@ -89,6 +94,11 @@ public class ReviveStone : MonoBehaviour, IInteractable
         UIScene._instance.FloatTextUI(UIScene._instance._interactUI, value, pos, _interactName);
     }
 
+    public void ResetInteract()
+    {
+        _isInteract = false;
+    }
+
     #endregion IInteractable Method
 
     private IEnumerator FadeInPlayer(Material fadeMat, CharacterData.CData cData)
@@ -134,4 +144,6 @@ public class ReviveStone : MonoBehaviour, IInteractable
 
         SetActiveInteractUI(false);
     }
+
+    
 }
