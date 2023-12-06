@@ -8,7 +8,7 @@ public interface ISummonType
     /// 소환할때 관련값들 초기화하는 함수
     /// </summary>
     public void InitUnitData();
-
+    
     public void CompleteSummon();
 }
 
@@ -59,6 +59,8 @@ public class NormalSummonType : MonsterType, ISummonType
         transform.localRotation = Quaternion.identity;
 
         _monsterBase._animator.enabled = false;
+        _monsterBase._animator.Rebind();
+        _monsterBase._animator.enabled = true;
         _monsterBase._nav.enabled = false;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = false;
         _monsterBase.GetComponent<AudioSource>().enabled = false;
@@ -92,7 +94,6 @@ public class NormalSummonType : MonsterType, ISummonType
 
     public void CompleteSummon()
     {
-        _monsterBase._animator.enabled = true;
         _monsterBase._nav.enabled = true;
         _monsterBase.GetComponent<CapsuleCollider>().enabled = true;
         _monsterBase.GetComponent<AudioSource>().enabled = true;

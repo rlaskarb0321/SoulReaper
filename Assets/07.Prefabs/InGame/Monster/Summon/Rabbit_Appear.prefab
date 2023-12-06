@@ -15068,7 +15068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stat:
-    health: 60
+    health: 10
     damage: 10
     soul: 15
     rotSpeed: 3.6
