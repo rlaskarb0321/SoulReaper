@@ -24,11 +24,17 @@ public class CastleHallDataApply : DataApply, IDataApply
     [SerializeField]
     private BoxCollider _bRoomKey;
 
+    [Header("=== 부활 포인트 ===")]
+    public ReviveStone _reviveStone;
+
     // Field
     private CastleHall.RoomData _data;
 
     private void Awake()
     {
+        // 플레이어 캐릭터 사망했을 시 부활
+        _reviveStone.Revive();
+
         _data = MapDataPackage._mapData._castleHall._data;
         StartCoroutine(ApplyData());
     }
