@@ -14,12 +14,14 @@ public class MeleeWeaponMgr : MonoBehaviour
 
     private List<GameObject> _hitEnemiesList;
     private PlayerCombat _combat;
+    private PlayerData _playerData;
     private int _enemyLayer;
     private int _enemyProjectile;
 
     private void Awake()
     {
         _combat = GetComponentInParent<PlayerCombat>();
+        _playerData = GetComponentInParent<PlayerData>();
         _sfx = GetComponent<SoundEffects>();
     }
 
@@ -94,6 +96,8 @@ public class MeleeWeaponMgr : MonoBehaviour
 
                 monster.DecreaseHP(_combat.CalcDamage());
                 StartCoroutine(monster.OnHitEvent());
+
+                _playerData.DecreaseMP(-10.0f);
                 _hitEnemiesList.Remove(monster.gameObject);
             }
             else if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))

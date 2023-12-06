@@ -10,7 +10,7 @@ public class BossRoom : QuestRoom
 
     public override void SolveQuest()
     {
-
+        print("hi");
     }
 
     private void OnTriggerEnter(Collider other)

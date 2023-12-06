@@ -10,8 +10,11 @@ public class NormalUrn : MonoBehaviour
     [SerializeField] private Vector3 _offset;
     [SerializeField] private float _restoreDelay;
 
+    private bool _isExploded;
+    private int _recoverCount;
     private WaitForSeconds _ws;
     private Rigidbody[] _rbodys;
+    private PlayerData _playerData;
 
     private void Awake()
     {
@@ -25,6 +28,10 @@ public class NormalUrn : MonoBehaviour
 
     public void Explosion(Vector3 dir)
     {
+        if (_isExploded)
+            return;
+
+        _isExploded = true;
         for (int i = 0; i < _rbodys.Length; i++)
         {
             Transform originPos = _rbodys[i].transform;
@@ -60,6 +67,7 @@ public class NormalUrn : MonoBehaviour
         }
 
         shatter.transform.localPosition = Vector3.zero;
+        CompleteRecover();
     }
 
     private IEnumerator RestorationRot(Rigidbody shatter, Transform pos)
@@ -81,15 +89,32 @@ public class NormalUrn : MonoBehaviour
         }
     }
 
+    private void CompleteRecover()
+    {
+        _recoverCount++;
+        if (_recoverCount == _rbodys.Length)
+        {
+            _isExploded = false;
+            _recoverCount = 0;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile") ||
-            other.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
-        {
-            Vector3 dir = transform.position - other.gameObject.transform.position;
-            dir = dir.normalized;
+        if (other.gameObject.layer != LayerMask.NameToLayer("PlayerProjectile") &&
+            other.gameObject.layer != LayerMask.NameToLayer("PlayerWeapon"))
+            return;
 
-            Explosion(dir);
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon") && !_isExploded)
+        {
+            if (_playerData == null)
+                _playerData = other.GetComponentInParent<PlayerData>();
+
+            _playerData.DecreaseMP(-10.0f);
         }
+
+        Vector3 dir = transform.position - other.gameObject.transform.position;
+        dir = dir.normalized;
+        Explosion(dir);
     }
 }

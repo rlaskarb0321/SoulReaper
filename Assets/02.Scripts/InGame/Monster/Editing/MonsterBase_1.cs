@@ -152,7 +152,10 @@ public class MonsterBase_1 : MonoBehaviour
         _nav.baseOffset = 0.0f;
         _nav.enabled = false;
         _animator.SetTrigger(_hashDead);
-        _audio.PlayOneShot(_sound[(int)eSound.Die]);
+        if (_sound.Length > (int)eSound.Die)
+        {
+            _audio.PlayOneShot(_sound[(int)eSound.Die]);
+        }
 
         UIScene._instance.UpdateSoulCount(_stat.soul);
         StartCoroutine(OnMonsterDead());

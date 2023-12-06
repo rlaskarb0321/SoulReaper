@@ -17,6 +17,9 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     private float[] _phaseCondition;
 
     [SerializeField]
+    private BossRoom _bossRoomMgr;
+
+    [SerializeField]
     private ePhase _ePhase;
 
     [Header("=== Debuff ===")]
@@ -35,8 +38,10 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     // Field
     private Queue<BurnDotDamage> _debuffQueue;
     private readonly int _hashPhase = Animator.StringToHash("Phase Count");
+    private readonly int _hashBossDead = Animator.StringToHash("Dead");
     private PartyMonsterCombat _monsterCombat;
     private PartyBossPattern _pattern;
+    private Rigidbody _rbody;
     private bool _needAiming;
     private Outline _outline;
     private Color _originOutlineColor;
@@ -50,6 +55,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
         _pattern = GetComponent<PartyBossPattern>();
         _outline = GetComponent<Outline>();
         _debuffQueue = new Queue<BurnDotDamage>();
+        _rbody = GetComponent<Rigidbody>();
     }
 
     protected override void Start()
@@ -99,6 +105,21 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
             _currHp = 0.0f;
             Dead();
         }
+    }
+
+    public override void Dead()
+    {
+        GetComponent<CapsuleCollider>().enabled = false;
+
+        _pattern.SetOffAllColl();
+        _rbody.isKinematic = true;
+        _state = eMonsterState.Dead;
+        _nav.velocity = Vector3.zero;
+        _nav.isStopped = true;
+        _nav.baseOffset = 0.0f;
+        _nav.enabled = false;
+        _animator.SetTrigger(_hashBossDead);
+        _bossRoomMgr.SolveQuest();
     }
 
     public override void SwitchNeedAiming(int value) => _needAiming = value == 1 ? true : false;

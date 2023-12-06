@@ -73,10 +73,9 @@ public class PlayerData : MonoBehaviour
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, _currHP, _maxHP, false);
     }
 
-    public bool DecreaseMP(float amount)
+    public void DecreaseMP(float amount)
     {
         _currMP -= amount;
-        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, _currMP, _maxMP, false);
-        return false;
+        UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.MP, (int)_currMP, _maxMP, false);
     }
 }

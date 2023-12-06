@@ -24,6 +24,7 @@ public class VictimSealedUrn : MonoBehaviour
     [SerializeField] private float _keyRotateSpeed;
 
     private Rigidbody[] _rbodys;
+    private PlayerData _playerData;
 
     private void Awake()
     {
@@ -102,13 +103,29 @@ public class VictimSealedUrn : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile") || 
-            other.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
-        {
-            Vector3 dir = transform.position - other.gameObject.transform.position;
-            dir = dir.normalized;
+        //if (other.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile") || 
+        //    other.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
+        //{
+        //    Vector3 dir = transform.position - other.gameObject.transform.position;
+        //    dir = dir.normalized;
 
-            Explosion(dir);
+        //    Explosion(dir);
+        //}
+
+        if (other.gameObject.layer != LayerMask.NameToLayer("PlayerProjectile") &&
+            other.gameObject.layer != LayerMask.NameToLayer("PlayerWeapon"))
+            return;
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
+        {
+            if (_playerData == null)
+                _playerData = other.GetComponentInParent<PlayerData>();
+
+            _playerData.DecreaseMP(-10.0f);
         }
+
+        Vector3 dir = transform.position - other.gameObject.transform.position;
+        dir = dir.normalized;
+        Explosion(dir);
     }
 }

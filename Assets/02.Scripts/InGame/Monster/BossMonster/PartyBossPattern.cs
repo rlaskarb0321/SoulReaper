@@ -259,6 +259,15 @@ public class PartyBossPattern : MonoBehaviour
         // print((eAttackColl)collIndex + " active? : " + !activeSelf);
     }
 
+    public void SetOffAllColl()
+    {
+        for (int i = 0; i < _attackColls.Length; i++)
+        {
+            if (_attackColls[i] != null)
+                _attackColls[i].gameObject.SetActive(false);
+        }
+    }
+
     #endregion 2. 공격할 때 콜리더를 키고 끄는 메서드
 
     #region 3. 말풍선
