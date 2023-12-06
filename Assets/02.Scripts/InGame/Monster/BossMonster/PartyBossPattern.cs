@@ -391,11 +391,20 @@ public class PartyBossPattern : MonoBehaviour
         _stoneHit[index].SetActive(true);
     }
 
+    /// <summary>
+    /// 타겟의 뒤나 앞으로 순간이동
+    /// </summary>
     public void MoveToTargetBehind()
     {
         Vector3 blinkPos = _target.transform.position + (_target.transform.forward * -_blinkOffset);
-        transform.forward = (_target.transform.position - blinkPos).normalized;
+        RaycastHit hit;
+        bool groundHit = Physics.Raycast(blinkPos, new Vector3(blinkPos.x, -1.0f, blinkPos.z) - blinkPos, out hit, 1 << LayerMask.NameToLayer("Ground"));
+
+        if (!groundHit || hit.transform.CompareTag("Non Blink"))
+            blinkPos = _target.transform.position + (_target.transform.forward * _blinkOffset);
+
         transform.position = blinkPos;
+        transform.forward = (_target.transform.position - blinkPos).normalized;
     }
 
     

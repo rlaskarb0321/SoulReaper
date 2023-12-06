@@ -1049,6 +1049,7 @@ MonoBehaviour:
   _phaseCondition:
   - 0.999
   - 0.4
+  _bossRoomMgr: {fileID: 0}
   _ePhase: 0
   _burnEffect: {fileID: 0}
   _burnPos: {fileID: 4080401250968473874}
@@ -1107,8 +1108,8 @@ MonoBehaviour:
     _id: 3_Blink
     _eSkillCondition: 3
     _priority: 2
-    _coolTime: 15
-    _currCoolTime: 15
+    _coolTime: 0
+    _currCoolTime: 0
     _attackRange: 0
   - _canUse: 1
     _id: 4_Sliding
@@ -1183,7 +1184,7 @@ MonoBehaviour:
   - {fileID: 8529859125299486140}
   _stoneHit:
   - {fileID: 0}
-  _blinkOffset: 2.8
+  _blinkOffset: 2.1
   _rayDist: 1
   _jumpAccel: 1.4
   _jumpHeight: 6
