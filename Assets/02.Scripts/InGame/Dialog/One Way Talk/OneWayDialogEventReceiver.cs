@@ -63,6 +63,7 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
         string speaker = "";
         string context = "";
         StringBuilder letterSb = new StringBuilder();
+        bool isRichTextMode = false;
         _isEndDialog = false;
 
         // CSV 파일의 총 라인수만큼 반복
@@ -88,9 +89,44 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
                 // 대화문 도중 스페이스바 또는 마우스 좌클이 입력되면 바로 완성, 처음 몇 마디는 보여주게해야 자연스럽게 넘어가는 듯 보임
                 if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0)) && letteringIndex > 3)
                 {
+                    context = context.Replace("\\", "");
                     _oneWayDialogUI._context.text = context;
+                    print(context);
                     break;
                 }
+
+                if (isRichTextMode)
+                {
+                    if (context[letteringIndex].Equals('\\'))
+                    {
+                        isRichTextMode = false;
+                        // print("리치 텍스트 모드 끝! " + letterSb.ToString());
+                        _oneWayDialogUI._context.text = letterSb.ToString();
+                        letteringIndex++;
+                        yield return _letteringWS;
+                        continue;
+
+                    }
+
+                    // print("RichTextMode " + context[letteringIndex] + " 추가");
+                    letterSb.Append(context[letteringIndex]);
+                    letteringIndex++;
+                    yield return null;
+                    continue;
+                }
+
+                if (context[letteringIndex].Equals('\\'))
+                {
+                    if (!isRichTextMode)
+                    {
+                        // print(" \\ 발견");
+                        isRichTextMode = true;
+                        letteringIndex++;
+                        yield return null;
+                        continue;
+                    }
+                }
+
 
                 letterSb.Append(context[letteringIndex]);
                 _oneWayDialogUI._context.text = letterSb.ToString();
