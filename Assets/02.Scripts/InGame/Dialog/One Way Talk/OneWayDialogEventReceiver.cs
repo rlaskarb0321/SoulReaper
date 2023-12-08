@@ -91,7 +91,6 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
                 {
                     context = context.Replace("\\", "");
                     _oneWayDialogUI._context.text = context;
-                    print(context);
                     break;
                 }
 

@@ -44,6 +44,9 @@ public class BGMChanger : MonoBehaviour
             yield return null;
         }
 
+        if (changeBGM == null)
+            yield break;
+
         _audio.clip = changeBGM;
         _audio.volume = 0.0f;
         _audio.Play();
