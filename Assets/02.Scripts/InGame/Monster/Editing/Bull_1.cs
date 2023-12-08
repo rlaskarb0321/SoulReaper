@@ -138,7 +138,7 @@ public class Bull_1 : MeleeRange
     {
         for (int i = 0; i < _weaponColl.Length; i++)
         {
-            _weaponColl[i].enabled = false;
+            _weaponColl[i].gameObject.SetActive(false);
         }
 
         GetComponent<CapsuleCollider>().enabled = false;

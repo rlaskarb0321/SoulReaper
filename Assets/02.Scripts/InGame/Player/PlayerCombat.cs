@@ -124,6 +124,7 @@ public class PlayerCombat : MonoBehaviour
             if (_stat._currMP - 10.0f < 0.0f)
             {
                 print("마나가 부족");
+                _curLongRangeChargingTime = 0.0f;
                 return;
             }
 
@@ -147,7 +148,6 @@ public class PlayerCombat : MonoBehaviour
             if (_curLongRangeChargingTime > _needChargingTime)
             {
                 _animator.SetTrigger(_hashChargingBurst);
-                UnityEditor.EditorApplication.isPaused = true;
             }
             else
             {
