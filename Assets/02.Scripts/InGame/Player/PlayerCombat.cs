@@ -28,7 +28,6 @@ public class PlayerCombat : MonoBehaviour
     public eAttackStyle _attackStyle;
 
     // field
-    Transform _player;
     Animator _animator;
     Rigidbody _rbody;
     private IOnOffSwitchSkill _onOffSkill;
@@ -38,16 +37,14 @@ public class PlayerCombat : MonoBehaviour
     private TrailRenderer _weaponTrail;
     [HideInInspector] public MeleeWeaponMgr _weapon;
 
-    int _combo;
-    bool _unFreeze;
+    private int _combo;
+    private bool _unFreeze;
+    private bool _canShoot;
 
     [Header("Component")]
     AttackComboBehaviour _atkBehaviour;
-    SmoothDodgeBehaviour _smoothDodgeBehaviour;
-    PlayerMove_1 _mov;
     PlayerFSM _state;
     FollowCamera _followCam;
-    SoundEffects _sfx;
     PlayerData _stat;
 
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
@@ -64,9 +61,6 @@ public class PlayerCombat : MonoBehaviour
         _atkBehaviour = _animator.GetBehaviour<AttackComboBehaviour>();
         _followCam = _followCamObj.GetComponent<FollowCamera>();
         _rbody = GetComponent<Rigidbody>();
-        _mov = GetComponent<PlayerMove_1>();
-        _smoothDodgeBehaviour = _animator.GetBehaviour<SmoothDodgeBehaviour>();
-        _sfx = GetComponent<SoundEffects>();
         _stat = GetComponent<PlayerData>();
 
         // Weapon
@@ -77,7 +71,6 @@ public class PlayerCombat : MonoBehaviour
 
     void Start()
     {
-        _player = this.transform;
         _combo = 0;
         _attackStyle = eAttackStyle.NonCombat;
 
@@ -112,21 +105,32 @@ public class PlayerCombat : MonoBehaviour
             _attackStyle = eAttackStyle.Normal;
         }
 
-        // 차징모션으로 전환 관련
-        else if (Input.GetMouseButton(1) &&
-            (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move
-            || _state.State == PlayerFSM.eState.Charging) && _state.State != PlayerFSM.eState.Dodge)
+        // 원거리 공격 전, MP 가 충분한지 확인
+        if (Input.GetMouseButtonDown(1) && _state.State != PlayerFSM.eState.Dodge &&
+            (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move || _state.State == PlayerFSM.eState.Charging))
         {
+            if (_stat._currMP - 10.0f < 0.0f)
+            {
+                StartCoroutine(UIScene._instance.WarnLowMP());
+                _curLongRangeChargingTime = 0.0f;
+                _canShoot = false;
+            }
+            else
+            {
+                _canShoot = true;
+            }
+        }
+
+        // 차징모션으로 전환 관련
+        else if (Input.GetMouseButton(1) && _state.State != PlayerFSM.eState.Dodge &&
+            (_state.State == PlayerFSM.eState.Idle || _state.State == PlayerFSM.eState.Move || _state.State == PlayerFSM.eState.Charging))
+        {
+            if (!_canShoot)
+                return;
+
             // UI 클릭시 공격 막기
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
-
-            if (_stat._currMP - 10.0f < 0.0f)
-            {
-                print("마나가 부족");
-                _curLongRangeChargingTime = 0.0f;
-                return;
-            }
 
             // 원거리공격
             if (_curLongRangeChargingTime < _needChargingTime)

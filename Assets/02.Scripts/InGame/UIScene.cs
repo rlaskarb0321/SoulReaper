@@ -35,11 +35,24 @@ public class UIScene : MonoBehaviour
     [SerializeField] 
     private Image _hpFill;
 
+    [SerializeField]
+    private Image _hpBorder;
+
     [SerializeField] 
     private TMP_Text _hpText;
 
+    [Space(10.0f)]
     [SerializeField] 
     private Image _mpFill;
+
+    [SerializeField]
+    private Image _mpBorder;
+
+    [SerializeField]
+    private AudioClip _lowMPWarnSound;
+
+    [SerializeField]
+    private int _lowMPWarnRepeat;
 
     [SerializeField] 
     private TMP_Text _mpText;
@@ -78,10 +91,14 @@ public class UIScene : MonoBehaviour
     [SerializeField]
     private DataApply _apply;
 
+    // Field
+    private AudioSource _audio;
+
     private void Awake()
     {
         _instance = this;
 
+        _audio = GetComponent<AudioSource>();
         _currOpenPanel = new List<GameObject>();
         _mapName.text = EditMapName();
     }
@@ -112,6 +129,7 @@ public class UIScene : MonoBehaviour
         }
     }
 
+    #region UI Panel
     // UI패널을 키고, 켜져있는 ui들 리스트에 넣음
     public void SetUIPanelActive(GameObject panel)
     {
@@ -132,17 +150,6 @@ public class UIScene : MonoBehaviour
         _currOpenPanel.Remove(panel);
     }
 
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit(); // 어플리케이션 종료
-#endif
-    }
-
-    #region UI Panel
-
     public void PausePanel()
     {
         // 켜져있는 UI가 있으면 끔
@@ -160,6 +167,15 @@ public class UIScene : MonoBehaviour
     }
     #endregion UI Panel
 
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit(); // 어플리케이션 종료
+#endif
+    }
+
     public void UpdateSoulCount(float amount)
     {
         _soulCount.StartCount
@@ -171,6 +187,28 @@ public class UIScene : MonoBehaviour
         _stat._soulCount = (int)CharacterDataPackage._cDataInstance._characterData._soulCount + (int)amount;
         CharacterDataPackage._cDataInstance._characterData._soulCount = _stat._soulCount;
         DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
+    }
+
+    /// <summary>
+    /// 필요한 Mp량보다 보유한 Mp량이 적을때 호출되는 메서드
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator WarnLowMP()
+    {
+        Color originColor = Color.white;
+        _audio.clip = _lowMPWarnSound;
+        if (_audio.isPlaying)
+            yield break;
+
+        _audio.Play();
+        for (int i = 0; i < _lowMPWarnRepeat; i++)
+        {
+            _mpBorder.color = Color.blue;
+            yield return new WaitForSeconds(0.2f);
+
+            _mpBorder.color = originColor;
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     public void UpdateHPMP(ePercentageStat stat, float currValue, float maxValue, bool isDataEdit = true)

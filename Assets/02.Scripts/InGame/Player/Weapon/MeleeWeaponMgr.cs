@@ -38,9 +38,11 @@ public class MeleeWeaponMgr : MonoBehaviour
         if (other.gameObject.layer != _enemyLayer && other.gameObject.layer != _enemyProjectile)
             return;
 
-        _sfx.PlayOneShotUsingDict("Attack Hit");
         var collisionPoint = other.ClosestPoint(transform.position);
-        Instantiate(_slashEffect[0], collisionPoint, Quaternion.identity);
+        GameObject slashEffect = Instantiate(_slashEffect[0], collisionPoint, Quaternion.identity);
+
+        Destroy(slashEffect, 1.0f);
+        _sfx.PlayOneShotUsingDict("Attack Hit");
     }
 
     // 공격에 적중된 적들을 저장해 둘 리스트관련 작업
