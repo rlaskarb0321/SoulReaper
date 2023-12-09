@@ -239,6 +239,8 @@ public class PlayerCombat : MonoBehaviour
                 yield return new WaitForFixedUpdate();
             }
         }
+
+        rbody.isKinematic = false;
     }
 
     #region 애니메이션 Delegate용 함수들

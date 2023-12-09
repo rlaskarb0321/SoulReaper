@@ -241,22 +241,8 @@ public class PartyBossPattern : MonoBehaviour
     // index 번째의 게임오브젝트가 꺼져있으면 켜주고, 켜져있으면 꺼주기
     public void SetAttackCollActive(int collIndex)
     {
-        switch ((eAttackColl)collIndex)
-        {
-            case eAttackColl.Left_Right:
-                bool leftEnable = _attackColls[(int)eAttackColl.Left].activeSelf;
-                bool rightEnable = _attackColls[(int)eAttackColl.Right].activeSelf;
-
-                _attackColls[(int)eAttackColl.Left].SetActive(!leftEnable);
-                _attackColls[(int)eAttackColl.Right].SetActive(!rightEnable);
-
-                // print("lr active? : " + !leftEnable);
-                return;
-        }
-
         bool activeSelf = _attackColls[collIndex].activeSelf;
         _attackColls[collIndex].SetActive(!activeSelf);
-        // print((eAttackColl)collIndex + " active? : " + !activeSelf);
     }
 
     public void SetOffAllColl()

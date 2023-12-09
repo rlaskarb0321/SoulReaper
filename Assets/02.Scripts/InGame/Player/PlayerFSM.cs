@@ -14,7 +14,7 @@ public class PlayerFSM : MonoBehaviour
     public Transform _weaponCombatPos; // 공격할때 무기의 위치값
     public Transform _weaponNonCombatPos; // 공격상태가 아닐때 무기의 위치값
     public GameObject _weapon; // 무기이미지
-
+    
     Animator _animator;
     Rigidbody _rbody;
     PlayerMove_1 _move;
@@ -49,6 +49,8 @@ public class PlayerFSM : MonoBehaviour
 
         if (!_move._isGrounded)
             Fall();
+        else
+            _rbody.isKinematic = false;
 
         if (_state == eState.Attack)
             SetWeaponPos(_weaponCombatPos);

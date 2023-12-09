@@ -3744,6 +3744,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitSound: {fileID: 8300000, guid: 5072a94fa6887024985a35d9cf66c949, type: 3}
+  _hitEffect: {fileID: 3682280049749807710, guid: 50c03776fc3f2f44eba55d933b6ca2fc,
+    type: 3}
 --- !u!1 &9070450173883616104
 GameObject:
   m_ObjectHideFlags: 0
@@ -3900,6 +3902,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitSound: {fileID: 8300000, guid: 5072a94fa6887024985a35d9cf66c949, type: 3}
+  _hitEffect: {fileID: 3682280049749807710, guid: 50c03776fc3f2f44eba55d933b6ca2fc,
+    type: 3}
 --- !u!1 &9099691141477512135
 GameObject:
   m_ObjectHideFlags: 0
