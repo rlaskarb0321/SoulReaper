@@ -29,5 +29,5 @@ public class Boss_Bull : WaveMonster
         }
     }
 
-    public override GameObject SearchTarget() { return base.SearchTarget(); }
+    public override GameObject SearchTarget(float searchRange) { return base.SearchTarget(searchRange); }
 }

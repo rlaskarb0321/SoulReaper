@@ -12,6 +12,9 @@ public abstract class PlayerBuff : ScriptableObject
     protected string _buffName;
 
     [SerializeField]
+    protected string _description;
+
+    [SerializeField]
     protected float _buffDur;
 
     [SerializeField]

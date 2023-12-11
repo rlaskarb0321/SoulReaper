@@ -19,7 +19,9 @@ public class EnemyMeleeAttack : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             PlayerData player = other.GetComponent<PlayerData>();
-            GameObject hitPrefab = Instantiate(_hitEffect, transform.position, Quaternion.identity);
+            Vector3 randomPos = Random.insideUnitCircle;
+            randomPos = new Vector3(randomPos.x, Mathf.Abs(randomPos.y), randomPos.z);
+            GameObject hitPrefab = Instantiate(_hitEffect, other.transform.position + randomPos, Quaternion.identity);
 
             Destroy(hitPrefab, 1.0f);
             player.DecreaseHP(transform.forward, _damage, _hitSound);

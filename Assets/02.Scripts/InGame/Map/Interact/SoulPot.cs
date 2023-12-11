@@ -87,7 +87,7 @@ public class SoulPot : MonoBehaviour, IInteractable, IYOrNSelectOption
             {
                 _isInteract = false;
 
-                // 버프 주기
+                // 선택지가 Y이고, 영혼의 수가 필요량보다 많을경우 BuffMgr을 통해 버프 주기
                 PlayerBuff buff = _buffProvider.GenerateBuffInstance();
                 UIScene._instance.UpdateSoulCount(-1 * ConstData.SHRINE_COST);
                 UIScene._instance._buffMgr.BuffPlayer(buff);

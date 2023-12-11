@@ -25,7 +25,7 @@ public class NormalSummonType : MonsterType, ISummonType
     {
         _monsterBase = GetComponent<MonsterBase_1>();
         _monsterBase._stat.traceDist = 150.0f;
-        _monsterBase._target = SearchTarget();
+        _monsterBase._target = SearchTarget(_monsterBase._stat.traceDist);
     }
 
     private void Update()
@@ -62,9 +62,9 @@ public class NormalSummonType : MonsterType, ISummonType
         _monsterBase._mesh.material = newMat;
     }
 
-    public override GameObject SearchTarget()
+    public override GameObject SearchTarget(float searchRange)
     {
-        Collider[] colls = Physics.OverlapSphere(transform.position, _monsterBase._stat.traceDist, 1 << LayerMask.NameToLayer("PlayerTeam"));
+        Collider[] colls = Physics.OverlapSphere(transform.position, searchRange, 1 << LayerMask.NameToLayer("PlayerTeam"));
 
         return colls[0].gameObject;
     }

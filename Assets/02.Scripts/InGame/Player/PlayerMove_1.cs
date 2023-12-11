@@ -6,8 +6,8 @@ using Cinemachine;
 public class PlayerMove_1 : MonoBehaviour
 {
     [Header("=== Move ===")]
-    [SerializeField] private float _movSpeed;
-    [SerializeField] private float _rotSpeed;
+    public float _movSpeed;
+    public float _rotSpeed;
     [Range(0.01f, 0.9f)] [SerializeField] private float _ladderSpeed;
     public Vector3 _dir;
     private float _h;

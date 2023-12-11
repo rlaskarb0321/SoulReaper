@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public interface IDotDebuff
 {
     public IEnumerator DecreaseDebuffDur(BurnDotDamage dotDamage);
-
+    
     public void DotDamaged();
 }
 
@@ -113,8 +113,9 @@ public class MonsterBase_1 : MonoBehaviour
     {
         if (_currHp <= 0.0f)
             return;
+        if (_monsterType != null)
+            _monsterType.ReactDamaged();
 
-        // StartCoroutine(OnHitEvent());
         _currHp -= amount;
         if (_currHp <= 0.0f)
         {

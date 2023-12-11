@@ -61,6 +61,10 @@ public class BuffDataPackage : DataApply, IDataApply
         DataManage.SaveBData(_serverBuffData, "TestBData");
     }
 
+    /// <summary>
+    /// 캐릭터에게 buff 를 주는 메서드
+    /// </summary>
+    /// <param name="buff"></param>
     public void BuffPlayer(PlayerBuff buff)
     {
         // 이미 같은 버프가 걸려있는지 확인 후, 걸려있으면 시간만 초기값으로 갱신시켜줌

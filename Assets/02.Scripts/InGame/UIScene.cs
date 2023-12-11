@@ -189,8 +189,9 @@ public class UIScene : MonoBehaviour
         DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
     }
 
+    #region HP & MP
     /// <summary>
-    /// 필요한 Mp량보다 보유한 Mp량이 적을때 호출되는 메서드
+    /// 필요한 Mp량보다 보유한 Mp량이 적을때 호출됨, Mp 부족 UX 관련 메서드이다.
     /// </summary>
     /// <returns></returns>
     public IEnumerator WarnLowMP()
@@ -238,11 +239,19 @@ public class UIScene : MonoBehaviour
             _apply.EditData();
         }
     }
+    #endregion HP & MP
 
+    #region Buff
     public void UpdatePlayerDamage(float amount)
     {
         _stat._basicAtkDamage = amount;
     }
+
+    public void UpdatePlayerMovSpeed(float amount)
+    {
+        _stat._move._movSpeed = amount;
+    }
+    #endregion Buff
 
     // 씬 옮기면서 보여줄 맵 네임값을 수정
     private string EditMapName()

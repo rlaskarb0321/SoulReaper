@@ -51,7 +51,7 @@ public class SentryMonster : MonsterType
     /// </summary>
     private void Idle()
     {
-        _monsterBase._target = SearchTarget();
+        _monsterBase._target = SearchTarget(_monsterBase._stat.traceDist);
         if (_monsterBase._target != null)
         {
             _isSetPatrolPos = false;
@@ -102,7 +102,7 @@ public class SentryMonster : MonsterType
     /// </summary>
     private void Scout()
     {
-        _monsterBase._target = SearchTarget();
+        _monsterBase._target = SearchTarget(_monsterBase._stat.traceDist);
 
         if (_monsterBase._target != null)
         {
@@ -131,9 +131,9 @@ public class SentryMonster : MonsterType
         _monsterBase.Move(_movPos, _movSpeed);
     }
 
-    public override GameObject SearchTarget()
+    public override GameObject SearchTarget(float searchRange)
     {
-        Collider[] colls = Physics.OverlapSphere(transform.position, _monsterBase._stat.traceDist, 1 << LayerMask.NameToLayer("PlayerTeam"));
+        Collider[] colls = Physics.OverlapSphere(transform.position, searchRange, 1 << LayerMask.NameToLayer("PlayerTeam"));
         return DetectTarget(colls);
     }
 

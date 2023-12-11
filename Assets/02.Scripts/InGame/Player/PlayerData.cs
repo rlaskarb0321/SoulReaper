@@ -24,7 +24,8 @@ public class PlayerData : MonoBehaviour
     PlayerFSM _fsm;
     Animator _animator;
     PlayerCombat _combat;
-    PlayerMove_1 _move;
+    [HideInInspector]
+    public PlayerMove_1 _move;
     AudioSource _audio;
     readonly int _hashHit = Animator.StringToHash("Hit");
     readonly int _hashDead = Animator.StringToHash("Dead");

@@ -11,8 +11,7 @@ public class Bull_1 : MeleeRange
     private readonly int _hashIdle = Animator.StringToHash("Idle");
 
     [Header("=== Boss Sound ===")]
-    [SerializeField]
-    private AudioClip[] _bossSound;
+    public AudioClip[] _bossSound;
 
     [Header("=== Cam Shake ===")]
     [SerializeField]
@@ -21,7 +20,7 @@ public class Bull_1 : MeleeRange
     [SerializeField]
     private float _camShakeDur;
 
-    private enum eBossSound { Step_1, Step_2, Dead, Roar_1, Roar_2, Attack_1, Attack_2, Attack_3, Walk }
+    public enum eBossSound { Step_1, Step_2, Dead, Roar_1, Roar_2, Attack_1, Attack_2, Attack_3, Walk, Idle }
 
     protected override void Start() => base.Start();
 
