@@ -1882,7 +1882,8 @@ MonoBehaviour:
   m_Name: Y Or N Select Dialog Marker
   m_EditorClassIdentifier: 
   m_Time: 0.016666666666666666
-  _playerSelection: {fileID: 4900000, guid: 320109f96ff69914d99e5c102b755a96, type: 3}
+  _playerSelection:
+  - {fileID: 4900000, guid: 320109f96ff69914d99e5c102b755a96, type: 3}
 --- !u!114 &6905668841081673926
 MonoBehaviour:
   m_ObjectHideFlags: 1

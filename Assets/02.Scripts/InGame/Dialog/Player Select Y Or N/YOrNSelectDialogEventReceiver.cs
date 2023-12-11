@@ -25,8 +25,18 @@ public class YOrNSelectDialogEventReceiver : MonoBehaviour, INotificationReceive
             return;
 
         YOrNSelectDialogMarker marker = notification as YOrNSelectDialogMarker;
-        string[] lines = _dialogMgr.ParsingCSVLine(marker._playerSelection);
+        IMultiSelection multiSelection = gameObject.GetComponent<IMultiSelection>();
+        string[] lines;
 
+        if (multiSelection == null)
+        {
+            lines = _dialogMgr.ParsingCSVLine(marker._playerSelection[0]);
+        }
+        else
+        {
+            int textFileIndex = multiSelection.DivideQuestion();
+            lines = _dialogMgr.ParsingCSVLine(marker._playerSelection[textFileIndex]);
+        }
         PlayDialogType(lines);
     }
 

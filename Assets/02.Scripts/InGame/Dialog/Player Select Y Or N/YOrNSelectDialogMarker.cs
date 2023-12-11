@@ -9,7 +9,7 @@ using UnityEngine.Timeline;
 /// </summary>
 public class YOrNSelectDialogMarker : Marker, INotification
 {
-    public TextAsset _playerSelection;
+    public TextAsset[] _playerSelection;
 
     public PropertyName id => new PropertyName("Selection");
 }

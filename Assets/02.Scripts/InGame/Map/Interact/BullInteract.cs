@@ -3,7 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption
+public interface IMultiSelection
+{
+    /// <summary>
+    /// 선택을 묻는 텍스트파일이 여러개일때 특정 인덱스의 텍스트 파일을 고르게 하는 메서드
+    /// </summary>
+    /// <returns></returns>
+    public int DivideQuestion();
+}
+
+public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMultiSelection
 {
     [Header("=== 상호작용 ===")]
     [SerializeField]
@@ -19,15 +28,11 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption
     private PlayableDirector _playable;
     private int _selectNum;
     private bool _isInteract;
+    private int _noInviteCount;
 
     private void Awake()
     {
         _playable = GetComponent<PlayableDirector>();
-    }
-
-    private void Update()
-    {
-        print(ProductionMgr._isPlayingProduction);
     }
 
     public void Interact()
@@ -35,7 +40,6 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption
         if (_isInteract)
             return;
 
-        //print(_scroll.activeSelf);
         _isInteract = true;
         ProductionMgr.StartProduction(_playable);
     }
@@ -79,14 +83,37 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption
 
     public void ApplyOption(int selectNum)
     {
-        _selectNum = selectNum;
+        // 초대장 없이는 어떤 선택지를 골라도 문지기의 짜증 게이지가 올라간다.
+        if (_scroll.activeSelf)
+        {
+            _selectNum = 1;
+            _noInviteCount++;
+            return;
+        }
 
+        // 초대장을 가지고도 No 를 선택하면 역시 문지기의 짜증 게이지가 올라간다.
+        if (selectNum.Equals((int)DialogSelection.eYesOrNo.No))
+        {
+            _selectNum = 1;
+            _noInviteCount++;
+        }
+        // 초대장을 가지고있고 Yes 를 선택한 경우
+        else
+        {
+            _selectNum = selectNum;
+        }
     }
 
     public void CheckAnswer(bool isYes)
     {
         _playable.Resume();
         _isInteract = false;
+    }
 
+    public int DivideQuestion()
+    {
+        // 스크롤이 켜져있는지 여부로 리턴값을 다르게 함, 켜져있다는것은 초대장을 받지 않았다는 뜻
+        int value = _scroll.activeSelf ? 1 : 0;
+        return value;
     }
 }
