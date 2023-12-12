@@ -24,6 +24,9 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
     [SerializeField]
     private GameObject _scroll;
 
+    [SerializeField]
+    private int _maxEndureCount;
+
     // Field
     private PlayableDirector _playable;
     private int _selectNum;
@@ -87,7 +90,7 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
         if (_scroll.activeSelf)
         {
             _selectNum = 1;
-            _noInviteCount++;
+            DestroyObnoxious();
             return;
         }
 
@@ -95,7 +98,7 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
         if (selectNum.Equals((int)DialogSelection.eYesOrNo.No))
         {
             _selectNum = 1;
-            _noInviteCount++;
+            DestroyObnoxious();
         }
         // 초대장을 가지고있고 Yes 를 선택한 경우
         else
@@ -106,7 +109,14 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
 
     public void CheckAnswer(bool isYes)
     {
-        _playable.Resume();
+        if (!_scroll.activeSelf && isYes)
+        {
+            _playable.Resume();
+            SetActiveInteractUI(false);
+            return;
+        }
+
+        ProductionMgr.StopProduction(_playable);
         _isInteract = false;
     }
 
@@ -115,5 +125,15 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
         // 스크롤이 켜져있는지 여부로 리턴값을 다르게 함, 켜져있다는것은 초대장을 받지 않았다는 뜻
         int value = _scroll.activeSelf ? 1 : 0;
         return value;
+    }
+
+    private void DestroyObnoxious()
+    {
+        _noInviteCount++;
+        if (_noInviteCount == _maxEndureCount)
+        {
+            ProductionMgr.StopProduction(_playable);
+            gameObject.GetComponentInParent<MonsterType>().ReactDamaged();
+        }
     }
 }

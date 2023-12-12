@@ -11,6 +11,10 @@ public class MiniBossGateKeeper : MonsterType
     [SerializeField]
     private GameObject _bullInteract;
 
+    [SerializeField]
+    private GameObject[] _battleICons;
+
+    private enum eBattleICon { Castle, Battle_1, Battle_2, Count }
     private MonsterBase_1 _monsterBase;
     private IInteractable _interactable;
     private Bull_1 _bull;
@@ -43,8 +47,12 @@ public class MiniBossGateKeeper : MonsterType
 
         if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead && !_castleGate.enabled)
         {
+            for (int i = (int)eBattleICon.Castle; i < (int)eBattleICon.Count; i++)
+            {
+                _battleICons[i].SetActive(false);
+            }
+
             _castleGate.enabled = true;
-            _interactable.SetActiveInteractUI(false);
             return;
         }
 
@@ -94,9 +102,24 @@ public class MiniBossGateKeeper : MonsterType
         if (_monsterBase._state != MonsterBase_1.eMonsterState.Idle)
             return;
 
+        for (int i = (int)eBattleICon.Battle_1; i < (int)eBattleICon.Count; i++)
+        {
+            _battleICons[i].SetActive(true);
+        }
+
+        _interactable.SetActiveInteractUI(false);
         _monsterBase._target = SearchTarget(150.0f);
         _bullInteract.SetActive(false);
         _isAttacked = true;
         _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
+    }
+
+    public void OpenDoor()
+    {
+        _castleGate.enabled = true;
+        _battleICons[(int)eBattleICon.Castle].SetActive(false);
+
+        _interactable.SetActiveInteractUI(false);
+        _bullInteract.SetActive(false);
     }
 }
