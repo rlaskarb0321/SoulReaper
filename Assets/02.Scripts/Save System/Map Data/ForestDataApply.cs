@@ -9,6 +9,10 @@ public class ForestDataApply : DataApply, IDataApply
     public GameObject _scrollObj;
     public GameObject _sparrow;
     public HealthPlant _healthFlower;
+    public MonsterBase_1 _gateKeeper;
+    public BoxCollider _castleGate;
+    public GameObject _castleBattleICon;
+    public BullInteract _bullInteract;
 
     [Header("=== 부활 포인트 ===")]
     public ReviveStone _reviveStone;
@@ -48,6 +52,20 @@ public class ForestDataApply : DataApply, IDataApply
                 _healthFlower.HarvestPlant();
                 break;
         }
+
+        if (_data._isGateKeeperDead)
+        {
+            _gateKeeper.gameObject.SetActive(false);
+            _castleGate.enabled = true;
+            _castleBattleICon.SetActive(false);
+        }
+
+        if (_data._isGateOpen)
+        {
+            _bullInteract._isGateOpen = true;
+            _castleGate.enabled = true;
+            _castleBattleICon.SetActive(false);
+        }
     }
 
     public override void EditData()
@@ -62,6 +80,12 @@ public class ForestDataApply : DataApply, IDataApply
 
         // 회복 화분의 상태를 데이터에 저장
         _data._flowerState = _healthFlower.FlowerState;
+
+        // 문지기의 사망 여부를 데이터에 저장
+        _data._isGateKeeperDead = _gateKeeper._state == MonsterBase_1.eMonsterState.Dead ? true : false;
+
+        // 성 문의 열림 여부를 데이터에 저장
+        _data._isGateOpen = _castleGate.enabled;
 
         // 데이터 수정후 Json에 저장하는 작업
         MapDataPackage._mapData._forest._dataStruct = _data;

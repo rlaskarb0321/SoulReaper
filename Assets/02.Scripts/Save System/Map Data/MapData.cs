@@ -32,15 +32,21 @@ public class ForestMap
         public ForestData
             (
             bool isScrollGet = false,                                                   // 전서구 읽었는지 여부
-            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None       // 화분의 상태
+            HealthPlant.eFlowerState flowerState = HealthPlant.eFlowerState.None,       // 화분의 상태
+            bool isGateKeeperDead = false,                                              // 문지기의 사망 여부
+            bool isGateOpen = false                                                     // 성 문의 열림 여부
             )
         {
             _isScrollGet = isScrollGet;
             _flowerState = flowerState;
+            _isGateKeeperDead = isGateKeeperDead;
+            _isGateOpen = isGateOpen;
         }
 
         public bool _isScrollGet;
         public HealthPlant.eFlowerState _flowerState;
+        public bool _isGateKeeperDead;
+        public bool _isGateOpen;
     }
 
     public ForestData _dataStruct;

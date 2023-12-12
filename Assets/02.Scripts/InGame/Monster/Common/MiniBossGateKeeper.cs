@@ -9,12 +9,27 @@ public class MiniBossGateKeeper : MonsterType
     private BoxCollider _castleGate;
 
     [SerializeField]
-    private GameObject _bullInteract;
+    private GameObject _interactColl;
 
     [SerializeField]
     private GameObject[] _battleICons;
 
+    [Header("=== 비지엠 바꾸기 ===")]
+    [SerializeField]
+    private BGMChanger _bgmChanger;
+
+    [SerializeField]
+    private float _fadeTime;
+
+    [SerializeField]
+    private AudioClip[] _bgmList;
+
+    [Header("=== 데이터 ===")]
+    [SerializeField] private ForestDataApply _apply;
+
+    // Field
     private enum eBattleICon { Castle, Battle_1, Battle_2, Count }
+    private enum eBattleBGM { NonBattle, Battle }
     private MonsterBase_1 _monsterBase;
     private IInteractable _interactable;
     private Bull_1 _bull;
@@ -47,12 +62,7 @@ public class MiniBossGateKeeper : MonsterType
 
         if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead && !_castleGate.enabled)
         {
-            for (int i = (int)eBattleICon.Castle; i < (int)eBattleICon.Count; i++)
-            {
-                _battleICons[i].SetActive(false);
-            }
-
-            _castleGate.enabled = true;
+            OnGateKeeperDead();
             return;
         }
 
@@ -102,24 +112,45 @@ public class MiniBossGateKeeper : MonsterType
         if (_monsterBase._state != MonsterBase_1.eMonsterState.Idle)
             return;
 
-        for (int i = (int)eBattleICon.Battle_1; i < (int)eBattleICon.Count; i++)
+        for (int i = (int)eBattleICon.Castle; i < (int)eBattleICon.Count; i++)
         {
             _battleICons[i].SetActive(true);
         }
 
+        _castleGate.enabled = false;
+        _bgmChanger.ChangeDirectly(_bgmList[(int)eBattleBGM.Battle], _fadeTime);
         _interactable.SetActiveInteractUI(false);
         _monsterBase._target = SearchTarget(150.0f);
-        _bullInteract.SetActive(false);
+        _interactColl.SetActive(false);
         _isAttacked = true;
         _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
     }
 
+    /// <summary>
+    /// 문지기가 문을 여는 메서드, Cinemachine 의 Signal 로 등록
+    /// </summary>
     public void OpenDoor()
     {
         _castleGate.enabled = true;
         _battleICons[(int)eBattleICon.Castle].SetActive(false);
-
         _interactable.SetActiveInteractUI(false);
-        _bullInteract.SetActive(false);
+
+        _apply.EditData();
+    }
+
+    /// <summary>
+    /// 문지기가 죽었을 때 호출되는 메서드
+    /// </summary>
+    public void OnGateKeeperDead()
+    {
+        for (int i = (int)eBattleICon.Castle; i < (int)eBattleICon.Count; i++)
+        {
+            _battleICons[i].SetActive(false);
+        }
+
+        _bgmChanger.ChangeDirectly(_bgmList[(int)eBattleBGM.NonBattle], _fadeTime);
+        _castleGate.enabled = true;
+
+        _apply.EditData();
     }
 }

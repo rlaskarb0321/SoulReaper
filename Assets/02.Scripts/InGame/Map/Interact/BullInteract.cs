@@ -27,11 +27,16 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
     [SerializeField]
     private int _maxEndureCount;
 
+    [Header("=== 문 열리기 전과 후 씨네머신 ===")]
+    [SerializeField]
+    private PlayableAsset[] _cinemachines;
+
     // Field
     private PlayableDirector _playable;
     private int _selectNum;
     private bool _isInteract;
     private int _noInviteCount;
+    [HideInInspector] public bool _isGateOpen;
 
     private void Awake()
     {
@@ -44,6 +49,16 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
             return;
 
         _isInteract = true;
+
+        // 여기서 문 열림 여부에 따라 다른 Cinemachine 재생
+        if (_isGateOpen)
+        {
+            _playable.playableAsset = _cinemachines[1];
+        }
+        else
+        {
+            _playable.playableAsset = _cinemachines[0];
+        }
         ProductionMgr.StartProduction(_playable);
     }
 
@@ -113,6 +128,9 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
         {
             _playable.Resume();
             SetActiveInteractUI(false);
+            _isInteract = false;
+            _isGateOpen = true;
+            _noInviteCount = 0;
             return;
         }
 
@@ -127,9 +145,10 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
         return value;
     }
 
-    private void DestroyObnoxious()
+    public void DestroyObnoxious()
     {
         _noInviteCount++;
+        _isInteract = false;
         if (_noInviteCount == _maxEndureCount)
         {
             ProductionMgr.StopProduction(_playable);

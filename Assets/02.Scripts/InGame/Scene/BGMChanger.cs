@@ -8,11 +8,17 @@ using UnityEngine;
 public class BGMChanger : MonoBehaviour
 {
     private AudioSource _audio;
+    private float _originVolume;
 
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
         StartCoroutine(DelayBGM());
+    }
+
+    private void Start()
+    {
+        _originVolume = _audio.volume;
     }
 
     private IEnumerator DelayBGM()
@@ -57,7 +63,7 @@ public class BGMChanger : MonoBehaviour
     private IEnumerator FadeInClip(float fadeTime)
     {
         float temp = 0.0f;
-        while (temp < fadeTime)
+        while (_audio.volume < _originVolume)
         {
             _audio.volume = temp / fadeTime;
             temp += Time.deltaTime;

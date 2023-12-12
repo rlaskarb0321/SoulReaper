@@ -37005,7 +37005,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6419dc5f8dae08c44bbbfe67069e4463, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.55
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -37120,6 +37120,10 @@ MonoBehaviour:
   _scrollObj: {fileID: 936478503}
   _sparrow: {fileID: 6788538757269683693}
   _healthFlower: {fileID: 1205052620}
+  _gateKeeper: {fileID: 4617458900499737389}
+  _castleGate: {fileID: 2096960313}
+  _castleBattleICon: {fileID: 2040357505}
+  _bullInteract: {fileID: 1862351790}
   _reviveStone: {fileID: 9150480395876321771}
 --- !u!114 &1223063335
 MonoBehaviour:
@@ -52732,6 +52736,7 @@ GameObject:
   - component: {fileID: 1862351788}
   - component: {fileID: 1862351789}
   - component: {fileID: 1862351791}
+  - component: {fileID: 1862351795}
   - component: {fileID: 1862351790}
   - component: {fileID: 1862351794}
   - component: {fileID: 1862351793}
@@ -52787,6 +52792,10 @@ MonoBehaviour:
   _floatUIPos: {fileID: 2078082099}
   _scroll: {fileID: 1050632826587446869}
   _maxEndureCount: 3
+  _cinemachines:
+  - {fileID: 11400000, guid: 50691e29cf603024a96ce87a63c31725, type: 2}
+  - {fileID: 11400000, guid: cff146c9c310dde4fa66f436456d60b6, type: 2}
+  _isGateOpen: 0
 --- !u!320 &1862351791
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -52796,7 +52805,7 @@ PlayableDirector:
   m_GameObject: {fileID: 1862351787}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 50691e29cf603024a96ce87a63c31725, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: cff146c9c310dde4fa66f436456d60b6, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -52804,6 +52813,8 @@ PlayableDirector:
   m_SceneBindings:
   - key: {fileID: 3752185837073624861, guid: 50691e29cf603024a96ce87a63c31725, type: 2}
     value: {fileID: 7025579731943355793}
+  - key: {fileID: -4375519612468188966, guid: cff146c9c310dde4fa66f436456d60b6, type: 2}
+    value: {fileID: 1862351795}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &1862351792
@@ -52858,6 +52869,36 @@ MonoBehaviour:
     _context: {fileID: 429058451}
     _selectionContent: {fileID: 0}
   _interactObj: {fileID: 0}
+--- !u!114 &1862351795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862351787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 2103924ab803d4b48af5721a8ab14afc, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1862351790}
+          m_TargetAssemblyTypeName: BullInteract, Assembly-CSharp
+          m_MethodName: DestroyObnoxious
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &1875594902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63312,11 +63353,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _castleGate: {fileID: 2096960313}
-  _bullInteract: {fileID: 1862351787}
+  _interactColl: {fileID: 1862351787}
   _battleICons:
   - {fileID: 2040357505}
   - {fileID: 1164465647}
   - {fileID: 1849380427}
+  _bgmChanger: {fileID: 1223063335}
+  _fadeTime: 10
+  _bgmList:
+  - {fileID: 8300000, guid: 6419dc5f8dae08c44bbbfe67069e4463, type: 3}
+  - {fileID: 8300000, guid: cbf45aec7df55474390b7414706a995c, type: 3}
+  _apply: {fileID: 1223063334}
 --- !u!114 &7025579731943355793
 MonoBehaviour:
   m_ObjectHideFlags: 0
