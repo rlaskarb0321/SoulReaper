@@ -16,10 +16,6 @@ public class UIScene : MonoBehaviour
 
     [SerializeField]
     private GameObject _pausePanel; // 일시정지
-
-    [SerializeField]
-    private GameObject _areYouSurePanel; // 진짜 게임종료할건지 묻는 패널
-
     public GameObject _letterPanel; // 전서구
 
     [Header("=== 생명의 씨앗 UI ===")]

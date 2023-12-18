@@ -18,8 +18,8 @@ public class SlowDebuff : PlayerBuff
     {
         CharacterData.CData data = CharacterDataPackage._cDataInstance._characterData;
         float debuffMovSpeed = data._movSpeed - (data._movSpeed * _slowPercent);
-
         _originMovSpeed = data._movSpeed;
+
         UIScene._instance.UpdatePlayerMovSpeed(debuffMovSpeed);
     }
 

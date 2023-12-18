@@ -1,56 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class LittleForest : MonoBehaviour
 {
-    [Header("=== Fall Death ===")]
-    [SerializeField] private PlayerFSM _player;
-    [SerializeField] private GameObject _camLookAt;
-    [SerializeField] private GameObject _fadePanel;
-    [Range(1.0f, 10.0f)] [SerializeField] private float _recordTime;
-    [SerializeField] private Vector3 _reversPos;
+    private BuffProvider _buffProvider;
 
-    private float _recordTimeOrigin;
-    private bool _isFallDeath;
-
-    private void Start()
+    private void Awake()
     {
-        _recordTimeOrigin = _recordTime;
-        _reversPos = _player.transform.position;
-    }
-
-    private void Update()
-    {
-        CheckFallDeath();
+        _buffProvider = GetComponent<BuffProvider>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("PlayerTeam"))
             return;
-        if (_player == null)
-            _player = other.GetComponent<PlayerFSM>();
 
-        _player.transform.position = _reversPos;
-        _isFallDeath = true;
+        BackToReversePos(other);
+        DebuffPlayer();
     }
 
-    private void CheckFallDeath()
+    private void BackToReversePos(Collider other)
     {
-        if (_player.State == PlayerFSM.eState.Fall)
-        {
-            _recordTime = _recordTimeOrigin;
+        IMapOut mapOutObject = other.GetComponent<IMapOut>();
+        if (mapOutObject == null)
             return;
-        }
 
-        if (_isFallDeath || _recordTime < 0.0f)
+        Collider[] reversePoses = null;
+        int searchCount = 1;
+        while (true)
         {
-            _reversPos = _player.transform.position;
-            _recordTime = _recordTimeOrigin;
-            _isFallDeath = false;
-        }
+            float searchRadius = 100.0f * searchCount;
+            reversePoses = Physics.OverlapSphere(other.transform.position, searchRadius, 1 << LayerMask.NameToLayer("ReversePos"));
+            if (reversePoses.Length < 1)
+            {
+                searchCount++;
+                continue;
+            }
 
-        _recordTime -= Time.deltaTime;
+            reversePoses = reversePoses.OrderBy(item => Vector3.Distance(item.transform.position, other.transform.position)).ToArray();
+            mapOutObject.RestorePos(reversePoses[0].transform.position);
+            break;
+        }
+    }
+
+    private void DebuffPlayer()
+    {
+        PlayerBuff buff = _buffProvider.GenerateBuffInstance();
+        UIScene._instance._buffMgr.BuffPlayer(buff);
     }
 }

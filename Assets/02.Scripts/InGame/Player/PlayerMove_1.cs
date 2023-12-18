@@ -3,7 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class PlayerMove_1 : MonoBehaviour
+/// <summary>
+/// 맵 밖으로 장외할 때 관련 인터페이스
+/// </summary>
+public interface IMapOut
+{
+    /// <summary>
+    /// 이 인터페이스를 상속받는 객체의 위치를 장외 전으로 회복시키는 메서드
+    /// </summary>
+    public void RestorePos(Vector3 reversePos);
+}
+
+public class PlayerMove_1 : MonoBehaviour, IMapOut
 {
     [Header("=== Move ===")]
     public float _movSpeed;
@@ -203,7 +214,7 @@ public class PlayerMove_1 : MonoBehaviour
             {
                 case eOnSlopeState.None:
                     //print("평지");
-                    _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_movSpeed, _originSpeed, 1.0f);
+                    // _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_movSpeed, _originSpeed, 1.0f);
                     _rbody.useGravity = true;
                     velocity = CalcNextFrameGroundAngle(movSpeed) < _maxSlope ? dir : Vector3.zero;
                     break;
@@ -211,14 +222,14 @@ public class PlayerMove_1 : MonoBehaviour
                 case eOnSlopeState.CurrOnSlope:
                 case eOnSlopeState.NextOnSlope:
                     //print("현재 경사면 위 or 다음이 경사면 위");
-                    _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_movSpeed, _originSpeed, 0.5f);
+                    // _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_movSpeed, _originSpeed, 0.5f);
                     _rbody.useGravity = false;
                     velocity = GetSlopeDir(velocity);
                     gravity = Vector3.zero;
                     break;
 
                 case eOnSlopeState.OnStairs:
-                    _movSpeed = Mathf.Lerp(_movSpeed, _stairMovSpeed, 0.5f);
+                    // _movSpeed = Mathf.Lerp(_movSpeed, _stairMovSpeed, 0.5f);
                     _rbody.useGravity = dir == Vector3.zero ? false : true;
                     velocity = dir;
                     gravity = Vector3.zero;
@@ -352,7 +363,6 @@ public class PlayerMove_1 : MonoBehaviour
 
         MovePlayer(_dodgeDir, _dodgeSpeed);
         _currDodgeDur += Time.fixedDeltaTime;
-        
     }
 
     private IEnumerator CoolDownDodge()
@@ -471,5 +481,10 @@ public class PlayerMove_1 : MonoBehaviour
                 _sfx.PlayOneShotUsingDict("Dodge");
             }
         }
+    }
+
+    public void RestorePos(Vector3 reversePos)
+    {
+        transform.position = reversePos;
     }
 }
