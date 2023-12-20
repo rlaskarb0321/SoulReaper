@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de8dfae25f3eab47a1fffd0151c3cd3, type: 3}
   m_Name: After Y Or N Select Dialog Marker
   m_EditorClassIdentifier: 
-  m_Time: 0.03333333333333333
+  m_Time: 0.21666666666666667
   _dialogCSVFile:
   - {fileID: 4900000, guid: 4e16c5f3614473c408bdc230b862e897, type: 3}
   - {fileID: 0}
@@ -30,8 +30,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8571c8017a44b2a4f930ad3a2e6e7f62, type: 3}
   m_Name: Y Or N Select Dialog Marker
   m_EditorClassIdentifier: 
-  m_Time: 0.016666666666666666
-  _playerSelection: {fileID: 4900000, guid: e5e3ad39770222545a1d61f7c78746dd, type: 3}
+  m_Time: 0.15
+  _playerSelection:
+  - {fileID: 4900000, guid: e5e3ad39770222545a1d61f7c78746dd, type: 3}
 --- !u!114 &-6267883600891045532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -111,34 +112,9 @@ MonoBehaviour:
   m_Version: 0
   m_Tracks:
   - {fileID: -2742204966830790964}
-  - {fileID: 1990587556116005977}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
     m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: -1098715376850253479}
---- !u!114 &1990587556116005977
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b46e36075dd1c124a8422c228e75e1fb, type: 3}
-  m_Name: Signal Track
-  m_EditorClassIdentifier: 
-  m_Version: 3
-  m_AnimClip: {fileID: 0}
-  m_Locked: 0
-  m_Muted: 0
-  m_CustomPlayableFullTypename: 
-  m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
-  m_Children: []
-  m_Clips: []
-  m_Markers:
-    m_Objects:
-    - {fileID: -6267883600891045532}

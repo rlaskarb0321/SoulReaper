@@ -9,6 +9,8 @@ using System;
 [Serializable]
 public class CharacterData
 {
+    public CData _characterData;
+
     /// <summary>
     /// 캐릭터에 관한 정보를 저장하는 구조체
     /// </summary>
@@ -78,35 +80,23 @@ public class CharacterData
     {
         _characterData = cData;
     }
-
-    public CData _characterData;
 }
 
 [Serializable]
 public class BuffData
 {
-    [Serializable]
-    public struct BData
-    {
-        public BData(PlayerBuff buff, int duration)
-        {
-            _buff = buff;
-            _duration = duration;
-        }
-
-        public PlayerBuff _buff;
-        public int _duration;
-    }
+    public List<PlayerBuff> _buffDataList;
+    public List<float> _remainDurList;
 
     public BuffData()
     {
-        _dataList = new List<BData>();
+        _buffDataList = new List<PlayerBuff>();
+        _remainDurList = new List<float>();
     }
 
-    public BuffData(List<BData> dataList)
+    public BuffData(List<PlayerBuff> buffDataList, List<float> remainDurList)
     {
-        _dataList = dataList;
+        _buffDataList = buffDataList;
+        _remainDurList = remainDurList;
     }
-
-    public List<BData> _dataList;
 }

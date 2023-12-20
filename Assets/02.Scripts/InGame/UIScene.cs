@@ -112,16 +112,16 @@ public class UIScene : MonoBehaviour
             PausePanel();
         }
 
-        // 테스트 용 소울 에너지 20 증가
+        // 테스트 용 소울 에너지 1000 증가
         if (Input.GetKeyDown(KeyCode.C))
         {
-            UpdateSoulCount(20.0f);
+            UpdateSoulCount(1000.0f);
         }
 
-        // 테스트 용 소울 에너지 20 감소
+        // 테스트 용 소울 에너지 100 감소
         if (Input.GetKeyDown(KeyCode.V))
         {
-            UpdateSoulCount(-20.0f);
+            UpdateSoulCount(-100.0f);
         }
     }
 

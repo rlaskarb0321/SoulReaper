@@ -20,17 +20,10 @@ public abstract class PlayerBuff : ScriptableObject
     [SerializeField]
     protected float _remainBuffDur;
 
-    protected WaitForSeconds _ws;
-
     public Sprite BuffImg { get { return _buffImg; } set { _buffImg = value; } }
     public string BuffName { get { return _buffName; } }
     public float RemainBuffDur { get { return _remainBuffDur; } set { _remainBuffDur = value; } }
     public float BuffDur { get { return _buffDur; } }
-
-    public PlayerBuff()
-    {
-        _ws = new WaitForSeconds(1.0f);
-    }
 
     /// <summary>
     /// 플레이어의 다양한 스텟을 버프 시켜주는 함수

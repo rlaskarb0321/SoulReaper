@@ -14,50 +14,43 @@ public class BuffDataPackage : DataApply, IDataApply
 
     // Field
     private BuffData _serverBuffData; // 게임에서 저장된 버프 데이터를 불러옴
-    private List<BuffData.BData> _localBuffData;
-    private WaitForSeconds _ws;
-    private bool _testBool;
+    private List<PlayerBuff> _localBuffData;
+    private List<float> _localBuffRemainDur;
 
     private void Awake()
     {
         _serverBuffData = DataManage.LoadBData("TestBData");
+        _localBuffData = new List<PlayerBuff>();
+        _localBuffRemainDur = new List<float>();
 
-        _ws = new WaitForSeconds(1.0f);
-        _localBuffData = new List<BuffData.BData>();
         StartCoroutine(ApplyData());
     }
 
     public IEnumerator ApplyData()
     {
         yield return new WaitForSeconds(0.1f);
-        _testBool = true;
 
-        for (int i = 0; i < _serverBuffData._dataList.Count; i++)
+        for (int i = 0; i < _serverBuffData._buffDataList.Count; i++)
         {
-            PlayerBuff dataBuff = _serverBuffData._dataList[i]._buff;
-            int duration = _serverBuffData._dataList[i]._duration;
-            BuffData.BData bData = new BuffData.BData(dataBuff, duration);
-            BuffICon buffIcon = Instantiate(_buffICon, _buffContainer);
+            PlayerBuff dataBuff = _serverBuffData._buffDataList[i];
+            BuffICon buffICon = Instantiate(_buffICon, _buffContainer);
+            float duration = _serverBuffData._remainDurList[i];
 
-            buffIcon._buffImamge.sprite = dataBuff.BuffImg; // 버프 아이콘 바꾸기
+            buffICon._buffImamge.sprite = dataBuff.BuffImg;
+            dataBuff.RemainBuffDur = duration;
             dataBuff.BuffPlayer();
-            StartCoroutine(ManageBuff(bData, buffIcon, buffIcon._durationText));
+            StartCoroutine(ManageBuff(dataBuff, buffICon));
         }
-
-        _testBool = false;
     }
 
     public override void EditData()
     {
-        if (_testBool)
-        {
-            return;
-        }
-
         // print("Edit Buff Data");
 
         // 변경한 데이터들 입력 후 저장
-        _serverBuffData._dataList = _localBuffData;
+        _serverBuffData._buffDataList = _localBuffData;
+        _serverBuffData._remainDurList = _localBuffRemainDur;
+
         DataManage.SaveBData(_serverBuffData, "TestBData");
     }
 
@@ -67,8 +60,7 @@ public class BuffDataPackage : DataApply, IDataApply
     /// <param name="buff"></param>
     public void BuffPlayer(PlayerBuff buff)
     {
-        // 이미 같은 버프가 걸려있는지 확인 후, 걸려있으면 시간만 초기값으로 갱신시켜줌
-        PlayerBuff alreadyBuff = CheckAlreadyBuff(buff.BuffName);
+        PlayerBuff alreadyBuff = CheckAlreadyBuff(buff);
         if (alreadyBuff != null)
         {
             print("Dupli");
@@ -77,47 +69,47 @@ public class BuffDataPackage : DataApply, IDataApply
         }
 
         BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
-        BuffData.BData bData = new BuffData.BData(buff, (int)buff.RemainBuffDur);
 
         buffICon._buffImamge.sprite = buff.BuffImg; // 버프 아이콘 바꾸기
         buff.BuffPlayer(); // 버프 주기
-
-        StartCoroutine(ManageBuff(bData, buffICon, buffICon._durationText));
+        StartCoroutine(ManageBuff(buff, buffICon));
     }
 
-    private PlayerBuff CheckAlreadyBuff(string buffName)
+    private PlayerBuff CheckAlreadyBuff(PlayerBuff buff)
     {
         for (int i = 0; i < _localBuffData.Count; i++)
         {
-            string buff = _localBuffData[i]._buff.BuffName;
-
-            if (buff.Equals(buffName))
+            string localBuffName = _localBuffData[i].BuffName;
+            if (localBuffName.Equals(buff.BuffName))
             {
-                return _localBuffData[i]._buff;
+                return _localBuffData[i];
             }
         }
 
         return null;
     }
 
-    private IEnumerator ManageBuff(BuffData.BData bData, BuffICon icon, TMP_Text text)
+    private IEnumerator ManageBuff(PlayerBuff buff, BuffICon buffICon)
     {
-        _localBuffData.Add(bData);
-        int index;
-        while (bData._duration > 0.0f)
-        {
-            text.text = bData._duration.ToString();
-            EditData();
-            yield return _ws;
+        _localBuffData.Add(buff);
+        _localBuffRemainDur.Add(buff.RemainBuffDur);
 
-            bData._duration--;
-            index = _localBuffData.FindIndex(item => item._buff.BuffName.Equals(bData._buff.BuffName));
-            _localBuffData[index] = bData; 
+        int index;
+        while (buff.RemainBuffDur > 0.0f)
+        {
+            buffICon._durationText.text = ((int)buff.RemainBuffDur).ToString();
+            yield return null;
+
+            buff.RemainBuffDur -= Time.deltaTime;
+            index = _localBuffData.FindIndex(item => item.BuffName.Equals(buff.BuffName));
+            _localBuffData[index] = buff;
+            _localBuffRemainDur[index] = buff.RemainBuffDur;
+            EditData();
         }
 
-        _localBuffData.Remove(bData);
-        Destroy(icon.gameObject);
-        bData._buff.ResetBuff();
+        _localBuffData.Remove(buff);
+        Destroy(buffICon.gameObject);
+        buff.ResetBuff();
         EditData();
     }
 }

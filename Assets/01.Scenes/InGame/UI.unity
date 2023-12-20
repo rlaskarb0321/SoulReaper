@@ -1944,6 +1944,7 @@ GameObject:
   m_Component:
   - component: {fileID: 534539289}
   - component: {fileID: 534539291}
+  - component: {fileID: 534539292}
   m_Layer: 5
   m_Name: Buff List
   m_TagString: Untagged
@@ -1966,11 +1967,11 @@ RectTransform:
   m_Father: {fileID: 1320289522}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.031666674, y: 0.855}
-  m_AnchorMax: {x: 0.031666674, y: 0.855}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 80.9}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.007479167, y: 0.9257037}
+  m_AnchorMax: {x: 0.007479167, y: 0.9257037}
+  m_AnchoredPosition: {x: 1.4505615, y: 1.4650879}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &534539291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1989,7 +1990,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 1
-  m_Spacing: 4
+  m_Spacing: 12
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1997,6 +1998,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &534539292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534539288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &542289371
 GameObject:
   m_ObjectHideFlags: 0
@@ -6536,7 +6551,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currOpenPanel: []
   _pausePanel: {fileID: 1824909797}
-  _areYouSurePanel: {fileID: 0}
   _letterPanel: {fileID: 1434474771}
   _seedUI: {fileID: 2088698825}
   _stat: {fileID: 779528198}
