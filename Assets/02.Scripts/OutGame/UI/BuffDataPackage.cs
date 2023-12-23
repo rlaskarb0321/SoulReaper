@@ -13,9 +13,9 @@ public class BuffDataPackage : DataApply, IDataApply
     private BuffICon _buffICon;
 
     // Field
-    private BuffData _serverBuffData; // 게임에서 저장된 버프 데이터를 불러옴
-    private List<PlayerBuff> _localBuffData;
-    private List<float> _localBuffRemainDur;
+    private BuffData _serverBuffData; // 로컬 버프 데이터를 저장
+    private List<PlayerBuff> _localBuffData; // 런타임 버프 객체 데이터
+    private List<float> _localBuffRemainDur; // 런타임 버프 지속시간 데이터
 
     private void Awake()
     {
@@ -37,6 +37,7 @@ public class BuffDataPackage : DataApply, IDataApply
             float duration = _serverBuffData._remainDurList[i];
 
             buffICon._buffImamge.sprite = dataBuff.BuffImg;
+            buffICon.InitBuff(dataBuff, true);
             dataBuff.RemainBuffDur = duration;
             dataBuff.BuffPlayer();
             StartCoroutine(ManageBuff(dataBuff, buffICon));
@@ -47,7 +48,7 @@ public class BuffDataPackage : DataApply, IDataApply
     {
         // print("Edit Buff Data");
 
-        // 변경한 데이터들 입력 후 저장
+        // 수정된 런타임 데이터를 로컬 데이터에 덮어씌움
         _serverBuffData._buffDataList = _localBuffData;
         _serverBuffData._remainDurList = _localBuffRemainDur;
 
@@ -70,6 +71,7 @@ public class BuffDataPackage : DataApply, IDataApply
 
         BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
 
+        buffICon.InitBuff(buff, false);
         buffICon._buffImamge.sprite = buff.BuffImg; // 버프 아이콘 바꾸기
         buff.BuffPlayer(); // 버프 주기
         StartCoroutine(ManageBuff(buff, buffICon));
@@ -102,12 +104,14 @@ public class BuffDataPackage : DataApply, IDataApply
 
             buff.RemainBuffDur -= Time.deltaTime;
             index = _localBuffData.FindIndex(item => item.BuffName.Equals(buff.BuffName));
-            _localBuffData[index] = buff;
-            _localBuffRemainDur[index] = buff.RemainBuffDur;
+            _localBuffData[index] = buff; // 런타임 버프 데이터 수정
+            _localBuffRemainDur[index] = buff.RemainBuffDur; // 런타임 버프 지속시간 데이터 수정
             EditData();
         }
 
+        index = _localBuffData.FindIndex(item => item.BuffName.Equals(buff.BuffName));
         _localBuffData.Remove(buff);
+        _localBuffRemainDur.RemoveAt(index);
         Destroy(buffICon.gameObject);
         buff.ResetBuff();
         EditData();

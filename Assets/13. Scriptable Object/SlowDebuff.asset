@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buffImg: {fileID: 21300000, guid: d18db7ad7449c0340b08b00d6b352f9d, type: 3}
   _buffName: "\uB454\uD654"
-  _description: 
-  _buffDur: 6
-  _remainBuffDur: 6
+  _description: "\uB454\uD654 \uB514\uBC84\uD504 \uD14D\uC2A4\uD2B8 \uD14C\uC2A4\uD2B8
+    \uC6A9"
+  _buffDur: 10
+  _remainBuffDur: 5.4660053
   _slowPercent: 0.6

@@ -85,8 +85,8 @@ public class CharacterData
 [Serializable]
 public class BuffData
 {
-    public List<PlayerBuff> _buffDataList;
-    public List<float> _remainDurList;
+    public List<PlayerBuff> _buffDataList; // 플레이어에게 적용되고 있는 버프를 저장
+    public List<float> _remainDurList; // 플레이어에게 적용되고 있는 버프의 지속시간을 따로 저장, 불러올 때 버프객체의 지속시간값이 자꾸 초깃값으로 초기화되서 따로 만들어놓음
 
     public BuffData()
     {

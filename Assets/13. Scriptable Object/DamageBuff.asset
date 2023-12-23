@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buffImg: {fileID: 21300000, guid: 8d8b52ba4987c3744a8a93f774b04d50, type: 3}
   _buffName: "\uBD84\uB178"
-  _description: 
+  _description: "\uC120\uB300 \uC6A9\uAC10\uD55C \uC0AC\uC2E0\uB4E4\uC774 \uCD95\uBCF5\uC744
+    \uB0B4\uB824\uC8FC\uC5C8\uB2E4. \uACF5\uACA9\uB825\uC774 \uC99D\uAC00\uD55C\uB2E4."
+  _buffComment: "\"\uC774..\uC774\uAC8C \uB098\uC758 \uD798?\""
   _buffDur: 200
-  _remainBuffDur: 200
+  _remainBuffDur: 166.53801
   _atkIncrease: 10

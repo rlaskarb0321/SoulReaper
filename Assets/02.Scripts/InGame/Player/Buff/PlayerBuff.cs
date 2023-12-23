@@ -8,12 +8,12 @@ public abstract class PlayerBuff : ScriptableObject
     [SerializeField]
     private Sprite _buffImg;
 
-    [SerializeField]
-    protected string _buffName;
+    [Header("=== 버프 설명 ===")]
+    public string _buffName;
+    public string _description;
+    public string _buffComment;
 
-    [SerializeField]
-    protected string _description;
-
+    [Header("=== 버프 지속시간 ===")]
     [SerializeField]
     protected float _buffDur;
 
