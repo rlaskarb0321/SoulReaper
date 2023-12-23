@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class StartScene : MonoBehaviour
 {
     public GameObject _gameBtnGroup;
+    public GameObject _settingPanel;
     public Button _firstSelecBtn;
     public bool _isDevelopMode;
     
@@ -79,5 +80,10 @@ public class StartScene : MonoBehaviour
         #else
         Application.Quit();
         #endif
+    }
+
+    public void OnSettingBtnClick()
+    {
+        _settingPanel.SetActive(!_settingPanel.activeSelf);
     }
 }
