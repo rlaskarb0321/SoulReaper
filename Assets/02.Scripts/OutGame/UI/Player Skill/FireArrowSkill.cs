@@ -43,7 +43,7 @@ public class FireArrowSkill : PlayerSkill, IOnOffSwitchSkill
 
         if (isAudioPlay)
         {
-            _audio.PlayOneShot(_onOffSwitchSound[(int)_skillActiveState]);
+            _audio.PlayOneShot(_onOffSwitchSound[(int)_skillActiveState], _audio.volume * SettingData._sfxVolume);
         }
         _player.ActiveFireArrow(_skillActiveState, this);
     }

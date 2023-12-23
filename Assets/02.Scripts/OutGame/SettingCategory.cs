@@ -32,7 +32,7 @@ public class SettingCategory : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OpenContext()
     {
         _categoryContext.SetActive(true);
-        _audio.PlayOneShot(_changeCategorySound);
+        _audio.PlayOneShot(_changeCategorySound, _audio.volume * SettingData._sfxVolume);
         _animator.SetBool(_hashSelected, true);
     }
 

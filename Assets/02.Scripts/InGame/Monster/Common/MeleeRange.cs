@@ -70,7 +70,7 @@ public class MeleeRange : MonsterBase_1
     {
         _attackCollObj.enabled = !_attackCollObj.enabled;
         if (_attackCollObj.enabled)
-            _audio.PlayOneShot(_sound[(int)eSound.Attack]);
+            _audio.PlayOneShot(_sound[(int)eSound.Attack], _audio.volume * SettingData._sfxVolume);
     }
 
     public void EndAttack()

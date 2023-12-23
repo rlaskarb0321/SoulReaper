@@ -46,7 +46,7 @@ public class JailWall : MonoBehaviour, IInteractable
         _isInteract = true;
         if (!MapDataPackage._mapData._castleA._data._isYellowKeyGet)
         {
-            _audio.PlayOneShot(_lockAudio[(int)eAudio.Cant_Unlock]);
+            _audio.PlayOneShot(_lockAudio[(int)eAudio.Cant_Unlock], _audio.volume * SettingData._sfxVolume);
             _isInteract = false;
             return;
         }
@@ -65,7 +65,7 @@ public class JailWall : MonoBehaviour, IInteractable
         rbody.isKinematic = false;
         rbody.AddTorque(randomTorque * 9.0f, ForceMode.Impulse);
 
-        _audio.PlayOneShot(_lockAudio[(int)eAudio.Can_Unlock]);
+        _audio.PlayOneShot(_lockAudio[(int)eAudio.Can_Unlock], _audio.volume * SettingData._sfxVolume);
         this.GetComponent<BoxCollider>().enabled = false;
         SetActiveInteractUI(false);
         StartCoroutine(DeactiveObj());
@@ -77,7 +77,7 @@ public class JailWall : MonoBehaviour, IInteractable
 
         Animator jailWall = _jailWall.GetComponent<Animator>();
         jailWall.enabled = true;
-        _audio.PlayOneShot(_jailAudio);
+        _audio.PlayOneShot(_jailAudio, _audio.volume * SettingData._sfxVolume);
 
         yield return new WaitForSeconds(4.0f);
 

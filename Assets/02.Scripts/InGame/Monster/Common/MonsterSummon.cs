@@ -86,6 +86,6 @@ public class MonsterSummon : MonoBehaviour
         _audio.volume = 1.0f;
         _audio.loop = false;
         _audio.Stop();
-        _audio.PlayOneShot(_soundClip[index]);
+        _audio.PlayOneShot(_soundClip[index], _audio.volume * SettingData._sfxVolume);
     }
 }

@@ -22,7 +22,7 @@ public class ButtonUI : UIInteractBase
     {
         Color color = _selectedColor;
         _text.color = color;
-        _audio.PlayOneShot(_onPointerSound);
+        _audio.PlayOneShot(_onPointerSound, _audio.volume * SettingData._sfxVolume);
     }
 
     public override void OnPointerExit()

@@ -73,6 +73,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
     readonly int _hashReachTop = Animator.StringToHash("ReachTop");
 
     // Component
+    private AudioSource _audio;
     private SoundEffects _sfx;
     private PlayerCombat _combat;
     private Rigidbody _rbody;
@@ -83,6 +84,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
 
     private void Awake()
     {
+        _audio = GetComponent<AudioSource>();
         _capsuleColl = GetComponent<CapsuleCollider>();
         _rbody = GetComponent<Rigidbody>();
         _state = GetComponent<PlayerFSM>();
@@ -154,7 +156,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
             transform.forward = _dodgeDir;
             StartCoroutine(CoolDownDodge());
             _animator.SetBool(_hashRoll, true);
-            _sfx.PlayOneShotUsingDict("Dodge");
+            _sfx.PlayOneShotUsingDict("Dodge", _audio.volume * SettingData._sfxVolume);
         }
     }
 
@@ -478,7 +480,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
         {
             if (!_sfx.IsPlaying())
             {
-                _sfx.PlayOneShotUsingDict("Dodge");
+                _sfx.PlayOneShotUsingDict("Dodge", _audio.volume * SettingData._sfxVolume);
             }
         }
     }

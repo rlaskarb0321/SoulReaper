@@ -38,7 +38,7 @@ public class StartScene : MonoBehaviour
     {
         AudioClip audio = _firstSelecBtn.GetComponent<ButtonUI>()._onClickSound;
 
-        _audio.PlayOneShot(audio, 1.0f);
+        _audio.PlayOneShot(audio, 1.0f * SettingData._sfxVolume);
         if (!_isDevelopMode)
             yield return new WaitForSeconds(4.0f);
 
@@ -99,6 +99,6 @@ public class StartScene : MonoBehaviour
 
     public void PlayBtnClickBGM(AudioClip clip)
     {
-        _audio.PlayOneShot(clip);
+        _audio.PlayOneShot(clip, _audio.volume * SettingData._sfxVolume);
     }
 }

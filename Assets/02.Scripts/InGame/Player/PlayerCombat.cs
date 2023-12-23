@@ -46,6 +46,7 @@ public class PlayerCombat : MonoBehaviour
     PlayerFSM _state;
     FollowCamera _followCam;
     PlayerData _stat;
+    AudioSource _audio;
 
     readonly int _hashCombo = Animator.StringToHash("AttackCombo");
     readonly int _hashChargingValue = Animator.StringToHash("ChargingValue");
@@ -56,6 +57,7 @@ public class PlayerCombat : MonoBehaviour
 
     void Awake()
     {
+        _audio = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
         _state = GetComponent<PlayerFSM>();
         _atkBehaviour = _animator.GetBehaviour<AttackComboBehaviour>();
@@ -98,7 +100,7 @@ public class PlayerCombat : MonoBehaviour
             // 근거리 공격
             _state.State = PlayerFSM.eState.Attack;
             RotateToClickDir();
-            _weapon._sfx.PlayOneShotUsingDict("Slash Air");
+            _weapon._sfx.PlayOneShotUsingDict("Slash Air", _audio.volume * SettingData._sfxVolume);
             _animator.SetInteger(_hashCombo, ++_combo);
 
             // 근거리 일반공격 관련
@@ -259,7 +261,7 @@ public class PlayerCombat : MonoBehaviour
 
             RotateToClickDir();
             _animator.SetInteger(_hashCombo, _combo);
-            _weapon._sfx.PlayOneShotUsingDict("Slash Air");
+            _weapon._sfx.PlayOneShotUsingDict("Slash Air", _audio.volume * SettingData._sfxVolume);
             _atkBehaviour._isComboAtk = false;
             return;
         }

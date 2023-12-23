@@ -49,7 +49,7 @@ public class SoundEffects : MonoBehaviour
         _audio.loop = _sfxs[i].isLoop;
         _audio.volume = volume;
         _audio.playOnAwake = _sfxs[i].isPlayOnAwake;
-        _audio.PlayOneShot(_sfxs[i].sfx);
+        _audio.PlayOneShot(_sfxs[i].sfx, _audio.volume * SettingData._sfxVolume);
 
         #region 23.10.17 Dict 작업 메서드로 분리
         //int i;
@@ -148,7 +148,7 @@ public class SoundEffects : MonoBehaviour
         {
             if (_sfxs[i].isPlayOnAwake)
             {
-                _audio.PlayOneShot(_sfxs[i].sfx);
+                _audio.PlayOneShot(_sfxs[i].sfx, _audio.volume * SettingData._sfxVolume);
             }
         }
     }

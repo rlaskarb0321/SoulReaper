@@ -21,6 +21,11 @@ public class BGMChanger : MonoBehaviour
         _originVolume = _audio.volume;
     }
 
+    private void Update()
+    {
+        _audio.volume = _originVolume * SettingData._bgmVolume;
+    }
+
     private IEnumerator DelayBGM()
     {
         yield return new WaitForSeconds(0.5f);
@@ -63,7 +68,7 @@ public class BGMChanger : MonoBehaviour
     private IEnumerator FadeInClip(float fadeTime)
     {
         float temp = 0.0f;
-        while (_audio.volume < _originVolume)
+        while (_audio.volume < _originVolume * SettingData._bgmVolume)
         {
             _audio.volume = temp / fadeTime;
             temp += Time.deltaTime;

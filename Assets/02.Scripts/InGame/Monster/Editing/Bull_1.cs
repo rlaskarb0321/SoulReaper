@@ -141,7 +141,7 @@ public class Bull_1 : MeleeRange
         }
 
         GetComponent<CapsuleCollider>().enabled = false;
-        _audio.PlayOneShot(_bossSound[(int)eBossSound.Dead]);
+        _audio.PlayOneShot(_bossSound[(int)eBossSound.Dead], _audio.volume * SettingData._sfxVolume);
         _nav.enabled = false;
         _currHp = 0.0f;
         _animator.SetTrigger(_hashDead);
@@ -157,14 +157,14 @@ public class Bull_1 : MeleeRange
     public void PlayRunSound()
     {
         int randomSound = Random.Range(0, 2);
-        _audio.PlayOneShot(_bossSound[randomSound], 0.2f);
+        _audio.PlayOneShot(_bossSound[randomSound], 0.2f * SettingData._sfxVolume);
     }
 
     // 애니메이션 델리게이트, 3단 공격 후, 포효 소리
     public void Roar()
     {
         int randomSound = Random.Range((int)eBossSound.Roar_1, (int)eBossSound.Roar_2 + 1);
-        _audio.PlayOneShot(_bossSound[randomSound]);
+        _audio.PlayOneShot(_bossSound[randomSound], _audio.volume * SettingData._sfxVolume);
     }
 
     // 애니메이션 델리게이트, 3단 공격이 땅에 닿았을 때 흔들림
@@ -175,6 +175,6 @@ public class Bull_1 : MeleeRange
 
     public void PlayAttackCry(int index)
     {
-        _audio.PlayOneShot(_bossSound[(int)((eBossSound)index)]);
+        _audio.PlayOneShot(_bossSound[(int)((eBossSound)index)], _audio.volume * SettingData._sfxVolume);
     }
 }

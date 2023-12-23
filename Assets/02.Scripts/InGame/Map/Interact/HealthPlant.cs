@@ -123,7 +123,7 @@ public class HealthPlant : MonoBehaviour, IInteractable
 
         UIScene._instance.UpdateHPMP(UIScene.ePercentageStat.HP, _player._maxHP, _player._maxHP);
         UIScene._instance._seedUI.GoDownSeedUI();
-        _audio.PlayOneShot(_audio.clip);
+        _audio.PlayOneShot(_audio.clip, _audio.volume * SettingData._sfxVolume);
     }
 
     // 직접적으로 꽃의 상태를 바꾸는 작업

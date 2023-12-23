@@ -60,7 +60,7 @@ public class PlayerData : MonoBehaviour
         }
 
         StartCoroutine(FollowCamera._instance.ShakeCamera(_combat._hitCamShakeAmount, _combat._hitCamShakeDur));
-        _audio.PlayOneShot(hitSound, 0.6f);
+        _audio.PlayOneShot(hitSound, 0.6f * SettingData._sfxVolume);
         _combat._weapon.ResetHitEnemy();
         _combat.EndComboAtk();
         _combat.InitChargingGauge();

@@ -155,7 +155,7 @@ public class MonsterBase_1 : MonoBehaviour
         _animator.SetTrigger(_hashDead);
         if (_sound.Length > (int)eSound.Die)
         {
-            _audio.PlayOneShot(_sound[(int)eSound.Die]);
+            _audio.PlayOneShot(_sound[(int)eSound.Die], _audio.volume * SettingData._sfxVolume);
         }
 
         UIScene._instance.UpdateSoulCount(_stat.soul);

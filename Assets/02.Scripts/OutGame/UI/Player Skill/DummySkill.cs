@@ -39,7 +39,7 @@ public class DummySkill : MonoBehaviour
         }
 
         _isFollow = true;
-        _audio.PlayOneShot(_grabSound[(int)eGrabSound.Grab]);
+        _audio.PlayOneShot(_grabSound[(int)eGrabSound.Grab], _audio.volume * SettingData._sfxVolume);
         transform.SetParent(parent);
     }
 
@@ -49,13 +49,13 @@ public class DummySkill : MonoBehaviour
         _originParent.SetAsFirstSibling();
         _originParentRect.anchoredPosition = Vector2.zero;
         _rect.anchoredPosition = Vector2.zero;
-        _audio.PlayOneShot(_grabSound[(int)eGrabSound.Swap]);
+        _audio.PlayOneShot(_grabSound[(int)eGrabSound.Swap], _audio.volume * SettingData._sfxVolume);
     }
 
     public void ToOriginPos()
     {
         _isFollow = false;
-        _audio.PlayOneShot(_grabSound[(int)eGrabSound.Abandon]);
+        _audio.PlayOneShot(_grabSound[(int)eGrabSound.Abandon], _audio.volume * SettingData._sfxVolume);
         transform.SetParent(_originParent);
         transform.SetAsFirstSibling();
     }

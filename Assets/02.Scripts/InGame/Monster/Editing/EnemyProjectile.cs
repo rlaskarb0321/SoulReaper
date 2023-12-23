@@ -113,7 +113,7 @@ public class EnemyProjectile : VFXPool
                 StartCoroutine(monster.OnHitEvent());
                 StartCoroutine(Explosion());
 
-                _audio.PlayOneShot(_hitSound);
+                _audio.PlayOneShot(_hitSound, _audio.volume * SettingData._sfxVolume);
             }
             // ¶¥°ú Ãæµ¹
             else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
