@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StartScene : MonoBehaviour
 {
     public GameObject _gameBtnGroup;
-    public GameObject _settingPanel;
+    public SettingDataEditor _settingPanel;
     public Button _firstSelecBtn;
     public bool _isDevelopMode;
     
@@ -84,6 +84,21 @@ public class StartScene : MonoBehaviour
 
     public void OnSettingBtnClick()
     {
-        _settingPanel.SetActive(!_settingPanel.activeSelf);
+        bool isSettingPanelActive = _settingPanel.gameObject.activeSelf;
+
+        if (isSettingPanelActive)
+        {
+            _settingPanel.gameObject.SetActive(false);
+        }
+        else
+        {
+            _settingPanel.gameObject.SetActive(true);
+            _settingPanel.OpenCategory(_settingPanel._currOpenCategory);
+        }
+    }
+
+    public void PlayBtnClickBGM(AudioClip clip)
+    {
+        _audio.PlayOneShot(clip);
     }
 }
