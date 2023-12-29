@@ -10914,7 +10914,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currOpenPanel: []
   _pausePanel: {fileID: 1824909797}
-  _letterPanel: {fileID: 1434474771}
   _letter: {fileID: 1434474776}
   _seedUI: {fileID: 2088698825}
   _stat: {fileID: 779528198}
@@ -12469,6 +12468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66bede521e4f8234baa96088185ae6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _activateSound:
+  - {fileID: 8300000, guid: a31e55e675c47d945afd7aaa73d1a2ff, type: 3}
+  - {fileID: 8300000, guid: fafaf6bcc6f99c842a65fb49bb89681d, type: 3}
   _titleText: {fileID: 1171031612}
   _contentText: {fileID: 1453042187}
 --- !u!1 &1451076194
@@ -15685,6 +15687,7 @@ GameObject:
   - component: {fileID: 1824909798}
   - component: {fileID: 1824909800}
   - component: {fileID: 1824909799}
+  - component: {fileID: 1824909801}
   m_Layer: 5
   m_Name: Menu Panel
   m_TagString: Untagged
@@ -15752,6 +15755,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1824909797}
   m_CullTransparentMesh: 1
+--- !u!114 &1824909801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824909797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe677a846fba25345bbdf15e74482951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activateSound:
+  - {fileID: 8300000, guid: 58b38473f53f7124a8ad095545017964, type: 3}
+  - {fileID: 8300000, guid: cc1767a5111bb7b409bfae36557ac3d8, type: 3}
 --- !u!1 &1833748258
 GameObject:
   m_ObjectHideFlags: 0

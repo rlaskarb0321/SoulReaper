@@ -17,7 +17,7 @@ public class UIScene : MonoBehaviour
 
     [SerializeField]
     private GameObject _pausePanel; // 일시정지
-    public LetterInteract _letter; // 전서구
+    public LetterPanel _letter; // 전서구
 
     [Header("=== 생명의 씨앗 UI ===")]
     public SeedUI _seedUI;
@@ -130,8 +130,14 @@ public class UIScene : MonoBehaviour
     // UI패널을 키고, 켜져있는 ui들 리스트에 넣음
     public void SetUIPanelActive(GameObject panel)
     {
+        UIPanel uiPanel = panel.GetComponent<UIPanel>();
+
         panel.SetActive(!panel.activeSelf);
         _currOpenPanel.Add(panel);
+        if (uiPanel != null)
+        {
+            uiPanel.PlaySetActiveSound(true, _audio);
+        }
     }
 
     //public void SetUIPanelActive(GameObject panel, string[] content)
@@ -177,10 +183,17 @@ public class UIScene : MonoBehaviour
 
     public void PausePanel()
     {
+        UIPanel uiPanel;
+
         // 켜져있는 UI가 있으면 끔
         if (_currOpenPanel.Count != 0)
         {
             int index = _currOpenPanel.Count - 1;
+            uiPanel = _currOpenPanel[index].GetComponent<UIPanel>();
+            if (uiPanel != null)
+            {
+                uiPanel.PlaySetActiveSound(false, _audio);
+            }
 
             _currOpenPanel[index].SetActive(false);
             _currOpenPanel.RemoveAt(index);
@@ -188,6 +201,10 @@ public class UIScene : MonoBehaviour
         }
 
         // PausePanel 을 킴
+        uiPanel = _pausePanel.GetComponent<UIPanel>();
+        if (uiPanel != null)
+            uiPanel.PlaySetActiveSound(true, _audio);
+
         SetUIPanelActive(_pausePanel);
     }
     #endregion UI Panel

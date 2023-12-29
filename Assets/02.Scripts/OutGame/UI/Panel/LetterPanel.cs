@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Text;
 
-public class LetterInteract : MonoBehaviour
+public class LetterPanel : UIPanel
 {
     [SerializeField]
     private TMP_Text _titleText;
@@ -20,8 +20,12 @@ public class LetterInteract : MonoBehaviour
         {
             sb.AppendLine(text[i]);
         }
-
         _contentText.text = sb.ToString();
         _titleText.text = text[0];
+    }
+
+    public override void PlaySetActiveSound(bool isTurnOn, AudioSource audio)
+    {
+        base.PlaySetActiveSound(isTurnOn, audio);
     }
 }
