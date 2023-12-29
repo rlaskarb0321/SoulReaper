@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ public class UIScene : MonoBehaviour
 
     [SerializeField]
     private GameObject _pausePanel; // 일시정지
-    public GameObject _letterPanel; // 전서구
+    public LetterInteract _letter; // 전서구
 
     [Header("=== 생명의 씨앗 UI ===")]
     public SeedUI _seedUI;
@@ -132,6 +133,34 @@ public class UIScene : MonoBehaviour
         panel.SetActive(!panel.activeSelf);
         _currOpenPanel.Add(panel);
     }
+
+    //public void SetUIPanelActive(GameObject panel, string[] content)
+    //{
+    //    panel.SetActive(!panel.activeSelf);
+    //    _currOpenPanel.Add(panel);
+
+    //    if (!panel.activeSelf)
+    //        return;
+
+    //    for (int i = 0; i < panel.transform.childCount; i++)
+    //    {
+    //        Transform child = panel.transform.GetChild(i);
+    //        TMP_Text childContent = child.gameObject.GetComponent<TMP_Text>();
+    //        if (child.gameObject.CompareTag("Title"))
+    //        {
+    //            childContent.text = content[0];
+    //            continue;
+    //        }
+
+    //        StringBuilder sb = new StringBuilder();
+    //        for (int j = 1; j < content.Length; j++)
+    //        {
+    //            sb.AppendLine(content[j]);
+    //        }
+
+    //        childContent.text = sb.ToString();
+    //    }
+    //}
 
     /// <summary>
     /// UI 패널을 끄고, ui 리스트에서 뺌

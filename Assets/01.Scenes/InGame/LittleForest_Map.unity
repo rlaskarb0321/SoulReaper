@@ -27737,6 +27737,7 @@ MonoBehaviour:
   _floatUIPos: {fileID: 638856986}
   _letterMesh: {fileID: 1050632826587446869}
   _carrierPigeon: {fileID: 6788538757269683694}
+  _letterContent: {fileID: 4900000, guid: a33fd389b801c5d44902d76c9da0c7c2, type: 3}
   _apply: {fileID: 1223063334}
 --- !u!54 &936478506
 Rigidbody:
@@ -60617,6 +60618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9b368f09a41444db59526796f6c8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flaySparrowSound: {fileID: 8300000, guid: df66b744e4c6eda4dad8a8fcef041ba3, type: 3}
 --- !u!114 &6788538757269683695
 MonoBehaviour:
   m_ObjectHideFlags: 0

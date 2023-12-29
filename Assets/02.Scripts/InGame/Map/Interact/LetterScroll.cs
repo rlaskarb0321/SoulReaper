@@ -10,12 +10,14 @@ public class LetterScroll : MonoBehaviour, IInteractable
 
     [SerializeField] private GameObject _letterMesh;
     [SerializeField] private CarrierPigeon _carrierPigeon;
+    [SerializeField] private TextAsset _letterContent;
 
     [Header("=== Data ===")]
     [SerializeField] private ForestDataApply _apply;
 
     public void Interact()
     {
+        DialogMgr dialogMgr = new DialogMgr();
         if (_carrierPigeon != null)
         {
             _carrierPigeon.FlyAway();
@@ -23,7 +25,8 @@ public class LetterScroll : MonoBehaviour, IInteractable
 
         _letterMesh.SetActive(false);
         SetActiveInteractUI(false);
-        UIScene._instance.SetUIPanelActive(UIScene._instance._letterPanel);
+        UIScene._instance._letter.SetText(dialogMgr.ParsingCSVLine(_letterContent));
+        UIScene._instance.SetUIPanelActive(UIScene._instance._letter.gameObject);
         GetComponent<SphereCollider>().enabled = false;
 
         // 여기서 데이터 변동

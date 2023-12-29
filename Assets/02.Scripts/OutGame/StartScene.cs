@@ -17,6 +17,14 @@ public class StartScene : MonoBehaviour
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
+        string settingFilePath = DataManage.SavePath + "TestSettingData" + ".json";
+
+        if (!File.Exists(settingFilePath))
+        {
+            print("세팅 데이터 없어서 새로 생성");
+            SettingDataObj settingData = new SettingDataObj();
+            DataManage.SaveSettingData(settingData, "TestSettingData");
+        }
     }
 
     public void OnStartBtnClick()

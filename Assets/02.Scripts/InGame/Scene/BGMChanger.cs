@@ -7,8 +7,11 @@ using UnityEngine;
 /// </summary>
 public class BGMChanger : MonoBehaviour
 {
+    public AudioClip _originBGM;
+
     private AudioSource _audio;
     private float _originVolume;
+    private bool _isFaded;
 
     private void Awake()
     {
@@ -23,7 +26,10 @@ public class BGMChanger : MonoBehaviour
 
     private void Update()
     {
-        _audio.volume = _originVolume * SettingData._bgmVolume;
+        if (!_isFaded)
+        {
+            _audio.volume = _originVolume * SettingData._bgmVolume;
+        }
     }
 
     private IEnumerator DelayBGM()
@@ -33,7 +39,7 @@ public class BGMChanger : MonoBehaviour
     }
 
     /// <summary>
-    /// 비지엠을 바꿔주는 메서드
+    /// 원래 비지엠을 바로 꺼주고, 바꿀 비지엠으로 페이드인 하는 메서드
     /// </summary>
     /// <param name="changeBGM"></param>
     public void ChangeDirectly(AudioClip changeBGM, float fadeTime)
@@ -45,9 +51,17 @@ public class BGMChanger : MonoBehaviour
         StartCoroutine(FadeInClip(fadeTime));
     }
 
+    /// <summary>
+    /// 원래 비지엠을 페이드 아웃으로 낮추고, 바꿀 비지엠으로 천천히 올림
+    /// </summary>
+    /// <param name="changeBGM"></param>
+    /// <param name="fadeTime"></param>
+    /// <returns></returns>
     public IEnumerator FadeOutClip(AudioClip changeBGM, float fadeTime)
     {
         float originFadeTime = fadeTime;
+
+        _isFaded = true;
         while (_audio.volume > 0.0f)
         {
             _audio.volume = fadeTime / originFadeTime;
@@ -62,17 +76,20 @@ public class BGMChanger : MonoBehaviour
         _audio.volume = 0.0f;
         _audio.Play();
 
-        StartCoroutine(FadeInClip(originFadeTime * 0.5f));
+        StartCoroutine(FadeInClip(originFadeTime));
     }
 
     private IEnumerator FadeInClip(float fadeTime)
     {
         float temp = 0.0f;
+        _isFaded = true;
+
         while (_audio.volume < _originVolume * SettingData._bgmVolume)
         {
             _audio.volume = temp / fadeTime;
             temp += Time.deltaTime;
             yield return null;
         }
+        _isFaded = false;
     }
 }

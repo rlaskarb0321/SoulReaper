@@ -48,6 +48,21 @@ public static class DataManage
 
         File.WriteAllText(saveFilePath, saveJson);
     }
+
+    public static void SaveSettingData(SettingDataObj data, string saveFileName)
+    {
+        if (!Directory.Exists(SavePath))
+        {
+            Debug.Log("폴더 새로 생성, S");
+            Directory.CreateDirectory(SavePath);
+        }
+
+        string saveJson = JsonUtility.ToJson(data);
+        string saveFilePath = SavePath + saveFileName + ".json";
+
+        File.WriteAllText(saveFilePath, saveJson);
+    }
+
     #endregion Save Data Method
 
     #region Load Data Method
@@ -98,5 +113,22 @@ public static class DataManage
 
         return saveData;
     }
+
+    public static SettingDataObj LoadSettingData(string saveFileName)
+    {
+        string saveFilePath = SavePath + saveFileName + ".json";
+
+        if (!File.Exists(saveFilePath))
+        {
+            Debug.LogError("No such saveFile exists");
+            return null;
+        }
+
+        string saveFile = File.ReadAllText(saveFilePath);
+        SettingDataObj saveData = JsonUtility.FromJson<SettingDataObj>(saveFile);
+
+        return saveData;
+    }
+
     #endregion Load Data Method
 }

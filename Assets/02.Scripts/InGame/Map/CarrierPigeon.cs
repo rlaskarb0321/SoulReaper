@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CarrierPigeon : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip _flaySparrowSound;
+
     private Animator _animator;
     private AudioSource _audio;
     private SoundEffects _sfx;
@@ -20,7 +23,11 @@ public class CarrierPigeon : MonoBehaviour
     public void FlyAway()
     {
         _animator.SetBool(_hashFly, true);
-        //_audio.PlayOneShot();
+    }
+
+    public void PlayFlySound()
+    {
+        _audio.PlayOneShot(_flaySparrowSound, _audio.volume * SettingData._sfxVolume);
     }
 
     public void TurnOff() => gameObject.SetActive(false);

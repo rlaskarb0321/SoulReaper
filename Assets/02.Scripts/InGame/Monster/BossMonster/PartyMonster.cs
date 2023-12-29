@@ -110,16 +110,41 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     public override void Dead()
     {
         GetComponent<CapsuleCollider>().enabled = false;
+        GetComponent<Outline>().enabled = false;
 
         _pattern.SetOffAllColl();
         _rbody.isKinematic = true;
         _state = eMonsterState.Dead;
         _nav.velocity = Vector3.zero;
-        _nav.isStopped = true;
+        // _nav.isStopped = true;
         _nav.baseOffset = 0.0f;
         _nav.enabled = false;
         _animator.SetTrigger(_hashBossDead);
+        UIScene._instance.UpdateSoulCount(_stat.soul);
+        StartCoroutine(OnMonsterDead());
         _bossRoomMgr.SolveQuest();
+    }
+
+    public override IEnumerator OnMonsterDead()
+    {
+        yield return new WaitForSeconds(_bodyBuryTime);
+
+        Material newMat = Instantiate(_deadMat);
+        Color color = newMat.color;
+
+        while (newMat.color.a >= 0.05f)
+        {
+            color.a -= Time.deltaTime;
+            newMat.color = color;
+            for (int i = 0; i < _meshRenderes.Length; i++)
+            {
+                _meshRenderes[i].material = newMat;
+            }
+
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
     }
 
     public override void SwitchNeedAiming(int value) => _needAiming = value == 1 ? true : false;

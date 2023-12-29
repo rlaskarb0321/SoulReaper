@@ -36,6 +36,6 @@ public class ShrineChangeBGM : MonoBehaviour
         if (!other.gameObject.tag.Equals("Player"))
             return;
 
-        _bgmChanger.ChangeDirectly(_bgm[(int)eShrineBGM.OutBGM], _fadeTime);
+        _bgmChanger.ChangeDirectly(_bgmChanger._originBGM, _fadeTime);
     }
 }

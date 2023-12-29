@@ -144,6 +144,4 @@ public class ReviveStone : MonoBehaviour, IInteractable, IInteractNPC
 
         SetActiveInteractUI(false);
     }
-
-    
 }
