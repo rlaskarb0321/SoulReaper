@@ -1260,29 +1260,29 @@ MonoBehaviour:
     _id: 2_Summon Normal Monster
     _eSkillCondition: 1
     _priority: 1
-    _coolTime: 8
-    _currCoolTime: 8
+    _coolTime: 180
+    _currCoolTime: 180
     _attackRange: 0
   - _canUse: 0
     _id: 3_Blink
     _eSkillCondition: 3
     _priority: 2
-    _coolTime: 0
-    _currCoolTime: 0
+    _coolTime: 20
+    _currCoolTime: 20
     _attackRange: 0
   - _canUse: 1
     _id: 4_Sliding
     _eSkillCondition: 0
     _priority: 3
-    _coolTime: 8.5
-    _currCoolTime: 8.5
+    _coolTime: 10
+    _currCoolTime: 10
     _attackRange: 5.65
   - _canUse: 1
     _id: 5_Jump
     _eSkillCondition: 0
     _priority: 0
-    _coolTime: 6
-    _currCoolTime: 6
+    _coolTime: 12
+    _currCoolTime: 12
     _attackRange: 0
   - _canUse: 1
     _id: 6_Fist

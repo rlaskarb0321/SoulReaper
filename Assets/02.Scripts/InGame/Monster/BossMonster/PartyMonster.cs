@@ -68,6 +68,7 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     private void Update()
     {
         DotDamaged();
+        _monsterCombat.CombatPartyMonster();
     }
 
     public override IEnumerator OnHitEvent(eArrowState state = eArrowState.Normal)

@@ -111,7 +111,75 @@ public class PartyMonsterCombat : MonoBehaviour
         CheckSkill();
     }
 
-    private void Update()
+    //private void Update()
+    //{
+    //    if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
+    //        return;
+
+    //    if (!_isBossTired)
+    //    {
+    //        switch (_monsterBase._state)
+    //        {
+    //            // 다음에 행할 스킬을 고르고 실행함
+    //            case MonsterBase_1.eMonsterState.Idle:
+    //                float dist = Vector3.Distance(_monsterBase._target.transform.position, transform.position);
+    //                if (_selectedSkill == null)
+    //                    _selectedSkill = SelectSkill(_normalStateSkills);
+    //                if (_selectedSkill._attackRange > 0.0f && dist > _selectedSkill._attackRange)
+    //                {
+    //                    Trace();
+    //                    return;
+    //                }
+
+    //                DoSkill(_selectedSkill);
+    //                break;
+
+    //            case MonsterBase_1.eMonsterState.Attack:
+    //                _monsterBase.AimingTarget(_target.transform.position, 2.0f);
+    //                break;
+
+    //            // 공격이 끝난 후 약간의 딜레이 가지기
+    //            case MonsterBase_1.eMonsterState.Delay:
+    //                if (_monsterBase._stat.actDelay <= 0.0f)
+    //                {
+    //                    _monsterBase._stat.actDelay = _originActDelay;
+    //                    _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
+    //                    _selectedSkill = null;
+    //                    return;
+    //                }
+                     
+    //                _monsterBase._stat.actDelay -= Time.deltaTime;
+    //                break;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Recover();
+    //        switch (_monsterBase._state)
+    //        {
+    //            case MonsterBase_1.eMonsterState.Idle:
+    //                if (_selectedSkill == null)
+    //                    _selectedSkill = SelectSkill(_tiredStateSkills);
+
+    //                DoSkill(_selectedSkill);
+    //                break;
+
+    //            case MonsterBase_1.eMonsterState.Delay:
+    //                if (_monsterBase._stat.actDelay <= 0.0f)
+    //                {
+    //                    _monsterBase._stat.actDelay = _originActDelay;
+    //                    _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
+    //                    _selectedSkill = null;
+    //                    return;
+    //                }
+
+    //                _monsterBase._stat.actDelay -= Time.deltaTime;
+    //                break;
+    //        }
+    //    }
+    //}
+
+    public void CombatPartyMonster()
     {
         if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
             return;
@@ -147,7 +215,7 @@ public class PartyMonsterCombat : MonoBehaviour
                         _selectedSkill = null;
                         return;
                     }
-                     
+
                     _monsterBase._stat.actDelay -= Time.deltaTime;
                     break;
             }
