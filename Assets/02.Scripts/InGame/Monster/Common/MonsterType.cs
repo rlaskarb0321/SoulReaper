@@ -17,5 +17,5 @@ public class MonsterType : MonoBehaviour
     /// <summary>
     /// 몬스터 타입별로 데미지 받았을 때, 특정 이벤트가 발생할 경우 작성하는 메서드
     /// </summary>
-    public virtual void ReactDamaged() { print(gameObject.name + "Hit"); }
+    public virtual void ReactDamaged() { }
 }

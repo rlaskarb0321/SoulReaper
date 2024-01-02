@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeRange : MonsterBase_1
+public class MeleeRange : MonsterBase
 {
     [Header("=== Melee Range ===")]
     public BoxCollider _attackCollObj;
@@ -21,7 +21,7 @@ public class MeleeRange : MonsterBase_1
 
     protected virtual void Update()
     {
-        if (_state == MonsterBase_1.eMonsterState.Dead)
+        if (_state == MonsterBase.eMonsterState.Dead)
             return;
 
         switch (_state)

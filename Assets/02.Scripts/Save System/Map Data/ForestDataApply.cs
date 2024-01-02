@@ -9,7 +9,7 @@ public class ForestDataApply : DataApply, IDataApply
     public GameObject _scrollObj;
     public GameObject _sparrow;
     public HealthPlant _healthFlower;
-    public MonsterBase_1 _gateKeeper;
+    public MonsterBase _gateKeeper;
     public BoxCollider _castleGate;
     public GameObject _castleBattleICon;
     public BullInteract _bullInteract;
@@ -82,7 +82,7 @@ public class ForestDataApply : DataApply, IDataApply
         _data._flowerState = _healthFlower.FlowerState;
 
         // 문지기의 사망 여부를 데이터에 저장
-        _data._isGateKeeperDead = _gateKeeper._state == MonsterBase_1.eMonsterState.Dead ? true : false;
+        _data._isGateKeeperDead = _gateKeeper._state == MonsterBase.eMonsterState.Dead ? true : false;
 
         // 성 문의 열림 여부를 데이터에 저장
         _data._isGateOpen = _castleGate.enabled;

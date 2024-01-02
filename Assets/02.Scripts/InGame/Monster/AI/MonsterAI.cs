@@ -27,13 +27,13 @@ public class MonsterAI : MonoBehaviour
     private float _scoutIdleTime; // 정찰 완료 후 대기할 시간값
     private float _currScoutIdle; // 현재 남아있는 정찰 대기시간값
     private MonsterStat _stat;
-    private MonsterBase _monster;
+    private MonsterBaseLegacy _monster;
 
 
     private void Awake()
     {
-        _stat = this.GetComponent<MonsterBase>()._stat;
-        _monster = GetComponent<MonsterBase>();
+        _stat = this.GetComponent<MonsterBaseLegacy>()._stat;
+        _monster = GetComponent<MonsterBaseLegacy>();
     }
 
     private void Start()

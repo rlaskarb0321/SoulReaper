@@ -30,7 +30,7 @@ public class MiniBossGateKeeper : MonsterType
     // Field
     private enum eBattleICon { Castle, Battle_1, Battle_2, Count }
     private enum eBattleBGM { NonBattle, Battle }
-    private MonsterBase_1 _monsterBase;
+    private MonsterBase _monsterBase;
     private IInteractable _interactable;
     private Bull_1 _bull;
     private AudioSource _audio;
@@ -39,7 +39,7 @@ public class MiniBossGateKeeper : MonsterType
 
     private void Awake()
     {
-        _monsterBase = GetComponent<MonsterBase_1>();
+        _monsterBase = GetComponent<MonsterBase>();
         _interactable = GetComponentInChildren<IInteractable>();
         _audio = GetComponent<AudioSource>();
         _bull = GetComponent<Bull_1>();
@@ -60,7 +60,7 @@ public class MiniBossGateKeeper : MonsterType
         if (!_isAttacked)
             return;
 
-        if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead && !_castleGate.enabled)
+        if (_monsterBase._state == MonsterBase.eMonsterState.Dead && !_castleGate.enabled)
         {
             OnGateKeeperDead();
             return;
@@ -68,7 +68,7 @@ public class MiniBossGateKeeper : MonsterType
 
         switch (_monsterBase._state)
         {
-            case MonsterBase_1.eMonsterState.Idle:
+            case MonsterBase.eMonsterState.Idle:
                 if (!_audio.isPlaying && _audio.enabled)
                 {
                     _audio.clip = _bull._bossSound[(int)Bull_1.eBossSound.Idle];
@@ -76,7 +76,7 @@ public class MiniBossGateKeeper : MonsterType
                 }
                 break;
 
-            case MonsterBase_1.eMonsterState.Trace:
+            case MonsterBase.eMonsterState.Trace:
                 Trace();
                 break;
         }
@@ -98,7 +98,7 @@ public class MiniBossGateKeeper : MonsterType
         _monsterBase._animator.SetBool(_hashRun, true);
         if (distance <= _monsterBase._stat.attakDist)
         {
-            _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
+            _monsterBase._state = MonsterBase.eMonsterState.Attack;
             _monsterBase._animator.SetBool(_hashRun, false);
         }
         else
@@ -109,7 +109,7 @@ public class MiniBossGateKeeper : MonsterType
 
     public override void ReactDamaged()
     {
-        if (_monsterBase._state != MonsterBase_1.eMonsterState.Idle)
+        if (_monsterBase._state != MonsterBase.eMonsterState.Idle)
             return;
 
         for (int i = (int)eBattleICon.Castle; i < (int)eBattleICon.Count; i++)
@@ -123,7 +123,7 @@ public class MiniBossGateKeeper : MonsterType
         _monsterBase._target = SearchTarget(150.0f);
         _interactColl.SetActive(false);
         _isAttacked = true;
-        _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
+        _monsterBase._state = MonsterBase.eMonsterState.Trace;
     }
 
     /// <summary>

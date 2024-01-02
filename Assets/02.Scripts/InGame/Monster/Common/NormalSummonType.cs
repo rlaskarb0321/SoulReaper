@@ -19,23 +19,23 @@ public class NormalSummonType : MonsterType, ISummonType
 {
     public Material _originMat;
 
-    private MonsterBase_1 _monsterBase;
+    private MonsterBase _monsterBase;
 
     private void Awake()
     {
-        _monsterBase = GetComponent<MonsterBase_1>();
+        _monsterBase = GetComponent<MonsterBase>();
         _monsterBase._stat.traceDist = 150.0f;
         _monsterBase._target = SearchTarget(_monsterBase._stat.traceDist);
     }
 
     private void Update()
     {
-        if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
+        if (_monsterBase._state == MonsterBase.eMonsterState.Dead)
             return;
 
         switch (_monsterBase._state)
         {
-            case MonsterBase_1.eMonsterState.Trace:
+            case MonsterBase.eMonsterState.Trace:
                 Trace();
                 break;
         }
@@ -58,7 +58,7 @@ public class NormalSummonType : MonsterType, ISummonType
         _monsterBase.GetComponent<AudioSource>().enabled = false;
 
         _monsterBase._currHp = _monsterBase._stat.health;
-        _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
+        _monsterBase._state = MonsterBase.eMonsterState.Trace;
         _monsterBase._mesh.material = newMat;
     }
 
@@ -77,7 +77,7 @@ public class NormalSummonType : MonsterType, ISummonType
         float distance = Vector3.Distance(transform.position, _monsterBase._target.transform.position);
         if (distance <= _monsterBase._stat.attakDist)
         {
-            _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
+            _monsterBase._state = MonsterBase.eMonsterState.Attack;
             return;
         }
 

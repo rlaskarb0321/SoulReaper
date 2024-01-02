@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LongRange : MonsterBase_1
+public class LongRange : MonsterBase
 {
     [Header("=== Long Range & Object Pool ===")]
     public ObjectPooling _projectilePool;
@@ -22,7 +22,7 @@ public class LongRange : MonsterBase_1
 
     private void Update()
     {
-        if (_state == MonsterBase_1.eMonsterState.Dead)
+        if (_state == MonsterBase.eMonsterState.Dead)
             return;
 
         switch (_state)

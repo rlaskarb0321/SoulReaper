@@ -92,7 +92,7 @@ public class MeleeWeaponMgr : MonoBehaviour
         {
             if (_hitEnemiesList[i].gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                MonsterBase_1 monster = _hitEnemiesList[i].GetComponent<MonsterBase_1>();
+                MonsterBase monster = _hitEnemiesList[i].GetComponent<MonsterBase>();
                 if (monster._currHp == 0)
                     return;
 

@@ -9,7 +9,7 @@ public class MiniBossSummonType : MonsterType, ISummonType
 {
     public Material _originMat;
 
-    private MonsterBase_1 _monsterBase;
+    private MonsterBase _monsterBase;
     private Vector3 _originPos;
     private Quaternion _originRot;
     private readonly int _hashRun = Animator.StringToHash("Run");
@@ -17,7 +17,7 @@ public class MiniBossSummonType : MonsterType, ISummonType
 
     private void Awake()
     {
-        _monsterBase = GetComponent<MonsterBase_1>();
+        _monsterBase = GetComponent<MonsterBase>();
         _monsterBase._stat.traceDist = 150.0f;
         _monsterBase._target = SearchTarget(_monsterBase._stat.traceDist);
     }
@@ -30,12 +30,12 @@ public class MiniBossSummonType : MonsterType, ISummonType
 
     private void Update()
     {
-        if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
+        if (_monsterBase._state == MonsterBase.eMonsterState.Dead)
             return;
 
         switch (_monsterBase._state)
         {
-            case MonsterBase_1.eMonsterState.Trace:
+            case MonsterBase.eMonsterState.Trace:
                 Trace();
                 break;
         }
@@ -58,7 +58,7 @@ public class MiniBossSummonType : MonsterType, ISummonType
         _monsterBase._animator.SetBool(_hashRun, true);
         if (distance <= _monsterBase._stat.attakDist)
         {
-            _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
+            _monsterBase._state = MonsterBase.eMonsterState.Attack;
             _monsterBase._animator.SetBool(_hashRun, false);
         }
         else
@@ -96,9 +96,9 @@ public class MiniBossSummonType : MonsterType, ISummonType
         _monsterBase._currHp = _monsterBase._stat.health;
         _monsterBase._mesh.material = newMat;
 
-        if (_monsterBase._state != MonsterBase_1.eMonsterState.Trace)
+        if (_monsterBase._state != MonsterBase.eMonsterState.Trace)
         {
-            _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
+            _monsterBase._state = MonsterBase.eMonsterState.Trace;
         }
     }
 }

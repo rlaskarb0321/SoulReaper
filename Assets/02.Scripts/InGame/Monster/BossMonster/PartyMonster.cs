@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartyMonster : MonsterBase_1, IDotDebuff
+public class PartyMonster : MonsterBase, IDotDebuff
 {
     [Header("------ Boss_Party Monster ------")]
     [Header("=== Mesh ===")]
