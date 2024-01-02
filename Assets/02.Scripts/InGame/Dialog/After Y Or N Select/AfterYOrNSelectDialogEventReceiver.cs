@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationReceiver
+public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationReceiver, IDialogLetteringEffect
 {
     public DialogUI _dialogUI;
 
@@ -60,10 +60,10 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
     {
         _dialogUI._activateUI.gameObject.SetActive(true);
         _playable.Pause();
-        StartCoroutine(PlayAfterSelectDialog(lines));
+        StartCoroutine(PlayDialogLettering(lines));
     }
 
-    private IEnumerator PlayAfterSelectDialog(string[] lines)
+    public IEnumerator PlayDialogLettering(string[] lines)
     {
         int index = 1;
         string speaker = "";

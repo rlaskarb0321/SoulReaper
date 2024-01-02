@@ -4,7 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
+/// <summary>
+/// 레터링 효과가 필요한 대화내용 연출
+/// </summary>
+public interface IDialogLetteringEffect
+{
+    public IEnumerator PlayDialogLettering(string[] lines);
+}
+
+public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, IDialogLetteringEffect
 {
     public DialogUI _oneWayDialogUI;
     public GameObject _interactObj;
@@ -54,10 +62,10 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver
     {
         _oneWayDialogUI._activateUI.gameObject.SetActive(true);
         _playable.Pause();
-        StartCoroutine(PlayOneWayDialog(lines));
+        StartCoroutine(PlayDialogLettering(lines));
     }
 
-    private IEnumerator PlayOneWayDialog(string[] lines)
+    public IEnumerator PlayDialogLettering(string[] lines)
     {
         int index = 1;
         string speaker = "";
