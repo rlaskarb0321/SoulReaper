@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterSummonMgr : MonoBehaviour
 {
-    public MonsterBase _monster;
+    public MonsterBase_1 _monster;
 
     private void OnEnable()
     {
@@ -13,7 +13,7 @@ public class MonsterSummonMgr : MonoBehaviour
 
     private IEnumerator ReturnPool()
     {
-        yield return new WaitUntil(() => _monster._state == MonsterBase.eMonsterState.Dead);
+        yield return new WaitUntil(() => _monster._state == MonsterBase_1.eMonsterState.Dead);
         yield return new WaitUntil(() =>  _monster.gameObject.activeSelf == false);
 
         print("ÀçÈ°¿ë");

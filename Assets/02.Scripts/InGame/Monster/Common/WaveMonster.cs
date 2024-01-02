@@ -24,7 +24,7 @@ public class WaveMonster : MonsterType, IDisolveEffect
     public float _dissolveAmount;
 
     [Header("=== MonsterBase ===")]
-    public MonsterBase _monsterBase;
+    public MonsterBase_1 _monsterBase;
 
     protected bool _isAlert;
 
@@ -36,7 +36,7 @@ public class WaveMonster : MonsterType, IDisolveEffect
 
     protected virtual void Update()
     {
-        if (_monsterBase._state == MonsterBase.eMonsterState.Dead)
+        if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
         {
             if (_isAlert)
                 return;
@@ -46,7 +46,7 @@ public class WaveMonster : MonsterType, IDisolveEffect
 
         switch (_monsterBase._state)
         {
-            case MonsterBase.eMonsterState.Trace:
+            case MonsterBase_1.eMonsterState.Trace:
                 Trace();
                 break;
         }
@@ -67,7 +67,7 @@ public class WaveMonster : MonsterType, IDisolveEffect
         float distance = Vector3.Distance(transform.position, _monsterBase._target.transform.position);
         if (distance <= _monsterBase._stat.attakDist)
         {
-            _monsterBase._state = MonsterBase.eMonsterState.Attack;
+            _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
             return;
         }
 

@@ -24,7 +24,7 @@ public interface INormalMonster
     public IEnumerator KnockBack(Vector3 hitDir);
 }
 
-public abstract class MonsterBaseLegacy : MonoBehaviour
+public abstract class MonsterBase : MonoBehaviour
 {
     [HideInInspector] public Animator _animator;
     [HideInInspector] public NavMeshAgent _nav;

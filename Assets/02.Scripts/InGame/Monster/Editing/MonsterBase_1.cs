@@ -10,7 +10,7 @@ public interface IDotDebuff
     public void DotDamaged();
 }
 
-public class MonsterBase : MonoBehaviour
+public class MonsterBase_1 : MonoBehaviour
 {
     public enum eMonsterState
     {

@@ -149,7 +149,7 @@ public class PartyBossPattern : MonoBehaviour
     private GameObject _target;
     private Rigidbody _rbody;
     private Animator _animator;
-    private MonsterBase _monsterBase;
+    private MonsterBase_1 _monsterBase;
     private BossDialog _bossDialog;
     private List<IndexingDict> _dialogData;
 
@@ -183,7 +183,7 @@ public class PartyBossPattern : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _monsterBase = GetComponent<MonsterBase>();
+        _monsterBase = GetComponent<MonsterBase_1>();
         _bossDialog = new BossDialog();
         _rbody = GetComponent<Rigidbody>();
         _target = _monsterBase._target;

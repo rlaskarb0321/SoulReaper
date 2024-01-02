@@ -113,7 +113,7 @@ public class PartyMonsterCombat : MonoBehaviour
 
     private void Update()
     {
-        if (_monsterBase._state == MonsterBase.eMonsterState.Dead)
+        if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
             return;
 
         if (!_isBossTired)
@@ -121,7 +121,7 @@ public class PartyMonsterCombat : MonoBehaviour
             switch (_monsterBase._state)
             {
                 // 다음에 행할 스킬을 고르고 실행함
-                case MonsterBase.eMonsterState.Idle:
+                case MonsterBase_1.eMonsterState.Idle:
                     float dist = Vector3.Distance(_monsterBase._target.transform.position, transform.position);
                     if (_selectedSkill == null)
                         _selectedSkill = SelectSkill(_normalStateSkills);
@@ -134,16 +134,16 @@ public class PartyMonsterCombat : MonoBehaviour
                     DoSkill(_selectedSkill);
                     break;
 
-                case MonsterBase.eMonsterState.Attack:
+                case MonsterBase_1.eMonsterState.Attack:
                     _monsterBase.AimingTarget(_target.transform.position, 2.0f);
                     break;
 
                 // 공격이 끝난 후 약간의 딜레이 가지기
-                case MonsterBase.eMonsterState.Delay:
+                case MonsterBase_1.eMonsterState.Delay:
                     if (_monsterBase._stat.actDelay <= 0.0f)
                     {
                         _monsterBase._stat.actDelay = _originActDelay;
-                        _monsterBase._state = MonsterBase.eMonsterState.Idle;
+                        _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
                         _selectedSkill = null;
                         return;
                     }
@@ -157,18 +157,18 @@ public class PartyMonsterCombat : MonoBehaviour
             Recover();
             switch (_monsterBase._state)
             {
-                case MonsterBase.eMonsterState.Idle:
+                case MonsterBase_1.eMonsterState.Idle:
                     if (_selectedSkill == null)
                         _selectedSkill = SelectSkill(_tiredStateSkills);
 
                     DoSkill(_selectedSkill);
                     break;
 
-                case MonsterBase.eMonsterState.Delay:
+                case MonsterBase_1.eMonsterState.Delay:
                     if (_monsterBase._stat.actDelay <= 0.0f)
                     {
                         _monsterBase._stat.actDelay = _originActDelay;
-                        _monsterBase._state = MonsterBase.eMonsterState.Idle;
+                        _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
                         _selectedSkill = null;
                         return;
                     }
@@ -221,7 +221,7 @@ public class PartyMonsterCombat : MonoBehaviour
 
         _monsterBase._animator.SetBool(_monsterBase._hashMove, false);
         _monsterBase._nav.enabled = false;
-        _monsterBase._state = MonsterBase.eMonsterState.Attack;
+        _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
         
         StartCoroutine(skill.CoolDown());
         switch (bossSkill)
@@ -304,7 +304,7 @@ public class PartyMonsterCombat : MonoBehaviour
             amount = 0.0f;
 
         _monsterBase._stat.actDelay = amount;
-        _monsterBase._state = MonsterBase.eMonsterState.Delay;
+        _monsterBase._state = MonsterBase_1.eMonsterState.Delay;
     }
 
     /// <summary>

@@ -11,7 +11,7 @@ public class EnemyMeleeAttack : MonoBehaviour
 
     void Start()
     {
-        _damage = GetComponentInParent<MonsterBase>()._stat.damage;
+        _damage = GetComponentInParent<MonsterBase_1>()._stat.damage;
     }
 
     private void OnTriggerEnter(Collider other)

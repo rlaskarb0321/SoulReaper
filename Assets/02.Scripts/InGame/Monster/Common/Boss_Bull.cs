@@ -20,7 +20,7 @@ public class Boss_Bull : WaveMonster
         _monsterBase._animator.SetBool(_hashRun, true);
         if (distance <= _monsterBase._stat.attakDist)
         {
-            _monsterBase._state = MonsterBase.eMonsterState.Attack;
+            _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
             _monsterBase._animator.SetBool(_hashRun, false);
         }
         else

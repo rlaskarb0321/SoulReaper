@@ -108,7 +108,7 @@ public class EnemyProjectile : VFXPool
             // 몬스터와 충돌
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                MonsterBase monster = other.GetComponent<MonsterBase>();
+                MonsterBase_1 monster = other.GetComponent<MonsterBase_1>();
                 monster.DecreaseHP(_launchData.damage);
                 StartCoroutine(monster.OnHitEvent());
                 StartCoroutine(Explosion());

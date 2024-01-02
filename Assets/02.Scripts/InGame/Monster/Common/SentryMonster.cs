@@ -12,7 +12,7 @@ public class SentryMonster : MonsterType
     [SerializeField] private float _idleTime;
 
     [Header("=== MonsterBase ===")]
-    public MonsterBase _monsterBase;
+    public MonsterBase_1 _monsterBase;
 
     private Vector3 _movPos;
     private float _movSpeed;
@@ -27,20 +27,20 @@ public class SentryMonster : MonsterType
 
     private void Update()
     {
-        if (_monsterBase._state == MonsterBase.eMonsterState.Dead)
+        if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
             return;
 
         switch (_monsterBase._state)
         {
-            case MonsterBase.eMonsterState.Idle:
+            case MonsterBase_1.eMonsterState.Idle:
                 Idle();
                 break;
 
-            case MonsterBase.eMonsterState.Scout:
+            case MonsterBase_1.eMonsterState.Scout:
                 Scout();
                 break;
 
-            case MonsterBase.eMonsterState.Trace:
+            case MonsterBase_1.eMonsterState.Trace:
                 Trace();
                 break;
         }
@@ -56,14 +56,14 @@ public class SentryMonster : MonsterType
         {
             _isSetPatrolPos = false;
             _idleTime = _originIdleTime;
-            _monsterBase._state = MonsterBase.eMonsterState.Trace;
+            _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
         }
 
         if (_idleTime <= 0.0f)
         {
             _isSetPatrolPos = false;
             _idleTime = _originIdleTime;
-            _monsterBase._state = MonsterBase.eMonsterState.Scout;
+            _monsterBase._state = MonsterBase_1.eMonsterState.Scout;
             return;
         }
 
@@ -82,13 +82,13 @@ public class SentryMonster : MonsterType
         {
             _monsterBase._target = null;
             _isSetPatrolPos = false;
-            _monsterBase._state = MonsterBase.eMonsterState.Scout;
+            _monsterBase._state = MonsterBase_1.eMonsterState.Scout;
             return;
         }
 
         if (distance <= _monsterBase._stat.attakDist)
         {
-            _monsterBase._state = MonsterBase.eMonsterState.Attack;
+            _monsterBase._state = MonsterBase_1.eMonsterState.Attack;
             return;
         }
 
@@ -106,7 +106,7 @@ public class SentryMonster : MonsterType
 
         if (_monsterBase._target != null)
         {
-            _monsterBase._state = MonsterBase.eMonsterState.Trace;
+            _monsterBase._state = MonsterBase_1.eMonsterState.Trace;
             return;
         }
 
@@ -123,7 +123,7 @@ public class SentryMonster : MonsterType
         float distance = Vector3.Distance(transform.position, _movPos);
         if (distance <= _monsterBase._nav.stoppingDistance + _monsterBase._nav.baseOffset)
         {
-            _monsterBase._state = MonsterBase.eMonsterState.Idle;
+            _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
             return;
         }
 

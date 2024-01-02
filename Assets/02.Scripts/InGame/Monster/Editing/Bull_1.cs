@@ -26,7 +26,7 @@ public class Bull_1 : MeleeRange
 
     protected override void Update()
     {
-        if (_state == MonsterBase.eMonsterState.Dead)
+        if (_state == MonsterBase_1.eMonsterState.Dead)
             return;
 
         switch (_state)

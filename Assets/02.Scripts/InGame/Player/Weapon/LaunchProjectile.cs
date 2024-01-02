@@ -34,7 +34,7 @@ public class LaunchProjectile : MonoBehaviour
             return;
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            MonsterBase monster = other.GetComponent<MonsterBase>();
+            MonsterBase_1 monster = other.GetComponent<MonsterBase_1>();
             monster.DecreaseHP(_dmg, _arrowState == eArrowState.Fire ? _burn : null);
             StartCoroutine(monster.OnHitEvent());
         }
