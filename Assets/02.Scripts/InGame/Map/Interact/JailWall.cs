@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class JailWall : MonoBehaviour, IInteractable
 {
-    [Header("=== Interact ===")]
+    [Header("=== 상호작용 ===")]
     [SerializeField]
     private string _interactName;
 
     [SerializeField]
     private Transform _floatUIPos;
 
-    [Header("=== Lock Obj ===")]
+    [Header("=== 자물쇠 오브젝트 ===")]
     [SerializeField]
     private GameObject _torqueObj;
 
@@ -24,7 +24,10 @@ public class JailWall : MonoBehaviour, IInteractable
     [SerializeField]
     private AudioClip _jailAudio;
 
-    [Header("=== Data ===")]
+    [SerializeField]
+    private float _torquePower;
+
+    [Header("=== 맵 데이터 ===")]
     [SerializeField]
     private DataApply _data;
 
@@ -52,9 +55,17 @@ public class JailWall : MonoBehaviour, IInteractable
         }
 
         Unlock();
-        _data.EditData();
     }
 
+    public void SetActiveInteractUI(bool value)
+    {
+        Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
+        UIScene._instance.FloatTextUI(UIScene._instance._interactUI, value, pos, _interactName);
+    }
+
+    /// <summary>
+    /// 자물쇠를 따주는 메서드
+    /// </summary>
     private void Unlock()
     {
         Rigidbody rbody = _torqueObj.GetComponent<Rigidbody>();
@@ -63,15 +74,20 @@ public class JailWall : MonoBehaviour, IInteractable
 
         coll.isTrigger = true;
         rbody.isKinematic = false;
-        rbody.AddTorque(randomTorque * 9.0f, ForceMode.Impulse);
+        rbody.AddTorque(randomTorque * _torquePower, ForceMode.Impulse);
 
-        _audio.PlayOneShot(_lockAudio[(int)eAudio.Can_Unlock], _audio.volume * SettingData._sfxVolume);
         this.GetComponent<BoxCollider>().enabled = false;
+        _audio.PlayOneShot(_lockAudio[(int)eAudio.Can_Unlock], _audio.volume * SettingData._sfxVolume);
+        _data.EditData();
         SetActiveInteractUI(false);
-        StartCoroutine(DeactiveObj());
+        StartCoroutine(DeactiveSelf());
     }
 
-    private IEnumerator DeactiveObj()
+    /// <summary>
+    /// 감옥 문 해제 연출 후 일정 시간 뒤 전체 오브젝트 비활성화
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DeactiveSelf()
     {
         yield return new WaitForSeconds(1.0f);
 
@@ -82,12 +98,6 @@ public class JailWall : MonoBehaviour, IInteractable
         yield return new WaitForSeconds(4.0f);
 
         gameObject.SetActive(false);
-    }
-
-    public void SetActiveInteractUI(bool value)
-    {
-        Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
-        UIScene._instance.FloatTextUI(UIScene._instance._interactUI, value, pos, _interactName);
     }
 
     private void OnTriggerStay(Collider other)

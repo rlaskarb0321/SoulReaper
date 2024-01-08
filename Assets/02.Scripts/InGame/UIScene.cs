@@ -14,7 +14,7 @@ public class UIScene : MonoBehaviour
     [Header("=== 패널 ===")]
     [SerializeField]
     private List<GameObject> _currOpenPanel;
-
+    
     [SerializeField]
     private GameObject _pausePanel; // 일시정지
     public LetterPanel _letter; // 전서구
@@ -293,6 +293,7 @@ public class UIScene : MonoBehaviour
     {
         _stat._move._movSpeed = amount;
     }
+
     #endregion Buff
 
     // 씬 옮기면서 보여줄 맵 네임값을 수정

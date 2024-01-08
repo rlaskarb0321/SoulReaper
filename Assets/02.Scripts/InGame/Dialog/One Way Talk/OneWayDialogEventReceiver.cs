@@ -112,7 +112,6 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
                         letteringIndex++;
                         yield return _letteringWS;
                         continue;
-
                     }
 
                     // print("RichTextMode " + context[letteringIndex] + " 추가");
@@ -126,7 +125,7 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
                 {
                     if (!isRichTextMode)
                     {
-                        // print(" \\ 발견");
+                        // print(" \ 발견");
                         isRichTextMode = true;
                         letteringIndex++;
                         yield return null;
@@ -134,10 +133,8 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
                     }
                 }
 
-
                 letterSb.Append(context[letteringIndex]);
                 _oneWayDialogUI._context.text = letterSb.ToString();
-
                 letteringIndex++;
                 yield return _letteringWS;
             }

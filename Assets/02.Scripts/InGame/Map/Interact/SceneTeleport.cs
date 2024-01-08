@@ -92,7 +92,7 @@ public class SceneTeleport : MonoBehaviour, IInteractable
         {
             _playerData = other.GetComponent<PlayerData>();
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.F))
         {
             Interact();
             return;

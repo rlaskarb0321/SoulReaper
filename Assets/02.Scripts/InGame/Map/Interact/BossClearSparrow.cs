@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class BossClearSparrow : MonoBehaviour, IInteractable
 {
@@ -17,6 +18,14 @@ public class BossClearSparrow : MonoBehaviour, IInteractable
     [SerializeField]
     private TextAsset _letterContent;
 
+    // Field
+    private PlayableDirector _playable;
+
+    private void Awake()
+    {
+        _playable = GetComponent<PlayableDirector>();
+    }
+
     public void Interact()
     {
         DialogMgr dialogMgr = new DialogMgr();
@@ -26,6 +35,9 @@ public class BossClearSparrow : MonoBehaviour, IInteractable
         UIScene._instance._letter.SetText(dialogMgr.ParsingCSVLine(_letterContent));
         UIScene._instance.SetUIPanelActive(UIScene._instance._letter.gameObject);
         GetComponent<SphereCollider>().enabled = false;
+
+        // 데모 버전용 게임오버 띄우기
+        StartCoroutine(ClearDemoVersion());
     }
 
     public void SetActiveInteractUI(bool value)
@@ -53,5 +65,12 @@ public class BossClearSparrow : MonoBehaviour, IInteractable
             return;
 
         SetActiveInteractUI(false);
+    }
+
+    private IEnumerator ClearDemoVersion()
+    {
+        yield return new WaitUntil(() => UIScene._instance._letter.gameObject.activeSelf == false);
+
+        ProductionMgr.StartProduction(_playable);
     }
 }

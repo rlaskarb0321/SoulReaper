@@ -11,7 +11,6 @@ public static class DataManage
     {
         if (!Directory.Exists(SavePath))
         {
-            Debug.Log("弃歹 货肺 积己, M");
             Directory.CreateDirectory(SavePath);
         }
 
@@ -25,7 +24,6 @@ public static class DataManage
     {
         if (!Directory.Exists(SavePath))
         {
-            Debug.Log("弃歹 货肺 积己, C");
             Directory.CreateDirectory(SavePath);
         }
 
@@ -39,7 +37,6 @@ public static class DataManage
     {
         if (!Directory.Exists(SavePath))
         {
-            Debug.Log("弃歹 货肺 积己, B");
             Directory.CreateDirectory(SavePath);
         }
 

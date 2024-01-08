@@ -55,7 +55,6 @@ public class BossMonsterSkill
             _currCoolTime -= Time.deltaTime;
             yield return null;
         }
-
         _currCoolTime = _coolTime;
     }
 }
@@ -359,7 +358,6 @@ public class PartyMonsterCombat : MonoBehaviour
         _monsterBase._nav.enabled = true;
         _bossWave.Trace();
     }
-
 
     /// <summary>
     /// 스킬을 시전한 후, 애니메이션 마지막에 등록시킬 메서드, 딜레이 상태로 만들어 준다.

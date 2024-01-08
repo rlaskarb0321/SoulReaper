@@ -52,6 +52,8 @@ public class SentryMonster : MonsterType
     private void Idle()
     {
         _monsterBase._target = SearchTarget(_monsterBase._stat.traceDist);
+
+        // 타겟을 찾지 못했을 때
         if (_monsterBase._target != null)
         {
             _isSetPatrolPos = false;
@@ -138,30 +140,6 @@ public class SentryMonster : MonsterType
     }
 
     /// <summary>
-    /// 자신 주위에 랜덤 포인트를 반환
-    /// </summary>
-    /// <param name="center">주변을 탐색할 본인의 위치</param>
-    /// <param name="destination">목표 좌표</param>
-    /// <param name="radius">탐색 범위</param>
-    /// <returns>탐색 성공시 목표 위치, 실패시 Vector3.zero</returns>
-    private Vector3 SetRandomScout(Vector3 center, Vector3 destination, float radius)
-    {
-        for (int i = 0; i < 30; i++)
-        {
-            Vector3 randomPos = center + Random.insideUnitSphere * radius;
-            NavMeshHit hit;
-
-            if (NavMesh.SamplePosition(randomPos, out hit, radius, NavMesh.AllAreas))
-            {
-                destination = hit.position;
-                return destination;
-            }
-        }
-
-        return Vector3.zero;
-    }
-
-    /// <summary>
     /// 구형 콜리더 범위안에서 플레이어가 탐지되고, 자신과 비슷한 위치에 있는지 & 물체에 가려지지않았는지 검사
     /// </summary>
     /// <param name="colls">검사할 콜리더 배열</param>
@@ -190,5 +168,29 @@ public class SentryMonster : MonsterType
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// 자신 주위에 랜덤 포인트를 반환
+    /// </summary>
+    /// <param name="center">주변을 탐색할 본인의 위치</param>
+    /// <param name="destination">목표 좌표</param>
+    /// <param name="radius">탐색 범위</param>
+    /// <returns>탐색 성공시 목표 위치, 실패시 Vector3.zero</returns>
+    private Vector3 SetRandomScout(Vector3 center, Vector3 destination, float radius)
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            Vector3 randomPos = center + Random.insideUnitSphere * radius;
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(randomPos, out hit, radius, NavMesh.AllAreas))
+            {
+                destination = hit.position;
+                return destination;
+            }
+        }
+
+        return Vector3.zero;
     }
 }

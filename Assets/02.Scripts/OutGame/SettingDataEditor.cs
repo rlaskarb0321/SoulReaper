@@ -89,4 +89,17 @@ public class SettingDataEditor : MonoBehaviour
         SettingData._sfxVolume = _sfxMuteCheckBox.activeSelf == true ? 0.0f : _sfxVolume.value;
         _sfxValueText.text = ((int)(_sfxVolume.value * 100.0f)).ToString();
     }
+
+    public void SwitchHitShakeOpt(TMP_Text text)
+    {
+        SettingData._isHitShakeActive = !SettingData._isHitShakeActive;
+        if (SettingData._isHitShakeActive)
+        {
+            text.text = "On";
+        }
+        else
+        {
+            text.text = "Off";
+        }
+    }
 }

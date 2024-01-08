@@ -13,6 +13,7 @@ public class MonsterSummon : MonoBehaviour
 
     private enum eSoundClip { SummonStart, SummonLoop, SummonSuccess, SummonFail }
     private AudioSource _audio;
+    private float _originVolume;
     private Animator _animator;
     private ISummonType _summonType; // SummonMonster 객체에 있는 ISummonType 인터페이스를 할당
 
@@ -21,6 +22,11 @@ public class MonsterSummon : MonoBehaviour
         _audio = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
         _summonType = _summonMonster.GetComponent<ISummonType>();
+    }
+
+    private void Start()
+    {
+        _originVolume = _audio.volume;
     }
 
     /// <summary>
@@ -53,7 +59,7 @@ public class MonsterSummon : MonoBehaviour
 
     private IEnumerator FadeOutSound()
     {
-        _audio.volume = 1.0f;
+        _audio.volume = _originVolume;
         while (_audio.volume > 0.0f)
         {
             _audio.volume -= Time.deltaTime * 0.5f;
@@ -65,12 +71,12 @@ public class MonsterSummon : MonoBehaviour
     private IEnumerator FadeInSound()
     {
         _audio.volume = 0.0f;
-        while (_audio.volume < 1.0f)
+        while (_audio.volume < _originVolume)
         {
             _audio.volume += Time.deltaTime * 0.5f;
             yield return null;
         }
-        _audio.volume = 1.0f;
+        _audio.volume = _originVolume;
     }
 
     public void PlayAuraSound(int index)
@@ -83,7 +89,7 @@ public class MonsterSummon : MonoBehaviour
             return;
         }
 
-        _audio.volume = 1.0f;
+        _audio.volume = _originVolume;
         _audio.loop = false;
         _audio.Stop();
         _audio.PlayOneShot(_soundClip[index], _audio.volume * SettingData._sfxVolume);

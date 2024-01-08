@@ -216,7 +216,6 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
             {
                 case eOnSlopeState.None:
                     //print("평지");
-                    // _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_movSpeed, _originSpeed, 1.0f);
                     _rbody.useGravity = true;
                     velocity = CalcNextFrameGroundAngle(movSpeed) < _maxSlope ? dir : Vector3.zero;
                     break;
@@ -224,14 +223,12 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
                 case eOnSlopeState.CurrOnSlope:
                 case eOnSlopeState.NextOnSlope:
                     //print("현재 경사면 위 or 다음이 경사면 위");
-                    // _movSpeed = _movSpeed.Equals(_originSpeed) ? _originSpeed : Mathf.Lerp(_movSpeed, _originSpeed, 0.5f);
                     _rbody.useGravity = false;
                     velocity = GetSlopeDir(velocity);
                     gravity = Vector3.zero;
                     break;
 
                 case eOnSlopeState.OnStairs:
-                    // _movSpeed = Mathf.Lerp(_movSpeed, _stairMovSpeed, 0.5f);
                     _rbody.useGravity = dir == Vector3.zero ? false : true;
                     velocity = dir;
                     gravity = Vector3.zero;

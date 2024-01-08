@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class SettingCategory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -12,9 +14,20 @@ public class SettingCategory : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     private AudioClip _changeCategorySound;
 
+    [Header("=== ÅÇ ÀüÈ¯ ÀÌÆåÆ® °ü·Ã ===")]
+    [SerializeField]
+    private Color _deactiveColor;
+
+    [SerializeField]
+    private Color _activeColor;
+
+    [SerializeField]
+    private TMP_Text _categoryText;
+
     // Field
     private AudioSource _audio;
     private Animator _animator;
+    private Image _image;
 
     // Animator Param
     private readonly int _hashOnPointerEnter = Animator.StringToHash("OnPointerEnter");
@@ -24,6 +37,7 @@ public class SettingCategory : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         _audio = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
+        _image = GetComponent<Image>();
     }
 
     /// <summary>
@@ -31,9 +45,14 @@ public class SettingCategory : MonoBehaviour, IPointerEnterHandler, IPointerExit
     /// </summary>
     public void OpenContext()
     {
+        Color color = Color.white;
+        color.a = 1.0f;
+
         _categoryContext.SetActive(true);
         _audio.PlayOneShot(_changeCategorySound, _audio.volume * SettingData._sfxVolume);
         _animator.SetBool(_hashSelected, true);
+        _image.color = _activeColor;
+        _categoryText.color = color;
     }
 
     /// <summary>
@@ -41,8 +60,13 @@ public class SettingCategory : MonoBehaviour, IPointerEnterHandler, IPointerExit
     /// </summary>
     public void CloseContext()
     {
+        Color color = Color.white;
+        color.a = 0.1f;
+
         _categoryContext.SetActive(false);
         _animator.SetBool(_hashSelected, false);
+        _image.color = _deactiveColor;
+        _categoryText.color = color;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

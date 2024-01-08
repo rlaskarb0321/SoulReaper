@@ -12,6 +12,7 @@ public abstract class PlayerBuff : ScriptableObject
     public string _buffName;
     public string _description;
     public string _buffComment;
+    public GameObject _effect;
 
     [Header("=== 버프 지속시간 ===")]
     [SerializeField]

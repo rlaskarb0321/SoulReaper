@@ -12,6 +12,9 @@ public class BuffDataPackage : DataApply, IDataApply
     [SerializeField]
     private BuffICon _buffICon;
 
+    [SerializeField]
+    private Transform _buffEffectPos;
+
     // Field
     private BuffData _serverBuffData; // 로컬 버프 데이터를 저장
     private List<PlayerBuff> _localBuffData; // 런타임 버프 객체 데이터
@@ -64,13 +67,15 @@ public class BuffDataPackage : DataApply, IDataApply
         PlayerBuff alreadyBuff = CheckAlreadyBuff(buff);
         if (alreadyBuff != null)
         {
-            print("Dupli");
+            // print("Dupli");
             alreadyBuff.RemainBuffDur = alreadyBuff.BuffDur;
             return;
         }
 
         BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
+        BuffEffect buffEffect = Instantiate(buff._effect.GetComponent<BuffEffect>());
 
+        buffEffect.InitBuffEffect(_buffEffectPos, buff.BuffDur);
         buffICon.InitBuff(buff, false);
         buffICon._buffImamge.sprite = buff.BuffImg; // 버프 아이콘 바꾸기
         buff.BuffPlayer(); // 버프 주기

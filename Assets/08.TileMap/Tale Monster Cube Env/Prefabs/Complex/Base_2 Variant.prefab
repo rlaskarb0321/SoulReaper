@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3574623750137885028, guid: fd2181bb73ea8824bb12c11a7d60e62e,
         type: 3}
+    - target: {fileID: 3328684339668357351, guid: f8aa396952c169d4c898e4d8204c6b60,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4866032710447135604, guid: f8aa396952c169d4c898e4d8204c6b60,
         type: 3}
       propertyPath: m_RootOrder

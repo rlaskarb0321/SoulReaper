@@ -105,7 +105,6 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
 
                 letterSb.Append(context[letteringIndex]);
                 _dialogUI._context.text = letterSb.ToString();
-
                 letteringIndex++;
                 yield return _letteringWS;
             }
@@ -113,7 +112,7 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
             index++;
             _isEndLine = true;
 
-            // 한 라인이 끝나고, 스페이스바 or 마우스좌클입력 또는 시간초가 지나가면 다음 라인으로
+            // 한 라인이 끝나고 시간초가 지나가면 다음 라인으로
             yield return _endLineWU;
             _lineEndTimer = 2.0f;
         }
