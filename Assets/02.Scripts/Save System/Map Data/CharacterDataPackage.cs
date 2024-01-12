@@ -18,6 +18,13 @@ public class CharacterDataPackage : DataApply, IDataApply
     public SkillList _skillMgr;
     public GameObject[] _skills;
 
+    [Header("=== 자동 저장 ===")]
+    [SerializeField]
+    private float _autoSaveFrequency;
+
+    [SerializeField]
+    private GameObject _autoSaveText;
+
     [HideInInspector]
     public static CharacterData _cDataInstance; // 저장된 플레이어 데이터를 이곳에 입력시킴
 
@@ -33,6 +40,11 @@ public class CharacterDataPackage : DataApply, IDataApply
         _playerMove = _playerBody[0].GetComponent<PlayerMove_1>();
 
         StartCoroutine(ApplyData());
+    }
+
+    private void Start()
+    {
+        StartCoroutine(SaveAutomatically());
     }
 
     public IEnumerator ApplyData()
@@ -99,5 +111,15 @@ public class CharacterDataPackage : DataApply, IDataApply
         // 변경한 데이터들 저장
         _cDataInstance._characterData = _data;
         DataManage.SaveCData(_cDataInstance, "TestCData");
+    }
+
+    private IEnumerator SaveAutomatically()
+    {
+        yield return new WaitForSeconds(_autoSaveFrequency);
+
+        _data._pos = _playerData.transform.position;
+        _autoSaveText.SetActive(true);
+        EditData();
+        StartCoroutine(SaveAutomatically());
     }
 }

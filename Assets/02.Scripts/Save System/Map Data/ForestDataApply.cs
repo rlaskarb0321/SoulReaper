@@ -42,16 +42,16 @@ public class ForestDataApply : DataApply, IDataApply
             _sparrow.SetActive(false);
         }
 
-        // 화분에 꽃을 개화시켰는지 수확시켰는지에 따라 오브젝트 상태 바꾸기
-        switch (_data._flowerState)
-        {
-            case HealthPlant.eFlowerState.Bloom:
-                _healthFlower.GrownPlant();
-                break;
-            case HealthPlant.eFlowerState.harvested:
-                _healthFlower.HarvestPlant();
-                break;
-        }
+        //// 화분에 꽃을 개화시켰는지 수확시켰는지에 따라 오브젝트 상태 바꾸기
+        //switch (_data._flowerState)
+        //{
+        //    case HealthPlant.eFlowerState.Bloom:
+        //        _healthFlower.GrownPlant();
+        //        break;
+        //    case HealthPlant.eFlowerState.harvested:
+        //        _healthFlower.HarvestPlant();
+        //        break;
+        //}
 
         if (_data._isGateKeeperDead)
         {

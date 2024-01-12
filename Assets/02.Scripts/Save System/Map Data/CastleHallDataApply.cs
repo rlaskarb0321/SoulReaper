@@ -62,15 +62,15 @@ public class CastleHallDataApply : DataApply, IDataApply
         }
 
         // 불러온 데이터 값으로 꽃의 상태 바꾸기
-        switch (_data._flowerState)
-        {
-            case HealthPlant.eFlowerState.Bloom:
-                _healthPlant.GrownPlant();
-                break;
-            case HealthPlant.eFlowerState.harvested:
-                _healthPlant.HarvestPlant();
-                break;
-        }
+        //switch (_data._flowerState)
+        //{
+        //    case HealthPlant.eFlowerState.Bloom:
+        //        _healthPlant.GrownPlant();
+        //        break;
+        //    case HealthPlant.eFlowerState.harvested:
+        //        _healthPlant.HarvestPlant();
+        //        break;
+        //}
 
         if (_data._isUnlock)
         {

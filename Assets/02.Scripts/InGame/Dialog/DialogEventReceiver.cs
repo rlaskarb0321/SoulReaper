@@ -32,7 +32,7 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
     private void Awake()
     {
         _playable = GetComponent<PlayableDirector>();
-        _endLineWU = new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || _timer <= 0.0f);
+        _endLineWU = new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.F) || _timer <= 0.0f);
         _dialogMgr = new DialogMgr();
     }
 
@@ -90,7 +90,7 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
             while (letteringIndex < dialog.Length)
             {
                 // 대화문 도중 스페이스바 또는 마우스 좌클이 입력되면 바로 완성 후 마무리, 처음 몇 마디는 보여주게해야 자연스럽게 넘어가는 듯 보임
-                if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0)) && letteringIndex > 2)
+                if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F)) && letteringIndex > 2)
                 {
                     dialogText.text = dialog;
                     break;

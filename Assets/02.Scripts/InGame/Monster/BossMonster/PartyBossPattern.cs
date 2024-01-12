@@ -267,7 +267,7 @@ public class PartyBossPattern : MonoBehaviour
 
         _isTalking = turnOn;
         _currFloatTime = _floatTime;
-        UIScene._instance.FloatTextUI(UIScene._instance._dialogBallon, turnOn, pos, text);
+        UIScene._instance.FloatInteractTextUI(UIScene._instance._dialogBallon, turnOn, pos, text);
     }
 
     /// <summary>
@@ -281,12 +281,12 @@ public class PartyBossPattern : MonoBehaviour
         {
             _currFloatTime = _floatTime;
             _isTalking = false;
-            UIScene._instance.FloatTextUI(UIScene._instance._dialogBallon, false, Vector3.zero, "");
+            UIScene._instance.FloatInteractTextUI(UIScene._instance._dialogBallon, false, Vector3.zero, "");
             return;
         }
 
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatPos.position);
-        UIScene._instance.FloatTextUI(UIScene._instance._dialogBallon, true, pos, "");
+        UIScene._instance.FloatInteractTextUI(UIScene._instance._dialogBallon, true, pos, "");
         _currFloatTime -= Time.deltaTime;
     }
 
@@ -476,7 +476,7 @@ public class PartyBossPattern : MonoBehaviour
         {
             _currFloatTime = _floatTime;
             _isTalking = false;
-            UIScene._instance.FloatTextUI(UIScene._instance._dialogBallon, false, Vector3.zero, "");
+            UIScene._instance.FloatInteractTextUI(UIScene._instance._dialogBallon, false, Vector3.zero, "");
         }
     }
 

@@ -32,7 +32,7 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
     {
         _playable = GetComponent<PlayableDirector>();
         _dialogMgr = new DialogMgr();
-        _endLineWU = new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || _lineEndTimer <= 0.0f);
+        _endLineWU = new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.F) || _lineEndTimer <= 0.0f);
         if (_interactObj != null)
             _interact = _interactObj.GetComponent<IInteractNPC>();
     }
@@ -95,7 +95,7 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
             while (letteringIndex < context.Length)
             {
                 // 대화문 도중 스페이스바 또는 마우스 좌클이 입력되면 바로 완성, 처음 몇 마디는 보여주게해야 자연스럽게 넘어가는 듯 보임
-                if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0)) && letteringIndex > 3)
+                if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F)) && letteringIndex > 3)
                 {
                     context = context.Replace("\\", "");
                     _oneWayDialogUI._context.text = context;

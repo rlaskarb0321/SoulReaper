@@ -8,7 +8,7 @@ public class HealthPlant : MonoBehaviour, IInteractable
     public enum eFlowerState { None, Growing, Bloom, harvested, }
 
     [Header("=== Interact ===")]
-    [SerializeField] private string _interactName;
+    [SerializeField] private string[] _interactName;
     [SerializeField] private Transform _floatUIPos;
     
     [Header("=== Plant ===")]
@@ -25,23 +25,38 @@ public class HealthPlant : MonoBehaviour, IInteractable
             }
         }
     }
+
     [SerializeField]
-    private GameObject _healthFlower;
-    [SerializeField]
-    private GameObject[] _leaves;
+    private float _harvestDelay;
 
     [Header("=== Data ===")]
     [SerializeField] private DataApply _apply;
 
     // field
+    private readonly int _hashSeed = Animator.StringToHash("Seed");
+    private readonly int _hashEat = Animator.StringToHash("Eat");
     private AudioSource _audio;
     private Animator _animator;
     private PlayerData _player;
+    private BoxCollider _interactColl;
+    private float _originHarvestDelay;
 
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
+        _interactColl = GetComponent<BoxCollider>();
+    }
+
+    private void Start()
+    {
+        _originHarvestDelay = _harvestDelay;
+    }
+
+    private void Update()
+    {
+        if (FlowerState == eFlowerState.harvested)
+            DelayPlant();
     }
 
     #region Interface IInteractable Method
@@ -66,8 +81,19 @@ public class HealthPlant : MonoBehaviour, IInteractable
         if (FlowerState == eFlowerState.harvested || FlowerState == eFlowerState.Growing)
             value = false;
 
+        string interactName = "";
+        switch (FlowerState)
+        {
+            case eFlowerState.None:
+                interactName = _interactName[(int)eFlowerState.None];
+                break;
+
+            case eFlowerState.Bloom:
+                interactName = _interactName[(int)eFlowerState.Bloom];
+                break;
+        }
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
-        UIScene._instance.FloatTextUI(UIScene._instance._interactUI, value, pos, _interactName);
+        UIScene._instance.FloatInteractTextUI(UIScene._instance._interactUI, value, pos, interactName);
     }
     #endregion Interface IInteractable Method
 
@@ -106,10 +132,30 @@ public class HealthPlant : MonoBehaviour, IInteractable
     #endregion Trigger Interact Method
 
     #region Health Plant Method
+
+    /// <summary>
+    /// 수확된 상태일 때 잠시동안 심지 못하도록 딜레이를 줌
+    /// </summary>
+    private void DelayPlant()
+    {
+        if (_harvestDelay <= 0.0f)
+        {
+            FlowerState = eFlowerState.None;
+            _harvestDelay = _originHarvestDelay;
+            _interactColl.enabled = true;
+            return;
+        }
+
+        SetActiveInteractUI(false);
+        _interactColl.enabled = false;
+        _harvestDelay -= Time.deltaTime;
+    }
+
     // 상호작용으로 꽃을 심을때 사용하는 메서드
     private void PlantHealthSeed()
     {
-        GrownPlant();
+        // GrownPlant();
+        _animator.SetTrigger(_hashSeed);
         FlowerState = eFlowerState.Growing;
     }
 
@@ -130,18 +176,13 @@ public class HealthPlant : MonoBehaviour, IInteractable
     public void HarvestPlant()
     {
         FlowerState = eFlowerState.harvested;
-
-        for (int i = 0; i < _leaves.Length; i++)
-        {
-            _leaves[i].SetActive(false);
-        }
+        _animator.SetTrigger(_hashEat);
     }
 
     // 꽃이 완전 성장되었을 때 animator를 정지시키기
     public void EndGrown()
     {
         FlowerState = eFlowerState.Bloom;
-        _animator.enabled = false;
     }
     #endregion Health Plant Method
 }

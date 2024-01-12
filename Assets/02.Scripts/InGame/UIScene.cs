@@ -11,13 +11,17 @@ public class UIScene : MonoBehaviour
     // Instance
     public static UIScene _instance;
 
-    [Header("=== 패널 ===")]
+    [Header("=== 패널 & 알람 ===")]
     [SerializeField]
     private List<GameObject> _currOpenPanel;
     
     [SerializeField]
     private GameObject _pausePanel; // 일시정지
     public LetterPanel _letter; // 전서구
+
+    [Space(10.0f)]
+    [SerializeField]
+    private TMP_Text _alarmText;
 
     [Header("=== 생명의 씨앗 UI ===")]
     public SeedUI _seedUI;
@@ -324,7 +328,7 @@ public class UIScene : MonoBehaviour
         return "";
     }
 
-    public void FloatTextUI(RectTransform target, bool turnOn, Vector3 pos, string text)
+    public void FloatInteractTextUI(RectTransform target, bool turnOn, Vector3 pos, string text)
     {
         if (!turnOn)
         {
@@ -347,6 +351,13 @@ public class UIScene : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(target);
         target.transform.position = pos;
         target.gameObject.SetActive(true);
+    }
+
+    public void FloatAlarmTextUI(string content)
+    {
+        _alarmText.gameObject.SetActive(false);
+        _alarmText.gameObject.SetActive(true);
+        _alarmText.text = content;
     }
 
     public void SetGaugeUI(bool activeValue) => _gaugeObj.SetActive(activeValue);

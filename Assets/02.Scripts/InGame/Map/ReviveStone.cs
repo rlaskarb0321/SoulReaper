@@ -91,7 +91,7 @@ public class ReviveStone : MonoBehaviour, IInteractable, IInteractNPC
     public void SetActiveInteractUI(bool value)
     {
         Vector3 pos = Camera.main.WorldToScreenPoint(_interactUIFloatPos.position);
-        UIScene._instance.FloatTextUI(UIScene._instance._interactUI, value, pos, _interactName);
+        UIScene._instance.FloatInteractTextUI(UIScene._instance._interactUI, value, pos, _interactName);
     }
 
     public void ResetInteract()

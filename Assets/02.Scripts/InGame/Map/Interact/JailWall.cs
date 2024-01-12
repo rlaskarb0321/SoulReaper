@@ -25,6 +25,9 @@ public class JailWall : MonoBehaviour, IInteractable
     private AudioClip _jailAudio;
 
     [SerializeField]
+    private string _alarmText;
+
+    [SerializeField]
     private float _torquePower;
 
     [Header("=== ∏  µ•¿Ã≈Õ ===")]
@@ -49,6 +52,7 @@ public class JailWall : MonoBehaviour, IInteractable
         _isInteract = true;
         if (!MapDataPackage._mapData._castleA._data._isYellowKeyGet)
         {
+            UIScene._instance.FloatAlarmTextUI(_alarmText);
             _audio.PlayOneShot(_lockAudio[(int)eAudio.Cant_Unlock], _audio.volume * SettingData._sfxVolume);
             _isInteract = false;
             return;
@@ -60,7 +64,7 @@ public class JailWall : MonoBehaviour, IInteractable
     public void SetActiveInteractUI(bool value)
     {
         Vector3 pos = Camera.main.WorldToScreenPoint(_floatUIPos.position);
-        UIScene._instance.FloatTextUI(UIScene._instance._interactUI, value, pos, _interactName);
+        UIScene._instance.FloatInteractTextUI(UIScene._instance._interactUI, value, pos, _interactName);
     }
 
     /// <summary>
@@ -104,7 +108,7 @@ public class JailWall : MonoBehaviour, IInteractable
     {
         if (!other.gameObject.CompareTag("Player"))
             return;
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.F))
         {
             Interact();
             return;

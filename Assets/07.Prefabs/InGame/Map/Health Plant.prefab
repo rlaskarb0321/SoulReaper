@@ -563,7 +563,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 678170553293368870}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: de88312dfb3d92748a42ba9776c9ce85, type: 2}
   m_CullingMode: 0
@@ -683,14 +683,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d4b969cb720a4342900463e82f964dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactName: "\uC528\uC557 \uC2EC\uAE30"
+  _interactName:
+  - "\uC528\uC557 \uC2EC\uAE30"
+  - 
+  - "\uC12D\uCDE8\uD558\uAE30"
   _floatUIPos: {fileID: 7882320051345235327}
-  _healthFlower: {fileID: 678170553293368870}
-  _leaves:
-  - {fileID: 678170553323826429}
-  - {fileID: 678170553323826427}
-  - {fileID: 678170553323826425}
-  - {fileID: 678170553323826423}
+  _harvestDelay: 1.2
   _apply: {fileID: 0}
 --- !u!1 &3562167741911138522
 GameObject:
@@ -929,30 +927,6 @@ PrefabInstance:
 --- !u!4 &678170553323401439 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 41ba2a6f1d128f94eba95e5213a81254,
-    type: 3}
-  m_PrefabInstance: {fileID: 678170553323792991}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &678170553323826423 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100008, guid: 41ba2a6f1d128f94eba95e5213a81254,
-    type: 3}
-  m_PrefabInstance: {fileID: 678170553323792991}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &678170553323826425 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100006, guid: 41ba2a6f1d128f94eba95e5213a81254,
-    type: 3}
-  m_PrefabInstance: {fileID: 678170553323792991}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &678170553323826427 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100004, guid: 41ba2a6f1d128f94eba95e5213a81254,
-    type: 3}
-  m_PrefabInstance: {fileID: 678170553323792991}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &678170553323826429 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100002, guid: 41ba2a6f1d128f94eba95e5213a81254,
     type: 3}
   m_PrefabInstance: {fileID: 678170553323792991}
   m_PrefabAsset: {fileID: 0}
