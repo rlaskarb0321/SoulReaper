@@ -9,6 +9,7 @@ public class HealthPlant : MonoBehaviour, IInteractable
 
     [Header("=== Interact ===")]
     [SerializeField] private string[] _interactName;
+    [SerializeField] private string _notEnoughtSeed;
     [SerializeField] private Transform _floatUIPos;
     
     [Header("=== Plant ===")]
@@ -154,7 +155,14 @@ public class HealthPlant : MonoBehaviour, IInteractable
     // 상호작용으로 꽃을 심을때 사용하는 메서드
     private void PlantHealthSeed()
     {
-        // GrownPlant();
+        if (_player._seedCount <= 0)
+        {
+            UIScene._instance.UpdateSeedCount(0);
+            UIScene._instance.FloatAlarmTextUI(_notEnoughtSeed);
+            return;
+        }
+
+        UIScene._instance.UpdateSeedCount(CharacterDataPackage._cDataInstance._characterData._seedCount - 1);
         _animator.SetTrigger(_hashSeed);
         FlowerState = eFlowerState.Growing;
     }

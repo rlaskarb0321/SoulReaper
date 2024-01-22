@@ -120,6 +120,8 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
         {
             _selectNum = selectNum;
         }
+
+        SetActiveInteractUI(false);
     }
 
     public void CheckAnswer(bool isYes)

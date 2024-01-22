@@ -25,10 +25,12 @@ public class VictimSealedUrn : MonoBehaviour
 
     private Rigidbody[] _rbodys;
     private PlayerData _playerData;
+    private AudioSource _audio;
 
     private void Awake()
     {
         _rbodys = _shatter.GetComponentsInChildren<Rigidbody>();
+        _audio = GetComponent<AudioSource>();
     }
 
     private void Update()

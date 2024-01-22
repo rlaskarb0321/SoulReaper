@@ -16,7 +16,7 @@ public class PlayerData : MonoBehaviour
     public float _basicAtkDamage;
 
     [Header("=== Health Seed Count ===")]
-    public int _healthSeedCount;
+    public int _seedCount;
 
     [Header("=== Soul Total Count ===")]
     public int _soulCount;

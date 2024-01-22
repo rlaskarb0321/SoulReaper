@@ -687,6 +687,7 @@ MonoBehaviour:
   - "\uC528\uC557 \uC2EC\uAE30"
   - 
   - "\uC12D\uCDE8\uD558\uAE30"
+  _notEnoughtSeed: "\uC0DD\uBA85\uC758 \uC528\uC557\uC774 \uBD80\uC871\uD569\uB2C8\uB2E4."
   _floatUIPos: {fileID: 7882320051345235327}
   _harvestDelay: 1.2
   _apply: {fileID: 0}

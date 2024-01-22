@@ -14,11 +14,13 @@ public class NormalUrn : MonoBehaviour
     private int _recoverCount;
     private WaitForSeconds _ws;
     private Rigidbody[] _rbodys;
+    private AudioSource _audio;
     private PlayerData _playerData;
 
     private void Awake()
     {
         _rbodys = _shatter.GetComponentsInChildren<Rigidbody>();
+        _audio = GetComponent<AudioSource>();
     }
 
     private void Start()

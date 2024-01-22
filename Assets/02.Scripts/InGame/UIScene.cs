@@ -131,7 +131,11 @@ public class UIScene : MonoBehaviour
     }
 
     #region UI Panel
-    // UI패널을 키고, 켜져있는 ui들 리스트에 넣음
+
+    /// <summary>
+    /// UI패널을 키고 , 켜져있는 ui들 리스트에 넣음
+    /// </summary>
+    /// <param name="panel"></param>
     public void SetUIPanelActive(GameObject panel)
     {
         UIPanel uiPanel = panel.GetComponent<UIPanel>();
@@ -143,34 +147,6 @@ public class UIScene : MonoBehaviour
             uiPanel.PlaySetActiveSound(true, _audio);
         }
     }
-
-    //public void SetUIPanelActive(GameObject panel, string[] content)
-    //{
-    //    panel.SetActive(!panel.activeSelf);
-    //    _currOpenPanel.Add(panel);
-
-    //    if (!panel.activeSelf)
-    //        return;
-
-    //    for (int i = 0; i < panel.transform.childCount; i++)
-    //    {
-    //        Transform child = panel.transform.GetChild(i);
-    //        TMP_Text childContent = child.gameObject.GetComponent<TMP_Text>();
-    //        if (child.gameObject.CompareTag("Title"))
-    //        {
-    //            childContent.text = content[0];
-    //            continue;
-    //        }
-
-    //        StringBuilder sb = new StringBuilder();
-    //        for (int j = 1; j < content.Length; j++)
-    //        {
-    //            sb.AppendLine(content[j]);
-    //        }
-
-    //        childContent.text = sb.ToString();
-    //    }
-    //}
 
     /// <summary>
     /// UI 패널을 끄고, ui 리스트에서 뺌
@@ -222,16 +198,35 @@ public class UIScene : MonoBehaviour
 #endif
     }
 
+    /// <summary>
+    /// 영혼 재화 보유량 값을 변동시킬 때 쓰는 메서드
+    /// </summary>
+    /// <param name="amount"></param>
     public void UpdateSoulCount(float amount)
     {
+        // UI 카운트 효과
         _soulCount.StartCount
             (
             CharacterDataPackage._cDataInstance._characterData._soulCount + amount,
             CharacterDataPackage._cDataInstance._characterData._soulCount
             );
 
+        // 데이터 저장
         _stat._soulCount = (int)CharacterDataPackage._cDataInstance._characterData._soulCount + (int)amount;
         CharacterDataPackage._cDataInstance._characterData._soulCount = _stat._soulCount;
+        DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
+    }
+
+    /// <summary>
+    /// 보유 씨앗량을 변동시킬 때 쓰는 메서드
+    /// </summary>
+    /// <param name="amount"></param>
+    public void UpdateSeedCount(int amount)
+    {
+        _seedUI.EditSeedText(amount);
+        _stat._seedCount = amount;
+
+        CharacterDataPackage._cDataInstance._characterData._seedCount = _stat._seedCount;
         DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
     }
 
@@ -360,6 +355,7 @@ public class UIScene : MonoBehaviour
         _alarmText.text = content;
     }
 
+    #region 게이지 UI
     public void SetGaugeUI(bool activeValue) => _gaugeObj.SetActive(activeValue);
 
     public void SetGaugeFill(float curr, float total) => _gaugeFill.fillAmount = curr / total;
@@ -389,6 +385,7 @@ public class UIScene : MonoBehaviour
 
         _gaugeObj.transform.position = originPos;
     }
+    #endregion 게이지 UI
 
     public void DeadPlayer()
     {

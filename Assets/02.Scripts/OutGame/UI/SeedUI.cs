@@ -17,6 +17,9 @@ public class SeedUI : MonoBehaviour
         _isContact = _animator.GetBool(_hashContact);
     }
 
+    /// <summary>
+    /// 씨앗에 가까이갔을 때, 관련 UI를 애니메이션으로 띄우기
+    /// </summary>
     public void PopUpSeedUI()
     {
         if (_isContact)
@@ -25,13 +28,20 @@ public class SeedUI : MonoBehaviour
         _animator.SetBool(_hashContact, true);
     }
 
+    /// <summary>
+    /// 씨앗에 가까이간 후, 멀어졌을 때 관련 UI를 애니메이션으로 감추기
+    /// </summary>
     public void GoDownSeedUI()
     {
         _animator.SetBool(_hashContact, false);
     }
 
+    /// <summary>
+    /// 씨앗의 보유 개수를 수정
+    /// </summary>
+    /// <param name="count"></param>
     public void EditSeedText(int count)
     {
-        _seedCount.text = count.ToString();
+        _seedCount.text = $"X {count.ToString()}";
     }
 }

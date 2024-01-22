@@ -17,6 +17,7 @@ public class CharacterDataPackage : DataApply, IDataApply
     public TMP_Text _soulCount;
     public SkillList _skillMgr;
     public GameObject[] _skills;
+    public TMP_Text _seedCountText;
 
     [Header("=== 자동 저장 ===")]
     [SerializeField]
@@ -77,6 +78,10 @@ public class CharacterDataPackage : DataApply, IDataApply
         _soulCount.text = $"X {_data._soulCount}";
         _playerData._soulCount = _data._soulCount;
 
+        // 데이터에 적혀있던 대로 가진 씨앗의 양을 수정
+        _seedCountText.text = $"X {_data._seedCount}";
+        _playerData._seedCount = _data._seedCount;
+
         for (int i = 0; i < _data._skillArray.Length; i++)
         {
             if (_data._skillArray[i] == null)
@@ -107,6 +112,7 @@ public class CharacterDataPackage : DataApply, IDataApply
         _data._currMP = _playerData._currMP;
         _data._maxMP = _playerData._maxMP;
         _data._basicAtkDamage = _playerData._basicAtkDamage;
+        _data._seedCount = _playerData._seedCount;
 
         // 변경한 데이터들 저장
         _cDataInstance._characterData = _data;
