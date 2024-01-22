@@ -1,23 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class HealthSeed : MonoBehaviour, IInteractable
 {
     [SerializeField] private string _interactName;
     [SerializeField] private Transform _floatUIPos;
+    [SerializeField] private GameObject _mesh;
 
     private PlayerData _player;
     private bool _isInteract;
+    private PlayableDirector _playable;
+
+    private void Awake()
+    {
+        _playable = GetComponent<PlayableDirector>();
+    }
 
     public void Interact()
     {
+        if (!CharacterDataPackage._cDataInstance._characterData._alreadySeedGet)
+            ProductionMgr.StartProduction(_playable);
+
         UIScene._instance.UpdateSeedCount(CharacterDataPackage._cDataInstance._characterData._seedCount + 1);
         UIScene._instance._seedUI.GoDownSeedUI();
         SetActiveInteractUI(false);
 
         _isInteract = true;
-        gameObject.SetActive(false);
+        _mesh.SetActive(false);
     }
 
     public void SetActiveInteractUI(bool value)

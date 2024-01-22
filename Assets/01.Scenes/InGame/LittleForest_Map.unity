@@ -54081,6 +54081,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 811678364}
     m_Modifications:
+    - target: {fileID: 329178073549083731, guid: eb2e8371c8b994849bc0d98748e703a0,
+        type: 3}
+      propertyPath: _oneWayDialogUI._context
+      value: 
+      objectReference: {fileID: 429058451}
+    - target: {fileID: 329178073549083731, guid: eb2e8371c8b994849bc0d98748e703a0,
+        type: 3}
+      propertyPath: _oneWayDialogUI._speaker
+      value: 
+      objectReference: {fileID: 860322787}
+    - target: {fileID: 329178073549083731, guid: eb2e8371c8b994849bc0d98748e703a0,
+        type: 3}
+      propertyPath: _oneWayDialogUI._activateUI
+      value: 
+      objectReference: {fileID: 1321002429}
+    - target: {fileID: 1673300768619070151, guid: eb2e8371c8b994849bc0d98748e703a0,
+        type: 3}
+      propertyPath: m_PlayableAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 80dac9306daa4f348a3489b176a03b19,
+        type: 2}
     - target: {fileID: 3265922308732131014, guid: eb2e8371c8b994849bc0d98748e703a0,
         type: 3}
       propertyPath: m_Name

@@ -41,7 +41,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3265922308732131016}
   - component: {fileID: 3265922308732131017}
+  - component: {fileID: 1673300768619070151}
   - component: {fileID: 3265922308732131018}
+  - component: {fileID: 329178073549083731}
   m_Layer: 15
   m_Name: Health Seed
   m_TagString: Untagged
@@ -79,6 +81,23 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2.26
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!320 &1673300768619070151
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3265922308732131014}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 80dac9306daa4f348a3489b176a03b19, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References: []
 --- !u!114 &3265922308732131018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,6 +112,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactName: "\uC90D\uAE30"
   _floatUIPos: {fileID: 3265922307992661557}
+  _mesh: {fileID: 8442332177510499594}
+--- !u!114 &329178073549083731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3265922308732131014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdabef80b82e7b4c8f90107f2cfdf15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _oneWayDialogUI:
+    _activateUI: {fileID: 0}
+    _speaker: {fileID: 0}
+    _context: {fileID: 0}
+    _selectionContent: {fileID: 0}
+  _interactObj: {fileID: 0}
 --- !u!1001 &8442332177510466474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,6 +207,12 @@ PrefabInstance:
 --- !u!4 &8442332177510340906 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: bd232805ec57aa245a81c2df3f69f66a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8442332177510466474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8442332177510499594 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: bd232805ec57aa245a81c2df3f69f66a,
     type: 3}
   m_PrefabInstance: {fileID: 8442332177510466474}
   m_PrefabAsset: {fileID: 0}

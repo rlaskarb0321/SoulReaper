@@ -31,7 +31,8 @@ public class CharacterData
             float basicAtkDamage,                                                           // 플레이어의 맨 몸 공격력
             string[] skillList,                                                             // 스킬 리스트
             bool isPlayerDead,                                                              // 플레이어가 죽고 데이터를 불러오는지 여부
-            float movSpeed
+            float movSpeed,                                                                 // 플레이어의 이동 속도
+            bool alreadySeedGet                                                                // 플레이어가 생명 씨앗을 처음 발견했는지 여부
             )
         {
             _pos = pos;
@@ -47,6 +48,7 @@ public class CharacterData
             _skillArray = skillList;
             _isPlayerDead = isPlayerDead;
             _movSpeed = movSpeed;
+            _alreadySeedGet = alreadySeedGet;
         }
 
         public Vector3 _pos;
@@ -62,6 +64,7 @@ public class CharacterData
         public string[] _skillArray;
         public bool _isPlayerDead;
         public float _movSpeed;
+        public bool _alreadySeedGet;
     }
 
     /// <summary>
@@ -69,7 +72,7 @@ public class CharacterData
     /// </summary>
     public CharacterData()
     {
-        _characterData = new CData(new Vector3(-116.14f, -4.67f, -65.99f), Quaternion.identity, "LittleForest_Map", 100, 100, 50, 50, 5, 10, 0.0f, new string[ConstData.SKILL_UI_COUNT], false, 6.2f);
+        _characterData = new CData(new Vector3(-116.14f, -4.67f, -65.99f), Quaternion.identity, "LittleForest_Map", 100, 100, 50, 50, 5, 10, 0.0f, new string[ConstData.SKILL_UI_COUNT], false, 6.2f, false);
     }
 
     /// <summary>
