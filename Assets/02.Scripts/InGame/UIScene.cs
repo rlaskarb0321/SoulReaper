@@ -226,6 +226,8 @@ public class UIScene : MonoBehaviour
         _seedUI.EditSeedText(amount);
         _stat._seedCount = amount;
 
+        CharacterDataPackage._cDataInstance._characterData._alreadySeedGet =
+            CharacterDataPackage._cDataInstance._characterData._alreadySeedGet == false ? true : true;
         CharacterDataPackage._cDataInstance._characterData._seedCount = _stat._seedCount;
         DataManage.SaveCData(CharacterDataPackage._cDataInstance, "TestCData");
     }

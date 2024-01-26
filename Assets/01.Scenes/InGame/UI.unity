@@ -10893,7 +10893,7 @@ MonoBehaviour:
   - {fileID: 6961584805174108412, guid: 08b02a06f27750447bb126a657723578, type: 3}
   - {fileID: 8897270047207092986, guid: aea81f3f54c3cf540be2afed3eb7af34, type: 3}
   _seedCountText: {fileID: 306963737}
-  _autoSaveFrequency: 150
+  _autoSaveFrequency: 50
   _autoSaveText: {fileID: 1631293850}
 --- !u!114 &1320289526
 MonoBehaviour:

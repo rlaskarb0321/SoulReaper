@@ -26,6 +26,7 @@ public class HealthSeed : MonoBehaviour, IInteractable
         UIScene._instance.UpdateSeedCount(CharacterDataPackage._cDataInstance._characterData._seedCount + 1);
         UIScene._instance._seedUI.GoDownSeedUI();
         SetActiveInteractUI(false);
+        GetComponent<SphereCollider>().enabled = false;
 
         _isInteract = true;
         _mesh.SetActive(false);
