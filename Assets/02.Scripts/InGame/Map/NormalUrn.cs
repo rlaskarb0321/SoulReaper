@@ -9,6 +9,7 @@ public class NormalUrn : MonoBehaviour
     [SerializeField] private float _force;
     [SerializeField] private Vector3 _offset;
     [SerializeField] private float _restoreDelay;
+    [SerializeField] private AudioClip[] _brokeSound;
 
     private bool _isExploded;
     private int _recoverCount;
@@ -34,6 +35,8 @@ public class NormalUrn : MonoBehaviour
             return;
 
         _isExploded = true;
+        _audio.PlayOneShot(_brokeSound[Random.Range(0, _brokeSound.Length)], SettingData._sfxVolume);
+
         for (int i = 0; i < _rbodys.Length; i++)
         {
             Transform originPos = _rbodys[i].transform;

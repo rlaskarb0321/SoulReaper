@@ -508,3 +508,7 @@ MonoBehaviour:
   _force: 100
   _offset: {x: 0, y: 0, z: 0}
   _restoreDelay: 4
+  _brokeSound:
+  - {fileID: 8300000, guid: 44f3a630c045c7047877493ec6cebc86, type: 3}
+  - {fileID: 8300000, guid: 60aafa7cf67e4c440804e819f8482129, type: 3}
+  - {fileID: 8300000, guid: 4e76ded3c21959043bddd830eb51f6e0, type: 3}

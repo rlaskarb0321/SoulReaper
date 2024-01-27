@@ -73,9 +73,11 @@ public class BuffDataPackage : DataApply, IDataApply
         }
 
         BuffICon buffICon = Instantiate(_buffICon, _buffContainer); // 버프 아이콘을 컨테이너 밑에 생성
-        BuffEffect buffEffect = Instantiate(buff._effect.GetComponent<BuffEffect>());
+        BuffEffect buffEffect;
 
-        buffEffect.InitBuffEffect(_buffEffectPos, buff.BuffDur);
+        if (buff._effect != null)
+            buffEffect = Instantiate(buff._effect.GetComponent<BuffEffect>());
+
         buffICon.InitBuff(buff, false);
         buffICon._buffImamge.sprite = buff.BuffImg; // 버프 아이콘 바꾸기
         buff.BuffPlayer(); // 버프 주기

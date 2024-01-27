@@ -45,7 +45,7 @@ public class CharacterDataPackage : DataApply, IDataApply
 
     private void Start()
     {
-        StartCoroutine(SaveAutomatically());
+        // StartCoroutine(SaveAutomatically());
     }
 
     public IEnumerator ApplyData()
@@ -122,6 +122,7 @@ public class CharacterDataPackage : DataApply, IDataApply
     private IEnumerator SaveAutomatically()
     {
         yield return new WaitForSeconds(_autoSaveFrequency);
+        // yield return new WaitUntil(() =>)
 
         _data._pos = _playerData.transform.position;
         _autoSaveText.SetActive(true);

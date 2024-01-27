@@ -12,6 +12,7 @@ public class VictimSealedUrn : MonoBehaviour
     [SerializeField] private float _force;
     [SerializeField] private Vector3 _offset;
     [SerializeField] private Material _shatterFadeMat;
+    [SerializeField] private AudioClip[] _brokeSound;
 
     [Header("=== Victim ===")]
     [SerializeField] private GameObject _victim;
@@ -51,6 +52,7 @@ public class VictimSealedUrn : MonoBehaviour
         }
 
         // 방 클리어 조건 채우기, 봉인(자물쇠) 풀림 연출
+        _audio.PlayOneShot(_brokeSound[Random.Range(0, _brokeSound.Length)], SettingData._sfxVolume);
         _roomMgr.SolveQuest();
         _lock.material = _unlockMat;
         gameObject.GetComponent<Animator>().enabled = true;

@@ -72,7 +72,7 @@ public class CharacterData
     /// </summary>
     public CharacterData()
     {
-        _characterData = new CData(new Vector3(-116.14f, -4.67f, -65.99f), Quaternion.identity, "LittleForest_Map", 100, 100, 50, 50, 5, 10, 0.0f, new string[ConstData.SKILL_UI_COUNT], false, 6.2f, false);
+        _characterData = new CData(new Vector3(-116.14f, -4.67f, -65.99f), Quaternion.identity, "LittleForest_Map", 100, 100, 50, 50, 5, 1000, 0.0f, new string[ConstData.SKILL_UI_COUNT], false, 6.2f, false);
     }
 
     /// <summary>

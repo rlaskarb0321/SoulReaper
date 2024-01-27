@@ -1178,6 +1178,10 @@ MonoBehaviour:
   _force: 60
   _offset: {x: 0, y: 0, z: 0}
   _shatterFadeMat: {fileID: 2100000, guid: 9d2752ab8dfbef44eaf67511f73f5d6b, type: 2}
+  _brokeSound:
+  - {fileID: 8300000, guid: 44f3a630c045c7047877493ec6cebc86, type: 3}
+  - {fileID: 8300000, guid: 60aafa7cf67e4c440804e819f8482129, type: 3}
+  - {fileID: 8300000, guid: 4e76ded3c21959043bddd830eb51f6e0, type: 3}
   _victim: {fileID: 446993443433746658}
   _victimFadeMat: {fileID: 2100000, guid: 38d9e7552cead074ab5a70dbcdfdd34b, type: 2}
   _key: {fileID: 1265762289420566782}

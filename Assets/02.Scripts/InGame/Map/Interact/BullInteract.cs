@@ -77,7 +77,7 @@ public class BullInteract : MonoBehaviour, IInteractable, IYOrNSelectOption, IMu
             SetActiveInteractUI(false);
             return;
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.F))
         {
             Interact();
             return;

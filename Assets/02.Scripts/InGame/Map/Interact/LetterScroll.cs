@@ -52,7 +52,7 @@ public class LetterScroll : MonoBehaviour, IInteractable
     {
         if (!other.CompareTag("Player"))
             return;
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.F))
         {
             Interact();
             return;
