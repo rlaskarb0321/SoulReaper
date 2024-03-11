@@ -10,15 +10,15 @@ public interface IDotDebuff
     public void DotDamaged();
 }
 
-public class MonsterBase_1 : MonoBehaviour
+public class MonsterBase : MonoBehaviour
 {
     public enum eMonsterState
     {
-        Idle,   // Á¤Âû ÈÄ Æ÷Áö¼ÇÀ» ÁöÅ³¶§
+        Idle,   // ì •ì°° í›„ í¬ì§€ì…˜ì„ ì§€í‚¬ë•Œ
         Scout,
         Trace,
         Attack,
-        Delay,  // °ø°İ ÈÄ µô·¹ÀÌ ½Ã°£À» °¡Áú¶§
+        Delay,  // ê³µê²© í›„ ë”œë ˆì´ ì‹œê°„ì„ ê°€ì§ˆë•Œ
         Dead,
     }
 
@@ -34,8 +34,8 @@ public class MonsterBase_1 : MonoBehaviour
     public GameObject _target;
 
     [Header("=== Hit & Dead ===")]
-    public Material[] _hitMats; // 0¹ø ÀÎµ¦½º´Â ±âº» mat, 1¹ø ÀÎµ¦½º´Â ÇÇ°İ½Ã Àá±ñ¹Ù²ğ mat
-    public float _bodyBuryTime; // ½ÃÃ¼Ã³¸®¿¬ÃâÀÇ ½ÃÀÛ±îÁö ±â´Ù¸± °ª
+    public Material[] _hitMats; // 0ë²ˆ ì¸ë±ìŠ¤ëŠ” ê¸°ë³¸ mat, 1ë²ˆ ì¸ë±ìŠ¤ëŠ” í”¼ê²©ì‹œ ì ê¹ë°”ë€” mat
+    public float _bodyBuryTime; // ì‹œì²´ì²˜ë¦¬ì—°ì¶œì˜ ì‹œì‘ê¹Œì§€ ê¸°ë‹¤ë¦´ ê°’
     public Material _deadMat;
 
     [Header("=== Monster Type ===")]
@@ -61,7 +61,7 @@ public class MonsterBase_1 : MonoBehaviour
     {
         if (_monsterType == null)
         {
-            Debug.LogError(gameObject.name + "¿ÀºêÁ§Æ®ÀÇ ÃÊº´ ¶Ç´Â ¿şÀÌºê µî ¸ó½ºÅÍ Çü½ÄÀ» ÁöÁ¤ÇÏÁö ¾ÊÀ½");
+            Debug.LogError(gameObject.name + "ì˜¤ë¸Œì íŠ¸ì˜ ì´ˆë³‘ ë˜ëŠ” ì›¨ì´ë¸Œ ë“± ëª¬ìŠ¤í„° í˜•ì‹ì„ ì§€ì •í•˜ì§€ ì•ŠìŒ");
             return;
         }
 
@@ -78,10 +78,10 @@ public class MonsterBase_1 : MonoBehaviour
     }
 
     /// <summary>
-    /// ¸ñÇ¥ À§Ä¡·Î movSpeed °ªÀ» °¡Áø ¼Óµµ·Î ÀÌµ¿ÇÔ
+    /// ëª©í‘œ ìœ„ì¹˜ë¡œ movSpeed ê°’ì„ ê°€ì§„ ì†ë„ë¡œ ì´ë™í•¨
     /// </summary>
-    /// <param name="pos">ÀÌµ¿ ¸ñÇ¥ À§Ä¡</param>
-    /// <param name="movSpeed">¸ñÇ¥·Î ÇâÇÏ´Â ÀÌµ¿ ¼Óµµ</param>
+    /// <param name="pos">ì´ë™ ëª©í‘œ ìœ„ì¹˜</param>
+    /// <param name="movSpeed">ëª©í‘œë¡œ í–¥í•˜ëŠ” ì´ë™ ì†ë„</param>
     public virtual void Move(Vector3 pos, float movSpeed)
     {
         if (!_nav.enabled)
@@ -106,9 +106,9 @@ public class MonsterBase_1 : MonoBehaviour
     }
 
     /// <summary>
-    /// ¸ó½ºÅÍÀÇ currHp ¸¦ amount ¸¸Å­ ±ğÀ½
+    /// ëª¬ìŠ¤í„°ì˜ currHp ë¥¼ amount ë§Œí¼ ê¹ìŒ
     /// </summary>
-    /// <param name="amount">hp¸¦ ±ğÀ» ¾ç</param>
+    /// <param name="amount">hpë¥¼ ê¹ì„ ì–‘</param>
     public virtual void DecreaseHP(float amount, BurnDotDamage burn = null)
     {
         if (_currHp <= 0.0f)
@@ -125,7 +125,7 @@ public class MonsterBase_1 : MonoBehaviour
     }
 
     /// <summary>
-    /// ¸ó½ºÅÍ°¡ ÇÇ°İ´çÇßÀ» ¶§, ÇÇ°İ ¿¬Ãâ¿ë ÄÚ·çÆ¾
+    /// ëª¬ìŠ¤í„°ê°€ í”¼ê²©ë‹¹í–ˆì„ ë•Œ, í”¼ê²© ì—°ì¶œìš© ì½”ë£¨í‹´
     /// </summary>
     /// <returns></returns>
     public virtual IEnumerator OnHitEvent(eArrowState state = eArrowState.Normal)
@@ -141,7 +141,7 @@ public class MonsterBase_1 : MonoBehaviour
     }
 
     /// <summary>
-    /// ¸ó½ºÅÍ°¡ °ø°İ ÇÇ°İÈÄ currHp = 0 ÀÌ µÇ¾úÀ» ¶§ È£ÃâµÉ ÇÔ¼ö
+    /// ëª¬ìŠ¤í„°ê°€ ê³µê²© í”¼ê²©í›„ currHp = 0 ì´ ë˜ì—ˆì„ ë•Œ í˜¸ì¶œë  í•¨ìˆ˜
     /// </summary>
     public virtual void Dead()
     {
@@ -163,7 +163,7 @@ public class MonsterBase_1 : MonoBehaviour
     }
 
     /// <summary>
-    /// ¸ó½ºÅÍÀÇ »ç¸Á ÈÄ ¿¬ÃâÀ» À§ÇÑ ÇÔ¼ö
+    /// ëª¬ìŠ¤í„°ì˜ ì‚¬ë§ í›„ ì—°ì¶œì„ ìœ„í•œ í•¨ìˆ˜
     /// </summary>
     /// <returns></returns>
     public virtual IEnumerator OnMonsterDead()
@@ -190,19 +190,19 @@ public class MonsterBase_1 : MonoBehaviour
     public virtual void Attack() { }
 
     /// <summary>
-    /// ¸ó½ºÅÍÀÇ °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç ´ë¸®ÀÚ, Å¸°ÙÀ» Á¶ÁØÇÏ°ÔÇÏ´Â ¸Ş¼­µåÀÌ´Ù.
+    /// ëª¬ìŠ¤í„°ì˜ ê³µê²© ì• ë‹ˆë©”ì´ì…˜ ëŒ€ë¦¬ì, íƒ€ê²Ÿì„ ì¡°ì¤€í•˜ê²Œí•˜ëŠ” ë©”ì„œë“œì´ë‹¤.
     /// </summary>
     /// <param name="target"></param>
     /// <param name="rotMulti"></param>
     public virtual void AimingTarget(Vector3 target, float rotMulti) { }
 
     /// <summary>
-    /// °ø°İÀ» ³¡³½ ÈÄ, ´ÙÀ½ Çàµ¿¿¡ µô·¹ÀÌ¸¦ °®°ÔÇÏ´Â ÇÔ¼ö
+    /// ê³µê²©ì„ ëë‚¸ í›„, ë‹¤ìŒ í–‰ë™ì— ë”œë ˆì´ë¥¼ ê°–ê²Œí•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     public virtual void Delay() { }
 
     /// <summary>
-    /// ¸ó½ºÅÍÀÇ °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç ´ë¸®ÀÚ, Å¸°ÙÀÇ Á¶ÁØÀ» Á¤Áö½ÃÅ°´Â ¸Ş¼­µå
+    /// ëª¬ìŠ¤í„°ì˜ ê³µê²© ì• ë‹ˆë©”ì´ì…˜ ëŒ€ë¦¬ì, íƒ€ê²Ÿì˜ ì¡°ì¤€ì„ ì •ì§€ì‹œí‚¤ëŠ” ë©”ì„œë“œ
     /// </summary>
     /// <param name="value"></param>
     public virtual void SwitchNeedAiming(int value) { }
