@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
 
-// ÀÌ ½ºÅ©¸³Æ®´Â ÇöÀç º¸½ºÀÇ ÆÄÆ¼Âü¿© ±ÇÀ¯¿¡ ´ëÇØ¼­¸¸ ±¹ÇÑµÇ¾îÀÖÀ½
-// ¸¸ÀÏ ´Ù¸¥ a, b, c ¼±ÅÃÁö ¶Ç´Â ÇÃ·¹ÀÌ¾îÀÇ ÀÔ·Â°ª ¹Ş±â È¤Àº ´Ù¸¥ »óÈ²°°Àº °æ¿ì¿¡´Â ÀÌ ½ºÅ©¸³Æ®¸¦ È®ÀåÇÏ¸é µÈ´Ù.
+// ì´ ìŠ¤í¬ë¦½íŠ¸ëŠ” í˜„ì¬ ë³´ìŠ¤ì˜ íŒŒí‹°ì°¸ì—¬ ê¶Œìœ ì— ëŒ€í•´ì„œë§Œ êµ­í•œë˜ì–´ìˆìŒ
+// ë§Œì¼ ë‹¤ë¥¸ a, b, c ì„ íƒì§€ ë˜ëŠ” í”Œë ˆì´ì–´ì˜ ì…ë ¥ê°’ ë°›ê¸° í˜¹ì€ ë‹¤ë¥¸ ìƒí™©ê°™ì€ ê²½ìš°ì—ëŠ” ì´ ìŠ¤í¬ë¦½íŠ¸ë¥¼ í™•ì¥í•˜ë©´ ëœë‹¤.
 public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
 {
     [Header("=== On/Off GameObject ===")]
@@ -54,42 +54,42 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
         // StartCoroutine(StartDialog(_dialogMarker._dialogCSV));
     }
 
-    // ´ë»ç¹® ÆÄ½Ì, ´ëÈ­ Ãâ·Â, ³¡³­ ÈÄÃ³¸®
+    // ëŒ€ì‚¬ë¬¸ íŒŒì‹±, ëŒ€í™” ì¶œë ¥, ëë‚œ í›„ì²˜ë¦¬
     private IEnumerator StartDialog(TextAsset text, Text speakerText, Text dialogText)
     {
         string speaker = "";
         string dialog = "";
-        string[] lines = text.text.Split('\n'); // CSV ÆÄÀÏ ÇÑÁÙÇÑÁÙ¾¿ ÀúÀå
+        string[] lines = text.text.Split('\n'); // CSV íŒŒì¼ í•œì¤„í•œì¤„ì”© ì €ì¥
         int index = 1;
         StringBuilder letterSb = new StringBuilder();
         _isEndDialog = false;
 
-        // CSV ÆÄÀÏÀÇ ÃÑ ´ëÈ­ ¶óÀÎ ¼ö ¸¸Å­ ¹İº¹
+        // CSV íŒŒì¼ì˜ ì´ ëŒ€í™” ë¼ì¸ ìˆ˜ ë§Œí¼ ë°˜ë³µ
         while (index < lines.Length)
         {
             if (_dialogText == null)
                 break;
 
             int letteringIndex = 0;
-            string[] line = lines[index].Split(','); // È­ÀÚ, ´ë»ç°¡ ÀúÀåµÊ
+            string[] line = lines[index].Split(','); // í™”ì, ëŒ€ì‚¬ê°€ ì €ì¥ë¨
 
             speaker = line[0];
             dialog = line[1];
             dialog = _dialogMgr.ReplaceDialogSpecialChar(dialog);
-            //dialog = dialog.Replace('*', '\n'); // ±âÈ¹ÀÚ°¡ ´ë»ç¹®¿¡ Æ¯¼öÇÑ ÀÇ¹Ì¸¦ °®´Â ±âÈ£¸¦ ³ÖÀ¸¸é ±×°É ÆÄ½Ì°úÁ¤¿¡ ¹İ¿µ
+            //dialog = dialog.Replace('*', '\n'); // ê¸°íšìê°€ ëŒ€ì‚¬ë¬¸ì— íŠ¹ìˆ˜í•œ ì˜ë¯¸ë¥¼ ê°–ëŠ” ê¸°í˜¸ë¥¼ ë„£ìœ¼ë©´ ê·¸ê±¸ íŒŒì‹±ê³¼ì •ì— ë°˜ì˜
             letterSb.Clear();
             _isEndLine = false;
 
-            // È­ÀÚ°¡ "" °¡ ¾Æ´Ï¸é ¹Ù²ãÁÜ
+            // í™”ìê°€ "" ê°€ ì•„ë‹ˆë©´ ë°”ê¿”ì¤Œ
             if (speakerText != null && !speaker.Equals(""))
             {
                 speakerText.text = speaker;
             }
 
-            // ´ëÈ­¹®À» ÇÑ ±ÛÀÚ¾¿ Ãâ·Â
+            // ëŒ€í™”ë¬¸ì„ í•œ ê¸€ìì”© ì¶œë ¥
             while (letteringIndex < dialog.Length)
             {
-                // ´ëÈ­¹® µµÁß ½ºÆäÀÌ½º¹Ù ¶Ç´Â ¸¶¿ì½º ÁÂÅ¬ÀÌ ÀÔ·ÂµÇ¸é ¹Ù·Î ¿Ï¼º ÈÄ ¸¶¹«¸®, Ã³À½ ¸î ¸¶µğ´Â º¸¿©ÁÖ°ÔÇØ¾ß ÀÚ¿¬½º·´°Ô ³Ñ¾î°¡´Â µí º¸ÀÓ
+                // ëŒ€í™”ë¬¸ ë„ì¤‘ ìŠ¤í˜ì´ìŠ¤ë°” ë˜ëŠ” ë§ˆìš°ìŠ¤ ì¢Œí´ì´ ì…ë ¥ë˜ë©´ ë°”ë¡œ ì™„ì„± í›„ ë§ˆë¬´ë¦¬, ì²˜ìŒ ëª‡ ë§ˆë””ëŠ” ë³´ì—¬ì£¼ê²Œí•´ì•¼ ìì—°ìŠ¤ëŸ½ê²Œ ë„˜ì–´ê°€ëŠ” ë“¯ ë³´ì„
                 if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F)) && letteringIndex > 2)
                 {
                     dialogText.text = dialog;
@@ -106,20 +106,20 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
             index++;
             _isEndLine = true;
 
-            // ÇÑ ¶óÀÎÀÌ ³¡³ª°í, (½ºÆäÀÌ½º¹Ù or ¸¶¿ì½ºÁÂÅ¬) ÀÔ·Â¶Ç´Â ½Ã°£ÃÊ°¡ Áö³ª°¡¸é ´ÙÀ½ ¶óÀÎÀ¸·Î
+            // í•œ ë¼ì¸ì´ ëë‚˜ê³ , (ìŠ¤í˜ì´ìŠ¤ë°” or ë§ˆìš°ìŠ¤ì¢Œí´) ì…ë ¥ë˜ëŠ” ì‹œê°„ì´ˆê°€ ì§€ë‚˜ê°€ë©´ ë‹¤ìŒ ë¼ì¸ìœ¼ë¡œ
             yield return _endLineWU;
             _timer = 2.0f;
         }
 
-        // ´ëÈ­°¡ ³¡³­ ÈÄ Ã³¸®
+        // ëŒ€í™”ê°€ ëë‚œ í›„ ì²˜ë¦¬
         _isEndDialog = true;
         SetTimelinePlay(true, _dialogMarker._dialogType);
     }
 
-    // ´ëÈ­¹® UIÀÇ On/Off (ÇÃ·¹ÀÌ¾î ´ëÈ­¹®, ÀûÀÇ ´ëÈ­¹®), ¾¾³×¸Ó½Å Àç»ı
+    // ëŒ€í™”ë¬¸ UIì˜ On/Off (í”Œë ˆì´ì–´ ëŒ€í™”ë¬¸, ì ì˜ ëŒ€í™”ë¬¸), ì”¨ë„¤ë¨¸ì‹  ì¬ìƒ
     private void SetTimelinePlay(bool isSetGo, DialogMarker.eDialogType dialogType)
     {
-        // °ü·Ã UI On/Off
+        // ê´€ë ¨ UI On/Off
         switch (dialogType)
         {
             case DialogMarker.eDialogType.Normal:
@@ -135,18 +135,18 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
                 break;
         }
 
-        // ´ëÈ­°¡ ³¡³µÀ¸´Ï, ¸ØÃç³ù´ø Cinemachine Àç»ı
+        // ëŒ€í™”ê°€ ëë‚¬ìœ¼ë‹ˆ, ë©ˆì¶°ë†¨ë˜ Cinemachine ì¬ìƒ
         if (isSetGo)
         {
             _playable.Resume();
         }
-        // ´ëÈ­ ½ÃÀÛÇßÀ¸´Ï Cinemachine À» ¸ØÃã
+        // ëŒ€í™” ì‹œì‘í–ˆìœ¼ë‹ˆ Cinemachine ì„ ë©ˆì¶¤
         else
         {
             _playable.Pause();
             if (_dialogMarker._dialogType == DialogMarker.eDialogType.Selection)
             {
-                // ¿©±â¿¡ ¼±ÅÃÁö Ãß°¡¿Í °ª ÇÒ´çÇÏ´Â ¸Ş¼­µå ÀÛ¼º
+                // ì—¬ê¸°ì— ì„ íƒì§€ ì¶”ê°€ì™€ ê°’ í• ë‹¹í•˜ëŠ” ë©”ì„œë“œ ì‘ì„±
                 ShowSelection(_dialogMarker._dialogCSV_1[0]);
             }
             else
@@ -165,13 +165,13 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
 
     private void ShowSelection(TextAsset text)
     {
-        int totalLength = _selectionContents.transform.childCount; // ±âÁ¸ ½ºÅ©·Ñºä ÄÜÅÙÃ÷ÀÇ ÀÚ½Ä ¿ÀºêÁ§Æ®·Î ÀÖ´Â ºñÈ°¼ºÈ­ ¿ÀºêÁ§Æ®ÀÇ °¹¼ö
+        int totalLength = _selectionContents.transform.childCount; // ê¸°ì¡´ ìŠ¤í¬ë¡¤ë·° ì½˜í…ì¸ ì˜ ìì‹ ì˜¤ë¸Œì íŠ¸ë¡œ ìˆëŠ” ë¹„í™œì„±í™” ì˜¤ë¸Œì íŠ¸ì˜ ê°¯ìˆ˜
         string[] lines = text.text.Split('\n');
-        int selectionCount = lines.Length - 1; // ´ëÈ­ ¼±ÅÃÁöÀÇ °³¼ö
-        int startIndex = 1; // csv ¿¡¼­ ½ÃÀÛ¶óÀÎ
+        int selectionCount = lines.Length - 1; // ëŒ€í™” ì„ íƒì§€ì˜ ê°œìˆ˜
+        int startIndex = 1; // csv ì—ì„œ ì‹œì‘ë¼ì¸
 
-        for (int i = startIndex; i < lines.Length; i++)
-        {
+        //for (int i = startIndex; i < lines.Length; i++)
+        //{
             //DialogSelection selection = _selectionContents.transform.GetChild(i - 1).GetComponent<DialogSelection>();
 
             //if (!_selectionContents.transform.GetChild(i - 1).gameObject.activeSelf)
@@ -190,6 +190,6 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
             //    DialogMgr._isPartySelect = true;
             //});
             //selection.InputSelectionData(content);
-        }
+        //}
     }
 }
