@@ -11,9 +11,11 @@ public class PlayerFSM : MonoBehaviour
 
     [Header("=== Combat ===")]
     public float _hitDelay;
-    public Transform _weaponCombatPos; // °ø°İÇÒ¶§ ¹«±âÀÇ À§Ä¡°ª
-    public Transform _weaponNonCombatPos; // °ø°İ»óÅÂ°¡ ¾Æ´Ò¶§ ¹«±âÀÇ À§Ä¡°ª
-    public GameObject _weapon; // ¹«±âÀÌ¹ÌÁö
+    public Transform _weaponCombatPos; // ê³µê²©í• ë•Œ ë¬´ê¸°ì˜ ìœ„ì¹˜ê°’
+    public Transform _weaponNonCombatPos; // ê³µê²©ìƒíƒœê°€ ì•„ë‹ë•Œ ë¬´ê¸°ì˜ ìœ„ì¹˜ê°’
+    public GameObject _weapon; // ë¬´ê¸°ì´ë¯¸ì§€
+    public float _knockBackValue;
+    public float _knockBackDelta;
     
     Animator _animator;
     Rigidbody _rbody;
@@ -64,14 +66,14 @@ public class PlayerFSM : MonoBehaviour
         }
     }
 
-    // ¸ÂÀº¹æÇâÀ¸·Î ÀÏÁ¤½Ã°£µ¿¾È ³Ë¹é½ÃÅ°´Â ÇÔ¼ö
+    // ë§ì€ë°©í–¥ìœ¼ë¡œ ì¼ì •ì‹œê°„ë™ì•ˆ ë„‰ë°±ì‹œí‚¤ëŠ” í•¨ìˆ˜
     void KnockBack()
     {
         if (_hitDelay > 0.0f)
         {
             // _rbody.addforce
             _rbody.isKinematic = false;
-            _rbody.MovePosition(_rbody.position + _atkDir * Time.deltaTime * Mathf.Pow(50448.5f, _hitDelay * 0.15f));
+            _rbody.MovePosition(_rbody.position + _atkDir * Time.deltaTime * Mathf.Pow(_knockValue, _hitDelay * _knockBackDelta));
             _hitDelay -= Time.deltaTime;
             return;
         }
@@ -92,7 +94,7 @@ public class PlayerFSM : MonoBehaviour
         }
     }
 
-    // ¹«±âÀÇ À§Ä¡¸¦ ¿Å°ÜÁÖ´Â ÇÔ¼ö
+    // ë¬´ê¸°ì˜ ìœ„ì¹˜ë¥¼ ì˜®ê²¨ì£¼ëŠ” í•¨ìˆ˜
     void SetWeaponPos(Transform parent)
     {
         _weapon.transform.SetParent(parent);
@@ -100,7 +102,7 @@ public class PlayerFSM : MonoBehaviour
         _weapon.transform.localEulerAngles = Vector3.zero;
     }
 
-    // ¾Ö´Ï¸ŞÀÌ¼Ç ÆÄ¶ó¹ÌÅÍ ÃÊ±âÈ­
+    // ì• ë‹ˆë©”ì´ì…˜ íŒŒë¼ë¯¸í„° ì´ˆê¸°í™”
     public void ResetPlayerAnimParams()
     {
         _animator.SetBool(_hashRoll, false);
