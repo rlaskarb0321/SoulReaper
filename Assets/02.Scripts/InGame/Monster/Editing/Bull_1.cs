@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// MonsterBase_1 ¸¦ »ó¼Ó
-public class Bull_1 : MeleeRange
+// MonsterBase ë¥¼ ìƒì†
+public class Bull : MeleeRange
 {
     public SphereCollider[] _weaponColl;
 
@@ -44,7 +44,7 @@ public class Bull_1 : MeleeRange
                 Attack();
                 break;
 
-            // °ø°İ ÈÄ ÄğÅ¸ÀÓ µ¹¸®´Â ½Ã°£, ÄğÅ¸ÀÓÀÌ µµ´Â µ¿¾È ÇÃ·¹ÀÌ¾î°¡ °¡±î¿öÁö´ÂÁöÀÇ ¿©ºÎ¿¡µû¶ó ¾Ö´Ï¸ŞÀÌ¼Ç »óÅÂ°¡ ´Ù¸£°Ô ÀüÀÌµÈ´Ù.
+            // ê³µê²© í›„ ì¿¨íƒ€ì„ ëŒë¦¬ëŠ” ì‹œê°„, ì¿¨íƒ€ì„ì´ ë„ëŠ” ë™ì•ˆ í”Œë ˆì´ì–´ê°€ ê°€ê¹Œì›Œì§€ëŠ”ì§€ì˜ ì—¬ë¶€ì—ë”°ë¼ ì• ë‹ˆë©”ì´ì…˜ ìƒíƒœê°€ ë‹¤ë¥´ê²Œ ì „ì´ëœë‹¤.
             case eMonsterState.Delay:
                 bool targetNearAttackDist = TargetNearbyRange(_target.transform, _stat.attakDist);
 
@@ -104,7 +104,7 @@ public class Bull_1 : MeleeRange
     }
 
     /// <summary>
-    // ÄŞº¸¸¦ ÀÌ¾î °¥ ¼ö ÀÖ´Ù¸é ´ÙÀ½ ÄŞº¸¸¦ ½ÇÇà, ¸¶Áö¸· ÄŞº¸¿¡ ´Ù´Ù¸£°Å³ª ÄŞº¸°¡ ºÒ°¡´ÉÇÏ¸é °ø°İ Ãë¼Ò, °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç¿¡ ºÙÈ÷´Â µ¨¸®°ÔÀÌÆ® ÇÔ¼ö
+    // ì½¤ë³´ë¥¼ ì´ì–´ ê°ˆ ìˆ˜ ìˆë‹¤ë©´ ë‹¤ìŒ ì½¤ë³´ë¥¼ ì‹¤í–‰, ë§ˆì§€ë§‰ ì½¤ë³´ì— ë‹¤ë‹¤ë¥´ê±°ë‚˜ ì½¤ë³´ê°€ ë¶ˆê°€ëŠ¥í•˜ë©´ ê³µê²© ì·¨ì†Œ, ê³µê²© ì• ë‹ˆë©”ì´ì…˜ì— ë¶™íˆëŠ” ë¸ë¦¬ê²Œì´íŠ¸ í•¨ìˆ˜
     /// </summary>
     public void MakingComboAttack()
     {
@@ -132,7 +132,7 @@ public class Bull_1 : MeleeRange
         return Vector3.Distance(target.position, transform.position) <= range;
     }
 
-    // º¸½º¸ó½ºÅÍ°¡ Á×¾úÀ» ¶§ ¹«±â Äİ¸®Àü µî °ü·Ã º¯¼öµé ²ô±â
+    // ë³´ìŠ¤ëª¬ìŠ¤í„°ê°€ ì£½ì—ˆì„ ë•Œ ë¬´ê¸° ì½œë¦¬ì „ ë“± ê´€ë ¨ ë³€ìˆ˜ë“¤ ë„ê¸°
     public override void Dead()
     {
         for (int i = 0; i < _weaponColl.Length; i++)
@@ -153,21 +153,21 @@ public class Bull_1 : MeleeRange
         StartCoroutine(OnMonsterDead());
     }
 
-    // ¾Ö´Ï¸ŞÀÌ¼Ç µ¨¸®°ÔÀÌÆ®, ´Ş¸®´Â ¼Ò¸®
+    // ì• ë‹ˆë©”ì´ì…˜ ë¸ë¦¬ê²Œì´íŠ¸, ë‹¬ë¦¬ëŠ” ì†Œë¦¬
     public void PlayRunSound()
     {
         int randomSound = Random.Range(0, 2);
         _audio.PlayOneShot(_bossSound[randomSound], 0.2f * SettingData._sfxVolume);
     }
 
-    // ¾Ö´Ï¸ŞÀÌ¼Ç µ¨¸®°ÔÀÌÆ®, 3´Ü °ø°İ ÈÄ, Æ÷È¿ ¼Ò¸®
+    // ì• ë‹ˆë©”ì´ì…˜ ë¸ë¦¬ê²Œì´íŠ¸, 3ë‹¨ ê³µê²© í›„, í¬íš¨ ì†Œë¦¬
     public void Roar()
     {
         int randomSound = Random.Range((int)eBossSound.Roar_1, (int)eBossSound.Roar_2 + 1);
         _audio.PlayOneShot(_bossSound[randomSound], _audio.volume * SettingData._sfxVolume);
     }
 
-    // ¾Ö´Ï¸ŞÀÌ¼Ç µ¨¸®°ÔÀÌÆ®, 3´Ü °ø°İÀÌ ¶¥¿¡ ´ê¾ÒÀ» ¶§ Èçµé¸²
+    // ì• ë‹ˆë©”ì´ì…˜ ë¸ë¦¬ê²Œì´íŠ¸, 3ë‹¨ ê³µê²©ì´ ë•…ì— ë‹¿ì•˜ì„ ë•Œ í”ë“¤ë¦¼
     public void ShakeCam()
     {
         StartCoroutine(FollowCamera._instance.ShakeCamera(_camShakeAmount, _camShakeDur));
