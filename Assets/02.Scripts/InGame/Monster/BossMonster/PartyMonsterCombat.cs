@@ -8,44 +8,44 @@ public delegate bool EditCanUseDelegate();
 [Serializable]
 public class BossMonsterSkill
 {
-    // ÇØ´ç ½ºÅ³À» »ç¿ëÇÒ ¼ö ÀÖÀ½ÀÇ ¿©ºÎ
+    // í•´ë‹¹ ìŠ¤í‚¬ì„ ì‚¬ìš©í•  ìˆ˜ ìˆìŒì˜ ì—¬ë¶€
     public bool _canUse;
 
-    // ½ºÅ³³¢¸® ±¸ºĞÇÏ±â À§ÇÑ ÀÌ¸§
+    // ìŠ¤í‚¬ë¼ë¦¬ êµ¬ë¶„í•˜ê¸° ìœ„í•œ ì´ë¦„
     public string _id;
     
-    // ÇØ´ç ½ºÅ³ÀÌ »ç¿ëµÉ Æ¯¼öÇÑ »óÈ²
+    // í•´ë‹¹ ìŠ¤í‚¬ì´ ì‚¬ìš©ë  íŠ¹ìˆ˜í•œ ìƒí™©
     public eSkillUseCondition _eSkillCondition;
 
-    // ÇØ´ç ½ºÅ³ÀÇ ¿ì¼±¼øÀ§
+    // í•´ë‹¹ ìŠ¤í‚¬ì˜ ìš°ì„ ìˆœìœ„
     public int _priority;
 
-    // ÇØ´ç ½ºÅ³ÀÇ ÄğÅ¸ÀÓ °ª
+    // í•´ë‹¹ ìŠ¤í‚¬ì˜ ì¿¨íƒ€ì„ ê°’
     public float _coolTime;
 
-    // ÇöÀç Äğ´Ù¿î ÁßÀÎ ½Ã°£
+    // í˜„ì¬ ì¿¨ë‹¤ìš´ ì¤‘ì¸ ì‹œê°„
     public float _currCoolTime;
 
-    // °ø°İÀ» ÇÏ±â À§ÇØ ¸ñÇ¥¿¡ Á¢±ÙÇÏ°Ô ½ÃÅ³ °Å¸®°ª, 0 ÀÌÇÏÀÌ¸é Á¢±ÙÇÏÁö ¾Ê¾Æµµ µÇ´Â ½ºÅ³ÀÌ¶õ ¶æ
+    // ê³µê²©ì„ í•˜ê¸° ìœ„í•´ ëª©í‘œì— ì ‘ê·¼í•˜ê²Œ ì‹œí‚¬ ê±°ë¦¬ê°’, 0 ì´í•˜ì´ë©´ ì ‘ê·¼í•˜ì§€ ì•Šì•„ë„ ë˜ëŠ” ìŠ¤í‚¬ì´ë€ ëœ»
     public float _attackRange;
 
-    // ½ºÅ³ÀÇ »ç¿ë °¡´É ¿©ºÎ¸¦ Ã¼Å©ÇÏ´Â µ¨¸®°ÔÀÌÆ®
+    // ìŠ¤í‚¬ì˜ ì‚¬ìš© ê°€ëŠ¥ ì—¬ë¶€ë¥¼ ì²´í¬í•˜ëŠ” ë¸ë¦¬ê²Œì´íŠ¸
     public EditCanUseDelegate _editCanUseDelegate;
 
     /// <summary>
-    /// ÇØ´ç ½ºÅ³¿¡ Á¶°ÇÀ» ´Ş¾ÆÁÖ´Â enum
+    /// í•´ë‹¹ ìŠ¤í‚¬ì— ì¡°ê±´ì„ ë‹¬ì•„ì£¼ëŠ” enum
     /// </summary>
     public enum eSkillUseCondition 
     { 
-        None,           // ÇØ´ç ½ºÅ³Àº »ç¿ë °¡´É¿¡ Á¶°ÇÀÌ ¾øÀ½
-        Phase2,         // ÇØ´ç ½ºÅ³Àº phase2 ¶§ ºÎÅÍ »ç¿ë °¡´É
-        Phase3,         // ÇØ´ç ½ºÅ³Àº phase3 ¶§ ºÎÅÍ »ç¿ë °¡´É
-        Long,           // ÇØ´ç ½ºÅ³Àº ÇÃ·¹ÀÌ¾î°¡ ¸Å¿ì ¸Ö¸® ÀÖÀ» ¶§ »ç¿ë °¡´ÉÇØÁü
-        Behind,         // ÇØ´ç ½ºÅ³Àº ÇÃ·¹ÀÌ¾î°¡ ÀÚ½ÅÀÇ µÚ¿¡ ÀÖÀ» ¶§ »ç¿ë °¡´ÉÇØÁü
+        None,           // í•´ë‹¹ ìŠ¤í‚¬ì€ ì‚¬ìš© ê°€ëŠ¥ì— ì¡°ê±´ì´ ì—†ìŒ
+        Phase2,         // í•´ë‹¹ ìŠ¤í‚¬ì€ phase2 ë•Œ ë¶€í„° ì‚¬ìš© ê°€ëŠ¥
+        Phase3,         // í•´ë‹¹ ìŠ¤í‚¬ì€ phase3 ë•Œ ë¶€í„° ì‚¬ìš© ê°€ëŠ¥
+        Long,           // í•´ë‹¹ ìŠ¤í‚¬ì€ í”Œë ˆì´ì–´ê°€ ë§¤ìš° ë©€ë¦¬ ìˆì„ ë•Œ ì‚¬ìš© ê°€ëŠ¥í•´ì§
+        Behind,         // í•´ë‹¹ ìŠ¤í‚¬ì€ í”Œë ˆì´ì–´ê°€ ìì‹ ì˜ ë’¤ì— ìˆì„ ë•Œ ì‚¬ìš© ê°€ëŠ¥í•´ì§
     }
 
     /// <summary>
-    /// ÇØ´ç ½ºÅ³ÀÇ Äğ´Ù¿î µ¹¸®±â
+    /// í•´ë‹¹ ìŠ¤í‚¬ì˜ ì¿¨ë‹¤ìš´ ëŒë¦¬ê¸°
     /// </summary>
     /// <returns></returns>
     public IEnumerator CoolDown()
@@ -110,74 +110,6 @@ public class PartyMonsterCombat : MonoBehaviour
         CheckSkill();
     }
 
-    //private void Update()
-    //{
-    //    if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
-    //        return;
-
-    //    if (!_isBossTired)
-    //    {
-    //        switch (_monsterBase._state)
-    //        {
-    //            // ´ÙÀ½¿¡ ÇàÇÒ ½ºÅ³À» °í¸£°í ½ÇÇàÇÔ
-    //            case MonsterBase_1.eMonsterState.Idle:
-    //                float dist = Vector3.Distance(_monsterBase._target.transform.position, transform.position);
-    //                if (_selectedSkill == null)
-    //                    _selectedSkill = SelectSkill(_normalStateSkills);
-    //                if (_selectedSkill._attackRange > 0.0f && dist > _selectedSkill._attackRange)
-    //                {
-    //                    Trace();
-    //                    return;
-    //                }
-
-    //                DoSkill(_selectedSkill);
-    //                break;
-
-    //            case MonsterBase_1.eMonsterState.Attack:
-    //                _monsterBase.AimingTarget(_target.transform.position, 2.0f);
-    //                break;
-
-    //            // °ø°İÀÌ ³¡³­ ÈÄ ¾à°£ÀÇ µô·¹ÀÌ °¡Áö±â
-    //            case MonsterBase_1.eMonsterState.Delay:
-    //                if (_monsterBase._stat.actDelay <= 0.0f)
-    //                {
-    //                    _monsterBase._stat.actDelay = _originActDelay;
-    //                    _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
-    //                    _selectedSkill = null;
-    //                    return;
-    //                }
-                     
-    //                _monsterBase._stat.actDelay -= Time.deltaTime;
-    //                break;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Recover();
-    //        switch (_monsterBase._state)
-    //        {
-    //            case MonsterBase_1.eMonsterState.Idle:
-    //                if (_selectedSkill == null)
-    //                    _selectedSkill = SelectSkill(_tiredStateSkills);
-
-    //                DoSkill(_selectedSkill);
-    //                break;
-
-    //            case MonsterBase_1.eMonsterState.Delay:
-    //                if (_monsterBase._stat.actDelay <= 0.0f)
-    //                {
-    //                    _monsterBase._stat.actDelay = _originActDelay;
-    //                    _monsterBase._state = MonsterBase_1.eMonsterState.Idle;
-    //                    _selectedSkill = null;
-    //                    return;
-    //                }
-
-    //                _monsterBase._stat.actDelay -= Time.deltaTime;
-    //                break;
-    //        }
-    //    }
-    //}
-
     public void CombatPartyMonster()
     {
         if (_monsterBase._state == MonsterBase_1.eMonsterState.Dead)
@@ -187,7 +119,7 @@ public class PartyMonsterCombat : MonoBehaviour
         {
             switch (_monsterBase._state)
             {
-                // ´ÙÀ½¿¡ ÇàÇÒ ½ºÅ³À» °í¸£°í ½ÇÇàÇÔ
+                // ë‹¤ìŒì— í–‰í•  ìŠ¤í‚¬ì„ ê³ ë¥´ê³  ì‹¤í–‰í•¨
                 case MonsterBase_1.eMonsterState.Idle:
                     float dist = Vector3.Distance(_monsterBase._target.transform.position, transform.position);
                     if (_selectedSkill == null)
@@ -205,7 +137,7 @@ public class PartyMonsterCombat : MonoBehaviour
                     _monsterBase.AimingTarget(_target.transform.position, 2.0f);
                     break;
 
-                // °ø°İÀÌ ³¡³­ ÈÄ ¾à°£ÀÇ µô·¹ÀÌ °¡Áö±â
+                // ê³µê²©ì´ ëë‚œ í›„ ì•½ê°„ì˜ ë”œë ˆì´ ê°€ì§€ê¸°
                 case MonsterBase_1.eMonsterState.Delay:
                     if (_monsterBase._stat.actDelay <= 0.0f)
                     {
@@ -247,25 +179,25 @@ public class PartyMonsterCombat : MonoBehaviour
     }
 
     /// <summary>
-    /// ½ºÅ³¸®½ºÆ®¿¡¼­ »ç¿ë °¡´ÉÇÏ°í ¿ì¼±¼øÀ§°¡ ³ôÀº ½ºÅ³À» °í¸§
+    /// ìŠ¤í‚¬ë¦¬ìŠ¤íŠ¸ì—ì„œ ì‚¬ìš© ê°€ëŠ¥í•˜ê³  ìš°ì„ ìˆœìœ„ê°€ ë†’ì€ ìŠ¤í‚¬ì„ ê³ ë¦„
     /// </summary>
     private BossMonsterSkill SelectSkill(BossMonsterSkill[] skillPack)
     {
-        // ¿ì¼±¼øÀ§´Â ÀÌ¹Ì ÀÎ½ºÆåÅÍ Ã¢¿¡ skillPack ¸¸µé ¶§ Á¤·ÄÇØ¼­ ¸¸µé¾úÀ½
+        // ìš°ì„ ìˆœìœ„ëŠ” ì´ë¯¸ ì¸ìŠ¤í™í„° ì°½ì— skillPack ë§Œë“¤ ë•Œ ì •ë ¬í•´ì„œ ë§Œë“¤ì—ˆìŒ
         for (int i = 0; i < skillPack.Length; i++)
         {
             if (!skillPack[i]._canUse)
             {
-                //print(skillPack[i] + " »ç¿ë ºÒ°¡´É");
+                //print(skillPack[i] + " ì‚¬ìš© ë¶ˆê°€ëŠ¥");
                 continue;
             }
             if (skillPack[i]._currCoolTime != skillPack[i]._coolTime)
             {
-                //print(skillPack[i] + " ÄğÅ¸ÀÓÀÌ ¾È µ¹¾ÆÀÖÀ½");
+                //print(skillPack[i] + " ì¿¨íƒ€ì„ì´ ì•ˆ ëŒì•„ìˆìŒ");
                 continue;
             }
 
-            //print(skillPack[i] + " ·Î °áÁ¤");
+            //print(skillPack[i] + " ë¡œ ê²°ì •");
             return skillPack[i];
         }
 
@@ -273,12 +205,12 @@ public class PartyMonsterCombat : MonoBehaviour
     }
 
     /// <summary>
-    /// »ç¿ëÇÒ ½ºÅ³ÀÇ ID ¸¦ ¹Ş°í, ½ÇÁ¦·Î ½ÇÇàÇÏ°Ô ÇÏ´Â ÇÔ¼ö
+    /// ì‚¬ìš©í•  ìŠ¤í‚¬ì˜ ID ë¥¼ ë°›ê³ , ì‹¤ì œë¡œ ì‹¤í–‰í•˜ê²Œ í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="skillID"></param>
     private void DoSkill(BossMonsterSkill skill)
     {
-        // ¾µ ¼ö ÀÖ´Â ½ºÅ³ÀÌ ¾ø´Â »óÅÂ
+        // ì“¸ ìˆ˜ ìˆëŠ” ìŠ¤í‚¬ì´ ì—†ëŠ” ìƒíƒœ
         if (skill == null)
             return;
 
@@ -293,7 +225,7 @@ public class PartyMonsterCombat : MonoBehaviour
         StartCoroutine(skill.CoolDown());
         switch (bossSkill)
         {
-            #region º¸½º°¡ ÁöÄ¡Áö ¾ÊÀº »óÅÂÀÏ ¶§ »ç¿ë°¡´ÉÇÑ ½ºÅ³µé
+            #region ë³´ìŠ¤ê°€ ì§€ì¹˜ì§€ ì•Šì€ ìƒíƒœì¼ ë•Œ ì‚¬ìš©ê°€ëŠ¥í•œ ìŠ¤í‚¬ë“¤
 
             case ePartyBossSkill.Summon_Mini_Boss:
                 if (_bull.activeSelf)
@@ -334,9 +266,9 @@ public class PartyMonsterCombat : MonoBehaviour
                 _pattern.Push();
                 break;
 
-            #endregion º¸½º°¡ ÁöÄ¡Áö ¾ÊÀº »óÅÂÀÏ ¶§ »ç¿ë°¡´ÉÇÑ ½ºÅ³µé
+            #endregion ë³´ìŠ¤ê°€ ì§€ì¹˜ì§€ ì•Šì€ ìƒíƒœì¼ ë•Œ ì‚¬ìš©ê°€ëŠ¥í•œ ìŠ¤í‚¬ë“¤
 
-            #region º¸½º°¡ ÁöÄ£ »óÅÂÀÏ ¶§ »ç¿ë°¡´ÉÇÑ ½ºÅ³µé
+            #region ë³´ìŠ¤ê°€ ì§€ì¹œ ìƒíƒœì¼ ë•Œ ì‚¬ìš©ê°€ëŠ¥í•œ ìŠ¤í‚¬ë“¤
 
             case ePartyBossSkill.Run:
                 _pattern.Run();
@@ -346,12 +278,12 @@ public class PartyMonsterCombat : MonoBehaviour
                 _pattern.Rest();
                 break;
 
-            #endregion º¸½º°¡ ÁöÄ£ »óÅÂÀÏ ¶§ »ç¿ë°¡´ÉÇÑ ½ºÅ³µé
+            #endregion ë³´ìŠ¤ê°€ ì§€ì¹œ ìƒíƒœì¼ ë•Œ ì‚¬ìš©ê°€ëŠ¥í•œ ìŠ¤í‚¬ë“¤
         }
     }
 
     /// <summary>
-    /// ½ºÅ³ »ç¿ëÇÏ±âÀ§ÇØ °Å¸®¸¦ Á¼È÷°ÔÇÏ´Â ¸Ş¼­µå
+    /// ìŠ¤í‚¬ ì‚¬ìš©í•˜ê¸°ìœ„í•´ ê±°ë¦¬ë¥¼ ì¢íˆê²Œí•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     private void Trace()
     {
@@ -360,7 +292,7 @@ public class PartyMonsterCombat : MonoBehaviour
     }
 
     /// <summary>
-    /// ½ºÅ³À» ½ÃÀüÇÑ ÈÄ, ¾Ö´Ï¸ŞÀÌ¼Ç ¸¶Áö¸·¿¡ µî·Ï½ÃÅ³ ¸Ş¼­µå, µô·¹ÀÌ »óÅÂ·Î ¸¸µé¾î ÁØ´Ù.
+    /// ìŠ¤í‚¬ì„ ì‹œì „í•œ í›„, ì• ë‹ˆë©”ì´ì…˜ ë§ˆì§€ë§‰ì— ë“±ë¡ì‹œí‚¬ ë©”ì„œë“œ, ë”œë ˆì´ ìƒíƒœë¡œ ë§Œë“¤ì–´ ì¤€ë‹¤.
     /// </summary>
     public void ExitAttackState(float amount)
     {
@@ -374,7 +306,7 @@ public class PartyMonsterCombat : MonoBehaviour
     }
 
     /// <summary>
-    /// µ¨¸®°ÔÀÌÆ® È£ÃâÇÏ´Â ¸Ş¼­µå¸¦ ¿ÜºÎ¿¡¼­ ºÎ¸£±â ½±°ÔÇÏ±â À§ÇØ ¼±¾ğÇÑ ¸Ş¼­µå
+    /// ë¸ë¦¬ê²Œì´íŠ¸ í˜¸ì¶œí•˜ëŠ” ë©”ì„œë“œë¥¼ ì™¸ë¶€ì—ì„œ ë¶€ë¥´ê¸° ì‰½ê²Œí•˜ê¸° ìœ„í•´ ì„ ì–¸í•œ ë©”ì„œë“œ
     /// </summary>
     public void CheckSkill()
     {
@@ -383,14 +315,14 @@ public class PartyMonsterCombat : MonoBehaviour
     }
 
     /// <summary>
-    /// ½ºÅ³µéÀÇ »ç¿ë °¡´É ¿©ºÎ¸¦ ÀçÅ½»öÇÏ°Ô ÇÏ´Â µ¨¸®°ÔÀÌÆ®¸¦ È£Ãâ
+    /// ìŠ¤í‚¬ë“¤ì˜ ì‚¬ìš© ê°€ëŠ¥ ì—¬ë¶€ë¥¼ ì¬íƒìƒ‰í•˜ê²Œ í•˜ëŠ” ë¸ë¦¬ê²Œì´íŠ¸ë¥¼ í˜¸ì¶œ
     /// </summary>
     private void EditSkillCondition
         (BossMonsterSkill skill, BossMonsterSkill.eSkillUseCondition useCondition)
     {
         switch (useCondition)
         {
-            // ÆäÀÌÁî 2¶§ »ç¿ë °¡´ÉÇÏµµ·Ï ¿­¾î ÁÖ±â
+            // í˜ì´ì¦ˆ 2ë•Œ ì‚¬ìš© ê°€ëŠ¥í•˜ë„ë¡ ì—´ì–´ ì£¼ê¸°
             case BossMonsterSkill.eSkillUseCondition.Phase2:
                 skill._editCanUseDelegate -= isPhaseTwo;
                 skill._editCanUseDelegate += isPhaseTwo;
@@ -405,7 +337,7 @@ public class PartyMonsterCombat : MonoBehaviour
                 skill._canUse = skill._editCanUseDelegate();
                 break;
 
-            // ¸Ö¸®ÀÖ´ÂÁö Ã¼Å© ÈÄ »ç¿ë °¡´ÉÇÏµµ·Ï ¿­¾î ÁÖ±â
+            // ë©€ë¦¬ìˆëŠ”ì§€ ì²´í¬ í›„ ì‚¬ìš© ê°€ëŠ¥í•˜ë„ë¡ ì—´ì–´ ì£¼ê¸°
             case BossMonsterSkill.eSkillUseCondition.Long:
                 skill._editCanUseDelegate -= isPlayerFar;
                 skill._editCanUseDelegate += isPlayerFar;
@@ -413,7 +345,7 @@ public class PartyMonsterCombat : MonoBehaviour
                 skill._canUse = skill._editCanUseDelegate();
                 break;
 
-            // ÇÃ·¹ÀÌ¾î°¡ µÚ¿¡ÀÖ´ÂÁö Ã¼Å© ÈÄ »ç¿ë °¡´ÉÇÏµµ·Ï ¿­¾î ÁÖ±â
+            // í”Œë ˆì´ì–´ê°€ ë’¤ì—ìˆëŠ”ì§€ ì²´í¬ í›„ ì‚¬ìš© ê°€ëŠ¥í•˜ë„ë¡ ì—´ì–´ ì£¼ê¸°
             case BossMonsterSkill.eSkillUseCondition.Behind:
                 skill._editCanUseDelegate -= isPlayerBehind;
                 skill._editCanUseDelegate += isPlayerBehind;
@@ -424,7 +356,7 @@ public class PartyMonsterCombat : MonoBehaviour
     }
 
     /// <summary>
-    /// ¹Ì´Ï º¸½º ¼ÒÈ¯¿Ï·á ÈÄ ÁöÄ¡°Ô ¸¸µé±â
+    /// ë¯¸ë‹ˆ ë³´ìŠ¤ ì†Œí™˜ì™„ë£Œ í›„ ì§€ì¹˜ê²Œ ë§Œë“¤ê¸°
     /// </summary>
     public void Tired()
     {
@@ -449,11 +381,11 @@ public class PartyMonsterCombat : MonoBehaviour
         }
     }
 
-    #region ½ºÅ³ÀÇ CanUSe ¸¦ Á¶ÀÛÇÏ±â À§ÇØ ½ºÅ³ÀÇ Delegate ¿¡ ´Ş¾Æ³õ´Â ¸Ş¼­µåµé
+    #region ìŠ¤í‚¬ì˜ CanUSe ë¥¼ ì¡°ì‘í•˜ê¸° ìœ„í•´ ìŠ¤í‚¬ì˜ Delegate ì— ë‹¬ì•„ë†“ëŠ” ë©”ì„œë“œë“¤
 
     public bool isPlayerBehind()
     {
-        // µÚ¿¡ÀÖ°í °¡±îÀÌ¿¡ ÀÖ´ÂÁö
+        // ë’¤ì—ìˆê³  ê°€ê¹Œì´ì— ìˆëŠ”ì§€
         float angle = Vector3.SignedAngle(transform.forward, _target.transform.position - transform.position, transform.up);
         float distance = Vector3.Distance(transform.position, _target.transform.position);
 
@@ -475,5 +407,5 @@ public class PartyMonsterCombat : MonoBehaviour
         return _monsterBase.Phase == PartyMonster.ePhase.Phase_3;
     }
 
-    #endregion ½ºÅ³ÀÇ CanUSe ¸¦ Á¶ÀÛÇÏ±â À§ÇØ ½ºÅ³ÀÇ Delegate ¿¡ ´Ş¾Æ³õ´Â ¸Ş¼­µåµé
+    #endregion ìŠ¤í‚¬ì˜ CanUSe ë¥¼ ì¡°ì‘í•˜ê¸° ìœ„í•´ ìŠ¤í‚¬ì˜ Delegate ì— ë‹¬ì•„ë†“ëŠ” ë©”ì„œë“œë“¤
 }
