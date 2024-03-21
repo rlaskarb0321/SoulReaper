@@ -5,7 +5,7 @@ using System;
 
 public delegate bool EditCanUseDelegate();
 
-// 다양한 공격 패턴을 갖는 몬스터들에게 사용 가능한 공격 패턴 클래스
+// 다양한 공격 패턴을 갖는 몬스터들의 공격 패턴 클래스
 [Serializable]
 public class BossMonsterSkill
 {
