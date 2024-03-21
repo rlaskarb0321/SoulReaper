@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
 
-// 이 스크립트는 현재 보스의 파티참여 권유에 대해서만 국한되어있음
-// 만일 다른 a, b, c 선택지 또는 플레이어의 입력값 받기 혹은 다른 상황같은 경우에는 이 스크립트를 확장하면 된다.
 public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
 {
     [Header("=== On/Off GameObject ===")]
@@ -44,10 +42,12 @@ public class DialogEventReceiver : MonoBehaviour, INotificationReceiver
         }
     }
 
+    // 시네머신 재생바가 커스텀 마커에 다다랐을 경우 호출되는 메서드
     public void OnNotify(Playable origin, INotification notification, object context)
     {
         DialogMarker dialogMarker = notification as DialogMarker;
 
+        // 마커에 저장된 CSV 파일과 레터링 스피드 등 관련 값을 가져오고, 대화문 시작
         _dialogMarker = dialogMarker;
         _letteringWS = new WaitForSeconds(_dialogMarker._letteringSpeed);
         SetTimelinePlay(false, _dialogMarker._dialogType);
