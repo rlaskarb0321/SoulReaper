@@ -5,6 +5,7 @@ using System;
 
 public delegate bool EditCanUseDelegate();
 
+// 다양한 공격 패턴을 갖는 몬스터들에게 사용 가능한 공격 패턴 클래스
 [Serializable]
 public class BossMonsterSkill
 {
@@ -16,9 +17,6 @@ public class BossMonsterSkill
     
     // 해당 스킬이 사용될 특수한 상황
     public eSkillUseCondition _eSkillCondition;
-
-    // 해당 스킬의 우선순위
-    public int _priority;
 
     // 해당 스킬의 쿨타임 값
     public float _coolTime;
