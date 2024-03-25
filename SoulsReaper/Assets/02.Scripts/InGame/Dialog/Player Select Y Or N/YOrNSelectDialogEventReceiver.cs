@@ -19,11 +19,13 @@ public class YOrNSelectDialogEventReceiver : MonoBehaviour, INotificationReceive
         _selectionResult = GetComponent<IYOrNSelectOption>();
     }
 
+    // 씨네머신 재생 중, 커스텀 마커를 만나면 실행되는 함수
     public void OnNotify(Playable origin, INotification notification, object context)
     {
         if (!notification.id.Equals("Selection"))
             return;
 
+        // 마커로부터 대화 csv 파일을 받고, 파싱후 결과값을 메서드로 전달
         YOrNSelectDialogMarker marker = notification as YOrNSelectDialogMarker;
         IMultiSelection multiSelection = gameObject.GetComponent<IMultiSelection>();
         string[] lines;
