@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 
 /// <summary>
-/// ·¹ÅÍ¸µ È¿°ú°¡ ÇÊ¿äÇÑ ´ëÈ­³»¿ë ¿¬Ãâ
+/// ë ˆí„°ë§ íš¨ê³¼ê°€ í•„ìš”í•œ ëŒ€í™”ë‚´ìš© ì—°ì¶œ
 /// </summary>
 public interface IDialogLetteringEffect
 {
@@ -45,11 +45,13 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
         }
     }
 
+    // ì”¨ë„¤ë¨¸ì‹  ì¬ìƒ ì¤‘, ì»¤ìŠ¤í…€ ë§ˆì»¤ë¥¼ ë§Œë‚˜ë©´ ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜
     public void OnNotify(Playable origin, INotification notification, object context)
     {
         if (!notification.id.Equals("One Way"))
             return;
 
+        // ë§ˆì»¤ë¡œë¶€í„° ëŒ€í™” csv íŒŒì¼ì„ ë°›ê³ , íŒŒì‹±í›„ ê²°ê³¼ê°’ì„ ë©”ì„œë“œë¡œ ì „ë‹¬
         OneWayDialogMarker marker = notification as OneWayDialogMarker;
         string[] lines = _dialogMgr.ParsingCSVLine(marker._oneWayDialog);
 
@@ -58,6 +60,7 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
         PlayDialogType(lines);
     }
 
+    // íŒŒì‹±í•œ ëŒ€í™” íŒŒì¼ë“¤ì„ë°›ê³ , ëŒ€í™” ui, ì”¨ë„¤ë¨¸ì‹  ì¼ì‹œ ì •ì§€ ë‹´ë‹¹
     private void PlayDialogType(string[] lines)
     {
         _oneWayDialogUI._activateUI.gameObject.SetActive(true);
@@ -65,6 +68,7 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
         StartCoroutine(PlayDialogLettering(lines));
     }
 
+    // ëŒ€í™” ì—°ì¶œ ì‹œì‘í•˜ëŠ” í•¨ìˆ˜
     public IEnumerator PlayDialogLettering(string[] lines)
     {
         int index = 1;
@@ -74,10 +78,10 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
         bool isRichTextMode = false;
         _isEndDialog = false;
 
-        // CSV ÆÄÀÏÀÇ ÃÑ ¶óÀÎ¼ö¸¸Å­ ¹İº¹
+        // CSV íŒŒì¼ì˜ ì´ ë¼ì¸ìˆ˜ë§Œí¼ ë°˜ë³µ
         while (index < lines.Length)
         {
-            string[] line = lines[index].Split(','); // ¶óÀÎµéÀÇ ÀÎµ¦½º¹øÂ° ¶óÀÎÀ» ,·Î ³ª´®
+            string[] line = lines[index].Split(','); // ë¼ì¸ë“¤ì˜ ì¸ë±ìŠ¤ë²ˆì§¸ ë¼ì¸ì„ ,ë¡œ ë‚˜ëˆ”
             int letteringIndex = 0;
 
             speaker = line[0];
@@ -85,16 +89,16 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
             letterSb.Clear();
             _isEndLine = false;
 
-            // line ¿¡¼­ È­ÀÚ°¡ ""°¡ ¾Æ´Ï¸é ¹Ù²ãÁÜ
+            // line ì—ì„œ í™”ìê°€ ""ê°€ ì•„ë‹ˆë©´ ë°”ê¿”ì¤Œ
             if (speaker != null && !speaker.Equals("") && _oneWayDialogUI._speaker != null)
             {
                 _oneWayDialogUI._speaker.text = speaker;
             }
 
-            // ´ëÈ­¹®À» ÇÑ ±ÛÀÚ¾¿ Ãâ·Â
+            // ëŒ€í™”ë¬¸ì„ í•œ ê¸€ìì”© ì¶œë ¥
             while (letteringIndex < context.Length)
             {
-                // ´ëÈ­¹® µµÁß ½ºÆäÀÌ½º¹Ù ¶Ç´Â ¸¶¿ì½º ÁÂÅ¬ÀÌ ÀÔ·ÂµÇ¸é ¹Ù·Î ¿Ï¼º, Ã³À½ ¸î ¸¶µğ´Â º¸¿©ÁÖ°ÔÇØ¾ß ÀÚ¿¬½º·´°Ô ³Ñ¾î°¡´Â µí º¸ÀÓ
+                // ëŒ€í™”ë¬¸ ë„ì¤‘ ìŠ¤í˜ì´ìŠ¤ë°” ë˜ëŠ” ë§ˆìš°ìŠ¤ ì¢Œí´ì´ ì…ë ¥ë˜ë©´ ë°”ë¡œ ì™„ì„±, ì²˜ìŒ ëª‡ ë§ˆë””ëŠ” ë³´ì—¬ì£¼ê²Œí•´ì•¼ ìì—°ìŠ¤ëŸ½ê²Œ ë„˜ì–´ê°€ëŠ” ë“¯ ë³´ì„
                 if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F)) && letteringIndex > 3)
                 {
                     context = context.Replace("\\", "");
@@ -107,14 +111,14 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
                     if (context[letteringIndex].Equals('\\'))
                     {
                         isRichTextMode = false;
-                        // print("¸®Ä¡ ÅØ½ºÆ® ¸ğµå ³¡! " + letterSb.ToString());
+                        // print("ë¦¬ì¹˜ í…ìŠ¤íŠ¸ ëª¨ë“œ ë! " + letterSb.ToString());
                         _oneWayDialogUI._context.text = letterSb.ToString();
                         letteringIndex++;
                         yield return _letteringWS;
                         continue;
                     }
 
-                    // print("RichTextMode " + context[letteringIndex] + " Ãß°¡");
+                    // print("RichTextMode " + context[letteringIndex] + " ì¶”ê°€");
                     letterSb.Append(context[letteringIndex]);
                     letteringIndex++;
                     yield return null;
@@ -125,7 +129,7 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
                 {
                     if (!isRichTextMode)
                     {
-                        // print(" \ ¹ß°ß");
+                        // print(" \ ë°œê²¬");
                         isRichTextMode = true;
                         letteringIndex++;
                         yield return null;
@@ -142,7 +146,7 @@ public class OneWayDialogEventReceiver : MonoBehaviour, INotificationReceiver, I
             index++;
             _isEndLine = true;
 
-            // ÇÑ ¶óÀÎÀÌ ³¡³ª°í, ½ºÆäÀÌ½º¹Ù or ¸¶¿ì½ºÁÂÅ¬ÀÔ·Â ¶Ç´Â ½Ã°£ÃÊ°¡ Áö³ª°¡¸é ´ÙÀ½ ¶óÀÎÀ¸·Î
+            // í•œ ë¼ì¸ì´ ëë‚˜ê³ , ìŠ¤í˜ì´ìŠ¤ë°” or ë§ˆìš°ìŠ¤ì¢Œí´ì…ë ¥ ë˜ëŠ” ì‹œê°„ì´ˆê°€ ì§€ë‚˜ê°€ë©´ ë‹¤ìŒ ë¼ì¸ìœ¼ë¡œ
             yield return _endLineWU;
             _lineEndTimer = 2.0f;
         }
