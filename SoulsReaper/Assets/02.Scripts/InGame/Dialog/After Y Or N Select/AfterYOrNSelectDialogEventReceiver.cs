@@ -34,12 +34,14 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
             _lineEndTimer -= Time.deltaTime;
         }
     }
-
+    
+    // ì”¨ë„¤ë¨¸ì‹  ì¬ìƒ ì¤‘, ì»¤ìŠ¤í…€ ë§ˆì»¤ë¥¼ ë§Œë‚˜ë©´ ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜
     public void OnNotify(Playable origin, INotification notification, object context)
     {
         if (!notification.id.Equals("After Y Or N"))
             return;
 
+        // ë§ˆì»¤ë¡œë¶€í„° ëŒ€í™” csv íŒŒì¼ì„ ë°›ê³ , íŒŒì‹±í›„ ê²°ê³¼ê°’ì„ ë©”ì„œë“œë¡œ ì „ë‹¬
         AfterYOrNSelectDialogMarker marker = notification as AfterYOrNSelectDialogMarker;
         int selectNum = _yesOrNo.ReturnSelectResult();
         if (selectNum == -1)
@@ -63,6 +65,7 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
         StartCoroutine(PlayDialogLettering(lines));
     }
 
+    // ëŒ€í™” ì—°ì¶œ ì‹œì‘
     public IEnumerator PlayDialogLettering(string[] lines)
     {
         int index = 1;
@@ -72,10 +75,10 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
         int selectNumber;
         _isEndDialog = false;
 
-        // CSV ÆÄÀÏÀÇ ÃÑ ¶óÀÎ¼ö¸¸Å­ ¹İº¹
+        // CSV íŒŒì¼ì˜ ì´ ë¼ì¸ìˆ˜ë§Œí¼ ë°˜ë³µ
         while (index < lines.Length)
         {
-            string[] line = lines[index].Split(','); // ¶óÀÎµéÀÇ ÀÎµ¦½º¹øÂ° ¶óÀÎÀ» ,·Î ³ª´®
+            string[] line = lines[index].Split(','); // ë¼ì¸ë“¤ì˜ ì¸ë±ìŠ¤ë²ˆì§¸ ë¼ì¸ì„ ,ë¡œ ë‚˜ëˆ”
             int letteringIndex = 0;
 
             speaker = line[0];
@@ -83,7 +86,7 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
             letterSb.Clear();
             _isEndLine = false;
 
-            // line ¿¡¼­ È­ÀÚ°¡ ""°¡ ¾Æ´Ï¸é ¹Ù²ãÁÜ
+            // line ì—ì„œ í™”ìê°€ ""ê°€ ì•„ë‹ˆë©´ ë°”ê¿”ì¤Œ
             if (!speaker.Equals(""))
             {
                 _dialogUI._speaker.text = speaker;
@@ -93,10 +96,10 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
                 _dialogUI._speaker.text = "";
             }
 
-            // ´ëÈ­¹®À» ÇÑ ±ÛÀÚ¾¿ Ãâ·Â
+            // ëŒ€í™”ë¬¸ì„ í•œ ê¸€ìì”© ì¶œë ¥
             while (letteringIndex < context.Length)
             {
-                // ´ëÈ­¹® µµÁß ½ºÆäÀÌ½º¹Ù ¶Ç´Â ¸¶¿ì½º ÁÂÅ¬ÀÌ ÀÔ·ÂµÇ¸é ¹Ù·Î ¿Ï¼º, Ã³À½ ¸î ¸¶µğ´Â º¸¿©ÁÖ°ÔÇØ¾ß ÀÚ¿¬½º·´°Ô ³Ñ¾î°¡´Â µí º¸ÀÓ
+                // ëŒ€í™”ë¬¸ ë„ì¤‘ ìŠ¤í˜ì´ìŠ¤ë°” ë˜ëŠ” ë§ˆìš°ìŠ¤ ì¢Œí´ì´ ì…ë ¥ë˜ë©´ ë°”ë¡œ ì™„ì„±, ì²˜ìŒ ëª‡ ë§ˆë””ëŠ” ë³´ì—¬ì£¼ê²Œí•´ì•¼ ìì—°ìŠ¤ëŸ½ê²Œ ë„˜ì–´ê°€ëŠ” ë“¯ ë³´ì„
                 if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F)) && letteringIndex > 3)
                 {
                     _dialogUI._context.text = context;
@@ -112,7 +115,7 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
             index++;
             _isEndLine = true;
 
-            // ÇÑ ¶óÀÎÀÌ ³¡³ª°í ½Ã°£ÃÊ°¡ Áö³ª°¡¸é ´ÙÀ½ ¶óÀÎÀ¸·Î
+            // í•œ ë¼ì¸ì´ ëë‚˜ê³  ì‹œê°„ì´ˆê°€ ì§€ë‚˜ê°€ë©´ ë‹¤ìŒ ë¼ì¸ìœ¼ë¡œ
             yield return _endLineWU;
             _lineEndTimer = 2.0f;
         }
@@ -120,7 +123,7 @@ public class AfterYOrNSelectDialogEventReceiver : MonoBehaviour, INotificationRe
         _isEndDialog = true;
         _dialogUI._activateUI.gameObject.SetActive(false);
 
-        // ´ëÈ­°¡ ³¡³­ ÈÄ, y/n »óÅÂ¿¡ µû¶ó playable ÁøÇàÀ» Á¦¾î
+        // ëŒ€í™”ê°€ ëë‚œ í›„, y/n ìƒíƒœì— ë”°ë¼ playable ì§„í–‰ì„ ì œì–´
         selectNumber = _yesOrNo.ReturnSelectResult();
         _yesOrNo.CheckAnswer(selectNumber == (int)DialogSelection.eYesOrNo.Yes);
     }
