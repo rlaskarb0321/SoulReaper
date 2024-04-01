@@ -4,12 +4,12 @@ using UnityEngine;
 using Cinemachine;
 
 /// <summary>
-/// ¸Ê ¹ÛÀ¸·Î Àå¿ÜÇÒ ¶§ °ü·Ã ÀÎÅÍÆäÀÌ½º
+/// ë§µ ë°–ìœ¼ë¡œ ì¥ì™¸í•  ë•Œ ê´€ë ¨ ì¸í„°í˜ì´ìŠ¤
 /// </summary>
 public interface IMapOut
 {
     /// <summary>
-    /// ÀÌ ÀÎÅÍÆäÀÌ½º¸¦ »ó¼Ó¹Ş´Â °´Ã¼ÀÇ À§Ä¡¸¦ Àå¿Ü ÀüÀ¸·Î È¸º¹½ÃÅ°´Â ¸Ş¼­µå
+    /// ì´ ì¸í„°í˜ì´ìŠ¤ë¥¼ ìƒì†ë°›ëŠ” ê°ì²´ì˜ ìœ„ì¹˜ë¥¼ ì¥ì™¸ ì „ìœ¼ë¡œ íšŒë³µì‹œí‚¤ëŠ” ë©”ì„œë“œ
     /// </summary>
     public void RestorePos(Vector3 reversePos);
 }
@@ -27,7 +27,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
 
     [Header("=== Grounded ===")]
     [SerializeField] private Transform _grounded;
-    public bool _isGrounded; // µğ¹ö±ë ¿ë
+    public bool _isGrounded; // ë””ë²„ê¹… ìš©
 
     [Header("=== Slope ===")]
     private const float RAY_DIST = 3.1f;
@@ -51,7 +51,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
     [SerializeField] private float _currDodgeDur;
     [SerializeField] private float _dodgeCoolTime;
     private Vector3 _dodgeDir;
-    private float _currDodgeCool; // µğ¹ö±ë¿ëÀ¸·Î [SerializeField]
+    private float _currDodgeCool; // ë””ë²„ê¹…ìš©ìœ¼ë¡œ [SerializeField]
     private bool _isDodgeAttackInput;
     
     [Header("=== Teleport ===")]
@@ -196,7 +196,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
         }
     }
 
-    #region ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓ °ü·Ã ¸Ş¼­µå
+    #region í”Œë ˆì´ì–´ ì›€ì§ì„ ê´€ë ¨ ë©”ì„œë“œ
     private void MovePlayer(Vector3 dir, float movSpeed)
     {
         if (_animator.GetBool(_hashFall))
@@ -215,14 +215,14 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
             switch (_onSlopeState)
             {
                 case eOnSlopeState.None:
-                    //print("ÆòÁö");
+                    //print("í‰ì§€");
                     _rbody.useGravity = true;
                     velocity = CalcNextFrameGroundAngle(movSpeed) < _maxSlope ? dir : Vector3.zero;
                     break;
 
                 case eOnSlopeState.CurrOnSlope:
                 case eOnSlopeState.NextOnSlope:
-                    //print("ÇöÀç °æ»ç¸é À§ or ´ÙÀ½ÀÌ °æ»ç¸é À§");
+                    //print("í˜„ì¬ ê²½ì‚¬ë©´ ìœ„ or ë‹¤ìŒì´ ê²½ì‚¬ë©´ ìœ„");
                     _rbody.useGravity = false;
                     velocity = GetSlopeDir(velocity);
                     gravity = Vector3.zero;
@@ -254,14 +254,14 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
         if (hit.collider != null && (hit.collider.tag.Equals("Wall") || hit.collider.tag.Equals("Slope")))
             return;
 
-        // ¿Ã¶ó°¥¶§
+        // ì˜¬ë¼ê°ˆë•Œ
         if (isLowerHit && !isUpperHit)
         {
             if (!_dir.Equals(Vector3.zero))
                 _rbody.position += new Vector3(0f, _stepHeight * Time.deltaTime, 0f);
         }
 
-        // ³»·Á°¥¶§
+        // ë‚´ë ¤ê°ˆë•Œ
         if (!isLowerHit && !isUpperHit && _onSlopeState == eOnSlopeState.OnStairs)
         {
             RaycastHit downHit;
@@ -325,7 +325,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
         }
         return 0.0f;
     }
-    #endregion ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓ °ü·Ã ¸Ş¼­µå
+    #endregion í”Œë ˆì´ì–´ ì›€ì§ì„ ê´€ë ¨ ë©”ì„œë“œ
 
     private void RotatePlayer()
     {
@@ -380,18 +380,20 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
     {
         Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
 
+        // ë§ë‹¿ì€ ë²½ì˜ ë²•ì„  ë²¡í„°ì™€, (ë²•ì„  ë²¡í„° ~ ìºë¦­í„° ì •ë©´ ë²¡í„°)ë¥¼ ë§ë‹¿ì€ ë²½ì— ì •ì‚¬ì˜ì‹œí‚¨ ë²¡í„°ë¥¼ êµ¬í•œë‹¤.
+        // ë²½ê³¼ ë‹¿ì€ì±„ë¡œ ì›€ì§ì¼ ë•Œ, ì •ì‚¬ì˜ì‹œí‚¨ ë²¡í„°ì˜ ê¸¸ì´ë§Œí¼ ì›€ì§ì„ ì†ë„ë¥¼ ì¡°ì ˆí•œë‹¤.
         if (Physics.Raycast(pos, transform.forward, _capsuleColl.radius * 1.5f, _groundLayer)
             && collision.gameObject.tag.Equals("Wall") && (_h != 0.0f || _v != 0.0f))
         {
-            Vector3 wallNorm = collision.contacts[0].normal;
-            Vector3 projection = Vector3.ProjectOnPlane(transform.forward - wallNorm, wallNorm); // º®°ú ¸¶Âû½Ã ¿òÁ÷ÀÌ°Ô µÉ º¤ÅÍ
+            Vector3 wallNorm = collision.contacts[0].normal; // ë§ë‹¿ê³ ìˆëŠ” ë²½ì˜ ë²•ì„ ë²¡í„°
+            Vector3 projection = Vector3.ProjectOnPlane(transform.forward - wallNorm, wallNorm); // ë²½ì— ì •ì‚¬ì˜ì‹œí‚¨ ë²¡í„°
             float power = _movSpeed * projection.magnitude * 2.5f;
 
             _rbody.AddForce(projection.normalized * power, ForceMode.Impulse);
         }
     }
     
-    // ÇÃ·¹ÀÌ¾î¸¦ »ç´Ù¸® ¿À¸£°Ô ÇÏ±â
+    // í”Œë ˆì´ì–´ë¥¼ ì‚¬ë‹¤ë¦¬ ì˜¤ë¥´ê²Œ í•˜ê¸°
     private void ClimbLadder()
     {
         if (!_animator.GetBool(_hashIsLadder))
@@ -409,7 +411,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
         _animator.SetFloat(_hashClimbSpeed, _v);
     }
 
-    // »ç´Ù¸®¿¡¼­ ³»·Á°¡´Â ¹æ¹ı (²À´ë±â¿¡ µµ´Ş, ¸Ç ¾Æ·¡¿¡ µµ´Ş, Áß°£¿¡ ÇÏÂ÷) À» ±¸ÇöÇÏ´Â ¸Ş¼­µå
+    // ì‚¬ë‹¤ë¦¬ì—ì„œ ë‚´ë ¤ê°€ëŠ” ë°©ë²• (ê¼­ëŒ€ê¸°ì— ë„ë‹¬, ë§¨ ì•„ë˜ì— ë„ë‹¬, ì¤‘ê°„ì— í•˜ì°¨) ì„ êµ¬í˜„í•˜ëŠ” ë©”ì„œë“œ
     public void ClimbDown(Ladder.eTriggerPos triggerPos = Ladder.eTriggerPos.None)
     {
         _animator.SetBool(_hashIsLadder, false);
@@ -427,7 +429,7 @@ public class PlayerMove_1 : MonoBehaviour, IMapOut
         }
     }
 
-    // »ç´Ù¸® ²À´ë±â¿¡ µµ´ŞÇßÀ»¶§ ÇàÇÏ´Â ¾Ö´Ï¸ŞÀÌ¼Ç¿¡ ºÙÈ÷´Â ´ë¸®ÀÚ ¸Ş¼­µå
+    // ì‚¬ë‹¤ë¦¬ ê¼­ëŒ€ê¸°ì— ë„ë‹¬í–ˆì„ë•Œ í–‰í•˜ëŠ” ì• ë‹ˆë©”ì´ì…˜ì— ë¶™íˆëŠ” ëŒ€ë¦¬ì ë©”ì„œë“œ
     public void CompleteClimb(int LadderOut)
     {
         bool isLadderOutOn = LadderOut == 1 ? true : false;
