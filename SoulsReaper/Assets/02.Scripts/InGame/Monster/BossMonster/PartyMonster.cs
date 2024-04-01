@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartyMonster : MonsterBase_1, IDotDebuff
+public class PartyMonster : MonsterBase, IDotDebuff
 {
     [Header("------ Boss_Party Monster ------")]
     [Header("=== Mesh ===")]
@@ -212,12 +212,12 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
     {
         float duration = burn._debuffDur;
 
-        // µð¹öÇÁ ½ºÅÃÀ» ½×¾ÆÁÖ°í(Å¥¿¡ µé¾î°¨), µð¹öÇÁ Áö¼Ó½Ã°£À» °»½Å½ÃÅ´
+        // ë””ë²„í”„ ìŠ¤íƒì„ ìŒ“ì•„ì£¼ê³ (íì— ë“¤ì–´ê°), ë””ë²„í”„ ì§€ì†ì‹œê°„ì„ ê°±ì‹ ì‹œí‚´
         _burnEffect.gameObject.SetActive(true);
         _debuffQueue.Enqueue(burn);
         _burnDur = duration;
 
-        // µð¹öÇÁ Áö¼Ó½Ã°£À» ±ð°í, 0ÀÌµÇ¸é µð¹öÇÁ ½ºÅÃÀ» ±ðÀ½(Å¥¿¡¼­ ³ª°¨)
+        // ë””ë²„í”„ ì§€ì†ì‹œê°„ì„ ê¹Žê³ , 0ì´ë˜ë©´ ë””ë²„í”„ ìŠ¤íƒì„ ê¹ŽìŒ(íì—ì„œ ë‚˜ê°)
         while (duration > 0.0f)
         {
             duration -= Time.deltaTime;
@@ -239,12 +239,12 @@ public class PartyMonster : MonsterBase_1, IDotDebuff
             return;
         }
 
-        // division ÃÊ¸¶´Ù µµÆ® µ¥¹ÌÁö¿Í ÀÌÆåÆ®¸¦ ÁØ´Ù.
+        // division ì´ˆë§ˆë‹¤ ë„íŠ¸ ë°ë¯¸ì§€ì™€ ì´íŽ™íŠ¸ë¥¼ ì¤€ë‹¤.
         float division = _debuffQueue.Peek()._dotInterval;
         float checkTime = (_burnDur - (int)_burnDur) % division;
 
-        // ¼ö A := N.xxxxxx - N.0 => 0.xxxxx
-        // A ¸¦ divisionÀ¸·Î ³ª´« ³ª¸ÓÁö°¡ ¸Å¿ì ÀÛ´Ù¸é ¿øÇÏ´Â ¼ö(dotInterval)¿¡ ±ÙÁ¢Çß´Ù°í ÆÇº°ÇÔ
+        // ìˆ˜ A := N.xxxxxx - N.0 => 0.xxxxx
+        // A ë¥¼ divisionìœ¼ë¡œ ë‚˜ëˆˆ ë‚˜ë¨¸ì§€ê°€ ë§¤ìš° ìž‘ë‹¤ë©´ ì›í•˜ëŠ” ìˆ˜(dotInterval)ì— ê·¼ì ‘í–ˆë‹¤ê³  íŒë³„í•¨
         if (0.0f <= checkTime && checkTime <= Time.deltaTime)
         {
             DecreaseHP(_debuffQueue.Peek()._dotDamamge + (0.5f * _debuffQueue.Count));
