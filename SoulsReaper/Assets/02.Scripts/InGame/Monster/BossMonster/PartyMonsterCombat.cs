@@ -59,12 +59,12 @@ public class BossMonsterSkill
 
 public class PartyMonsterCombat : MonoBehaviour
 {
-    public BossMonsterSkill[] _normalStateSkills;
-    public BossMonsterSkill[] _tiredStateSkills;
-    public bool _isBossTired;
-    public float _tiredDuration;
-    public GameObject _bull;
-    public GameObject _sweating;
+    [SerializeField] private BossMonsterSkill[] _normalStateSkills;
+    [SerializeField] private BossMonsterSkill[] _tiredStateSkills;
+    [SerializeField] private bool _isBossTired;
+    [SerializeField] private float _tiredDuration;
+    [SerializeField] private GameObject _bull;
+    [SerializeField] private GameObject _sweating;
 
     // Field
     private BossMonsterSkill _selectedSkill;
