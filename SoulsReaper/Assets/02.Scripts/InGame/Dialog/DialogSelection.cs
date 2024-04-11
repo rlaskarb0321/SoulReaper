@@ -7,38 +7,37 @@ using UnityEngine.UI;
 public interface IYOrNSelectOption
 {
     /// <summary>
-    /// ¼±ÅÃÇÑ ¹øÈ£¸¦ ¹İÈ¯ÇÔ
+    /// ì„ íƒí•œ ë²ˆí˜¸ë¥¼ ë°˜í™˜í•¨
     /// </summary>
     /// <returns></returns>
     public int ReturnSelectResult();
 
     /// <summary>
-    /// ¼±ÅÃÁö¿¡ Æ¯Á¤ ÀÇ¹Ì¸¦ ºÎ¿©
+    /// ì„ íƒì§€ì— íŠ¹ì • ì˜ë¯¸ë¥¼ ë¶€ì—¬
     /// </summary>
     /// <param name="selectNum"></param>
     public void ApplyOption(int selectNum);
     
     /// <summary>
-    /// Y ¶Ç´Â N ´äº¯ÀÇ »óÅÂ¿¡ µû¶ó °´Ã¼°¡ »óÈ²À» Á¶Á¤
+    /// Y ë˜ëŠ” N ë‹µë³€ì˜ ìƒíƒœì— ë”°ë¼ ê°ì²´ê°€ ìƒí™©ì„ ì¡°ì •
     /// </summary>
     /// <param name="isYes"></param>
     public void CheckAnswer(bool isYes);
 }
 
-// ´ëÈ­ Áß ¼±ÅÃÁö °í¸£´Â »óÈ²¿¡ ¾²ÀÌ´Â ½ºÅ©¸³Æ®
+// ëŒ€í™” ì¤‘ ì„ íƒì§€ ê³ ë¥´ëŠ” ìƒí™©ì— ì“°ì´ëŠ” ìŠ¤í¬ë¦½íŠ¸
 public class DialogSelection : MonoBehaviour
 {
     [SerializeField] private Image _selectImg;
     [SerializeField] private TMP_Text _selectionText;
     [HideInInspector] public Button _btn;
-    [SerializeField] public int _selectionIdx; // ¼±ÅÃÁö ´äº¯À» ÀúÀå
+    [SerializeField] public int _selectionIdx; // ì„ íƒì§€ ë‹µë³€ì„ ì €ì¥
 
     public enum eYesOrNo { Yes, No, };
 
     private void Awake()
     {
         _btn = GetComponent<Button>();
-        SelectSelection(false);
     }
 
     public void InputSelectionData(string dialog)
@@ -49,19 +48,5 @@ public class DialogSelection : MonoBehaviour
     public void RemoveAllListenerSelection() => _btn.onClick.RemoveAllListeners();
 
     public void AddListenerOnClick(UnityEngine.Events.UnityAction call) => _btn.onClick.AddListener(call);
-
-    // ¼±ÅÃÁö ¸¶¿ì½º ¿À¹ö & ¸¶¿ì½º Å»Ãâ µî ux °ü·Ã ¸Ş¼­µå
-    public void SelectSelection(bool isSelect)
-    {
-        _selectImg.gameObject.SetActive(isSelect);
-
-        if (isSelect)
-        {
-
-        }
-        else
-        {
-
-        }
     }
 }
